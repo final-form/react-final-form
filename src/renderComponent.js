@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import warning from 'warning'
+import warning from './warning'
 import type { RenderableProps } from './types'
 
 // shared logic between components that use either render prop,

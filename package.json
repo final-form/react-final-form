@@ -1,19 +1,19 @@
 {
   "name": "react-final-form",
   "version": "0.0.1",
-  "description": "High performance subscription-based form state management for React",
+  "description":
+    "High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",
   "jsnext:main": "dist/react-final-form.es.js",
   "module": "dist/react-final-form.es.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "start": "nps",
     "test": "nps test",
     "precommit": "lint-staged && npm start validate"
   },
-  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "author":
+    "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -23,9 +23,6 @@
     "url": "https://github.com/erikras/react-final-form/issues"
   },
   "homepage": "https://github.com/erikras/react-final-form#readme",
-  "dependencies": {
-    "warning": "^3.0.0"
-  },
   "devDependencies": {
     "babel-eslint": "^8.0.2",
     "babel-jest": "^21.2.0",
@@ -71,28 +68,23 @@
     "react": "^15.0.0-0 || ^16.0.0-0"
   },
   "jest": {
-    "setupFiles": [
-      "raf/polyfill"
-    ]
+    "setupFiles": ["raf/polyfill"]
   },
   "lint-staged": {
-    "*.{js,json,md,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,json,md,css}": ["prettier --write", "git add"]
   },
   "bundlesize": [
     {
       "path": "dist/react-final-form.umd.min.js",
-      "threshold": "4kB"
+      "threshold": "2kB"
     },
     {
       "path": "dist/react-final-form.es.js",
-      "threshold": "8kB"
+      "threshold": "3kB"
     },
     {
       "path": "dist/react-final-form.cjs.js",
-      "threshold": "8kB"
+      "threshold": "3kB"
     }
   ]
 }

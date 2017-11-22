@@ -2,12 +2,14 @@
 
 ![React Final Form](banner.png)
 
-✅ One dependency:
+✅ Zero dependencies
+
+✅ Only peer dependencies: React and
 [🏁 Final Form](https://github.com/erikras/final-form#-final-form)
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **4.9k (2.0k gzipped)** 💥
+✅ 💥 **1.81k gzipped** 💥
 
 ---
 
@@ -46,42 +48,43 @@ const MyForm = () =>
     onSubmit={onSubmit}
     validate={validate}
     render={({ handleSubmit, pristine, invalid }) =>
-    <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
 
-      <h2>Simple Default Input</h2>
-      <div>
-        <label>First Name</label>
-        <Field name="firstName" component="input"/>
-      </div>
-
-      <h2>An Arbitrary Reusable Input Component</h2>
-      <div>
-        <label>Interests</label>
-        <Field name="interests" component={InterestPicker}/>
-      </div>
-
-      <h2>Render Function</h2>
-      <Field name="bio" render={({ input, meta }) =>
+        <h2>Simple Default Input</h2>
         <div>
-          <label>Bio</label>
-          <textarea {...input}/>
-          {meta.touched && meta.error && <span>{meta.error}</span>}
+          <label>First Name</label>
+          <Field name="firstName" component="input" placeholder="First Name"/>
         </div>
-      }>
 
-      <h2>Render Function as Children</h2>
-      <Field name="phone">
-        {({ input, meta }) =>
+        <h2>An Arbitrary Reusable Input Component</h2>
+        <div>
+          <label>Interests</label>
+          <Field name="interests" component={InterestPicker}/>
+        </div>
+
+        <h2>Render Function</h2>
+        <Field name="bio" render={({ input, meta }) =>
           <div>
-            <label>Phone</label>
-            <input type="text" {...input}/>
+            <label>Bio</label>
+            <textarea {...input}/>
             {meta.touched && meta.error && <span>{meta.error}</span>}
           </div>
-        }
-      </Field>
+        }>
 
-      <button type="submit" disabled={pristine || invalid}>Submit</button>
-    </form>}
+        <h2>Render Function as Children</h2>
+        <Field name="phone">
+          {({ input, meta }) =>
+            <div>
+              <label>Phone</label>
+              <input type="text" {...input} placeholder="Phone"/>
+              {meta.touched && meta.error && <span>{meta.error}</span>}
+            </div>
+          }
+        </Field>
+
+        <button type="submit" disabled={pristine || invalid}>Submit</button>
+      </form>
+    }
   />
 ```
 
@@ -139,7 +142,7 @@ const MyForm = () =>
 
 ## Rendering
 
-There are three ways to render both `<Form/>` and `<Field/>`
+There are three ways to tell `<Form/>` and `<Field/>` what to render:
 
 | Method                          | How it is rendered                                        |
 | ------------------------------- | --------------------------------------------------------- |
@@ -165,10 +168,16 @@ A component that takes [`FieldProps`](#fieldprops).
 
 ### `FieldProps`
 
+These are props that you pass to
+[`<Field/>`](#field--reactcomponenttypefieldprops). You must provide one of the
+ways to render: `component`, `render`, or `children`.
+
 #### `allowNull?: boolean`
 
-By default, if your value is null, `<Field/>` will convert it to `''`. But if
-you pass `true` to `allowNull`, `<Field/>` will give you a `null` value.
+By default, if your value is `null`, `<Field/>` will convert it to `''`, to
+ensure
+[controlled inputs](https://reactjs.org/docs/forms.html#controlled-components).
+But if you pass `true` to `allowNull`, `<Field/>` will give you a `null` value.
 Defaults to `false`.
 
 #### `children?: (props: FieldRenderProps) => React.Node`
@@ -201,11 +210,13 @@ to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 
 ### `FieldRenderProps`
 
-This object separates out the values and callbacks intended to be given to the
-input component from the `meta` data about the field. The `input` can be
-destructured directly into an `<input/>` like so: `<input {...props.input}/>`.
-Keep in mind that **the values in `meta` are dependent on you having subscribed
-to them.**
+These are the props that [`<Field/>`](#field--reactcomponenttypefieldprops)
+provides to your render function or component. This object separates out the
+values and callbacks intended to be given to the input component from the `meta`
+data about the field. The `input` can be destructured directly into an
+`<input/>` like so: `<input {...props.input}/>`. Keep in mind that **the values
+in `meta` are dependent on you having subscribed to them** with the
+[`subscription` prop](#subscription-fieldsubscription)
 
 #### `input.name: string`
 
@@ -284,6 +295,10 @@ The current value of the field.
 
 ### `FormProps`
 
+These are the props that you pass to
+[`<Form/>`](#form--reactcomponenttypeformprops). You must provide one of the
+ways to render: `component`, `render`, or `children`.
+
 #### `children?: (props: FormRenderProps) => React.Node`
 
 A render function that is given [`FormRenderProps`](#formrenderprops), as well
@@ -326,6 +341,12 @@ update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 
 ### `FormRenderProps`
 
+These are the props that [`<Form/>`](#form--reactcomponenttypeformprops)
+provides to your render function or component. Keep in mind that the values you
+receive here are dependent upon which values of
+[`FormState`](https://github.com/erikras/final-form#formstate) you have
+subscribed to with the
+[`subscription` prop](https://github.com/erikras/react-final-form#subscription-formsubscription).
 This object contains everything in
 [🏁 Final Form's `FormState`](https://github.com/erikras/final-form#formstate)
 as well as:

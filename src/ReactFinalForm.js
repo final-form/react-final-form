@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import warning from 'warning'
+import warning from './warning'
 import {
   createForm,
   formSubscriptionItems,
