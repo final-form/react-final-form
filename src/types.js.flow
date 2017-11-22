@@ -1,0 +1,63 @@
+// @flow
+import * as React from 'react'
+import type {
+  Config,
+  FormSubscription,
+  FormState,
+  FieldSubscription,
+  RegisterField
+} from 'final-form'
+
+export type Context = {
+  registerField: RegisterField
+}
+
+export type ReactContext = {
+  reactFinalForm: Context
+}
+
+export type FieldRenderProps = {
+  input: {
+    name: string,
+    onBlur: (?SyntheticFocusEvent<*>) => void,
+    onChange: (SyntheticInputEvent<*> | any) => void,
+    onFocus: (?SyntheticFocusEvent<*>) => void,
+    value: any
+  },
+  meta: {
+    active?: boolean,
+    dirty?: boolean,
+    error?: boolean,
+    initial?: boolean,
+    invalid?: boolean,
+    pristine?: boolean,
+    submitError?: boolean,
+    submitFailed?: boolean,
+    submitSucceeded?: boolean,
+    touched?: boolean,
+    valid?: boolean,
+    visited?: boolean
+  },
+  children?: React.Node
+}
+
+export type FormRenderProps = {
+  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void
+}
+
+export type RenderableProps<T> = {
+  component?: React.ComponentType<*>,
+  render?: (props: T) => React.Node,
+  children?: ((props: T) => React.Node) | React.Node
+}
+
+export type FormProps = {
+  subscription: ?FormSubscription
+} & Config &
+  RenderableProps<FormRenderProps>
+
+export type FieldProps = {
+  name: string,
+  subscription?: FieldSubscription,
+  allowNull?: boolean
+} & RenderableProps<FieldRenderProps>
