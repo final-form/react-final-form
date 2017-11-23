@@ -1,6 +1,6 @@
 {
   "name": "react-final-form",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description":
     "High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",
@@ -40,7 +40,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "final-form": "0.0.1",
+    "final-form": "0.0.2",
     "flow": "^0.2.3",
     "flow-bin": "^0.59.0",
     "husky": "^0.14.3",
