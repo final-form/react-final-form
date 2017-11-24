@@ -42,7 +42,11 @@ export type FieldRenderProps = {
 }
 
 export type FormRenderProps = {
-  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void
+  blur: (name: string) => void,
+  change: (name: string, value: any) => void,
+  focus: (name: string) => void,
+  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void,
+  reset: () => void
 }
 
 export type RenderableProps<T> = {
@@ -59,5 +63,6 @@ export type FormProps = {
 export type FieldProps = {
   name: string,
   subscription?: FieldSubscription,
-  allowNull?: boolean
+  allowNull?: boolean,
+  value?: any
 } & RenderableProps<FieldRenderProps>

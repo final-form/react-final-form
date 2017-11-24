@@ -7,6 +7,8 @@ import diffSubscription from './diffSubscription'
 import type { FieldSubscription, FieldState } from 'final-form'
 import type { FieldProps as Props, ReactContext } from './types'
 import renderComponent from './renderComponent'
+import isReactNative from './isReactNative'
+import getValue from './getValue'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   result[key] = true
@@ -78,9 +80,7 @@ export default class Field extends React.PureComponent<Props, FieldState> {
     },
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const value: any =
-        event && event.target
-          ? (event: SyntheticInputEvent<*>).target.value
-          : event
+        event && event.target ? getValue(event, isReactNative) : event
       this.state.change(value === '' ? undefined : value)
     },
     onFocus: (event: ?SyntheticFocusEvent<*>) => {
@@ -89,12 +89,25 @@ export default class Field extends React.PureComponent<Props, FieldState> {
   }
 
   render() {
-    const { name, component, children, allowNull, ...rest } = this.props
+    const {
+      name,
+      component,
+      children,
+      allowNull,
+      value: _value,
+      ...rest
+    } = this.props
     let { blur, change, focus, value, ...meta } = this.state
     if (value === undefined || (value === null && !allowNull)) {
       value = ''
     }
     const input = { name, value, ...this.handlers }
+    if (rest.type === 'checkbox') {
+      input.checked = !!value
+    } else if (rest.type === 'radio') {
+      input.checked = value === _value
+      input.value = _value
+    }
     if (typeof children === 'function') {
       return (children: Function)({ input, meta, ...rest })
     }

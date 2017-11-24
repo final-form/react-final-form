@@ -219,4 +219,61 @@ describe('Field', () => {
     expect(render).toHaveBeenCalledTimes(3)
     expect(render.mock.calls[2][0].values.foo).toBe(null)
   })
+
+  it('should render checkboxes with checked prop', () => {
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" component="input" type="checkbox" />
+      </form>
+    ))
+
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={render}
+        initialValues={{ foo: true }}
+      />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values.foo).toBe(true)
+
+    const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+    expect(input.checked).toBe(true)
+  })
+
+  it('should render radio buttons with checked prop', () => {
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" component="input" type="radio" value="Bar" />
+        <Field name="foo" component="input" type="radio" value="Baz" />
+      </form>
+    ))
+
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={render}
+        initialValues={{ foo: 'Bar' }}
+      />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values.foo).toBe('Bar')
+
+    const [barInput, bazInput] = TestUtils.scryRenderedDOMComponentsWithTag(
+      dom,
+      'input'
+    )
+
+    expect(barInput.checked).toBe(true)
+    expect(bazInput.checked).toBe(false)
+
+    render.mock.calls[0][0].change('foo', 'Baz')
+
+    expect(barInput.checked).toBe(false)
+    expect(bazInput.checked).toBe(true)
+  })
 })

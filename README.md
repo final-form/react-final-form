@@ -9,7 +9,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **1.81k gzipped** 💥
+✅ 💥 **2.07k gzipped** 💥
 
 ---
 
@@ -108,6 +108,7 @@ const MyForm = () =>
     * [`name: string`](#name-string)
     * [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     * [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
+    * [`value?: any`](#value-any)
   * [`FieldRenderProps`](#fieldrenderprops)
     * [`input.name: string`](#inputname-string)
     * [`input.onBlur: (?SyntheticFocusEvent<*>) => void`](#inputonblur-syntheticfocusevent--void)
@@ -136,9 +137,17 @@ const MyForm = () =>
     * [`subscription?: FormSubscription`](#subscription-formsubscription)
     * [`validate?: (values: Object, callback: ?(errors: Object) => void) => Object | void`](#validate-values-object-callback-errors-object--void--object--void)
   * [`FormRenderProps`](#formrenderprops)
+    * [`batch: (() => void) => void`](#batch---void--void)
+    * [`blur: (name: string) => void`](#blur-name-string--void)
+    * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
+    * [`focus: (name: string) => void`](#focus-name-string--void)
     * [`handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Examples
+
+### [Simple Example](https://codesandbox.io/s/ww40y2m595)
 
 ## Rendering
 
@@ -207,6 +216,12 @@ that selects of all the items of
 [`FieldState`](https://github.com/erikras/final-form#fieldstate) that you wish
 to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 [`FieldState`](https://github.com/erikras/final-form#fieldstate).
+
+#### `value?: any`
+
+**This is only used for radio buttons!** The value of the radio button. The
+radio button will render as `checked` if and only if the value given here `===`
+the value for the field in the form.
 
 ### `FieldRenderProps`
 
@@ -350,6 +365,23 @@ subscribed to with the
 This object contains everything in
 [🏁 Final Form's `FormState`](https://github.com/erikras/final-form#formstate)
 as well as:
+
+#### `batch: (() => void) => void`
+
+A function that allows batch updates to be done to the form state.
+[See the 🏁 Final Form docs on `batch`](https://github.com/erikras/final-form#batch-fn---void--void).
+
+#### `blur: (name: string) => void`
+
+A function to blur (mark inactive) any field.
+
+#### `change: (name: string, value: any) => void`
+
+A function to change the value of any field.
+
+#### `focus: (name: string) => void`
+
+A function to focus (mark active) any field.
 
 #### `handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`
 

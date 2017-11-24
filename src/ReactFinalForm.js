@@ -106,7 +106,12 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       {
         ...props,
         ...this.state.state,
-        handleSubmit: this.handleSubmit
+        batch: this.form && this.form.batch,
+        blur: this.form && this.form.blur,
+        change: this.form && this.form.change,
+        focus: this.form && this.form.focus,
+        handleSubmit: this.handleSubmit,
+        reset: this.form && this.form.reset
       },
       'ReactFinalForm'
     )
