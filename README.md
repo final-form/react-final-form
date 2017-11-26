@@ -168,6 +168,24 @@ errors next to fields using child render functions.
 Introduces field-level validation functions and demonstrates how to display
 errors next to fields using child render functions.
 
+### [Asynchronous Field-Level Validation](https://codesandbox.io/s/2k054qp40)
+
+Demonstrates how field-level validation rules may be asynchronous (return a
+`Promise`), as well as how to show a "validating" spinner during the lifetime of
+the `Promise`.
+
+### [Hybrid Synchronous/Asynchronous Record-Level Validation](https://codesandbox.io/s/kl9n295n5)
+
+Demonstrates how you can mix synchronous and asynchronous validation patterns at
+the record-level, by returning errors synchronously, and falling back to an
+asynchronous call (by returning a `Promise`) if sync validation is passing.
+
+### [Submission Errors](https://codesandbox.io/s/9y9om95lyp)
+
+This example demonstrates how to return submission errors from failed submits.
+Notice that the `Promise` should _resolve_ to the submission error (not reject).
+Rejection is reserved for communications or server exceptions.
+
 ## Rendering
 
 There are three ways to tell `<Form/>` and `<Field/>` what to render:

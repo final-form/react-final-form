@@ -122,7 +122,10 @@ export default class Field extends React.PureComponent<Props, FieldState> {
       // ignore meta, combine input with any other props
       return React.createElement(component, { ...input, children, ...rest })
     }
-    return renderComponent({ input, meta, children, ...rest }, `Field(${name})`)
+    return renderComponent(
+      { input, meta, children, component, ...rest },
+      `Field(${name})`
+    )
   }
 }
 
