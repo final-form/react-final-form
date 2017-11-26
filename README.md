@@ -376,7 +376,7 @@ update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 
 #### `validate?: (values: Object) => void) => Object | Promise<Object>`
 
-[See the 🏁 Final Form docs on `validate`](https://github.com/erikras/final-form#validate-values-object-callback-errors-object--void--object--void).
+[See the 🏁 Final Form docs on `validate`](https://github.com/erikras/final-form#validate-values-object--void--object--promiseobject).
 
 #### `validateOnBlur?: boolean`
 
