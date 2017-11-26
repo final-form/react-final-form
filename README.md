@@ -100,6 +100,10 @@ const MyForm = () =>
   * [Simple Example](#simple-example)
   * [Synchronous Record-Level Validation](#synchronous-record-level-validation)
   * [Synchronous Field-Level Validation](#synchronous-field-level-validation)
+  * [Asynchronous Field-Level Validation](#asynchronous-field-level-validation)
+  * [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
+  * [Submission Errors](#submission-errors)
+  * [Third Party Components](#third-party-components)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
@@ -182,9 +186,15 @@ asynchronous call (by returning a `Promise`) if sync validation is passing.
 
 ### [Submission Errors](https://codesandbox.io/s/9y9om95lyp)
 
-This example demonstrates how to return submission errors from failed submits.
-Notice that the `Promise` should _resolve_ to the submission error (not reject).
-Rejection is reserved for communications or server exceptions.
+Demonstrates how to return submission errors from failed submits. Notice that
+the `Promise` should _resolve_ to the submission error (not reject). Rejection
+is reserved for communications or server exceptions.
+
+### [Third Party Components](https://codesandbox.io/s/40mr0v2r87)
+
+Demonstrates how easy it is to use third party input components. All the third
+party component really needs is `value` and `onChange`, but more complex
+components can accept things like errors.
 
 ## Rendering
 
