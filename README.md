@@ -9,7 +9,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **2.07k gzipped** 💥
+✅ 💥 **2.09k gzipped** 💥
 
 ---
 
@@ -96,6 +96,10 @@ const MyForm = () =>
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+* [Examples](#examples)
+  * [Simple Example](#simple-example)
+  * [Synchronous Record-Level Validation](#synchronous-record-level-validation)
+  * [Synchronous Field-Level Validation](#synchronous-field-level-validation)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
@@ -108,6 +112,7 @@ const MyForm = () =>
     * [`name: string`](#name-string)
     * [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     * [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
+    * [`validate?: (value: ?any, allValues: Object) => ?any`](#validate-value-any-allvalues-object--any)
     * [`value?: any`](#value-any)
   * [`FieldRenderProps`](#fieldrenderprops)
     * [`input.name: string`](#inputname-string)
@@ -135,7 +140,8 @@ const MyForm = () =>
     * [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object>`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject)
     * [`render?: (props: FormRenderProps) => React.Node`](#render-props-formrenderprops--reactnode)
     * [`subscription?: FormSubscription`](#subscription-formsubscription)
-    * [`validate?: (values: Object, callback: ?(errors: Object) => void) => Object | void`](#validate-values-object-callback-errors-object--void--object--void)
+    * [`validate?: (values: Object) => void) => Object | Promise<Object>`](#validate-values-object--void--object--promiseobject)
+    * [`validateOnBlur?: boolean`](#validateonblur-boolean)
   * [`FormRenderProps`](#formrenderprops)
     * [`batch: (() => void) => void`](#batch---void--void)
     * [`blur: (name: string) => void`](#blur-name-string--void)
@@ -148,6 +154,19 @@ const MyForm = () =>
 ## Examples
 
 ### [Simple Example](https://codesandbox.io/s/ww40y2m595)
+
+Uses the built-in React inputs: `input`, `select`, and `textarea` to build a
+form with no validation.
+
+### [Synchronous Record-Level Validation](https://codesandbox.io/s/yk1zx56y5j)
+
+Introduces a whole-record validation function and demonstrates how to display
+errors next to fields using child render functions.
+
+### [Synchronous Field-Level Validation](https://codesandbox.io/s/2k054qp40)
+
+Introduces field-level validation functions and demonstrates how to display
+errors next to fields using child render functions.
 
 ## Rendering
 
@@ -217,6 +236,11 @@ that selects of all the items of
 to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 [`FieldState`](https://github.com/erikras/final-form#fieldstate).
 
+#### `validate?: (value: ?any, allValues: Object) => ?any`
+
+A function that takes the field value, and all the values of the form and
+returns an error if the value is invalid, or `undefined` if the value is valid.
+
 #### `value?: any`
 
 **This is only used for radio buttons!** The value of the radio button. The
@@ -227,8 +251,8 @@ the value for the field in the form.
 
 These are the props that [`<Field/>`](#field--reactcomponenttypefieldprops)
 provides to your render function or component. This object separates out the
-values and callbacks intended to be given to the input component from the `meta`
-data about the field. The `input` can be destructured directly into an
+values and event handlers intended to be given to the input component from the
+`meta` data about the field. The `input` can be destructured directly into an
 `<input/>` like so: `<input {...props.input}/>`. Keep in mind that **the values
 in `meta` are dependent on you having subscribed to them** with the
 [`subscription` prop](#subscription-fieldsubscription)
@@ -350,9 +374,13 @@ that selects of all the items of
 update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 [`FormState`](https://github.com/erikras/final-form#formstate).
 
-#### `validate?: (values: Object, callback: ?(errors: Object) => void) => Object | void`
+#### `validate?: (values: Object) => void) => Object | Promise<Object>`
 
 [See the 🏁 Final Form docs on `validate`](https://github.com/erikras/final-form#validate-values-object-callback-errors-object--void--object--void).
+
+#### `validateOnBlur?: boolean`
+
+[See the 🏁 Final Form docs on `validateOnBlur`](https://github.com/erikras/final-form#validateonblur-boolean).
 
 ### `FormRenderProps`
 

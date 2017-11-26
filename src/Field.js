@@ -23,7 +23,6 @@ export default class Field extends React.PureComponent<Props, FieldState> {
 
   constructor(props: Props, context: ReactContext) {
     super(props, context)
-    const { name, subscription } = props
     let initialState
     warning(
       context.reactFinalForm,
@@ -31,20 +30,31 @@ export default class Field extends React.PureComponent<Props, FieldState> {
     )
     if (this.context.reactFinalForm) {
       // avoid error, warning will alert developer to their mistake
-      this.unsubscribe = this.context.reactFinalForm.registerField(
-        name,
-        (state: FieldState) => {
-          if (initialState) {
-            this.notify(state)
-          } else {
-            initialState = state
-          }
-        },
-        subscription || all
-      )
+      this.subscribe(props, (state: FieldState) => {
+        if (initialState) {
+          this.notify(state)
+        } else {
+          initialState = state
+        }
+      })
     }
     this.state = initialState || {}
   }
+
+  subscribe = (
+    { name, subscription }: Props,
+    listener: (state: FieldState) => void
+  ) => {
+    this.unsubscribe = this.context.reactFinalForm.registerField(
+      name,
+      listener,
+      subscription || all,
+      this.validate
+    )
+  }
+
+  validate = (value: ?any, allValues: Object) =>
+    this.props.validate && this.props.validate(value, allValues)
 
   notify = (state: FieldState) => this.setState(state)
 
@@ -61,11 +71,7 @@ export default class Field extends React.PureComponent<Props, FieldState> {
       if (this.context.reactFinalForm) {
         // avoid error, warning will alert developer to their mistake
         this.unsubscribe()
-        this.unsubscribe = this.context.reactFinalForm.registerField(
-          name,
-          this.notify,
-          subscription || all
-        )
+        this.subscribe(nextProps, this.notify)
       }
     }
   }

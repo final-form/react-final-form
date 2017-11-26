@@ -64,5 +64,6 @@ export type FieldProps = {
   name: string,
   subscription?: FieldSubscription,
   allowNull?: boolean,
+  validate?: (value: ?any, allValues: Object) => ?any,
   value?: any
 } & RenderableProps<FieldRenderProps>
