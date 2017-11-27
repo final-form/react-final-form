@@ -118,6 +118,9 @@ export default class Field extends React.PureComponent<Props, State> {
       input.checked = value === _value
       input.value = _value
     }
+    if (component === 'select' && rest.multiple) {
+      input.value = input.value || []
+    }
     if (typeof children === 'function') {
       return (children: Function)({ input, meta, ...rest })
     }
