@@ -104,6 +104,7 @@ const MyForm = () =>
   * [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
   * [Submission Errors](#submission-errors)
   * [Third Party Components](#third-party-components)
+  * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
@@ -202,6 +203,14 @@ is reserved for communications or server exceptions.
 Demonstrates how easy it is to use third party input components. All the third
 party component really needs is `value` and `onChange`, but more complex
 components can accept things like errors.
+
+### 💥 [Performance Optimization Through Subscriptions](https://codesandbox.io/s/32r824vxy1) 💥
+
+Demonstrates how, by restricting which parts of form state the form component
+needs to render, it reduce the number of times the whole form has to rerender.
+Yet, if some part of form state is needed inside of it, the
+[`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
+attain it.
 
 ## Rendering
 
