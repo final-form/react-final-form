@@ -193,6 +193,23 @@ describe('Field', () => {
     expect(render.mock.calls[2][0].values.foo).toBeUndefined()
   })
 
+  it('should provide a value of [] when empty on a select multiple', () => {
+    const dom = TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <Field name="foo" component="select" multiple />
+          </form>
+        )}
+      </Form>
+    )
+
+    // This test is mostly for code coverage. Is there a way to assure that the value prop
+    // passed to the <select> is []?
+    const select = TestUtils.findRenderedDOMComponentWithTag(dom, 'select')
+    expect(select.value).toBe('')
+  })
+
   it('should optionally allow null', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const render = jest.fn(() => (
