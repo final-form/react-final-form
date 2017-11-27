@@ -2,6 +2,12 @@
 
 ![React Final Form](banner.png)
 
+[![NPM Version](https://img.shields.io/npm/v/react-final-form.svg?style=flat)](https://www.npmjs.com/package/react-final-form)
+[![NPM Downloads](https://img.shields.io/npm/dm/react-final-form.svg?style=flat)](https://www.npmjs.com/package/react-final-form)
+[![Build Status](https://img.shields.io/travis/erikras/react-final-form/v6.svg?style=flat)](https://travis-ci.org/erikras/react-final-form)
+[![codecov.io](https://codecov.io/gh/erikras/react-final-form/branch/master/graph/badge.svg)](https://codecov.io/gh/erikras/react-final-form)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 ✅ Zero dependencies
 
 ✅ Only peer dependencies: React and
