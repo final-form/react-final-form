@@ -9,7 +9,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **2.09k gzipped** 💥
+✅ 💥 **2.2k gzipped** 💥
 
 ---
 

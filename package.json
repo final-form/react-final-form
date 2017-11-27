@@ -1,8 +1,8 @@
 {
   "name": "react-final-form",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description":
-    "High performance subscription-based form state management for React",
+    "🏁 High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",
   "jsnext:main": "dist/react-final-form.es.js",
   "module": "dist/react-final-form.es.js",
@@ -63,7 +63,7 @@
     "rollup-plugin-uglify": "^2.0.1"
   },
   "peerDependencies": {
-    "final-form": "^0.0.3",
+    "final-form": "^1.0.0",
     "prop-types": "^15.6.0",
     "react": "^15.0.0-0 || ^16.0.0-0"
   },

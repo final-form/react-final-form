@@ -10,7 +10,7 @@ import {
 import type { Api, Config, FormSubscription, FormState } from 'final-form'
 import type { FormProps as Props, ReactContext } from './types'
 import renderComponent from './renderComponent'
-export const version = '0.0.6'
+export const version = '1.0.0'
 
 export const all: FormSubscription = formSubscriptionItems.reduce(
   (result, key) => {
