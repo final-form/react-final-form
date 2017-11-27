@@ -1,6 +1,6 @@
 {
   "name": "react-final-form",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description":
     "High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",

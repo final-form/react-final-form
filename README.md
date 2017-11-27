@@ -108,6 +108,7 @@ const MyForm = () =>
 * [API](#api)
   * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
+  * [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
 * [Types](#types)
   * [`FieldProps`](#fieldprops)
     * [`allowNull?: boolean`](#allownull-boolean)
@@ -152,6 +153,12 @@ const MyForm = () =>
     * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
     * [`focus: (name: string) => void`](#focus-name-string--void)
     * [`handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
+  * [`FormSpyProps`](#formspyprops)
+    * [`children?: (props: FormSpyRenderProps) => React.Node`](#children-props-formspyrenderprops--reactnode)
+    * [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
+    * [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
+    * [`subscription?: FormSubscription`](#subscription-formsubscription-1)
+  * [`FormSpyRenderProps`](#formspyrenderprops)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -212,11 +219,17 @@ The following can be imported from `final-form`.
 
 ### `Form : React.ComponentType<FormProps>`
 
-A component that takes [`FormProps`](#formprops).
+A component that takes [`FormProps`](#formprops) and surrounds your entire form.
 
 ### `Field : React.ComponentType<FieldProps>`
 
-A component that takes [`FieldProps`](#fieldprops).
+A component that takes [`FieldProps`](#fieldprops) and renders an individual
+field.
+
+### `FormSpy : React.ComponentType<FormSpyProps>`
+
+A component that takes [`FormSpyProps`](#formspyprops) and can listen to form
+state from inside an optimized `<Form/>`.
 
 ---
 
@@ -443,3 +456,44 @@ A function to focus (mark active) any field.
 
 A function intended for you to give directly to the `<form>` tag: `<form
 onSubmit={handleSubmit}/>`.
+
+### `FormSpyProps`
+
+These are the props that you pass to
+[`<FormSpy/>`](#formspy--reactcomponenttypeformspyprops). You must provide one
+of the ways to render: `component`, `render`, or `children`.
+
+#### `children?: (props: FormSpyRenderProps) => React.Node`
+
+A render function that is given [`FormSpyRenderProps`](#formspyrenderprops), as
+well as any non-API props passed into the `<FormSpy/>` component.
+
+#### `component?: React.ComponentType<FormSpyRenderProps>`
+
+A component that is given [`FormSpyRenderProps`](#formspyrenderprops) as props,
+as well as any non-API props passed into the `<FormSpy/>` component.
+
+#### `render?: (props: FormSpyRenderProps) => React.Node`
+
+A render function that is given [`FormSpyRenderProps`](#formspyrenderprops), as
+well as any non-API props passed into the `<FormSpy/>` component.
+
+#### `subscription?: FormSubscription`
+
+A
+[`FormSubscription`](https://github.com/erikras/final-form#formsubscription--string-boolean-)
+that selects of all the items of
+[`FormState`](https://github.com/erikras/final-form#formstate) that you wish to
+update for. If you don't pass a `subscription` prop, it defaults to _all_ of
+[`FormState`](https://github.com/erikras/final-form#formstate).
+
+### `FormSpyRenderProps`
+
+These are the props that
+[`<FormSpy/>`](#formspy--reactcomponenttypeformspyprops) provides to your render
+function or component. These props are of type
+[`FormState`](https://github.com/erikras/final-form#formstate). Keep in mind
+that the values you receive here are dependent upon which values of
+[`FormState`](https://github.com/erikras/final-form#formstate) you have
+subscribed to with the
+[`subscription` prop](https://github.com/erikras/react-final-form#subscription-formsubscription).

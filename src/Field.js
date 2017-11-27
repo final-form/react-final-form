@@ -15,10 +15,14 @@ const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   return result
 }, {})
 
-export default class Field extends React.PureComponent<Props, FieldState> {
+type State = {
+  state: FieldState
+}
+
+export default class Field extends React.PureComponent<Props, State> {
   context: ReactContext
   props: Props
-  state: FieldState
+  state: State
   unsubscribe: () => void
 
   constructor(props: Props, context: ReactContext) {
@@ -26,7 +30,7 @@ export default class Field extends React.PureComponent<Props, FieldState> {
     let initialState
     warning(
       context.reactFinalForm,
-      'Field must be used inside of a Form component'
+      'Field must be used inside of a ReactFinalForm component'
     )
     if (this.context.reactFinalForm) {
       // avoid error, warning will alert developer to their mistake
@@ -38,7 +42,7 @@ export default class Field extends React.PureComponent<Props, FieldState> {
         }
       })
     }
-    this.state = initialState || {}
+    this.state = { state: initialState || {} }
   }
 
   subscribe = (
@@ -56,7 +60,7 @@ export default class Field extends React.PureComponent<Props, FieldState> {
   validate = (value: ?any, allValues: Object) =>
     this.props.validate && this.props.validate(value, allValues)
 
-  notify = (state: FieldState) => this.setState(state)
+  notify = (state: FieldState) => this.setState({ state })
 
   componentWillReceiveProps(nextProps: Props) {
     const { name, subscription } = nextProps
@@ -82,15 +86,15 @@ export default class Field extends React.PureComponent<Props, FieldState> {
 
   handlers = {
     onBlur: (event: ?SyntheticFocusEvent<*>) => {
-      this.state.blur()
+      this.state.state.blur()
     },
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const value: any =
         event && event.target ? getValue(event, isReactNative) : event
-      this.state.change(value === '' ? undefined : value)
+      this.state.state.change(value === '' ? undefined : value)
     },
     onFocus: (event: ?SyntheticFocusEvent<*>) => {
-      this.state.focus()
+      this.state.state.focus()
     }
   }
 
@@ -103,7 +107,7 @@ export default class Field extends React.PureComponent<Props, FieldState> {
       value: _value,
       ...rest
     } = this.props
-    let { blur, change, focus, value, ...meta } = this.state
+    let { blur, change, focus, value, ...meta } = this.state.state
     if (value === undefined || (value === null && !allowNull)) {
       value = ''
     }

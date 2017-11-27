@@ -1,19 +1,14 @@
 // @flow
 import * as React from 'react'
 import type {
+  Api,
   Config,
   FormSubscription,
-  FormState,
-  FieldSubscription,
-  RegisterField
+  FieldSubscription
 } from 'final-form'
 
-export type Context = {
-  registerField: RegisterField
-}
-
 export type ReactContext = {
-  reactFinalForm: Context
+  reactFinalForm: Api
 }
 
 export type FieldRenderProps = {
@@ -67,3 +62,7 @@ export type FieldProps = {
   validate?: (value: ?any, allValues: Object) => ?any,
   value?: any
 } & RenderableProps<FieldRenderProps>
+
+export type FormSpyProps = {
+  subscription: ?FormSubscription
+} & RenderableProps<FormRenderProps>

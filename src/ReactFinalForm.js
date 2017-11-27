@@ -10,12 +10,15 @@ import {
 import type { Api, Config, FormSubscription, FormState } from 'final-form'
 import type { FormProps as Props, ReactContext } from './types'
 import renderComponent from './renderComponent'
-export const version = '0.0.2'
+export const version = '0.0.6'
 
-const all: FormSubscription = formSubscriptionItems.reduce((result, key) => {
-  result[key] = true
-  return result
-}, {})
+export const all: FormSubscription = formSubscriptionItems.reduce(
+  (result, key) => {
+    result[key] = true
+    return result
+  },
+  {}
+)
 
 type State = {
   state: FormState
@@ -76,9 +79,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
 
   getChildContext() {
     return {
-      reactFinalForm: {
-        registerField: this.form && this.form.registerField // no need to bind because FF does not use "this"
-      }
+      reactFinalForm: this.form
     }
   }
 
