@@ -215,7 +215,7 @@ There are three ways to tell `<Form/>` and `<Field/>` what to render:
 
 ## API
 
-The following can be imported from `final-form`.
+The following can be imported from `react-final-form`.
 
 ### `Form : React.ComponentType<FormProps>`
 
