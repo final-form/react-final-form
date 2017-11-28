@@ -1,17 +1,15 @@
+# FAQ
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with
-[DocToc](https://github.com/thlorenz/doctoc)_
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-* [FAQ](#faq)
-  * [Why not Redux-Form or Formik?](#why-not-redux-form-or-formik)
-  * [Why no HOC?](#why-no-hoc)
+* [Why not Redux-Form or Formik?](#why-not-redux-form-or-formik)
+* [Why no HOC?](#why-no-hoc)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# FAQ
 
 ## Why not Redux-Form or Formik?
 
