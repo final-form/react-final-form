@@ -10,21 +10,19 @@ and you'd like it to be), please correct the mistake.
 | Works without Redux                   |                                                        ✅                                                         |                        ✅                        |                          ❌                           |
 | Record-Level Sync Validation          |                                                        ✅                                                         |                        ✅                        |                          ✅                           |
 | Record-Level Async Validation         |                                                        ✅                                                         |                        ✅                        |                          ✅                           |
-| Field-Level Sync Validation           |                                                        ✅                                                         |          ❌ <sup>[1](#footnote1)</sup>           |                          ✅                           |
-| Field Level Async Validation          |                                                        ✅                                                         |                        ❌                        |                          ✅                           |
+| Field-Level Sync Validation           |                                                        ✅                                                         |                        ✅                        |                          ✅                           |
+| Field Level Async Validation          |                                                        ✅                                                         |                        ✅                         |                          ✅                           |
 | Render Prop for Form                  |                                                        ✅                                                         |                        ✅                        |                          ❌                           |
 | Render Prop for Field                 |                                                        ✅                                                         |                        ✅                        |                          ❌                           |
 | Uses context                          |                                                        ✅                                                         |                        ✅                        |                          ✅                           |
-| Avoids unnecessary form rerenders     |                                                        ✅                                                         |          ❌ <sup>[2](#footnote2)</sup>           |                          ✅                           |
-| Higher Order Form Component           |                                           ❌ <sup>[3](#footnote3)</sup>                                           |                     optional                     |                       required                        |
+| Avoids unnecessary form rerenders     |                                                        ✅                                                         |          ❌ <sup>[1](#footnote1)</sup>           |                          ✅                           |
+| Higher Order Form Component           |                                           ❌ <sup>[2](#footnote2)</sup>                                           |                     optional                     |                       required                        |
 | Access to form data from outside form |                                                        ❌                                                         |                        ❌                        |                          ✅                           |
 | Awesome Optical Illusion Logo         |                                                        ❌                                                         |                        ✅                        |                          ❌                           |
 
 ---
 
-<a name="footnote1">1</a>: Possible with a `Field` wrapper.
-
-<a name="footnote2">2</a>: This is not really an issue on all but the most
+<a name="footnote1">1</a>: This is not really an issue on all but the most
 enormous forms.
 
-<a name="footnote3">3</a>: See [Why no HOC?](faq.md#why-no-hoc)
+<a name="footnote3">2</a>: See [Why no HOC?](faq.md#why-no-hoc)
