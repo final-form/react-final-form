@@ -41,6 +41,7 @@ export type FormRenderProps = {
   change: (name: string, value: any) => void,
   focus: (name: string) => void,
   handleSubmit: (SyntheticEvent<HTMLFormElement>) => void,
+  initialize: (values: Object) => void,
   reset: () => void
 }
 
