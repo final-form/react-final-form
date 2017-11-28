@@ -186,7 +186,7 @@ errors next to fields using child render functions.
 Introduces field-level validation functions and demonstrates how to display
 errors next to fields using child render functions.
 
-### [Asynchronous Field-Level Validation](https://codesandbox.io/s/2k054qp40)
+### [Asynchronous Field-Level Validation](https://codesandbox.io/s/wy7z7q5zx5)
 
 Demonstrates how field-level validation rules may be asynchronous (return a
 `Promise`), as well as how to show a "validating" spinner during the lifetime of
