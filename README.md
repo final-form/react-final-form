@@ -472,6 +472,16 @@ A function to focus (mark active) any field.
 A function intended for you to give directly to the `<form>` tag: `<form
 onSubmit={handleSubmit}/>`.
 
+#### `initialize: (values: Object) => void`
+
+A function that initializes the form values.
+[See the 🏁 Final Form docs on `initialize`](https://github.com/erikras/final-form#initialize-values-object--void).
+
+#### `reset: () => void`
+
+A function that resets the form values to their last initialized values.
+[See the 🏁 Final Form docs on `reset`](https://github.com/erikras/final-form#reset---void).
+
 ### `FormSpyProps`
 
 These are the props that you pass to
