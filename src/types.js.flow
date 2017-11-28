@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
+import * as React from 'react'
 import type {
   Api,
   Config,
   FormSubscription,
-  FieldSubscription,
-} from 'final-form';
+  FieldSubscription
+} from 'final-form'
 
 export type ReactContext = {
-  reactFinalForm: Api,
-};
+  reactFinalForm: Api
+}
 
 export type FieldRenderProps = {
   input: {
@@ -17,7 +17,7 @@ export type FieldRenderProps = {
     onBlur: (?SyntheticFocusEvent<*>) => void,
     onChange: (SyntheticInputEvent<*> | any) => void,
     onFocus: (?SyntheticFocusEvent<*>) => void,
-    value: any,
+    value: any
   },
   meta: $Shape<{
     active: boolean,
@@ -31,38 +31,38 @@ export type FieldRenderProps = {
     submitSucceeded: boolean,
     touched: boolean,
     valid: boolean,
-    visited: boolean,
+    visited: boolean
   }>,
-  children?: React.Node,
-};
+  children?: React.Node
+}
 
 export type FormRenderProps = {
   blur: (name: string) => void,
   change: (name: string, value: any) => void,
   focus: (name: string) => void,
   handleSubmit: (SyntheticEvent<HTMLFormElement>) => void,
-  reset: () => void,
-};
+  reset: () => void
+}
 
 export type RenderableProps<T> = $Shape<{
   component: React.ComponentType<*>,
   render: (props: T) => React.Node,
-  children: ((props: T) => React.Node) | React.Node,
-}>;
+  children: ((props: T) => React.Node) | React.Node
+}>
 
 export type FormProps = {
-  subscription: ?FormSubscription,
-} & Config
-  & RenderableProps<FormRenderProps>;
+  subscription: ?FormSubscription
+} & Config &
+  RenderableProps<FormRenderProps>
 
 export type FieldProps = {
   name: string,
   subscription?: FieldSubscription,
   allowNull?: boolean,
   validate?: (value: ?any, allValues: Object) => ?any,
-  value?: any,
-} & RenderableProps<FieldRenderProps>;
+  value?: any
+} & RenderableProps<FieldRenderProps>
 
 export type FormSpyProps = {
   subscription: ?FormSubscription
-} & RenderableProps<FormRenderProps>;
+} & RenderableProps<FormRenderProps>
