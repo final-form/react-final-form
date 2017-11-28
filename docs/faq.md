@@ -21,8 +21,8 @@ depends on your requirements and what trade-offs you wish to make. Here is a
 
 The only benefit that higher order components provide over render props is
 access to the injected props from within component lifecycle methods. Plus, it
-only takes a single line of code to transform a component with a render prop
-into a HOC. If you really want a HOC, you can write your own:
+only takes a single line of code to transform a component with a `render`
+(or `component`) prop into a HOC. If you really want a HOC, you can write your own:
 
 ```jsx
 import { Form, Field } from 'react-final-form'
