@@ -19,20 +19,20 @@ export type FieldRenderProps = {
     onFocus: (?SyntheticFocusEvent<*>) => void,
     value: any
   },
-  meta: {
-    active?: boolean,
-    dirty?: boolean,
-    error?: boolean,
-    initial?: boolean,
-    invalid?: boolean,
-    pristine?: boolean,
-    submitError?: boolean,
-    submitFailed?: boolean,
-    submitSucceeded?: boolean,
-    touched?: boolean,
-    valid?: boolean,
-    visited?: boolean
-  },
+  meta: $Shape<{
+    active: boolean,
+    dirty: boolean,
+    error: boolean,
+    initial: boolean,
+    invalid: boolean,
+    pristine: boolean,
+    submitError: boolean,
+    submitFailed: boolean,
+    submitSucceeded: boolean,
+    touched: boolean,
+    valid: boolean,
+    visited: boolean
+  }>,
   children?: React.Node
 }
 
@@ -45,11 +45,11 @@ export type FormRenderProps = {
   reset: () => void
 }
 
-export type RenderableProps<T> = {
-  component?: React.ComponentType<*>,
-  render?: (props: T) => React.Node,
-  children?: ((props: T) => React.Node) | React.Node
-}
+export type RenderableProps<T> = $Shape<{
+  component: React.ComponentType<*>,
+  render: (props: T) => React.Node,
+  children: ((props: T) => React.Node) | React.Node
+}>
 
 export type FormProps = {
   subscription: ?FormSubscription
