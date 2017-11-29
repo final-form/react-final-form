@@ -100,8 +100,6 @@ const MyForm = () =>
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 * [Examples](#examples)
   * [Simple Example](#simple-example)
   * [Synchronous Record-Level Validation](#synchronous-record-level-validation)
@@ -113,13 +111,14 @@ const MyForm = () =>
   * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
 * [Rendering](#rendering)
 * [API](#api)
-  * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
+  * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
   * [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
+  * [`version: string`](#version-string)
 * [Types](#types)
   * [`FieldProps`](#fieldprops)
     * [`allowNull?: boolean`](#allownull-boolean)
-    * [`children?: (props: FieldRenderProps) => React.Node`](#children-props-fieldrenderprops--reactnode)
+    * [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FieldRenderProps>`](#component-reactcomponenttypefieldrenderprops)
     * [`name: string`](#name-string)
     * [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
@@ -145,23 +144,25 @@ const MyForm = () =>
     * [`meta.valid?: boolean`](#metavalid-boolean)
     * [`meta.visited?: boolean`](#metavisited-boolean)
   * [`FormProps`](#formprops)
-    * [`children?: (props: FormRenderProps) => React.Node`](#children-props-formrenderprops--reactnode)
+    * [`children?: ((props: FormRenderProps) => React.Node) | React.Node`](#children-props-formrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FormRenderProps>`](#component-reactcomponenttypeformrenderprops)
-    * [`debug?: (state: FormState, fieldStates: { [string]: FieldState }) => void`](#debug-state-formstate-fieldstates--string-fieldstate---void)
+    * [`debug?: DebugFunction`](#debug-debugfunction)
     * [`initialValues?: Object`](#initialvalues-object)
-    * [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object>`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject)
+    * [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void)
     * [`render?: (props: FormRenderProps) => React.Node`](#render-props-formrenderprops--reactnode)
     * [`subscription?: FormSubscription`](#subscription-formsubscription)
-    * [`validate?: (values: Object) => void) => Object | Promise<Object>`](#validate-values-object--void--object--promiseobject)
+    * [`validate?: (values: Object) => Object | Promise<Object>`](#validate-values-object--object--promiseobject)
     * [`validateOnBlur?: boolean`](#validateonblur-boolean)
   * [`FormRenderProps`](#formrenderprops)
-    * [`batch: (() => void) => void`](#batch---void--void)
+    * [`batch: (fn: () => void) => void)`](#batch-fn---void--void)
     * [`blur: (name: string) => void`](#blur-name-string--void)
     * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
     * [`focus: (name: string) => void`](#focus-name-string--void)
     * [`handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
+    * [`initialize: (values: Object) => void`](#initialize-values-object--void)
+    * [`reset: () => void`](#reset---void)
   * [`FormSpyProps`](#formspyprops)
-    * [`children?: (props: FormSpyRenderProps) => React.Node`](#children-props-formspyrenderprops--reactnode)
+    * [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
     * [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
     * [`subscription?: FormSubscription`](#subscription-formsubscription-1)
@@ -232,19 +233,23 @@ There are three ways to tell `<Form/>` and `<Field/>` what to render:
 
 The following can be imported from `react-final-form`.
 
-### `Form : React.ComponentType<FormProps>`
-
-A component that takes [`FormProps`](#formprops) and surrounds your entire form.
-
 ### `Field : React.ComponentType<FieldProps>`
 
 A component that takes [`FieldProps`](#fieldprops) and renders an individual
 field.
 
+### `Form : React.ComponentType<FormProps>`
+
+A component that takes [`FormProps`](#formprops) and surrounds your entire form.
+
 ### `FormSpy : React.ComponentType<FormSpyProps>`
 
 A component that takes [`FormSpyProps`](#formspyprops) and can listen to form
 state from inside an optimized `<Form/>`.
+
+### `version: string`
+
+The current used version of 🏁 React Final Form.
 
 ---
 
@@ -264,7 +269,7 @@ ensure
 But if you pass `true` to `allowNull`, `<Field/>` will give you a `null` value.
 Defaults to `false`.
 
-#### `children?: (props: FieldRenderProps) => React.Node`
+#### `children?: ((props: FieldRenderProps) => React.Node) | React.Node`
 
 A render function that is given [`FieldRenderProps`](#fieldrenderprops), as well
 as any non-API props passed into the `<Field/>` component.
@@ -394,7 +399,7 @@ These are the props that you pass to
 [`<Form/>`](#form--reactcomponenttypeformprops). You must provide one of the
 ways to render: `component`, `render`, or `children`.
 
-#### `children?: (props: FormRenderProps) => React.Node`
+#### `children?: ((props: FormRenderProps) => React.Node) | React.Node`
 
 A render function that is given [`FormRenderProps`](#formrenderprops), as well
 as any non-API props passed into the `<Form/>` component.
@@ -404,17 +409,17 @@ as any non-API props passed into the `<Form/>` component.
 A component that is given [`FormRenderProps`](#formrenderprops) as props, as
 well as any non-API props passed into the `<Form/>` component.
 
-#### `debug?: (state: FormState, fieldStates: { [string]: FieldState }) => void`
+#### `debug?: DebugFunction`
 
-[See the 🏁 Final Form docs on `debug`](https://github.com/erikras/final-form#debug-state-formstate-fieldstates--string-fieldstate---void).
+[See the 🏁 Final Form docs on `debug`](https://github.com/erikras/final-form#debug-debugfunction).
 
 #### `initialValues?: Object`
 
 [See the 🏁 Final Form docs on `initialValues`](https://github.com/erikras/final-form#initialvalues-object).
 
-#### `onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object>`
+#### `onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
 
-[See the 🏁 Final Form docs on `onSubmit`](https://github.com/erikras/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject).
+[See the 🏁 Final Form docs on `onSubmit`](https://github.com/erikras/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void).
 
 #### `render?: (props: FormRenderProps) => React.Node`
 
@@ -430,9 +435,9 @@ that selects of all the items of
 update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 [`FormState`](https://github.com/erikras/final-form#formstate).
 
-#### `validate?: (values: Object) => void) => Object | Promise<Object>`
+#### `validate?: (values: Object) => Object | Promise<Object>`
 
-[See the 🏁 Final Form docs on `validate`](https://github.com/erikras/final-form#validate-values-object--void--object--promiseobject).
+[See the 🏁 Final Form docs on `validate`](https://github.com/erikras/final-form#validate-values-object--object--promiseobject).
 
 #### `validateOnBlur?: boolean`
 
@@ -450,7 +455,7 @@ This object contains everything in
 [🏁 Final Form's `FormState`](https://github.com/erikras/final-form#formstate)
 as well as:
 
-#### `batch: (() => void) => void`
+#### `batch: (fn: () => void) => void)`
 
 A function that allows batch updates to be done to the form state.
 [See the 🏁 Final Form docs on `batch`](https://github.com/erikras/final-form#batch-fn---void--void).
@@ -488,7 +493,7 @@ These are the props that you pass to
 [`<FormSpy/>`](#formspy--reactcomponenttypeformspyprops). You must provide one
 of the ways to render: `component`, `render`, or `children`.
 
-#### `children?: (props: FormSpyRenderProps) => React.Node`
+#### `children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`
 
 A render function that is given [`FormSpyRenderProps`](#formspyrenderprops), as
 well as any non-API props passed into the `<FormSpy/>` component.

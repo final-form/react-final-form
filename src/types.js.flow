@@ -3,8 +3,9 @@ import * as React from 'react'
 import type {
   Api,
   Config,
+  FormState,
   FormSubscription,
-  FieldSubscription
+  FieldSubscription,
 } from 'final-form'
 
 export type ReactContext = {
@@ -20,6 +21,7 @@ export type FieldRenderProps = {
     value: any
   },
   meta: $Shape<{
+    // TODO: Make a diff of `FieldState` without all the functions
     active: boolean,
     dirty: boolean,
     error: boolean,
@@ -33,7 +35,6 @@ export type FieldRenderProps = {
     valid: boolean,
     visited: boolean
   }>,
-  children?: React.Node
 }
 
 export type FormRenderProps = {
@@ -42,28 +43,30 @@ export type FormRenderProps = {
   focus: (name: string) => void,
   handleSubmit: (SyntheticEvent<HTMLFormElement>) => void,
   initialize: (values: Object) => void,
-  reset: () => void
-}
+  reset: () => void,
+} & FormState;
+
+export type FormSpyRenderProps = {} & FormState;
 
 export type RenderableProps<T> = $Shape<{
+  children: ((props: T) => React.Node) | React.Node,
   component: React.ComponentType<*>,
   render: (props: T) => React.Node,
-  children: ((props: T) => React.Node) | React.Node
 }>
 
 export type FormProps = {
-  subscription: ?FormSubscription
-} & Config &
-  RenderableProps<FormRenderProps>
+    subscription?: FormSubscription
+} & Config
+    & RenderableProps<FormRenderProps>
 
 export type FieldProps = {
-  name: string,
-  subscription?: FieldSubscription,
-  allowNull?: boolean,
-  validate?: (value: ?any, allValues: Object) => ?any,
-  value?: any
+    allowNull?: boolean,
+    name: string,
+    subscription?: FieldSubscription,
+    validate?: (value: ?any, allValues: Object) => ?any,
+    value?: any
 } & RenderableProps<FieldRenderProps>
 
 export type FormSpyProps = {
-  subscription: ?FormSubscription
-} & RenderableProps<FormRenderProps>
+    subscription?: FormSubscription
+} & RenderableProps<FormSpyRenderProps>
