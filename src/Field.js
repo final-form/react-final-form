@@ -104,6 +104,8 @@ export default class Field extends React.PureComponent<Props, State> {
       component,
       children,
       allowNull,
+      subscription,
+      validate,
       value: _value,
       ...rest
     } = this.props

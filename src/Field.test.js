@@ -237,6 +237,43 @@ describe('Field', () => {
     expect(render.mock.calls[2][0].values.foo).toBe(null)
   })
 
+  it('should not let validate prop bleed through', () => {
+    const input = jest.fn(({ input }) => <input {...input} />)
+    const required = value => (value ? undefined : 'Required')
+
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <Field name="foo" render={input} validate={required} />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(input).toHaveBeenCalled()
+    expect(input).toHaveBeenCalledTimes(1)
+    expect(input.mock.calls[0][0].validate).toBeUndefined()
+  })
+
+  it('should not let subscription prop bleed through', () => {
+    const input = jest.fn(({ input }) => <input {...input} />)
+
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <Field name="foo" render={input} subscription={{ active: true }} />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(input).toHaveBeenCalled()
+    expect(input).toHaveBeenCalledTimes(1)
+    expect(input.mock.calls[0][0].subscription).toBeUndefined()
+  })
+
   it('should allow changing field-level validation function', () => {
     const input = jest.fn(({ input }) => <input {...input} />)
     const required = value => (value ? undefined : 'Required')
