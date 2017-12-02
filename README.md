@@ -75,7 +75,7 @@ const MyForm = () =>
             <textarea {...input}/>
             {meta.touched && meta.error && <span>{meta.error}</span>}
           </div>
-        }>
+        }/>
 
         <h2>Render Function as Children</h2>
         <Field name="phone">
