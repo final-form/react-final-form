@@ -211,7 +211,12 @@ describe('Field', () => {
   })
 
   it('should optionally allow null', () => {
-    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const renderInput = jest.fn(({ input }) => (
+      <input
+        {...input}
+        value={input.value || "we don't REALLY want null. lol!"}
+      />
+    ))
     const render = jest.fn(() => (
       <form>
         <Field name="foo" render={renderInput} allowNull />
@@ -316,22 +321,22 @@ describe('Field', () => {
     onChange('hi')
 
     // valid now
-    expect(input).toHaveBeenCalledTimes(3)
-    expect(input.mock.calls[2][0].meta.error).toBeUndefined()
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].meta.error).toBeUndefined()
 
     // toggle rules
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
 
     // props changed, but still valid. doesn't update until next time validation is run
-    expect(input).toHaveBeenCalledTimes(4)
-    expect(input.mock.calls[3][0].meta.error).toBeUndefined()
+    expect(input).toHaveBeenCalledTimes(3)
+    expect(input.mock.calls[2][0].meta.error).toBeUndefined()
 
     onChange('his')
 
     // invalid now
-    expect(input).toHaveBeenCalledTimes(6)
-    expect(input.mock.calls[5][0].meta.error).toBe('Must be uppercase')
+    expect(input).toHaveBeenCalledTimes(4)
+    expect(input.mock.calls[3][0].meta.error).toBe('Must be uppercase')
   })
 
   it('should render checkboxes with checked prop', () => {

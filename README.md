@@ -97,76 +97,81 @@ const MyForm = () =>
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Examples](#examples)
-  - [Simple Example](#simple-example)
-  - [Synchronous Record-Level Validation](#synchronous-record-level-validation)
-  - [Synchronous Field-Level Validation](#synchronous-field-level-validation)
-  - [Asynchronous Field-Level Validation](#asynchronous-field-level-validation)
-  - [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
-  - [Submission Errors](#submission-errors)
-  - [Third Party Components](#third-party-components)
-  - [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
-- [Rendering](#rendering)
-- [API](#api)
-  - [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
-  - [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
-  - [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
-  - [`version: string`](#version-string)
-- [Types](#types)
-  - [`FieldProps`](#fieldprops)
-    - [`allowNull?: boolean`](#allownull-boolean)
-    - [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
-    - [`component?: React.ComponentType<FieldRenderProps>`](#component-reactcomponenttypefieldrenderprops)
-    - [`name: string`](#name-string)
-    - [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
-    - [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
-    - [`validate?: (value: ?any, allValues: Object) => ?any`](#validate-value-any-allvalues-object--any)
-    - [`value?: any`](#value-any)
-  - [`FieldRenderProps`](#fieldrenderprops)
-    - [`input.name: string`](#inputname-string)
-    - [`input.onBlur: (?SyntheticFocusEvent<*>) => void`](#inputonblur-syntheticfocusevent--void)
-    - [`input.onChange: (SyntheticInputEvent<*> | any) => void`](#inputonchange-syntheticinputevent--any--void)
-    - [`input.onFocus: (?SyntheticFocusEvent<*>) => void`](#inputonfocus-syntheticfocusevent--void)
-    - [`input.value: any`](#inputvalue-any)
-    - [`meta.active?: boolean`](#metaactive-boolean)
-    - [`meta.dirty?: boolean`](#metadirty-boolean)
-    - [`meta.error?: any`](#metaerror-any)
-    - [`meta.initial?: any`](#metainitial-any)
-    - [`meta.invalid?: boolean`](#metainvalid-boolean)
-    - [`meta.pristine?: boolean`](#metapristine-boolean)
-    - [`meta.submitError?: any`](#metasubmiterror-any)
-    - [`meta.submitFailed?: boolean`](#metasubmitfailed-boolean)
-    - [`meta.submitSucceeded?: boolean`](#metasubmitsucceeded-boolean)
-    - [`meta.touched?: boolean`](#metatouched-boolean)
-    - [`meta.valid?: boolean`](#metavalid-boolean)
-    - [`meta.visited?: boolean`](#metavisited-boolean)
-  - [`FormProps`](#formprops)
-    - [`children?: ((props: FormRenderProps) => React.Node) | React.Node`](#children-props-formrenderprops--reactnode--reactnode)
-    - [`component?: React.ComponentType<FormRenderProps>`](#component-reactcomponenttypeformrenderprops)
-    - [`debug?: DebugFunction`](#debug-debugfunction)
-    - [`initialValues?: Object`](#initialvalues-object)
-    - [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void)
-    - [`render?: (props: FormRenderProps) => React.Node`](#render-props-formrenderprops--reactnode)
-    - [`subscription?: FormSubscription`](#subscription-formsubscription)
-    - [`validate?: (values: Object) => Object | Promise<Object>`](#validate-values-object--object--promiseobject)
-    - [`validateOnBlur?: boolean`](#validateonblur-boolean)
-  - [`FormRenderProps`](#formrenderprops)
-    - [`batch: (fn: () => void) => void)`](#batch-fn---void--void)
-    - [`blur: (name: string) => void`](#blur-name-string--void)
-    - [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
-    - [`focus: (name: string) => void`](#focus-name-string--void)
-    - [`handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
-    - [`initialize: (values: Object) => void`](#initialize-values-object--void)
-    - [`reset: () => void`](#reset---void)
-  - [`FormSpyProps`](#formspyprops)
-    - [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
-    - [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
-    - [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
-    - [`subscription?: FormSubscription`](#subscription-formsubscription-1)
-  - [`FormSpyRenderProps`](#formspyrenderprops)
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+* [Examples](#examples)
+  * [Simple Example](#simple-example)
+  * [Synchronous Record-Level Validation](#synchronous-record-level-validation)
+  * [Synchronous Field-Level Validation](#synchronous-field-level-validation)
+  * [Asynchronous Field-Level Validation](#asynchronous-field-level-validation)
+  * [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
+  * [Submission Errors](#submission-errors)
+  * [Third Party Components](#third-party-components)
+  * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
+* [Rendering](#rendering)
+* [API](#api)
+  * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
+  * [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
+  * [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
+  * [`version: string`](#version-string)
+* [Types](#types)
+  * [`FieldProps`](#fieldprops)
+    * [`allowNull?: boolean`](#allownull-boolean)
+    * [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
+    * [`component?: React.ComponentType<FieldRenderProps>`](#component-reactcomponenttypefieldrenderprops)
+    * [`name: string`](#name-string)
+    * [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
+    * [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
+    * [`validate?: (value: ?any, allValues: Object) => ?any`](#validate-value-any-allvalues-object--any)
+    * [`value?: any`](#value-any)
+  * [`FieldRenderProps`](#fieldrenderprops)
+    * [`input.name: string`](#inputname-string)
+    * [`input.onBlur: (?SyntheticFocusEvent<*>) => void`](#inputonblur-syntheticfocusevent--void)
+    * [`input.onChange: (SyntheticInputEvent<*> | any) => void`](#inputonchange-syntheticinputevent--any--void)
+    * [`input.onFocus: (?SyntheticFocusEvent<*>) => void`](#inputonfocus-syntheticfocusevent--void)
+    * [`input.value: any`](#inputvalue-any)
+    * [`meta.active?: boolean`](#metaactive-boolean)
+    * [`meta.data: Object`](#metadata-object)
+    * [`meta.dirty?: boolean`](#metadirty-boolean)
+    * [`meta.error?: any`](#metaerror-any)
+    * [`meta.initial?: any`](#metainitial-any)
+    * [`meta.invalid?: boolean`](#metainvalid-boolean)
+    * [`meta.pristine?: boolean`](#metapristine-boolean)
+    * [`meta.submitError?: any`](#metasubmiterror-any)
+    * [`meta.submitFailed?: boolean`](#metasubmitfailed-boolean)
+    * [`meta.submitSucceeded?: boolean`](#metasubmitsucceeded-boolean)
+    * [`meta.touched?: boolean`](#metatouched-boolean)
+    * [`meta.valid?: boolean`](#metavalid-boolean)
+    * [`meta.visited?: boolean`](#metavisited-boolean)
+  * [`FormProps`](#formprops)
+    * [`children?: ((props: FormRenderProps) => React.Node) | React.Node`](#children-props-formrenderprops--reactnode--reactnode)
+    * [`component?: React.ComponentType<FormRenderProps>`](#component-reactcomponenttypeformrenderprops)
+    * [`debug?: DebugFunction`](#debug-debugfunction)
+    * [`initialValues?: Object`](#initialvalues-object)
+    * [`mutators?: { [string]: Mutator }`](#mutators--string-mutator-)
+    * [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void)
+    * [`render?: (props: FormRenderProps) => React.Node`](#render-props-formrenderprops--reactnode)
+    * [`subscription?: FormSubscription`](#subscription-formsubscription)
+    * [`validate?: (values: Object) => Object | Promise<Object>`](#validate-values-object--object--promiseobject)
+    * [`validateOnBlur?: boolean`](#validateonblur-boolean)
+  * [`FormRenderProps`](#formrenderprops)
+    * [`batch: (fn: () => void) => void)`](#batch-fn---void--void)
+    * [`blur: (name: string) => void`](#blur-name-string--void)
+    * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
+    * [`focus: (name: string) => void`](#focus-name-string--void)
+    * [`handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
+    * [`initialize: (values: Object) => void`](#initialize-values-object--void)
+    * [`mutators?: { [string]: Function }`](#mutators--string-function-)
+    * [`reset: () => void`](#reset---void)
+  * [`FormSpyProps`](#formspyprops)
+    * [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
+    * [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
+    * [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
+    * [`formSubscription?: FormSubscription`](#formsubscription-formsubscription)
+  * [`FormSpyRenderProps`](#formspyrenderprops)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -349,6 +354,10 @@ The current value of the field.
 
 [See the 🏁 Final Form docs on `active`](https://github.com/erikras/final-form#active-boolean).
 
+#### `meta.data: Object`
+
+[See the 🏁 Final Form docs on `data`](https://github.com/erikras/final-form#data-object).
+
 #### `meta.dirty?: boolean`
 
 [See the 🏁 Final Form docs on `dirty`](https://github.com/erikras/final-form#dirty-boolean).
@@ -417,6 +426,10 @@ well as any non-API props passed into the `<Form/>` component.
 
 [See the 🏁 Final Form docs on `initialValues`](https://github.com/erikras/final-form#initialvalues-object).
 
+#### `mutators?: { [string]: Mutator }`
+
+[See the 🏁 Final Form docs on `mutators`](https://github.com/erikras/final-form#mutators--string-function-).
+
 #### `onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
 
 [See the 🏁 Final Form docs on `onSubmit`](https://github.com/erikras/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void).
@@ -482,6 +495,10 @@ onSubmit={handleSubmit}/>`.
 A function that initializes the form values.
 [See the 🏁 Final Form docs on `initialize`](https://github.com/erikras/final-form#initialize-values-object--void).
 
+#### `mutators?: { [string]: Function }`
+
+[See the 🏁 Final Form docs on `mutators`](https://github.com/erikras/final-form#mutators--string-function-).
+
 #### `reset: () => void`
 
 A function that resets the form values to their last initialized values.
@@ -508,7 +525,7 @@ as well as any non-API props passed into the `<FormSpy/>` component.
 A render function that is given [`FormSpyRenderProps`](#formspyrenderprops), as
 well as any non-API props passed into the `<FormSpy/>` component.
 
-#### `subscription?: FormSubscription`
+#### `formSubscription?: FormSubscription`
 
 A
 [`FormSubscription`](https://github.com/erikras/final-form#formsubscription--string-boolean-)

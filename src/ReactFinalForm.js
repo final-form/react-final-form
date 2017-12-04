@@ -44,6 +44,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       component,
       debug,
       initialValues,
+      mutators,
       onSubmit,
       render,
       validate,
@@ -56,6 +57,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
     const config: Config = {
       debug,
       initialValues,
+      mutators,
       onSubmit,
       validate
     }
@@ -84,6 +86,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
   }
 
   notify = (state: FormState) => this.setState({ state })
+
   handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
     this.form.submit()
@@ -98,6 +101,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
     const {
       debug,
       initialValues,
+      mutators,
       onSubmit,
       subscription,
       validate,
@@ -107,6 +111,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       {
         ...props,
         ...this.state.state,
+        mutators: this.form && this.form.mutators,
         batch: this.form && this.form.batch,
         blur: this.form && this.form.blur,
         change: this.form && this.form.change,
