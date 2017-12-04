@@ -219,7 +219,7 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(2)
     expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
   })
-  
+
   it('should return a promise from handleSubmit when submission is async', async () => {
     const onSubmit = jest.fn()
     let promise
@@ -303,5 +303,18 @@ describe('ReactFinalForm', () => {
     expect(validate).toHaveBeenCalledTimes(3)
     // never called again because it was never invalid
     expect(renderInput).toHaveBeenCalledTimes(1)
+
+    onFocus()
+    expect(validate).toHaveBeenCalledTimes(3)
+    expect(renderInput).toHaveBeenCalledTimes(1)
+
+    // back to invalid
+    onChange('1')
+    expect(validate).toHaveBeenCalledTimes(3)
+    expect(renderInput).toHaveBeenCalledTimes(1)
+
+    onBlur() // NOW should be invalid
+    expect(validate).toHaveBeenCalledTimes(4)
+    expect(renderInput).toHaveBeenCalledTimes(2)
   })
 })

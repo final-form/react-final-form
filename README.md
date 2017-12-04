@@ -116,6 +116,7 @@ const MyForm = () => (
   * [Submission Errors](#submission-errors)
   * [Third Party Components](#third-party-components)
   * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
+  * [Loading and Initializing Values](#loading-and-initializing-values)
   * [Field Arrays](#field-arrays)
 * [Rendering](#rendering)
 * [API](#api)
@@ -229,6 +230,11 @@ needs to render, it reduce the number of times the whole form has to rerender.
 Yet, if some part of form state is needed inside of it, the
 [`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
 attain it.
+
+### [Loading and Initializing Values](https://codesandbox.io/s/91w9ro3x9o)
+
+Demonstrates how a form can be initialized, after fetching data, by passing in
+`initialValues` as a prop.
 
 ### [Field Arrays](https://codesandbox.io/s/kx8qv67nk5)
 
