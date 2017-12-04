@@ -48,8 +48,9 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       mutators,
       onSubmit,
       render,
+      subscription,
       validate,
-      subscription
+      validateOnBlur
     } = props
     warning(
       render || typeof children === 'function' || component,
@@ -60,7 +61,8 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       initialValues,
       mutators,
       onSubmit,
-      validate
+      validate,
+      validateOnBlur
     }
     try {
       this.form = createForm(config)
@@ -112,6 +114,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       onSubmit,
       subscription,
       validate,
+      validateOnBlur,
       ...props
     } = this.props
     return renderComponent(

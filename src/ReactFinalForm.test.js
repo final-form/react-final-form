@@ -218,4 +218,58 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(2)
     expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
   })
+  
+  it('should respect validateOnBlur', () => {
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const validate = jest.fn(values => {
+      const errors = {}
+      if (values.foo && values.foo < 5) {
+        errors.foo = 'Not enough foo!'
+      }
+      return errors
+    })
+    TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        subscription={{ submitting: true }}
+        validate={validate}
+        validateOnBlur
+      >
+        {() => (
+          <form>
+            <Field
+              name="foo"
+              component={renderInput}
+              subscription={{ valid: true }}
+            />
+          </form>
+        )}
+      </Form>
+    )
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput.mock.calls[0][0].meta.valid).toBe(true)
+
+    expect(validate).toHaveBeenCalled()
+    // once on form register, and again on field register
+    expect(validate).toHaveBeenCalledTimes(2)
+    const { onBlur, onChange, onFocus } = renderInput.mock.calls[0][0].input
+
+    onFocus()
+    expect(validate).toHaveBeenCalledTimes(2)
+    expect(renderInput).toHaveBeenCalledTimes(1)
+
+    onChange('1') // this is where it would fail if not respecting validateOnBlur
+    expect(validate).toHaveBeenCalledTimes(2)
+    expect(renderInput).toHaveBeenCalledTimes(1)
+
+    onChange('10')
+    expect(validate).toHaveBeenCalledTimes(2)
+    expect(renderInput).toHaveBeenCalledTimes(1)
+
+    onBlur()
+    expect(validate).toHaveBeenCalledTimes(3)
+    // never called again because it was never invalid
+    expect(renderInput).toHaveBeenCalledTimes(1)
+  })
 })
