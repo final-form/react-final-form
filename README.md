@@ -49,49 +49,54 @@ Here's what it looks like in your code:
 ```js
 import { Form, Field } from 'react-final-form'
 
-const MyForm = () =>
+const MyForm = () => (
   <Form
     onSubmit={onSubmit}
     validate={validate}
-    render={({ handleSubmit, pristine, invalid }) =>
+    render={({ handleSubmit, pristine, invalid }) => (
       <form onSubmit={handleSubmit}>
-
         <h2>Simple Default Input</h2>
         <div>
           <label>First Name</label>
-          <Field name="firstName" component="input" placeholder="First Name"/>
+          <Field name="firstName" component="input" placeholder="First Name" />
         </div>
 
         <h2>An Arbitrary Reusable Input Component</h2>
         <div>
           <label>Interests</label>
-          <Field name="interests" component={InterestPicker}/>
+          <Field name="interests" component={InterestPicker} />
         </div>
 
         <h2>Render Function</h2>
-        <Field name="bio" render={({ input, meta }) =>
-          <div>
-            <label>Bio</label>
-            <textarea {...input}/>
-            {meta.touched && meta.error && <span>{meta.error}</span>}
-          </div>
-        }/>
+        <Field
+          name="bio"
+          render={({ input, meta }) => (
+            <div>
+              <label>Bio</label>
+              <textarea {...input} />
+              {meta.touched && meta.error && <span>{meta.error}</span>}
+            </div>
+          )}
+        />
 
         <h2>Render Function as Children</h2>
         <Field name="phone">
-          {({ input, meta }) =>
+          {({ input, meta }) => (
             <div>
               <label>Phone</label>
-              <input type="text" {...input} placeholder="Phone"/>
+              <input type="text" {...input} placeholder="Phone" />
               {meta.touched && meta.error && <span>{meta.error}</span>}
             </div>
-          }
+          )}
         </Field>
 
-        <button type="submit" disabled={pristine || invalid}>Submit</button>
+        <button type="submit" disabled={pristine || invalid}>
+          Submit
+        </button>
       </form>
-    }
+    )}
   />
+)
 ```
 
 ## Table of Contents
@@ -111,6 +116,7 @@ const MyForm = () =>
   * [Submission Errors](#submission-errors)
   * [Third Party Components](#third-party-components)
   * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
+  * [Field Arrays](#field-arrays)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -223,6 +229,13 @@ needs to render, it reduce the number of times the whole form has to rerender.
 Yet, if some part of form state is needed inside of it, the
 [`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
 attain it.
+
+### [Field Arrays](https://codesandbox.io/s/kx8qv67nk5)
+
+Demostrates how to use the `<FieldArray/>` component, from
+[`react-final-form-arrays`](https://github.com/erikras/react-final-form-arrays),
+to render an array of inputs, as well as use `push`, `pop`, and `remove`
+mutations.
 
 ## Rendering
 
