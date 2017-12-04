@@ -11,8 +11,8 @@ Before opening an issue, please search the
 [issue tracker](https://github.com/erikras/react-final-form/issues) to make sure
 your issue hasn’t already been reported.
 
-**We use the issue tracker to keep track of bugs and improvements** to 🏁 Final
-Form itself, its examples, and the documentation. We encourage you to open
+**We use the issue tracker to keep track of bugs and improvements** to 🏁 React
+Final Form itself, its examples, and the documentation. We encourage you to open
 issues to discuss improvements, architecture, internal implementation, etc. If a
 topic has been discussed before, we will ask you to join the previous
 discussion.
