@@ -9,6 +9,7 @@ import {
 } from 'final-form'
 import type { Api, Config, FormSubscription, FormState } from 'final-form'
 import type { FormProps as Props, ReactContext } from './types'
+import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
 export const version = '1.0.0'
 
@@ -90,6 +91,12 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
   handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
     this.form.submit()
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (!shallowEqual(this.props.initialValues, nextProps.initialValues)) {
+      this.form.initialize(nextProps.initialValues)
+    }
   }
 
   componentWillUnmount() {
