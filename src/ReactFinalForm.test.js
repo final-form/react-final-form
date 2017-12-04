@@ -181,6 +181,45 @@ describe('ReactFinalForm', () => {
     expect(onSubmit).toHaveBeenCalledWith({ foo: 'bar' })
   })
 
+  it('should reinitialize when initialValues prop changes', () => {
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    class Container extends React.Component {
+      state = { initValues: {} }
+
+      render() {
+        return (
+          <Form
+            onSubmit={onSubmitMock}
+            subscription={{ dirty: true }}
+            initialValues={this.state.initValues}
+          >
+            {() => (
+              <form>
+                <Field name="foo" render={renderInput} />
+                <button
+                  type="button"
+                  onClick={() => this.setState({ initValues: { foo: 'bar' } })}
+                >
+                  Initialize
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(<Container />)
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+
+    const init = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(init)
+
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
+  })
+  
   it('should return a promise from handleSubmit when submission is async', async () => {
     const onSubmit = jest.fn()
     let promise
