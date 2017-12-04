@@ -4,14 +4,14 @@
 
 [![NPM Version](https://img.shields.io/npm/v/react-final-form.svg?style=flat)](https://www.npmjs.com/package/react-final-form)
 [![NPM Downloads](https://img.shields.io/npm/dm/react-final-form.svg?style=flat)](https://www.npmjs.com/package/react-final-form)
-[![Build Status](https://img.shields.io/travis/erikras/react-final-form/v6.svg?style=flat)](https://travis-ci.org/erikras/react-final-form)
-[![codecov.io](https://codecov.io/gh/erikras/react-final-form/branch/master/graph/badge.svg)](https://codecov.io/gh/erikras/react-final-form)
+[![Build Status](https://img.shields.io/travis/final-form/react-final-form/v6.svg?style=flat)](https://travis-ci.org/final-form/react-final-form)
+[![codecov.io](https://codecov.io/gh/final-form/react-final-form/branch/master/graph/badge.svg)](https://codecov.io/gh/final-form/react-final-form)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 ✅ Zero dependencies
 
 ✅ Only peer dependencies: React and
-[🏁 Final Form](https://github.com/erikras/final-form#-final-form)
+[🏁 Final Form](https://github.com/final-form/final-form#-final-form)
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
@@ -233,7 +233,7 @@ attain it.
 ### [Field Arrays](https://codesandbox.io/s/kx8qv67nk5)
 
 Demostrates how to use the `<FieldArray/>` component, from
-[`react-final-form-arrays`](https://github.com/erikras/react-final-form-arrays),
+[`react-final-form-arrays`](https://github.com/final-form/react-final-form-arrays),
 to render an array of inputs, as well as use `push`, `pop`, and `remove`
 mutations.
 
@@ -309,11 +309,11 @@ as any non-API props passed into the `<Field/>` component.
 #### `subscription?: FieldSubscription`
 
 A
-[`FieldSubscription`](https://github.com/erikras/final-form#fieldsubscription--string-boolean-)
+[`FieldSubscription`](https://github.com/final-form/final-form#fieldsubscription--string-boolean-)
 that selects of all the items of
-[`FieldState`](https://github.com/erikras/final-form#fieldstate) that you wish
-to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
-[`FieldState`](https://github.com/erikras/final-form#fieldstate).
+[`FieldState`](https://github.com/final-form/final-form#fieldstate) that you
+wish to update for. If you don't pass a `subscription` prop, it defaults to
+_all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
 
 #### `validate?: (value: ?any, allValues: Object) => ?any`
 
@@ -365,55 +365,55 @@ The current value of the field.
 
 #### `meta.active?: boolean`
 
-[See the 🏁 Final Form docs on `active`](https://github.com/erikras/final-form#active-boolean).
+[See the 🏁 Final Form docs on `active`](https://github.com/final-form/final-form#active-boolean).
 
 #### `meta.data: Object`
 
-[See the 🏁 Final Form docs on `data`](https://github.com/erikras/final-form#data-object).
+[See the 🏁 Final Form docs on `data`](https://github.com/final-form/final-form#data-object).
 
 #### `meta.dirty?: boolean`
 
-[See the 🏁 Final Form docs on `dirty`](https://github.com/erikras/final-form#dirty-boolean).
+[See the 🏁 Final Form docs on `dirty`](https://github.com/final-form/final-form#dirty-boolean).
 
 #### `meta.error?: any`
 
-[See the 🏁 Final Form docs on `error`](https://github.com/erikras/final-form#error-any).
+[See the 🏁 Final Form docs on `error`](https://github.com/final-form/final-form#error-any).
 
 #### `meta.initial?: any`
 
-[See the 🏁 Final Form docs on `initial`](https://github.com/erikras/final-form#initial-any).
+[See the 🏁 Final Form docs on `initial`](https://github.com/final-form/final-form#initial-any).
 
 #### `meta.invalid?: boolean`
 
-[See the 🏁 Final Form docs on `invalid`](https://github.com/erikras/final-form#invalid-boolean).
+[See the 🏁 Final Form docs on `invalid`](https://github.com/final-form/final-form#invalid-boolean).
 
 #### `meta.pristine?: boolean`
 
-[See the 🏁 Final Form docs on `pristine`](https://github.com/erikras/final-form#pristine-boolean).
+[See the 🏁 Final Form docs on `pristine`](https://github.com/final-form/final-form#pristine-boolean).
 
 #### `meta.submitError?: any`
 
-[See the 🏁 Final Form docs on `submitError`](https://github.com/erikras/final-form#submiterror-any).
+[See the 🏁 Final Form docs on `submitError`](https://github.com/final-form/final-form#submiterror-any).
 
 #### `meta.submitFailed?: boolean`
 
-[See the 🏁 Final Form docs on `submitFailed`](https://github.com/erikras/final-form#submitfailed-boolean).
+[See the 🏁 Final Form docs on `submitFailed`](https://github.com/final-form/final-form#submitfailed-boolean).
 
 #### `meta.submitSucceeded?: boolean`
 
-[See the 🏁 Final Form docs on `submitSucceeded`](https://github.com/erikras/final-form#submitsucceeded-boolean).
+[See the 🏁 Final Form docs on `submitSucceeded`](https://github.com/final-form/final-form#submitsucceeded-boolean).
 
 #### `meta.touched?: boolean`
 
-[See the 🏁 Final Form docs on `touched`](https://github.com/erikras/final-form#touched-boolean).
+[See the 🏁 Final Form docs on `touched`](https://github.com/final-form/final-form#touched-boolean).
 
 #### `meta.valid?: boolean`
 
-[See the 🏁 Final Form docs on `valid`](https://github.com/erikras/final-form#valid-boolean).
+[See the 🏁 Final Form docs on `valid`](https://github.com/final-form/final-form#valid-boolean).
 
 #### `meta.visited?: boolean`
 
-[See the 🏁 Final Form docs on `visited`](https://github.com/erikras/final-form#visited-boolean).
+[See the 🏁 Final Form docs on `visited`](https://github.com/final-form/final-form#visited-boolean).
 
 ### `FormProps`
 
@@ -433,19 +433,19 @@ well as any non-API props passed into the `<Form/>` component.
 
 #### `debug?: DebugFunction`
 
-[See the 🏁 Final Form docs on `debug`](https://github.com/erikras/final-form#debug-debugfunction).
+[See the 🏁 Final Form docs on `debug`](https://github.com/final-form/final-form#debug-debugfunction).
 
 #### `initialValues?: Object`
 
-[See the 🏁 Final Form docs on `initialValues`](https://github.com/erikras/final-form#initialvalues-object).
+[See the 🏁 Final Form docs on `initialValues`](https://github.com/final-form/final-form#initialvalues-object).
 
 #### `mutators?: { [string]: Mutator }`
 
-[See the 🏁 Final Form docs on `mutators`](https://github.com/erikras/final-form#mutators--string-function-).
+[See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
 
 #### `onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
 
-[See the 🏁 Final Form docs on `onSubmit`](https://github.com/erikras/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void).
+[See the 🏁 Final Form docs on `onSubmit`](https://github.com/final-form/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void).
 
 #### `render?: (props: FormRenderProps) => React.Node`
 
@@ -455,36 +455,36 @@ as any non-API props passed into the `<Form/>` component.
 #### `subscription?: FormSubscription`
 
 A
-[`FormSubscription`](https://github.com/erikras/final-form#formsubscription--string-boolean-)
+[`FormSubscription`](https://github.com/final-form/final-form#formsubscription--string-boolean-)
 that selects of all the items of
-[`FormState`](https://github.com/erikras/final-form#formstate) that you wish to
-update for. If you don't pass a `subscription` prop, it defaults to _all_ of
-[`FormState`](https://github.com/erikras/final-form#formstate).
+[`FormState`](https://github.com/final-form/final-form#formstate) that you wish
+to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
+[`FormState`](https://github.com/final-form/final-form#formstate).
 
 #### `validate?: (values: Object) => Object | Promise<Object>`
 
-[See the 🏁 Final Form docs on `validate`](https://github.com/erikras/final-form#validate-values-object--object--promiseobject).
+[See the 🏁 Final Form docs on `validate`](https://github.com/final-form/final-form#validate-values-object--object--promiseobject).
 
 #### `validateOnBlur?: boolean`
 
-[See the 🏁 Final Form docs on `validateOnBlur`](https://github.com/erikras/final-form#validateonblur-boolean).
+[See the 🏁 Final Form docs on `validateOnBlur`](https://github.com/final-form/final-form#validateonblur-boolean).
 
 ### `FormRenderProps`
 
 These are the props that [`<Form/>`](#form--reactcomponenttypeformprops)
 provides to your render function or component. Keep in mind that the values you
 receive here are dependent upon which values of
-[`FormState`](https://github.com/erikras/final-form#formstate) you have
+[`FormState`](https://github.com/final-form/final-form#formstate) you have
 subscribed to with the
-[`subscription` prop](https://github.com/erikras/react-final-form#subscription-formsubscription).
+[`subscription` prop](https://github.com/final-form/react-final-form#subscription-formsubscription).
 This object contains everything in
-[🏁 Final Form's `FormState`](https://github.com/erikras/final-form#formstate)
+[🏁 Final Form's `FormState`](https://github.com/final-form/final-form#formstate)
 as well as:
 
 #### `batch: (fn: () => void) => void)`
 
 A function that allows batch updates to be done to the form state.
-[See the 🏁 Final Form docs on `batch`](https://github.com/erikras/final-form#batch-fn---void--void).
+[See the 🏁 Final Form docs on `batch`](https://github.com/final-form/final-form#batch-fn---void--void).
 
 #### `blur: (name: string) => void`
 
@@ -506,16 +506,16 @@ onSubmit={handleSubmit}/>`.
 #### `initialize: (values: Object) => void`
 
 A function that initializes the form values.
-[See the 🏁 Final Form docs on `initialize`](https://github.com/erikras/final-form#initialize-values-object--void).
+[See the 🏁 Final Form docs on `initialize`](https://github.com/final-form/final-form#initialize-values-object--void).
 
 #### `mutators?: { [string]: Function }`
 
-[See the 🏁 Final Form docs on `mutators`](https://github.com/erikras/final-form#mutators--string-function-).
+[See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
 
 #### `reset: () => void`
 
 A function that resets the form values to their last initialized values.
-[See the 🏁 Final Form docs on `reset`](https://github.com/erikras/final-form#reset---void).
+[See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset---void).
 
 ### `FormSpyProps`
 
@@ -541,19 +541,19 @@ well as any non-API props passed into the `<FormSpy/>` component.
 #### `formSubscription?: FormSubscription`
 
 A
-[`FormSubscription`](https://github.com/erikras/final-form#formsubscription--string-boolean-)
+[`FormSubscription`](https://github.com/final-form/final-form#formsubscription--string-boolean-)
 that selects of all the items of
-[`FormState`](https://github.com/erikras/final-form#formstate) that you wish to
-update for. If you don't pass a `subscription` prop, it defaults to _all_ of
-[`FormState`](https://github.com/erikras/final-form#formstate).
+[`FormState`](https://github.com/final-form/final-form#formstate) that you wish
+to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
+[`FormState`](https://github.com/final-form/final-form#formstate).
 
 ### `FormSpyRenderProps`
 
 These are the props that
 [`<FormSpy/>`](#formspy--reactcomponenttypeformspyprops) provides to your render
 function or component. These props are of type
-[`FormState`](https://github.com/erikras/final-form#formstate). Keep in mind
+[`FormState`](https://github.com/final-form/final-form#formstate). Keep in mind
 that the values you receive here are dependent upon which values of
-[`FormState`](https://github.com/erikras/final-form#formstate) you have
+[`FormState`](https://github.com/final-form/final-form#formstate) you have
 subscribed to with the
-[`subscription` prop](https://github.com/erikras/react-final-form#subscription-formsubscription).
+[`subscription` prop](https://github.com/final-form/react-final-form#subscription-formsubscription).
