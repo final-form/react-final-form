@@ -14,15 +14,21 @@ and you'd like it to be), please correct the mistake.
 | Field Level Async Validation          |                                                        ✅                                                         |                        ✅                        |                          ✅                           |
 | Render Prop for Form                  |                                                        ✅                                                         |                        ✅                        |                          ❌                           |
 | Render Prop for Field                 |                                                        ✅                                                         |                        ✅                        |                          ❌                           |
-| Avoids unnecessary form rerenders     |                                                        ✅                                                         |          ❌ <sup>[1](#footnote1)</sup>           |                          ✅                           |
-| Higher Order Component                |                                           ❌ <sup>[2](#footnote2)</sup>                                           |                        ✅                        |                          ✅                           |
+| Array Fields                          |                                              ✅ <sup>[1](#footnote1)                                              |                        ❌                        |                          ✅                           |
+| Avoids unnecessary form rerenders     |                                                        ✅                                                         |          ❌ <sup>[2](#footnote2)</sup>           |                          ✅                           |
+| Higher Order Component                |                                           ❌ <sup>[3](#footnote3)</sup>                                           |                        ✅                        |                          ✅                           |
 | Render Prop Component                 |                                                        ✅                                                         |                        ✅                        |                          ❌                           |
 | Access to form data from outside form |                                                        ❌                                                         |                        ❌                        |                          ✅                           |
 | Awesome Optical Illusion Logo         |                                                        ❌                                                         |                        ✅                        |                          ❌                           |
 
 ---
 
-<a name="footnote1">1</a>: This is not really an issue on all but the most
+<a name="footnote1">1</a>: Via
+[`final-form-arrays`](https://github.com/final-form/final-form-arrays) and
+[`react-final-form-arrays`](https://github.com/final-form/react-final-form-arrays)
+helper libraries.
+
+<a name="footnote2">2</a>: This is not really an issue on all but the most
 enormous forms.
 
-<a name="footnote3">2</a>: See [Why no HOC?](faq.md#why-no-hoc)
+<a name="footnote3">3</a>: See [Why no HOC?](faq.md#why-no-hoc)
