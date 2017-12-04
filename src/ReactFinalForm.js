@@ -92,7 +92,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
 
   handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
-    this.form.submit()
+    return this.form.submit()
   }
 
   componentWillReceiveProps(nextProps: Props) {

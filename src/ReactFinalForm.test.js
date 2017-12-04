@@ -4,6 +4,7 @@ import Form from './ReactFinalForm'
 import Field from './Field'
 
 const onSubmitMock = values => {}
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 describe('ReactFinalForm', () => {
   it('should render with render function', () => {
@@ -219,6 +220,37 @@ describe('ReactFinalForm', () => {
     expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
   })
   
+  it('should return a promise from handleSubmit when submission is async', async () => {
+    const onSubmit = jest.fn()
+    let promise
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={async () => {
+          await sleep(2)
+        }}
+        initialValues={{ foo: 'bar' }}
+      >
+        {({ handleSubmit }) => (
+          <form
+            onSubmit={event => {
+              promise = handleSubmit(event)
+              expect(promise).not.toBeUndefined()
+              expect(typeof promise.then).toBe('function')
+            }}
+          >
+            <Field name="foo" component="input" />
+            <button type="submit">Submit</button>
+          </form>
+        )}
+      </Form>
+    )
+    expect(onSubmit).not.toHaveBeenCalled()
+
+    const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+    TestUtils.Simulate.submit(form)
+    return promise
+  })
+
   it('should respect validateOnBlur', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const validate = jest.fn(values => {
