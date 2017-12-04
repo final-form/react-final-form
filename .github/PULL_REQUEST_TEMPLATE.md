@@ -21,6 +21,6 @@ Please format the code before submitting your pull request by running:
 npm run precommit
 ```
 
-https://github.com/erikras/react-final-form/blob/master/.github/CONTRIBUTING.md
+https://github.com/final-form/react-final-form/blob/master/.github/CONTRIBUTING.md
 
 -->
