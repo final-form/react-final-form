@@ -28,6 +28,7 @@ describe('FormSpy', () => {
     expect(render).toHaveBeenCalledTimes(1)
     expect(render).toHaveBeenCalledWith({
       dirty: false,
+      errors: {},
       invalid: false,
       pristine: true,
       submitFailed: false,
@@ -46,6 +47,7 @@ describe('FormSpy', () => {
     expect(render).toHaveBeenCalledTimes(2)
     expect(render).toHaveBeenCalledWith({
       dirty: true,
+      errors: {},
       invalid: false,
       pristine: false,
       submitFailed: false,
