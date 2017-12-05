@@ -116,6 +116,7 @@ const MyForm = () => (
   * [Submission Errors](#submission-errors)
   * [Third Party Components](#third-party-components)
   * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
+  * [Independent Error Component](#independent-error-component)
   * [Loading and Initializing Values](#loading-and-initializing-values)
   * [Field Arrays](#field-arrays)
 * [Rendering](#rendering)
@@ -230,6 +231,11 @@ needs to render, it reduce the number of times the whole form has to rerender.
 Yet, if some part of form state is needed inside of it, the
 [`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
 attain it.
+
+### [Independent Error Component](https://codesandbox.io/s/xoo3xq654p)
+
+Demonstrates how to make an independent Error component to subscribe to and
+display the error for any form field.
 
 ### [Loading and Initializing Values](https://codesandbox.io/s/91w9ro3x9o)
 
