@@ -121,6 +121,10 @@ export default class Field extends React.PureComponent<Props, State> {
       value = ''
     }
     const input = { name, value, ...this.handlers }
+    warning(
+      !_value || (rest.type === 'radio' && component === 'input'),
+      'The value prop on Field is ONLY for use with component="input" and type="radio".'
+    )
     if (rest.type === 'checkbox') {
       input.checked = !!value
     } else if (rest.type === 'radio') {
