@@ -109,7 +109,14 @@ export default class Field extends React.PureComponent<Props, State> {
       value: _value,
       ...rest
     } = this.props
-    let { blur, change, focus, value, ...meta } = this.state.state
+    let {
+      blur,
+      change,
+      focus,
+      value,
+      name: ignoreName,
+      ...meta
+    } = this.state.state
     if (value === undefined || (value === null && !allowNull)) {
       value = ''
     }
