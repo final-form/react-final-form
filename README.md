@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **2.2k gzipped** 💥
+✅ 💥 **2.5k gzipped** 💥
 
 ---
 
@@ -177,8 +177,9 @@ const MyForm = () => (
   * [`FormSpyProps`](#formspyprops)
     * [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
+    * [`onChange?: (formState: FormState) => void`](#onchange-formstate-formstate--void)
     * [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
-    * [`formSubscription?: FormSubscription`](#formsubscription-formsubscription)
+    * [`subscription?: FormSubscription`](#subscription-formsubscription-1)
   * [`FormSpyRenderProps`](#formspyrenderprops)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -538,19 +539,28 @@ of the ways to render: `component`, `render`, or `children`.
 #### `children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`
 
 A render function that is given [`FormSpyRenderProps`](#formspyrenderprops), as
-well as any non-API props passed into the `<FormSpy/>` component.
+well as any non-API props passed into the `<FormSpy/>` component. Will not be
+called if an `onChange` prop is provided.
 
 #### `component?: React.ComponentType<FormSpyRenderProps>`
 
 A component that is given [`FormSpyRenderProps`](#formspyrenderprops) as props,
-as well as any non-API props passed into the `<FormSpy/>` component.
+as well as any non-API props passed into the `<FormSpy/>` component. Will not be
+called if an `onChange` prop is provided.
+
+#### `onChange?: (formState: FormState) => void`
+
+A change listener that will be called with form state whenever the form state,
+as subscribed to by the `subscription` prop, has changed. When an `onChange`
+prop is provided, the `<FormSpy/>` will not render anything.
 
 #### `render?: (props: FormSpyRenderProps) => React.Node`
 
 A render function that is given [`FormSpyRenderProps`](#formspyrenderprops), as
-well as any non-API props passed into the `<FormSpy/>` component.
+well as any non-API props passed into the `<FormSpy/>` component. Will not be
+called if an `onChange` prop is provided.
 
-#### `formSubscription?: FormSubscription`
+#### `subscription?: FormSubscription`
 
 A
 [`FormSubscription`](https://github.com/final-form/final-form#formsubscription--string-boolean-)

@@ -31,6 +31,9 @@ export default class FormSpy extends React.PureComponent<Props, State> {
           this.notify(state)
         } else {
           initialState = state
+          if (props.onChange) {
+            props.onChange(state)
+          }
         }
       })
     }
@@ -47,7 +50,12 @@ export default class FormSpy extends React.PureComponent<Props, State> {
     )
   }
 
-  notify = (state: FormState) => this.setState({ state })
+  notify = (state: FormState) => {
+    this.setState({ state })
+    if (this.props.onChange) {
+      this.props.onChange(state)
+    }
+  }
 
   componentWillReceiveProps(nextProps: Props) {
     const { subscription } = nextProps
@@ -71,8 +79,10 @@ export default class FormSpy extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { subscription, ...rest } = this.props
-    return renderComponent({ ...rest, ...this.state.state }, 'FormSpy')
+    const { onChange, subscription, ...rest } = this.props
+    return onChange
+      ? null
+      : renderComponent({ ...rest, ...this.state.state }, 'FormSpy')
   }
 }
 
