@@ -46,7 +46,7 @@ export type FormRenderProps = {
   reset: () => void
 } & FormState
 
-export type FormSpyRenderProps = FormState
+export type FormSpyRenderProps = {} & FormState
 
 export type RenderableProps<T> = $Shape<{
   children: ((props: T) => React.Node) | React.Node,
@@ -68,6 +68,5 @@ export type FieldProps = {
 } & RenderableProps<FieldRenderProps>
 
 export type FormSpyProps = {
-  onChange?: (formState: FormState) => void,
   subscription?: FormSubscription
 } & RenderableProps<FormSpyRenderProps>
