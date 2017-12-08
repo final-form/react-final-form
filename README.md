@@ -158,6 +158,7 @@ const MyForm = () => (
     * [`children?: ((props: FormRenderProps) => React.Node) | React.Node`](#children-props-formrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FormRenderProps>`](#component-reactcomponenttypeformrenderprops)
     * [`debug?: DebugFunction`](#debug-debugfunction)
+    * [`decorators?: Decorator[]`](#decorators-decorator)
     * [`initialValues?: Object`](#initialvalues-object)
     * [`mutators?: { [string]: Mutator }`](#mutators--string-mutator-)
     * [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void)
@@ -447,6 +448,11 @@ well as any non-API props passed into the `<Form/>` component.
 #### `debug?: DebugFunction`
 
 [See the 🏁 Final Form docs on `debug`](https://github.com/final-form/final-form#debug-debugfunction).
+
+#### `decorators?: Decorator[]`
+
+[`Decorator`](https://github.com/final-form/final-form#decorator-form-formapi--unsubscribe)s
+to apply to the form.
 
 #### `initialValues?: Object`
 
