@@ -3,6 +3,7 @@ import * as React from 'react'
 import type {
   Api,
   Config,
+  Decorator,
   FormState,
   FormSubscription,
   FieldSubscription
@@ -55,7 +56,8 @@ export type RenderableProps<T> = $Shape<{
 }>
 
 export type FormProps = {
-  subscription?: FormSubscription
+  subscription?: FormSubscription,
+  decorators?: Decorator[]
 } & Config &
   RenderableProps<FormRenderProps>
 

@@ -317,4 +317,42 @@ describe('ReactFinalForm', () => {
     expect(validate).toHaveBeenCalledTimes(4)
     expect(renderInput).toHaveBeenCalledTimes(2)
   })
+
+  it('should add decorators', () => {
+    const unsubscribe = jest.fn()
+    const decorator = jest.fn(() => unsubscribe)
+    class Container extends React.Component {
+      state = { shown: true }
+
+      render() {
+        return (
+          <div>
+            {this.state.shown && (
+              <Form
+                onSubmit={onSubmitMock}
+                render={() => <form />}
+                decorators={[decorator]}
+              />
+            )}
+            <button
+              type="button"
+              onClick={() => this.setState({ shown: false })}
+            >
+              Unmount
+            </button>
+          </div>
+        )
+      }
+    }
+    const dom = TestUtils.renderIntoDocument(<Container />)
+
+    expect(decorator).toHaveBeenCalled()
+    expect(decorator).toHaveBeenCalledTimes(1)
+    expect(unsubscribe).not.toHaveBeenCalled()
+
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(button)
+
+    expect(unsubscribe).toHaveBeenCalled()
+  })
 })

@@ -7,11 +7,17 @@ import {
   formSubscriptionItems,
   version as ffVersion
 } from 'final-form'
-import type { Api, Config, FormSubscription, FormState } from 'final-form'
+import type {
+  Api,
+  Config,
+  FormSubscription,
+  FormState,
+  Unsubscribe
+} from 'final-form'
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
-export const version = '1.0.0'
+export const version = '1.2.0'
 
 export const all: FormSubscription = formSubscriptionItems.reduce(
   (result, key) => {
@@ -30,7 +36,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
   props: Props
   state: State
   form: Api
-  unsubscribe: () => void
+  unsubscriptions: Unsubscribe[]
 
   static childContextTypes = {
     reactFinalForm: PropTypes.object
@@ -44,6 +50,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       children,
       component,
       debug,
+      decorators,
       initialValues,
       mutators,
       onSubmit,
@@ -70,16 +77,24 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
       warning(false, e.message)
     }
     let initialState
-    this.unsubscribe =
-      this.form &&
-      this.form.subscribe((state: FormState) => {
-        if (initialState) {
-          this.notify(state)
-        } else {
-          initialState = state
-        }
-      }, subscription || all)
+    this.unsubscriptions = []
+    if (this.form) {
+      this.unsubscriptions.push(
+        this.form.subscribe((state: FormState) => {
+          if (initialState) {
+            this.notify(state)
+          } else {
+            initialState = state
+          }
+        }, subscription || all)
+      )
+    }
     this.state = { state: initialState }
+    if (decorators) {
+      decorators.forEach(decorator => {
+        this.unsubscriptions.push(decorator(this.form))
+      })
+    }
   }
 
   getChildContext() {
@@ -102,7 +117,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+    this.unsubscriptions.forEach(unsubscribe => unsubscribe())
   }
 
   render() {
