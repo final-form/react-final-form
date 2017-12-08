@@ -119,6 +119,7 @@ const MyForm = () => (
   * [Independent Error Component](#independent-error-component)
   * [Loading and Initializing Values](#loading-and-initializing-values)
   * [Field Arrays](#field-arrays)
+  * [Calculated Fields](#calculated-fields)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -250,6 +251,12 @@ Demostrates how to use the `<FieldArray/>` component, from
 [`react-final-form-arrays`](https://github.com/final-form/react-final-form-arrays),
 to render an array of inputs, as well as use `push`, `pop`, and `remove`
 mutations.
+
+### [Calculated Fields](https://codesandbox.io/s/oq52p6v96y)
+
+Demonstrates how to use the
+[`final-form-calculate`](https://github.com/final-form/final-form-calculate)
+decorator to achieve realtime field calculations through easily defined rules.
 
 ## Rendering
 
