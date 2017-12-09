@@ -331,7 +331,7 @@ as any non-API props passed into the `<Field/>` component.
 
 A
 [`FieldSubscription`](https://github.com/final-form/final-form#fieldsubscription--string-boolean-)
-that selects of all the items of
+that selects all of the items of
 [`FieldState`](https://github.com/final-form/final-form#fieldstate) that you
 wish to update for. If you don't pass a `subscription` prop, it defaults to
 _all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
@@ -482,7 +482,7 @@ as any non-API props passed into the `<Form/>` component.
 
 A
 [`FormSubscription`](https://github.com/final-form/final-form#formsubscription--string-boolean-)
-that selects of all the items of
+that selects all of the items of
 [`FormState`](https://github.com/final-form/final-form#formstate) that you wish
 to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 [`FormState`](https://github.com/final-form/final-form#formstate).
@@ -577,7 +577,7 @@ called if an `onChange` prop is provided.
 
 A
 [`FormSubscription`](https://github.com/final-form/final-form#formsubscription--string-boolean-)
-that selects of all the items of
+that selects all of the items of
 [`FormState`](https://github.com/final-form/final-form#formstate) that you wish
 to update for. If you don't pass a `subscription` prop, it defaults to _all_ of
 [`FormState`](https://github.com/final-form/final-form#formstate).
