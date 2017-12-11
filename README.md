@@ -120,6 +120,7 @@ const MyForm = () => (
   * [Loading and Initializing Values](#loading-and-initializing-values)
   * [Field Arrays](#field-arrays)
   * [Calculated Fields](#calculated-fields)
+  * [Field Warnings](#field-warnings)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -257,6 +258,12 @@ mutations.
 Demonstrates how to use the
 [`final-form-calculate`](https://github.com/final-form/final-form-calculate)
 decorator to achieve realtime field calculations through easily defined rules.
+
+### [Field Warnings](https://codesandbox.io/s/m5qwxpr6o8)
+
+Demonstrates how the power of subscriptions and mutators can be used to build a
+warning engine: logic to display a message next to each field that is _not_ an
+error that prevents form submission.
 
 ## Rendering
 
