@@ -51,7 +51,7 @@ module.exports = {
       },
       andTest: series.nps('build', 'test.size')
     },
-    copyTypes: npsUtils.copy('src/*.js.flow dist'),
+    copyTypes: npsUtils.copy('src/*.js.flow src/*.d.ts dist'),
     docs: {
       description: 'Generates table of contents in README',
       script: 'doctoc README.md'
