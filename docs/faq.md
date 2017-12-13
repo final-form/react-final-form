@@ -8,6 +8,10 @@
 
 * [Why not Redux-Form or Formik?](#why-not-redux-form-or-formik)
 * [Why no HOC?](#why-no-hoc)
+* [How can I trigger a submit from outside my form?](#how-can-i-trigger-a-submit-from-outside-my-form)
+  * [Via `document.getElementById()`](#via-documentgetelementbyid)
+  * [Via Closure](#via-closure)
+  * [Via Redux Dead Drop](#via-redux-dead-drop)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -21,8 +25,8 @@ depends on your requirements and what trade-offs you wish to make. Here is a
 
 The only benefit that higher order components provide over render props is
 access to the injected props from within component lifecycle methods. Plus, it
-only takes a single line of code to transform a component with a `render`
-(or `component`) prop into a HOC. If you really want a HOC, you can write your own:
+only takes a single line of code to transform a component with a `render` (or
+`component`) prop into a HOC. If you really want a HOC, you can write your own:
 
 ```jsx
 import { Form, Field } from 'react-final-form'
@@ -46,3 +50,60 @@ Doing a HOC
 [properly](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/modules/withRouter.js),
 as a library should, with hoisted statics and `displayName` and `ref`, etc., is
 a hassle and would add unnecessary bulk.
+
+## How can I trigger a submit from outside my form?
+
+This is a common question I see from people migrating from `redux-form`. There
+are three possible solutions:
+
+### Via `document.getElementById()`
+
+You can use the DOM to get a reference to your `<form>` element and dispatch a
+submit event on it. Note that you cannot just call `submit()`, as this will not
+trigger React's event handlers.
+
+```jsx
+<button onClick={() => {
+  document.getElementById('myForm').submit() // ❌
+}}>Submit</button>
+
+<button onClick={() => {
+  document.getElementById('myForm').dispatchEvent(new Event('submit')) // ✅
+}}>Submit</button>
+
+<form id="myForm" onSubmit={handleSubmit}>
+  ...fields go here...
+</form>
+```
+
+See [Sandbox Example](https://codesandbox.io/s/1y7noyrlmq).
+
+### Via Closure
+
+If you define a variable outside of your form, you can then set the value of
+that variable to the `handleSubmit` function that 🏁 React Final Form gives you,
+and then you can call that function from outside of the form.
+
+```jsx
+let submit
+return (
+  <div>
+    <button onClick={submit}>Submit</button> // ❌ Not overwritten closure value
+    <button onClick={event => submit(event)}>Submit</button> // ✅
+    <Form onSubmit={onSubmit} render={({ handleSubmit })=> {
+      submit = handleSubmit
+      return <form>
+      ...fields go here...
+      </form>
+    }}>
+  </div>
+)
+```
+
+See [Sandbox Example](https://codesandbox.io/s/1y7noyrlmq).
+
+### Via Redux Dead Drop
+
+If you're already using Redux, you could potentially use the same mechanism that
+`redux-form` uses:
+[Redux Dead Drop](https://medium.com/@erikras/redux-dead-drop-1b9573705bec).

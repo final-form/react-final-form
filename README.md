@@ -121,6 +121,8 @@ const MyForm = () => (
   * [Field Arrays](#field-arrays)
   * [Calculated Fields](#calculated-fields)
   * [Field Warnings](#field-warnings)
+  * [Reusable Field Groups](#reusable-field-groups)
+  * [External Submit](#external-submit)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -264,6 +266,16 @@ decorator to achieve realtime field calculations through easily defined rules.
 Demonstrates how the power of subscriptions and mutators can be used to build a
 warning engine: logic to display a message next to each field that is _not_ an
 error that prevents form submission.
+
+### [Reusable Field Groups](https://codesandbox.io/s/8z5jm6x80)
+
+Demonstrates how fields can be grouped into reusable components.
+
+### [External Submit](https://codesandbox.io/s/1y7noyrlmq)
+
+Demonstrates how you can use `document.getElementById()` or a closure to trigger
+a submit from outside of the form. For more information, see
+[How can I trigger a submit from outside the form?](docs/faq.md#how-can-i-trigger-a-submit-from-outside-my-form)
 
 ## Rendering
 
