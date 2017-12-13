@@ -11,7 +11,7 @@ export default function renderComponent<T>(
 ): React.Node {
   const { render, children, component, ...rest } = props
   if (component) {
-    return React.createElement(component, { ...rest, children }) // inject children back in
+    return React.createElement(component, { ...rest, children, render })
   }
   if (render) {
     return render({ ...rest, children }) // inject children back in
