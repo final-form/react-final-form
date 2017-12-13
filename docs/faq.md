@@ -90,12 +90,13 @@ return (
   <div>
     <button onClick={submit}>Submit</button> // ❌ Not overwritten closure value
     <button onClick={event => submit(event)}>Submit</button> // ✅
-    <Form onSubmit={onSubmit} render={({ handleSubmit })=> {
-      submit = handleSubmit
-      return <form>
-      ...fields go here...
-      </form>
-    }}>
+    <Form
+      onSubmit={onSubmit}
+      render={({ handleSubmit }) => {
+        submit = handleSubmit
+        return <form>...fields go here...</form>
+      }}
+    />
   </div>
 )
 ```
