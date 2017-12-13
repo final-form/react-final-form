@@ -1,7 +1,7 @@
 import renderComponent from './renderComponent'
 
 describe('renderComponent', () => {
-  it('should pass render prop', () => {
+  it('should pass both render and children prop', () => {
     const children = 'some children'
     const render = () => 'examplary render function'
     const props = {
