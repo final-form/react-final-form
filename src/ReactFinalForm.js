@@ -8,7 +8,7 @@ import {
   version as ffVersion
 } from 'final-form'
 import type {
-  Api,
+  FormApi,
   Config,
   FormSubscription,
   FormState,
@@ -35,7 +35,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
   context: ReactContext
   props: Props
   state: State
-  form: Api
+  form: FormApi
   unsubscriptions: Unsubscribe[]
 
   static childContextTypes = {
