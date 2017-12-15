@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Api, Config, Decorator, FormState, FormSubscription, FieldSubscription } from 'final-form'
+import { FormApi, Config, Decorator, FormState, FormSubscription, FieldSubscription } from 'final-form'
 
 export type ReactContext = {
-  reactFinalForm: Api
+  reactFinalForm: FormApi
 }
 
 export type FieldRenderProps = {

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import type {
-  Api,
+  FormApi,
   Config,
   Decorator,
   FormState,
@@ -10,7 +10,7 @@ import type {
 } from 'final-form'
 
 export type ReactContext = {
-  reactFinalForm: Api
+  reactFinalForm: FormApi
 }
 
 export type FieldRenderProps = {
