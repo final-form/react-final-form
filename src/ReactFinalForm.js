@@ -17,7 +17,7 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
-export const version = '1.2.0'
+export const version = '1.2.1'
 
 export const all: FormSubscription = formSubscriptionItems.reduce(
   (result, key) => {
