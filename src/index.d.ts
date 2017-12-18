@@ -1,68 +1,75 @@
 import * as React from 'react'
-import { Api, Config, Decorator, FormState, FormSubscription, FieldSubscription } from 'final-form'
+import {
+  FormApi,
+  Config,
+  Decorator,
+  FormState,
+  FormSubscription,
+  FieldSubscription
+} from 'final-form'
 
 export type ReactContext = {
-  reactFinalForm: Api
+  reactFinalForm: FormApi
 }
 
 export type FieldRenderProps = {
   input: {
-    name: string,
-    onBlur: <T>(event?: React.FocusEvent<T>) => void,
-    onChange: <T>(event: React.ChangeEvent<T> | any) => void,
-    onFocus: <T>(event?: React.FocusEvent<T>) => void,
+    name: string
+    onBlur: <T>(event?: React.FocusEvent<T>) => void
+    onChange: <T>(event: React.ChangeEvent<T> | any) => void
+    onFocus: <T>(event?: React.FocusEvent<T>) => void
     value: any
-  },
+  }
   meta: Partial<{
     // TODO: Make a diff of `FieldState` without all the functions
-    active: boolean,
-    dirty: boolean,
-    error: boolean,
-    initial: boolean,
-    invalid: boolean,
-    pristine: boolean,
-    submitError: boolean,
-    submitFailed: boolean,
-    submitSucceeded: boolean,
-    touched: boolean,
-    valid: boolean,
+    active: boolean
+    dirty: boolean
+    error: boolean
+    initial: boolean
+    invalid: boolean
+    pristine: boolean
+    submitError: boolean
+    submitFailed: boolean
+    submitSucceeded: boolean
+    touched: boolean
+    valid: boolean
     visited: boolean
   }>
 }
 
 export type FormRenderProps = {
-  blur: (name: string) => void,
-  change: (name: string, value: any) => void,
-  focus: (name: string) => void,
-  handleSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void,
-  initialize: (values: object) => void,
+  blur: (name: string) => void
+  change: (name: string, value: any) => void
+  focus: (name: string) => void
+  handleSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void
+  initialize: (values: object) => void
   reset: () => void
 } & FormState
 
 export type FormSpyRenderProps = FormState
 
 export type RenderableProps<T> = Partial<{
-  children: ((props: T) => React.ReactNode) | React.ReactNode,
-  component: React.ComponentType,
+  children: ((props: T) => React.ReactNode) | React.ReactNode
+  component: React.ComponentType
   render: (props: T) => React.ReactNode
 }>
 
 export type FormProps = {
-  subscription?: FormSubscription,
+  subscription?: FormSubscription
   decorators?: Decorator[]
 } & Config &
   RenderableProps<FormRenderProps>
 
 export type FieldProps = {
-  allowNull?: boolean,
-  name: string,
-  subscription?: FieldSubscription,
-  validate?: (value: any, allValues: object) => any,
+  allowNull?: boolean
+  name: string
+  subscription?: FieldSubscription
+  validate?: (value: any, allValues: object) => any
   value?: any
 } & RenderableProps<FieldRenderProps>
 
 export type FormSpyProps = {
-  onChange?: (formState: FormState) => void,
+  onChange?: (formState: FormState) => void
   subscription?: FormSubscription
 } & RenderableProps<FormSpyRenderProps>
 

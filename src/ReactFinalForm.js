@@ -8,7 +8,7 @@ import {
   version as ffVersion
 } from 'final-form'
 import type {
-  Api,
+  FormApi,
   Config,
   FormSubscription,
   FormState,
@@ -17,7 +17,7 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
-export const version = '1.2.0'
+export const version = '1.2.1'
 
 export const all: FormSubscription = formSubscriptionItems.reduce(
   (result, key) => {
@@ -35,7 +35,7 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
   context: ReactContext
   props: Props
   state: State
-  form: Api
+  form: FormApi
   unsubscriptions: Unsubscribe[]
 
   static childContextTypes = {

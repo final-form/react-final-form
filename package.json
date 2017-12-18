@@ -6,6 +6,7 @@
   "main": "dist/react-final-form.cjs.js",
   "jsnext:main": "dist/react-final-form.es.js",
   "module": "dist/react-final-form.es.js",
+  "typings": "dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
     "start": "nps",
@@ -66,13 +67,13 @@
   "peerDependencies": {
     "final-form": "^2.0.0",
     "prop-types": "^15.6.0",
-    "react": "^15.0.0-0 || ^16.0.0-0"
+    "react": "^15.3.0 || ^16.0.0-0"
   },
   "jest": {
     "setupFiles": ["raf/polyfill"]
   },
   "lint-staged": {
-    "*.{js,json,md,css}": ["prettier --write", "git add"]
+    "*.{js*,ts,json,md,css}": ["prettier --write", "git add"]
   },
   "bundlesize": [
     {
