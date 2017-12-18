@@ -135,10 +135,12 @@ const MyForm = () => (
     * [`allowNull?: boolean`](#allownull-boolean)
     * [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FieldRenderProps>`](#component-reactcomponenttypefieldrenderprops)
+    * [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     * [`name: string`](#name-string)
     * [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     * [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
     * [`validate?: (value: ?any, allValues: Object) => ?any`](#validate-value-any-allvalues-object--any)
+    * [`validateFields?: string[]`](#validatefields-string)
     * [`value?: any`](#value-any)
   * [`FieldRenderProps`](#fieldrenderprops)
     * [`input.name: string`](#inputname-string)
@@ -343,6 +345,10 @@ as any non-API props passed into the `<Field/>` component.
 A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, as
 well as any non-API props passed into the `<Field/>` component.
 
+#### `isEqual?: (a: any, b: any) => boolean`
+
+[See the 🏁 Final Form docs on `isEqual`](https://github.com/final-form/final-form#isequal-a-any-b-any--boolean).
+
 #### `name: string`
 
 The name of your field.
@@ -365,6 +371,10 @@ _all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
 
 A function that takes the field value, and all the values of the form and
 returns an error if the value is invalid, or `undefined` if the value is valid.
+
+#### `validateFields?: string[]`
+
+[See the 🏁 Final Form docs on `validateFields`](https://github.com/final-form/final-form#validatefields-string).
 
 #### `value?: any`
 
@@ -494,9 +504,9 @@ to apply to the form.
 
 [See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
 
-#### `onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
+#### `onSubmit: (values: Object, form: FormApi, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
 
-[See the 🏁 Final Form docs on `onSubmit`](https://github.com/final-form/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void).
+[See the 🏁 Final Form docs on `onSubmit`](https://github.com/final-form/final-form#onsubmit-values-object-form-formapi-callback-errors-object--void--object--promiseobject--void).
 
 #### `render?: (props: FormRenderProps) => React.Node`
 
@@ -551,8 +561,7 @@ A function to focus (mark active) any field.
 
 #### `handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`
 
-A function intended for you to give directly to the `<form>` tag: `<form
-onSubmit={handleSubmit}/>`.
+A function intended for you to give directly to the `<form>` tag: `<form onSubmit={handleSubmit}/>`.
 
 #### `initialize: (values: Object) => void`
 
