@@ -63,9 +63,11 @@ export type FormProps = {
 
 export type FieldProps = {
   allowNull?: boolean,
+  isEqual?: (a: any, b: any) => boolean,
   name: string,
   subscription?: FieldSubscription,
   validate?: (value: ?any, allValues: Object) => ?any,
+  validateFields?: string[],
   value?: any
 } & RenderableProps<FieldRenderProps>
 
