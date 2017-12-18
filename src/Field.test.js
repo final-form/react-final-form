@@ -395,4 +395,51 @@ describe('Field', () => {
     expect(barInput.checked).toBe(false)
     expect(bazInput.checked).toBe(true)
   })
+
+  it('should use isEqual to calculate dirty/pristine', () => {
+    const input = jest.fn(({ input }) => <input {...input} />)
+
+    TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ foo: 'Bar' }}
+        subscription={{ pristine: true }}
+      >
+        {() => (
+          <form>
+            <Field
+              name="foo"
+              render={input}
+              isEqual={(a, b) =>
+                (a && a.toUpperCase()) === (b && b.toUpperCase())
+              }
+            />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(input).toHaveBeenCalled()
+    expect(input).toHaveBeenCalledTimes(1)
+    expect(input.mock.calls[0][0].meta.dirty).toBe(false)
+    expect(input.mock.calls[0][0].meta.pristine).toBe(true)
+
+    input.mock.calls[0][0].input.onChange('BAR')
+
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].meta.dirty).toBe(false)
+    expect(input.mock.calls[1][0].meta.pristine).toBe(true)
+
+    input.mock.calls[0][0].input.onChange('BARK')
+
+    expect(input).toHaveBeenCalledTimes(4) // once for form and once for field
+    expect(input.mock.calls[3][0].meta.dirty).toBe(true)
+    expect(input.mock.calls[3][0].meta.pristine).toBe(false)
+
+    input.mock.calls[0][0].input.onChange('baR')
+
+    expect(input).toHaveBeenCalledTimes(6) // once for form and once for field
+    expect(input.mock.calls[5][0].meta.dirty).toBe(false)
+    expect(input.mock.calls[5][0].meta.pristine).toBe(true)
+  })
 })

@@ -46,14 +46,18 @@ export default class Field extends React.PureComponent<Props, State> {
   }
 
   subscribe = (
-    { name, subscription }: Props,
+    { isEqual, name, subscription, validateFields }: Props,
     listener: (state: FieldState) => void
   ) => {
     this.unsubscribe = this.context.reactFinalForm.registerField(
       name,
       listener,
       subscription || all,
-      this.validate
+      {
+        isEqual,
+        validate: this.validate,
+        validateFields
+      }
     )
   }
 
@@ -100,12 +104,14 @@ export default class Field extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      name,
+      allowNull,
       component,
       children,
-      allowNull,
+      isEqual,
+      name,
       subscription,
       validate,
+      validateFields,
       value: _value,
       ...rest
     } = this.props
