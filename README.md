@@ -504,9 +504,9 @@ to apply to the form.
 
 [See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
 
-#### `onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
+#### `onSubmit: (values: Object, form: FormApi, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`
 
-[See the 🏁 Final Form docs on `onSubmit`](https://github.com/final-form/final-form#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void).
+[See the 🏁 Final Form docs on `onSubmit`](https://github.com/final-form/final-form#onsubmit-values-object-form-formapi-callback-errors-object--void--object--promiseobject--void).
 
 #### `render?: (props: FormRenderProps) => React.Node`
 
