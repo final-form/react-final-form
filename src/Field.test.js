@@ -193,6 +193,165 @@ describe('Field', () => {
     expect(render.mock.calls[2][0].values.foo).toBeUndefined()
   })
 
+  it('should accept parse and normalize function props', () => {
+    const parse = jest.fn((value, name) => `parse.${value}`)
+    const normalize = jest.fn(
+      (value, previousValue, allValues) => `normalize.${value}`
+    )
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const render = jest.fn(() => (
+      <form>
+        <Field
+          name="foo"
+          render={renderInput}
+          parse={parse}
+          normalize={normalize}
+        />
+        <Field name="boo" component="select" />
+      </form>
+    ))
+
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={render}
+        initialValues={{ boo: 'abc' }}
+      />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values).toEqual({
+      foo: undefined,
+      boo: 'abc'
+    })
+
+    const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+
+    TestUtils.Simulate.change(input, { target: { value: 'bar' } })
+
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBe('normalize.parse.bar')
+
+    expect(parse).toHaveBeenCalled()
+    expect(parse).toHaveBeenCalledTimes(1)
+    expect(parse.mock.calls[0]).toEqual(['bar', 'foo'])
+
+    expect(normalize).toHaveBeenCalled()
+    expect(normalize).toHaveBeenCalledTimes(1)
+    expect(normalize.mock.calls[0]).toEqual([
+      'parse.bar',
+      undefined,
+      { foo: undefined, boo: 'abc' }
+    ])
+
+    TestUtils.Simulate.change(input, { target: { value: 'x' } })
+
+    expect(render).toHaveBeenCalledTimes(3)
+    expect(render.mock.calls[2][0].values.foo).toBe('normalize.parse.x')
+
+    expect(parse).toHaveBeenCalledTimes(2)
+    expect(parse.mock.calls[1]).toEqual(['x', 'foo'])
+
+    expect(normalize).toHaveBeenCalledTimes(2)
+    expect(normalize.mock.calls[1]).toEqual([
+      'parse.x',
+      'normalize.parse.bar',
+      { foo: 'normalize.parse.bar', boo: 'abc' }
+    ])
+  })
+
+  it('should accept a null parse prop to preserve empty strings', () => {
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" render={renderInput} parse={null} />
+      </form>
+    ))
+
+    const dom = TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock} render={render} />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+
+    const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+
+    TestUtils.Simulate.change(input, { target: { value: '' } })
+
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBe('')
+
+    TestUtils.Simulate.change(input, { target: { value: 'abc' } })
+
+    expect(render).toHaveBeenCalledTimes(3)
+    expect(render.mock.calls[2][0].values.foo).toBe('abc')
+  })
+
+  it('should accept a format function prop', () => {
+    const format = jest.fn((value, name) => `format.${value}`)
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" render={renderInput} format={format} />
+      </form>
+    ))
+
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock} render={render} />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+
+    expect(format).toHaveBeenCalled()
+    expect(format).toHaveBeenCalledTimes(1)
+    expect(format.mock.calls[0]).toEqual([undefined, 'foo'])
+
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput.mock.calls[0][0].input.value).toBe('format.undefined')
+
+    renderInput.mock.calls[0][0].input.onChange('bar')
+
+    expect(format).toHaveBeenCalledTimes(2)
+    expect(format.mock.calls[1]).toEqual(['bar', 'foo'])
+
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('format.bar')
+  })
+
+  it('should accept a null format prop to preserve undefined values', () => {
+    const renderInput = jest.fn(({ input }) => (
+      <input {...input} value={input.value || ''} />
+    ))
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" render={renderInput} format={null} />
+      </form>
+    ))
+
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock} render={render} />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput.mock.calls[0][0].input.value).toBeUndefined()
+
+    renderInput.mock.calls[0][0].input.onChange('bar')
+
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
+  })
+
   it('should provide a value of [] when empty on a select multiple', () => {
     const dom = TestUtils.renderIntoDocument(
       <Form onSubmit={onSubmitMock}>
@@ -210,7 +369,36 @@ describe('Field', () => {
     expect(select.value).toBe('')
   })
 
-  it('should optionally allow null', () => {
+  it("should convert null values to ''", () => {
+    const renderInput = jest.fn(({ input }) => (
+      <input {...input} value={input.value} />
+    ))
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" render={renderInput} />
+      </form>
+    ))
+
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock} render={render} />
+    )
+
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput.mock.calls[0][0].input.value).toBe('')
+
+    renderInput.mock.calls[0][0].input.onChange('bar')
+
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
+
+    renderInput.mock.calls[1][0].input.onChange(null)
+
+    expect(renderInput).toHaveBeenCalledTimes(3)
+    expect(renderInput.mock.calls[2][0].input.value).toBe('')
+  })
+
+  it('should optionally allow null values', () => {
     const renderInput = jest.fn(({ input }) => (
       <input
         {...input}
