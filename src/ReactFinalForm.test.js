@@ -175,11 +175,10 @@ describe('ReactFinalForm', () => {
 
     const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
     TestUtils.Simulate.submit(form)
-    const formComponent = TestUtils.findRenderedComponentWithType(dom, Form)
 
     expect(onSubmit).toHaveBeenCalled()
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'bar' }, formComponent.form)
+    expect(onSubmit.mock.calls[0][0]).toEqual({ foo: 'bar' })
   })
 
   it('should reinitialize when initialValues prop changes', () => {

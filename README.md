@@ -135,8 +135,10 @@ const MyForm = () => (
     * [`allowNull?: boolean`](#allownull-boolean)
     * [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FieldRenderProps>`](#component-reactcomponenttypefieldrenderprops)
+    * [`format?: ((value: any, name: string) => any) | null`](#format-value-any-name-string--any--null)
     * [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     * [`name: string`](#name-string)
+    * [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
     * [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     * [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
     * [`validate?: (value: ?any, allValues: Object) => ?any`](#validate-value-any-allvalues-object--any)
@@ -168,7 +170,7 @@ const MyForm = () => (
     * [`decorators?: Decorator[]`](#decorators-decorator)
     * [`initialValues?: Object`](#initialvalues-object)
     * [`mutators?: { [string]: Mutator }`](#mutators--string-mutator-)
-    * [`onSubmit: (values: Object, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-callback-errors-object--void--object--promiseobject--void)
+    * [`onSubmit: (values: Object, form: FormApi, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-form-formapi-callback-errors-object--void--object--promiseobject--void)
     * [`render?: (props: FormRenderProps) => React.Node`](#render-props-formrenderprops--reactnode)
     * [`subscription?: FormSubscription`](#subscription-formsubscription)
     * [`validate?: (values: Object) => Object | Promise<Object>`](#validate-values-object--object--promiseobject)
@@ -345,6 +347,12 @@ as any non-API props passed into the `<Field/>` component.
 A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, as
 well as any non-API props passed into the `<Field/>` component.
 
+#### `format?: ((value: any, name: string) => any) | null`
+
+A function that takes the value from the form values and the name of the field and formats the value to give to the input. Common use cases include converting javascript `Date` values into a localized date string. Almost always used in conjunction with `parse`.
+
+**Note: If you pass `null` to `format`, it will override the default behavior of converting `undefined` into `''`. If you do this, making sure your inputs are "controlled" is up to you.**
+
 #### `isEqual?: (a: any, b: any) => boolean`
 
 [See the 🏁 Final Form docs on `isEqual`](https://github.com/final-form/final-form#isequal-a-any-b-any--boolean).
@@ -352,6 +360,12 @@ well as any non-API props passed into the `<Field/>` component.
 #### `name: string`
 
 The name of your field.
+
+#### `parse?: ((value: any, name: string) => any) | null`
+
+A function that takes the value from the input and name of the field and converts the value into the value you want stored as this field's value in the form. Common usecases include converting strings into `Number`s or parsing localized dates into actual javascript `Date` objects. Almost always used in conjuction with `format`.
+
+**Note: If you pass `null` to `parse`, it will override the default behavior of converting `''` into `undefined`, thus allowing you to have form values of `''`.**
 
 #### `render?: (props: FieldRenderProps) => React.Node`
 

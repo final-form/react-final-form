@@ -193,74 +193,6 @@ describe('Field', () => {
     expect(render.mock.calls[2][0].values.foo).toBeUndefined()
   })
 
-  it('should accept parse and normalize function props', () => {
-    const parse = jest.fn((value, name) => `parse.${value}`)
-    const normalize = jest.fn(
-      (value, previousValue, allValues) => `normalize.${value}`
-    )
-    const renderInput = jest.fn(({ input }) => <input {...input} />)
-    const render = jest.fn(() => (
-      <form>
-        <Field
-          name="foo"
-          render={renderInput}
-          parse={parse}
-          normalize={normalize}
-        />
-        <Field name="boo" component="select" />
-      </form>
-    ))
-
-    const dom = TestUtils.renderIntoDocument(
-      <Form
-        onSubmit={onSubmitMock}
-        render={render}
-        initialValues={{ boo: 'abc' }}
-      />
-    )
-
-    expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values).toEqual({
-      foo: undefined,
-      boo: 'abc'
-    })
-
-    const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
-
-    TestUtils.Simulate.change(input, { target: { value: 'bar' } })
-
-    expect(render).toHaveBeenCalledTimes(2)
-    expect(render.mock.calls[1][0].values.foo).toBe('normalize.parse.bar')
-
-    expect(parse).toHaveBeenCalled()
-    expect(parse).toHaveBeenCalledTimes(1)
-    expect(parse.mock.calls[0]).toEqual(['bar', 'foo'])
-
-    expect(normalize).toHaveBeenCalled()
-    expect(normalize).toHaveBeenCalledTimes(1)
-    expect(normalize.mock.calls[0]).toEqual([
-      'parse.bar',
-      undefined,
-      { foo: undefined, boo: 'abc' }
-    ])
-
-    TestUtils.Simulate.change(input, { target: { value: 'x' } })
-
-    expect(render).toHaveBeenCalledTimes(3)
-    expect(render.mock.calls[2][0].values.foo).toBe('normalize.parse.x')
-
-    expect(parse).toHaveBeenCalledTimes(2)
-    expect(parse.mock.calls[1]).toEqual(['x', 'foo'])
-
-    expect(normalize).toHaveBeenCalledTimes(2)
-    expect(normalize.mock.calls[1]).toEqual([
-      'parse.x',
-      'normalize.parse.bar',
-      { foo: 'normalize.parse.bar', boo: 'abc' }
-    ])
-  })
-
   it('should accept a null parse prop to preserve empty strings', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const render = jest.fn(() => (
@@ -369,7 +301,7 @@ describe('Field', () => {
     expect(select.value).toBe('')
   })
 
-  it("should convert null values to ''", () => {
+  it("should convert undefined values to ''", () => {
     const renderInput = jest.fn(({ input }) => (
       <input {...input} value={input.value} />
     ))
