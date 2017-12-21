@@ -124,6 +124,7 @@ const MyForm = () => (
   * [Reusable Field Groups](#reusable-field-groups)
   * [External Submit](#external-submit)
   * [Wizard Form](#wizard-form)
+  * [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -286,6 +287,10 @@ a submit from outside of the form. For more information, see
 
 Demonstrates how to use 🏁 React Final Form to create a multi-page "wizard"
 form, with validation on each page.
+
+### [Parse and Format (and Normalize)](https://codesandbox.io/s/10rzowm323)
+
+Demonstrates how to use 🏁 React Final Form's `parse` and `format` props to control exactly how the data flows from the form state through the input and back to the form state. Notice that you can use `parse` to "normalize" your values.
 
 ## Rendering
 
