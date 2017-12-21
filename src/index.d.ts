@@ -62,10 +62,9 @@ export type FormProps = {
 
 export type FieldProps = {
   allowNull?: boolean
-  format: (value: any, name: string) => any | null
-  parse: (value: any, name: string) => any | null
+  format: ((value: any, name: string) => any) | null
+  parse: ((value: any, name: string) => any) | null
   name: string
-  normalize: (value: any, previousValue: any, allValues: object) => any
   subscription?: FieldSubscription
   validate?: (value: any, allValues: object) => any
   value?: any

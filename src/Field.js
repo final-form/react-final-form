@@ -31,8 +31,7 @@ export default class Field extends React.PureComponent<Props, State> {
 
   static defaultProps = {
     format: (value: ?any, name: string) => (value === undefined ? '' : value),
-    parse: (value: ?any, name: string) => (value === '' ? undefined : value),
-    normalize: (value: ?any, previousValue: ?any, allValues: Object) => value
+    parse: (value: ?any, name: string) => (value === '' ? undefined : value)
   }
 
   constructor(props: Props, context: ReactContext) {
@@ -76,17 +75,6 @@ export default class Field extends React.PureComponent<Props, State> {
 
   notify = (state: FieldState) => this.setState({ state })
 
-  parseAndNormalize = (value: ?any) => {
-    if (this.props.parse !== null) {
-      value = this.props.parse(value, this.props.name)
-    }
-    return this.props.normalize(
-      value,
-      this.state.state.value,
-      this.context.reactFinalForm.getState().values
-    )
-  }
-
   componentWillReceiveProps(nextProps: Props) {
     const { name, subscription } = nextProps
     if (
@@ -114,9 +102,12 @@ export default class Field extends React.PureComponent<Props, State> {
       this.state.state.blur()
     },
     onChange: (event: SyntheticInputEvent<*> | any) => {
+      const { parse } = this.props
       const value: any =
         event && event.target ? getValue(event, isReactNative) : event
-      this.state.state.change(this.parseAndNormalize(value))
+      this.state.state.change(
+        parse !== null ? parse(value, this.props.name) : value
+      )
     },
     onFocus: (event: ?SyntheticFocusEvent<*>) => {
       this.state.state.focus()
@@ -130,7 +121,6 @@ export default class Field extends React.PureComponent<Props, State> {
       children,
       format,
       parse,
-      normalize,
       isEqual,
       name,
       subscription,
