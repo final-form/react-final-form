@@ -50,7 +50,7 @@ export type FormSpyRenderProps = FormState
 
 export type RenderableProps<T> = Partial<{
   children: ((props: T) => React.ReactNode) | React.ReactNode
-  component: React.ComponentType
+  component: React.ComponentType<FieldRenderProps>
   render: (props: T) => React.ReactNode
 }>
 
