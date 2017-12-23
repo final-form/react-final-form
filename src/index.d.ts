@@ -68,6 +68,7 @@ export type FieldProps = {
   subscription?: FieldSubscription
   validate?: (value: any, allValues: object) => any
   value?: any
+  [otherProp: string]: any
 } & RenderableProps<FieldRenderProps>
 
 export type FormSpyProps = {
