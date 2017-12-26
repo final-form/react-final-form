@@ -50,7 +50,7 @@ export type FormSpyRenderProps = FormState
 
 export type RenderableProps<T> = Partial<{
   children: ((props: T) => React.ReactNode) | React.ReactNode
-  component: React.ComponentType
+  component: React.ComponentType<FieldRenderProps> | string
   render: (props: T) => React.ReactNode
 }>
 
@@ -68,6 +68,7 @@ export type FieldProps = {
   subscription?: FieldSubscription
   validate?: (value: any, allValues: object) => any
   value?: any
+  [otherProp: string]: any
 } & RenderableProps<FieldRenderProps>
 
 export type FormSpyProps = {
