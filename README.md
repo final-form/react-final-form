@@ -181,7 +181,7 @@ const MyForm = () => (
     * [`blur: (name: string) => void`](#blur-name-string--void)
     * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
     * [`focus: (name: string) => void`](#focus-name-string--void)
-    * [`handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
+    * [`handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
     * [`initialize: (values: Object) => void`](#initialize-values-object--void)
     * [`mutators?: { [string]: Function }`](#mutators--string-function-)
     * [`reset: () => void`](#reset---void)
@@ -578,7 +578,7 @@ A function to change the value of any field.
 
 A function to focus (mark active) any field.
 
-#### `handleSubmit: (SyntheticEvent<HTMLFormElement>) => void`
+#### `handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`
 
 A function intended for you to give directly to the `<form>` tag: `<form onSubmit={handleSubmit}/>`.
 
