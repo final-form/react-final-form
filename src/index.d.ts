@@ -38,11 +38,13 @@ export type FieldRenderProps = {
 }
 
 export type FormRenderProps = {
+  batch: (fn: () => void) => void
   blur: (name: string) => void
   change: (name: string, value: any) => void
   focus: (name: string) => void
   handleSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void
   initialize: (values: object) => void
+  mutators?: { [key: string]: Function }
   reset: () => void
 } & FormState
 
