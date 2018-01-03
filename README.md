@@ -125,6 +125,8 @@ const MyForm = () => (
   * [External Submit](#external-submit)
   * [Wizard Form](#wizard-form)
   * [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
+  * [Auto-Save with Debounce](#auto-save-with-debounce)
+  * [Auto-Save on Field Blur](#auto-save-on-field-blur)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -291,6 +293,14 @@ form, with validation on each page.
 ### [Parse and Format (and Normalize)](https://codesandbox.io/s/10rzowm323)
 
 Demonstrates how to use 🏁 React Final Form's `parse` and `format` props to control exactly how the data flows from the form state through the input and back to the form state. Notice that you can use `parse` to "normalize" your values.
+
+### [Auto-Save with Debounce](https://codesandbox.io/s/5w4yrpyo7k)
+
+Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period.
+
+### [Auto-Save on Field Blur](https://codesandbox.io/s/7k742qpo36)
+
+Demonstrates how to use a `FormSpy` component to listen for values and active field changes to automatically submit values when fields are blurred.
 
 ## Rendering
 
