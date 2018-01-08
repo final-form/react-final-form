@@ -8,11 +8,11 @@ import {
   FieldSubscription
 } from 'final-form'
 
-export type ReactContext = {
+export interface ReactContext {
   reactFinalForm: FormApi
 }
 
-export type FieldRenderProps = {
+export interface FieldRenderProps {
   input: {
     name: string
     onBlur: <T>(event?: React.FocusEvent<T>) => void
@@ -37,7 +37,7 @@ export type FieldRenderProps = {
   }>
 }
 
-export type FormRenderProps = {
+export interface FormRenderProps extends FormState {
   batch: (fn: () => void) => void
   blur: (name: string) => void
   change: (name: string, value: any) => void
@@ -46,23 +46,23 @@ export type FormRenderProps = {
   initialize: (values: object) => void
   mutators?: { [key: string]: Function }
   reset: () => void
-} & FormState
+}
 
 export type FormSpyRenderProps = FormState
 
-export type RenderableProps<T> = Partial<{
-  children: ((props: T) => React.ReactNode) | React.ReactNode
-  component: React.ComponentType<FieldRenderProps> | string
-  render: (props: T) => React.ReactNode
-}>
+export interface RenderableProps<T> {
+  children?: ((props: T) => React.ReactNode) | React.ReactNode
+  component?: React.ComponentType<FieldRenderProps> | string
+  render?: (props: T) => React.ReactNode
+}
 
-export type FormProps = {
+export interface FormProps extends Config, RenderableProps<FormRenderProps> {
   subscription?: FormSubscription
   decorators?: Decorator[]
-} & Config &
-  RenderableProps<FormRenderProps>
+}
 
-export type FieldProps = {
+
+export interface FieldProps extends RenderableProps<FieldRenderProps> {
   allowNull?: boolean
   format?: ((value: any, name: string) => any) | null
   parse?: ((value: any, name: string) => any) | null
@@ -71,12 +71,12 @@ export type FieldProps = {
   validate?: (value: any, allValues: object) => any
   value?: any
   [otherProp: string]: any
-} & RenderableProps<FieldRenderProps>
+}
 
-export type FormSpyProps = {
+export interface FormSpyProps extends RenderableProps<FormSpyRenderProps> {
   onChange?: (formState: FormState) => void
   subscription?: FormSubscription
-} & RenderableProps<FormSpyRenderProps>
+}
 
 export var Field: React.ComponentType<FieldProps>
 export var Form: React.ComponentType<FormProps>
