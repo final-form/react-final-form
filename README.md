@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **2.7k gzipped** 💥
+✅ 💥 **2.8k gzipped** 💥
 
 ---
 
@@ -194,6 +194,13 @@ const MyForm = () => (
     * [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
     * [`subscription?: FormSubscription`](#subscription-formsubscription-1)
   * [`FormSpyRenderProps`](#formspyrenderprops)
+    * [`batch: (fn: () => void) => void)`](#batch-fn---void--void-1)
+    * [`blur: (name: string) => void`](#blur-name-string--void-1)
+    * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void-1)
+    * [`focus: (name: string) => void`](#focus-name-string--void-1)
+    * [`initialize: (values: Object) => void`](#initialize-values-object--void-1)
+    * [`mutators?: { [string]: Function }`](#mutators--string-function--1)
+    * [`reset: () => void`](#reset---void-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
