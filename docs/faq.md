@@ -12,6 +12,7 @@
   * [Via `document.getElementById()`](#via-documentgetelementbyid)
   * [Via Closure](#via-closure)
   * [Via Redux Dead Drop](#via-redux-dead-drop)
+* [Why can't I have numeric keys in an object?](#why-cant-i-have-numeric-keys-in-an-object)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -108,3 +109,29 @@ See [Sandbox Example](https://codesandbox.io/s/1y7noyrlmq).
 If you're already using Redux, you could potentially use the same mechanism that
 `redux-form` uses:
 [Redux Dead Drop](https://medium.com/@erikras/redux-dead-drop-1b9573705bec).
+
+## Why can't I have numeric keys in an object?
+
+So you want to have value structured like `{ 13: 'Bad Luck', 42: 'Meaning of Everything' }`, but you're getting an error. This is because the `setIn` engine in 🏁 Final Form uses the `isNaN`-ness of keys to determine whether or not it should create an object or an array when constructing deep data structures. Adding checks for `bracket[3]` syntax as opposed to `dot.3` syntax adds a _lot_ of complexity, and has consciously been avoided.
+
+You will need to convert all your keys to `NaN` strings before initializing your form values, and then convert them back to numbers on submit. It's not that hard.
+
+```jsx
+const stringifyKeys = values =>
+  Object.keys(values).reduce((result, key) => {
+    result[`key${key}`] = values[key]
+    return result
+  }, {})
+
+const destringifyKeys = values =>
+  Object.keys(values).reduce((result, key) => {
+    result[Number(key.substring(3))] = values[key]
+    return result
+  }, {})
+
+<Form
+  onSubmit={values => onSubmit(destringifyKeys(values))}
+  initialValues={stringifyKeys(initialValues)}>
+  ...
+</Form>
+```
