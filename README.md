@@ -407,9 +407,12 @@ returns an error if the value is invalid, or `undefined` if the value is valid.
 
 #### `value?: any`
 
-**This is only used for radio buttons!** The value of the radio button. The
-radio button will render as `checked` if and only if the value given here `===`
-the value for the field in the form.
+**This is only used for checkboxes radio buttons!**
+
+* Radio Buttons: The value of the radio button. The radio button will render as `checked` if and only if the value given here `===` the value for the field in the form.
+* Checkboxes:
+  * `value` is specified: the checkbox will be `checked` if the value given in `value` is contained in the array that is the value for the field for the form. Checking the box will add the value to the array, and unchecking the checkbox will remove the value from the array.
+  * no `value` is specified: the checkbox will be `checked` if the value is truthy. Checking the box will set the value to `true`, and unchecking the checkbox will set the value to `false`.
 
 ### `FieldRenderProps`
 
