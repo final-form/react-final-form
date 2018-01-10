@@ -37,7 +37,17 @@ export interface FieldRenderProps {
   }>
 }
 
-export interface FormRenderProps extends FormState {
+export interface SubsetFormApi {
+  batch: (fn: () => void) => void
+  blur: (name: string) => void
+  change: (name: string, value: any) => void
+  focus: (name: string) => void
+  initialize: (values: object) => void
+  mutators?: { [key: string]: Function }
+  reset: () => void
+}
+
+export interface FormRenderProps extends FormState, SubsetFormApi {
   batch: (fn: () => void) => void
   blur: (name: string) => void
   change: (name: string, value: any) => void
@@ -48,7 +58,7 @@ export interface FormRenderProps extends FormState {
   reset: () => void
 }
 
-export type FormSpyRenderProps = FormState
+export interface FormSpyRenderProps extends FormState, SubsetFormApi {}
 
 export interface RenderableProps<T> {
   children?: ((props: T) => React.ReactNode) | React.ReactNode
@@ -60,7 +70,6 @@ export interface FormProps extends Config, RenderableProps<FormRenderProps> {
   subscription?: FormSubscription
   decorators?: Decorator[]
 }
-
 
 export interface FieldProps extends RenderableProps<FieldRenderProps> {
   allowNull?: boolean

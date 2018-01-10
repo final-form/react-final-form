@@ -38,16 +38,21 @@ export type FieldRenderProps = {
   }>
 }
 
-export type FormRenderProps = {
+export type SubsetFormApi = {
   blur: (name: string) => void,
   change: (name: string, value: any) => void,
   focus: (name: string) => void,
-  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void,
   initialize: (values: Object) => void,
+  mutators: { [string]: Function },
   reset: () => void
 } & FormState
 
-export type FormSpyRenderProps = FormState
+export type FormRenderProps = {
+  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void
+} & FormState &
+  SubsetFormApi
+
+export type FormSpyRenderProps = SubsetFormApi & FormState
 
 export type RenderableProps<T> = $Shape<{
   children: ((props: T) => React.Node) | React.Node,

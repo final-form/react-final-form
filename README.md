@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **2.7k gzipped** 💥
+✅ 💥 **2.8k gzipped** 💥
 
 ---
 
@@ -194,6 +194,13 @@ const MyForm = () => (
     * [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
     * [`subscription?: FormSubscription`](#subscription-formsubscription-1)
   * [`FormSpyRenderProps`](#formspyrenderprops)
+    * [`batch: (fn: () => void) => void)`](#batch-fn---void--void-1)
+    * [`blur: (name: string) => void`](#blur-name-string--void-1)
+    * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void-1)
+    * [`focus: (name: string) => void`](#focus-name-string--void-1)
+    * [`initialize: (values: Object) => void`](#initialize-values-object--void-1)
+    * [`mutators?: { [string]: Function }`](#mutators--string-function--1)
+    * [`reset: () => void`](#reset---void-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -657,4 +664,35 @@ function or component. These props are of type
 that the values you receive here are dependent upon which values of
 [`FormState`](https://github.com/final-form/final-form#formstate) you have
 subscribed to with the
-[`subscription` prop](https://github.com/final-form/react-final-form#subscription-formsubscription).
+[`subscription` prop](https://github.com/final-form/react-final-form#subscription-formsubscription). Also included will be many of the same props provided to [`FormRenderProps`](#formrenderprops):
+
+#### `batch: (fn: () => void) => void)`
+
+A function that allows batch updates to be done to the form state.
+[See the 🏁 Final Form docs on `batch`](https://github.com/final-form/final-form#batch-fn---void--void).
+
+#### `blur: (name: string) => void`
+
+A function to blur (mark inactive) any field.
+
+#### `change: (name: string, value: any) => void`
+
+A function to change the value of any field.
+
+#### `focus: (name: string) => void`
+
+A function to focus (mark active) any field.
+
+#### `initialize: (values: Object) => void`
+
+A function that initializes the form values.
+[See the 🏁 Final Form docs on `initialize`](https://github.com/final-form/final-form#initialize-values-object--void).
+
+#### `mutators?: { [string]: Function }`
+
+[See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
+
+#### `reset: () => void`
+
+A function that resets the form values to their last initialized values.
+[See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset---void).
