@@ -80,9 +80,23 @@ export default class FormSpy extends React.PureComponent<Props, State> {
 
   render() {
     const { onChange, subscription, ...rest } = this.props
+    const { reactFinalForm } = this.context
     return onChange
       ? null
-      : renderComponent({ ...rest, ...this.state.state }, 'FormSpy')
+      : renderComponent(
+          {
+            ...rest,
+            ...this.state.state,
+            mutators: reactFinalForm && reactFinalForm.mutators,
+            batch: reactFinalForm && reactFinalForm.batch,
+            blur: reactFinalForm && reactFinalForm.blur,
+            change: reactFinalForm && reactFinalForm.change,
+            focus: reactFinalForm && reactFinalForm.focus,
+            initialize: reactFinalForm && reactFinalForm.initialize,
+            reset: reactFinalForm && reactFinalForm.reset
+          },
+          'FormSpy'
+        )
   }
 }
 

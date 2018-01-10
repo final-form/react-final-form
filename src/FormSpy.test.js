@@ -5,6 +5,14 @@ import Field from './Field'
 import FormSpy from './FormSpy'
 
 const onSubmitMock = values => {}
+const hasFormApi = props => {
+  expect(typeof props.batch).toBe('function')
+  expect(typeof props.blur).toBe('function')
+  expect(typeof props.change).toBe('function')
+  expect(typeof props.focus).toBe('function')
+  expect(typeof props.initialize).toBe('function')
+  expect(typeof props.reset).toBe('function')
+}
 
 describe('FormSpy', () => {
   it('should warn error if not used inside a form', () => {
@@ -26,18 +34,17 @@ describe('FormSpy', () => {
     )
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
-    expect(render).toHaveBeenCalledWith({
-      dirty: false,
-      errors: {},
-      invalid: false,
-      pristine: true,
-      submitFailed: false,
-      submitSucceeded: false,
-      submitting: false,
-      valid: true,
-      validating: false,
-      values: {}
-    })
+    hasFormApi(render.mock.calls[0][0])
+    expect(render.mock.calls[0][0].dirty).toBe(false)
+    expect(render.mock.calls[0][0].errors).toEqual({})
+    expect(render.mock.calls[0][0].invalid).toBe(false)
+    expect(render.mock.calls[0][0].pristine).toBe(true)
+    expect(render.mock.calls[0][0].submitFailed).toBe(false)
+    expect(render.mock.calls[0][0].submitSucceeded).toBe(false)
+    expect(render.mock.calls[0][0].submitting).toBe(false)
+    expect(render.mock.calls[0][0].valid).toBe(true)
+    expect(render.mock.calls[0][0].validating).toBe(false)
+    expect(render.mock.calls[0][0].values).toEqual({})
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
 
@@ -45,18 +52,17 @@ describe('FormSpy', () => {
     renderInput.mock.calls[0][0].input.onChange('bar')
 
     expect(render).toHaveBeenCalledTimes(2)
-    expect(render).toHaveBeenCalledWith({
-      dirty: true,
-      errors: {},
-      invalid: false,
-      pristine: false,
-      submitFailed: false,
-      submitSucceeded: false,
-      submitting: false,
-      valid: true,
-      validating: false,
-      values: { foo: 'bar' }
-    })
+    hasFormApi(render.mock.calls[1][0])
+    expect(render.mock.calls[1][0].dirty).toBe(true)
+    expect(render.mock.calls[1][0].errors).toEqual({})
+    expect(render.mock.calls[1][0].invalid).toBe(false)
+    expect(render.mock.calls[1][0].pristine).toBe(false)
+    expect(render.mock.calls[1][0].submitFailed).toBe(false)
+    expect(render.mock.calls[1][0].submitSucceeded).toBe(false)
+    expect(render.mock.calls[1][0].submitting).toBe(false)
+    expect(render.mock.calls[1][0].valid).toBe(true)
+    expect(render.mock.calls[1][0].validating).toBe(false)
+    expect(render.mock.calls[1][0].values).toEqual({ foo: 'bar' })
     expect(renderInput).toHaveBeenCalledTimes(2)
   })
 
@@ -94,16 +100,36 @@ describe('FormSpy', () => {
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
-    expect(render).toHaveBeenCalledWith({
-      values: { dog: 'Odie', cat: 'Garfield' },
-      pristine: true
+    hasFormApi(render.mock.calls[0][0])
+    expect(render.mock.calls[0][0].dirty).toBeUndefined()
+    expect(render.mock.calls[0][0].errors).toBeUndefined()
+    expect(render.mock.calls[0][0].invalid).toBeUndefined()
+    expect(render.mock.calls[0][0].pristine).toBe(true)
+    expect(render.mock.calls[0][0].submitFailed).toBeUndefined()
+    expect(render.mock.calls[0][0].submitSucceeded).toBeUndefined()
+    expect(render.mock.calls[0][0].submitting).toBeUndefined()
+    expect(render.mock.calls[0][0].valid).toBeUndefined()
+    expect(render.mock.calls[0][0].validating).toBeUndefined()
+    expect(render.mock.calls[0][0].values).toEqual({
+      dog: 'Odie',
+      cat: 'Garfield'
     })
 
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
 
     expect(render).toHaveBeenCalledTimes(2)
-    expect(render).toHaveBeenCalledWith({ dirty: false, submitting: false })
+    hasFormApi(render.mock.calls[1][0])
+    expect(render.mock.calls[1][0].dirty).toBe(false)
+    expect(render.mock.calls[1][0].errors).toBeUndefined()
+    expect(render.mock.calls[1][0].invalid).toBeUndefined()
+    expect(render.mock.calls[1][0].pristine).toBeUndefined()
+    expect(render.mock.calls[1][0].submitFailed).toBeUndefined()
+    expect(render.mock.calls[1][0].submitSucceeded).toBeUndefined()
+    expect(render.mock.calls[1][0].submitting).toBe(false)
+    expect(render.mock.calls[1][0].valid).toBeUndefined()
+    expect(render.mock.calls[1][0].validating).toBeUndefined()
+    expect(render.mock.calls[1][0].values).toBeUndefined()
   })
 
   it('should hear changes', () => {
@@ -124,10 +150,17 @@ describe('FormSpy', () => {
     )
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
-    expect(render).toHaveBeenCalledWith({
-      values: {},
-      dirty: false
-    })
+    hasFormApi(render.mock.calls[0][0])
+    expect(render.mock.calls[0][0].dirty).toBe(false)
+    expect(render.mock.calls[0][0].errors).toBeUndefined()
+    expect(render.mock.calls[0][0].invalid).toBeUndefined()
+    expect(render.mock.calls[0][0].pristine).toBeUndefined()
+    expect(render.mock.calls[0][0].submitFailed).toBeUndefined()
+    expect(render.mock.calls[0][0].submitSucceeded).toBeUndefined()
+    expect(render.mock.calls[0][0].submitting).toBeUndefined()
+    expect(render.mock.calls[0][0].valid).toBeUndefined()
+    expect(render.mock.calls[0][0].validating).toBeUndefined()
+    expect(render.mock.calls[0][0].values).toEqual({})
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
 
@@ -136,10 +169,17 @@ describe('FormSpy', () => {
 
     // once because whole form rerendered, and again because state changed
     expect(render).toHaveBeenCalledTimes(3)
-    expect(render).toHaveBeenCalledWith({
-      values: { foo: 'bar' },
-      dirty: true
-    })
+    hasFormApi(render.mock.calls[2][0])
+    expect(render.mock.calls[2][0].dirty).toBe(true)
+    expect(render.mock.calls[2][0].errors).toBeUndefined()
+    expect(render.mock.calls[2][0].invalid).toBeUndefined()
+    expect(render.mock.calls[2][0].pristine).toBeUndefined()
+    expect(render.mock.calls[2][0].submitFailed).toBeUndefined()
+    expect(render.mock.calls[2][0].submitSucceeded).toBeUndefined()
+    expect(render.mock.calls[2][0].submitting).toBeUndefined()
+    expect(render.mock.calls[2][0].valid).toBeUndefined()
+    expect(render.mock.calls[2][0].validating).toBeUndefined()
+    expect(render.mock.calls[2][0].values).toEqual({ foo: 'bar' })
     expect(renderInput).toHaveBeenCalledTimes(2)
   })
 
