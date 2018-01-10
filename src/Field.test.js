@@ -482,6 +482,31 @@ describe('Field', () => {
     expect(input.checked).toBe(true)
   })
 
+  it('should render "array" checkboxes with checked prop when value is included in array', () => {
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" component="input" type="checkbox" value="a" />
+        <Field name="foo" component="input" type="checkbox" value="d" />
+      </form>
+    ))
+
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={render}
+        initialValues={{ foo: ['a', 'b', 'c'] }}
+      />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values.foo).toEqual(['a', 'b', 'c'])
+
+    const inputs = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input')
+    expect(inputs[0].checked).toBe(true)
+    expect(inputs[1].checked).toBe(false)
+  })
+
   it('should render radio buttons with checked prop', () => {
     const render = jest.fn(() => (
       <form>

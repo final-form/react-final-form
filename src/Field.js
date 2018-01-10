@@ -147,11 +147,18 @@ export default class Field extends React.PureComponent<Props, State> {
     }
     const input = { name, value, ...this.handlers }
     warning(
-      !_value || (rest.type === 'radio' && component === 'input'),
-      'The value prop on Field is ONLY for use with component="input" and type="radio".'
+      !_value ||
+        ((rest.type === 'radio' || rest.type === 'checkbox') &&
+          component === 'input'),
+      'The value prop on Field is ONLY for use with component="input" and type="radio" or type="checkbox".'
     )
     if (rest.type === 'checkbox') {
-      input.checked = !!value
+      if (_value === undefined) {
+        input.checked = !!value
+      } else {
+        input.checked = Array.isArray(value) && ~value.indexOf(_value)
+        input.value = _value
+      }
     } else if (rest.type === 'radio') {
       input.checked = value === _value
       input.value = _value
