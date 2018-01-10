@@ -104,7 +104,9 @@ export default class Field extends React.PureComponent<Props, State> {
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const { parse } = this.props
       const value: any =
-        event && event.target ? getValue(event, isReactNative) : event
+        event && event.target
+          ? getValue(event, this.state.state.value, isReactNative)
+          : event
       this.state.state.change(
         parse !== null ? parse(value, this.props.name) : value
       )
