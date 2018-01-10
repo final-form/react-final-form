@@ -12,7 +12,11 @@ const getSelectedValues = options => {
   return result
 }
 
-const getValue = (event: SyntheticInputEvent<*>, isReactNative: boolean) => {
+const getValue = (
+  event: SyntheticInputEvent<*>,
+  currentValue: any,
+  isReactNative: boolean
+) => {
   if (
     !isReactNative &&
     event.nativeEvent &&
@@ -27,7 +31,31 @@ const getValue = (event: SyntheticInputEvent<*>, isReactNative: boolean) => {
   const { target: { type, value, checked } } = detypedEvent
   switch (type) {
     case 'checkbox':
-      return !!checked
+      if (value !== undefined) {
+        // we are maintaining an array, not just a boolean
+        if (checked) {
+          // add value to current array value
+          return Array.isArray(currentValue)
+            ? currentValue.concat(value)
+            : [value]
+        } else {
+          // remove value from current array value
+          if (!Array.isArray(currentValue)) {
+            return currentValue
+          }
+          const index = currentValue.indexOf(value)
+          if (index < 0) {
+            return currentValue
+          } else {
+            return currentValue
+              .slice(0, index)
+              .concat(currentValue.slice(index + 1))
+          }
+        }
+      } else {
+        // it's just a boolean
+        return !!checked
+      }
     case 'select-multiple':
       return getSelectedValues((event.target: any).options)
     default:

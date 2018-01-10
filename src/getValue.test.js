@@ -12,6 +12,7 @@ describe('getValue', () => {
             text: 'foo'
           }
         },
+        undefined,
         false
       )
     ).toBe('foo')
@@ -27,6 +28,7 @@ describe('getValue', () => {
             text: 'foo'
           }
         },
+        undefined,
         true
       )
     ).toBe('foo')
@@ -39,6 +41,7 @@ describe('getValue', () => {
             text: undefined
           }
         },
+        undefined,
         true
       )
     ).toBe(undefined)
@@ -51,12 +54,13 @@ describe('getValue', () => {
             text: null
           }
         },
+        undefined,
         true
       )
     ).toBe(null)
   })
 
-  it('should return event.target.checked if checkbox', () => {
+  it('should return event.target.checked if checkbox with no value parameter', () => {
     expect(
       getValue(
         {
@@ -67,6 +71,7 @@ describe('getValue', () => {
             checked: true
           }
         },
+        undefined,
         true
       )
     ).toBe(true)
@@ -80,6 +85,7 @@ describe('getValue', () => {
             checked: true
           }
         },
+        undefined,
         false
       )
     ).toBe(true)
@@ -93,6 +99,7 @@ describe('getValue', () => {
             checked: undefined
           }
         },
+        undefined,
         true
       )
     ).toBe(false)
@@ -106,9 +113,103 @@ describe('getValue', () => {
             checked: undefined
           }
         },
+        undefined,
         false
       )
     ).toBe(false)
+  })
+
+  it('should return add or remove the value to an array if checkbox with value parameter', () => {
+    expect(
+      getValue(
+        {
+          preventDefault: noop,
+          stopPropagation: noop,
+          target: {
+            type: 'checkbox',
+            checked: true,
+            value: 'foo'
+          }
+        },
+        undefined,
+        false
+      )
+    ).toEqual(['foo'])
+    expect(
+      getValue(
+        {
+          preventDefault: noop,
+          stopPropagation: noop,
+          target: {
+            type: 'checkbox',
+            checked: true,
+            value: 'C'
+          }
+        },
+        ['A', 'B'],
+        false
+      )
+    ).toEqual(['A', 'B', 'C'])
+    expect(
+      getValue(
+        {
+          preventDefault: noop,
+          stopPropagation: noop,
+          target: {
+            type: 'checkbox',
+            checked: false,
+            value: 'foo'
+          }
+        },
+        ['foo'],
+        false
+      )
+    ).toEqual([])
+    expect(
+      getValue(
+        {
+          preventDefault: noop,
+          stopPropagation: noop,
+          target: {
+            type: 'checkbox',
+            checked: false,
+            value: 'B'
+          }
+        },
+        ['A', 'B', 'C'],
+        false
+      )
+    ).toEqual(['A', 'C'])
+    expect(
+      getValue(
+        {
+          preventDefault: noop,
+          stopPropagation: noop,
+          target: {
+            type: 'checkbox',
+            checked: false,
+            value: 'F'
+          }
+        },
+        ['A', 'B', 'C'],
+        false
+      )
+    ).toEqual(['A', 'B', 'C'])
+    expect(
+      getValue(
+        {
+          preventDefault: noop,
+          stopPropagation: noop,
+          target: {
+            type: 'checkbox',
+            checked: false,
+            value: 'F'
+          }
+        },
+        undefined,
+        false
+      )
+    ).toBeUndefined()
   })
 
   it('should return a number type for numeric inputs, when a value is set', () => {
@@ -122,6 +223,7 @@ describe('getValue', () => {
             value: '3.1415'
           }
         },
+        undefined,
         true
       )
     ).toBe('3.1415')
@@ -135,6 +237,7 @@ describe('getValue', () => {
             value: '2.71828'
           }
         },
+        undefined,
         true
       )
     ).toBe('2.71828')
@@ -148,6 +251,7 @@ describe('getValue', () => {
             value: '3'
           }
         },
+        undefined,
         false
       )
     ).toBe('3')
@@ -161,6 +265,7 @@ describe('getValue', () => {
             value: '3.1415'
           }
         },
+        undefined,
         false
       )
     ).toBe('3.1415')
@@ -175,6 +280,7 @@ describe('getValue', () => {
             value: ''
           }
         },
+        undefined,
         false
       )
     ).toBe('')
@@ -199,6 +305,7 @@ describe('getValue', () => {
             options
           }
         },
+        undefined,
         true
       )
     ).toEqual(expected)
@@ -211,6 +318,7 @@ describe('getValue', () => {
             type: 'select-multiple'
           }
         },
+        undefined,
         false
       )
     ).toEqual([]) // no options specified
@@ -224,6 +332,7 @@ describe('getValue', () => {
             options
           }
         },
+        undefined,
         false
       )
     ).toEqual(expected)
@@ -239,6 +348,7 @@ describe('getValue', () => {
             value: undefined
           }
         },
+        undefined,
         true
       )
     ).toBe(undefined)
@@ -251,6 +361,7 @@ describe('getValue', () => {
             value: undefined
           }
         },
+        undefined,
         false
       )
     ).toBe(undefined)
@@ -263,6 +374,7 @@ describe('getValue', () => {
             value: null
           }
         },
+        undefined,
         true
       )
     ).toBe(null)
@@ -275,6 +387,7 @@ describe('getValue', () => {
             value: null
           }
         },
+        undefined,
         false
       )
     ).toBe(null)
@@ -287,6 +400,7 @@ describe('getValue', () => {
             value: true
           }
         },
+        undefined,
         true
       )
     ).toBe(true)
@@ -299,6 +413,7 @@ describe('getValue', () => {
             value: true
           }
         },
+        undefined,
         false
       )
     ).toBe(true)
@@ -311,6 +426,7 @@ describe('getValue', () => {
             value: false
           }
         },
+        undefined,
         true
       )
     ).toBe(false)
@@ -323,6 +439,7 @@ describe('getValue', () => {
             value: false
           }
         },
+        undefined,
         false
       )
     ).toBe(false)
@@ -335,6 +452,7 @@ describe('getValue', () => {
             value: 42
           }
         },
+        undefined,
         true
       )
     ).toBe(42)
@@ -347,6 +465,7 @@ describe('getValue', () => {
             value: 42
           }
         },
+        undefined,
         false
       )
     ).toBe(42)
@@ -359,6 +478,7 @@ describe('getValue', () => {
             value: 'foo'
           }
         },
+        undefined,
         true
       )
     ).toBe('foo')
@@ -371,6 +491,7 @@ describe('getValue', () => {
             value: 'foo'
           }
         },
+        undefined,
         false
       )
     ).toBe('foo')
