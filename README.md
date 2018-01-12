@@ -127,6 +127,7 @@ const MyForm = () => (
   * [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
   * [Auto-Save with Debounce](#auto-save-with-debounce)
   * [Auto-Save on Field Blur](#auto-save-on-field-blur)
+  * [Custom Validation Engine](#custom-validation-engine)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -308,6 +309,10 @@ Demonstrates how to use a `FormSpy` component to listen for value changes and au
 ### [Auto-Save on Field Blur](https://codesandbox.io/s/7k742qpo36)
 
 Demonstrates how to use a `FormSpy` component to listen for values and active field changes to automatically submit values when fields are blurred.
+
+### [Custom Validation Engine](https://codesandbox.io/s/kxxw4l0p9o)
+
+Demonstrates how incredibly extensible `FormSpy`, the [`setFieldData` mutator](https://github.com/final-form/final-form-set-field-data), and render props are by implementing a custom validation engine completely apart from the built-in validation in 🏁 Final Form, thus allowing for special behaviors, like only validating a single field when that field is blurred.
 
 ## Rendering
 
