@@ -6,7 +6,7 @@ import Field from './Field'
 const onSubmitMock = values => {}
 
 describe('Field', () => {
-  it('should warn error if not used inside a form', () => {
+  it('should warn if not used inside a form', () => {
     TestUtils.renderIntoDocument(<Field name="foo" component="input" />)
   })
 
