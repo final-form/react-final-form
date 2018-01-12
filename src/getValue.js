@@ -15,6 +15,7 @@ const getSelectedValues = options => {
 const getValue = (
   event: SyntheticInputEvent<*>,
   currentValue: any,
+  valueProp: any,
   isReactNative: boolean
 ) => {
   if (
@@ -31,19 +32,19 @@ const getValue = (
   const { target: { type, value, checked } } = detypedEvent
   switch (type) {
     case 'checkbox':
-      if (value !== undefined) {
+      if (valueProp !== undefined) {
         // we are maintaining an array, not just a boolean
         if (checked) {
           // add value to current array value
           return Array.isArray(currentValue)
-            ? currentValue.concat(value)
-            : [value]
+            ? currentValue.concat(valueProp)
+            : [valueProp]
         } else {
           // remove value from current array value
           if (!Array.isArray(currentValue)) {
             return currentValue
           }
-          const index = currentValue.indexOf(value)
+          const index = currentValue.indexOf(valueProp)
           if (index < 0) {
             return currentValue
           } else {
