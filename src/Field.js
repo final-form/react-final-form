@@ -64,14 +64,11 @@ export default class Field extends React.PureComponent<Props, State> {
       subscription || all,
       {
         isEqual,
-        validate: this.validate,
+        getValidator: () => this.props.validate,
         validateFields
       }
     )
   }
-
-  validate = (value: ?any, allValues: Object) =>
-    this.props.validate && this.props.validate(value, allValues)
 
   notify = (state: FieldState) => this.setState({ state })
 

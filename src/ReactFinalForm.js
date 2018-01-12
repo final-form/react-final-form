@@ -17,7 +17,12 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
-export const version = '2.1.0'
+import { version } from './index'
+
+const versions = {
+  'final-form': ffVersion,
+  'react-final-form': version
+}
 
 export const all: FormSubscription = formSubscriptionItems.reduce(
   (result, key) => {
@@ -143,7 +148,8 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
         focus: this.form && this.form.focus,
         handleSubmit: this.handleSubmit,
         initialize: this.form && this.form.initialize,
-        reset: this.form && this.form.reset
+        reset: this.form && this.form.reset,
+        __versions: versions
       },
       'ReactFinalForm'
     )
