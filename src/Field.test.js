@@ -541,6 +541,40 @@ describe('Field', () => {
     expect(bazInput.checked).toBe(true)
   })
 
+  it('should render custom radio component with checked prop', () => {
+    const Radio = jest.fn(() => null)
+    TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={() => (
+          <form>
+            <Field name="foo" type="radio" value="yes" component={Radio} />
+          </form>
+        )}
+        initialValues={{ foo: 'yes' }}
+      />
+    )
+    expect(Radio.mock.calls[0][0]).toMatchObject({ input: { checked: true } })
+  })
+
+  it('should render custom checkbox component with checked prop', () => {
+    const Checkbox = jest.fn(() => null)
+    TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={() => (
+          <form>
+            <Field name="foo" type="checkbox" component={Checkbox} />
+          </form>
+        )}
+        initialValues={{ foo: true }}
+      />
+    )
+    expect(Checkbox.mock.calls[0][0]).toMatchObject({
+      input: { checked: true }
+    })
+  })
+
   it('should use isEqual to calculate dirty/pristine', () => {
     const input = jest.fn(({ input }) => <input {...input} />)
 
