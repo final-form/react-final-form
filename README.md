@@ -369,7 +369,7 @@ Defaults to `false`.
 A render function that is given [`FieldRenderProps`](#fieldrenderprops), as well
 as any non-API props passed into the `<Field/>` component.
 
-#### `component?: React.ComponentType<FieldRenderProps>`
+#### `component?: React.ComponentType<FieldRenderProps> | string`
 
 A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, as
 well as any non-API props passed into the `<Field/>` component.
