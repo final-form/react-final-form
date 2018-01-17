@@ -49,13 +49,7 @@ export interface SubsetFormApi {
 
 export interface FormRenderProps extends FormState, SubsetFormApi {
   batch: (fn: () => void) => void
-  blur: (name: string) => void
-  change: (name: string, value: any) => void
-  focus: (name: string) => void
   handleSubmit: (event?: React.SyntheticEvent<HTMLFormElement>) => void
-  initialize: (values: object) => void
-  mutators?: { [key: string]: Function }
-  reset: () => void
 }
 
 export interface FormSpyRenderProps extends FormState, SubsetFormApi {}
