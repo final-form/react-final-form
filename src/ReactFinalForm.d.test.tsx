@@ -48,7 +48,6 @@ const simpleSubscription = () => (
   <Form
     onSubmit={onSubmit}
     subscription={{
-      reset: true,
       submitting: true,
       pristine: true,
       values: true
