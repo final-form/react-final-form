@@ -32,20 +32,19 @@ if (es) {
   throw new Error('no format specified. --environment FORMAT:xxx')
 }
 
-// eslint-disable-next-line no-nested-ternary
-const exports = !es ? 'default' : 'named'
-
 export default {
-  name: 'react-final-form',
   input: 'src/index.js',
-  output,
-  exports,
-  external: ['react', 'prop-types', 'final-form'],
-  globals: {
-    react: 'React',
-    'prop-types': 'PropTypes',
-    'final-form': 'FinalForm'
+  output: {
+    name: 'react-final-form',
+    exports: 'named',
+    globals: {
+      react: 'React',
+      'prop-types': 'PropTypes',
+      'final-form': 'FinalForm'
+    },
+    ...output
   },
+  external: ['react', 'prop-types', 'final-form'],
   plugins: [
     resolve({ jsnext: true, main: true }),
     flow(),
