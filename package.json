@@ -1,20 +1,20 @@
 {
   "name": "react-final-form",
   "version": "3.0.3",
-  "description":
-    "🏁 High performance subscription-based form state management for React",
+  "description": "🏁 High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",
   "jsnext:main": "dist/react-final-form.es.js",
   "module": "dist/react-final-form.es.js",
   "typings": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "nps",
     "test": "nps test",
     "precommit": "lint-staged && npm start validate"
   },
-  "author":
-    "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -61,7 +61,9 @@
     "rollup-plugin-flow": "^1.1.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup-plugin-uglify": "^2.0.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.6.2"
   },
   "peerDependencies": {
     "final-form": "^4.0.0",
@@ -69,10 +71,15 @@
     "react": "^15.3.0 || ^16.0.0-0"
   },
   "jest": {
-    "setupFiles": ["raf/polyfill"]
+    "setupFiles": [
+      "raf/polyfill"
+    ]
   },
   "lint-staged": {
-    "*.{js*,ts,json,md,css}": ["prettier --write", "git add"]
+    "*.{js*,ts*,json,md,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "bundlesize": [
     {

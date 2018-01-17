@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "jsx": "react",
+    "baseUrl": ".",
+    "noEmit": true,
+    "strict": true
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}
