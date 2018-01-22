@@ -24,6 +24,7 @@ export interface FieldRenderProps {
     // TODO: Make a diff of `FieldState` without all the functions
     active: boolean
     dirty: boolean
+    dirtySinceLastSubmit: boolean
     error: any
     initial: boolean
     invalid: boolean
