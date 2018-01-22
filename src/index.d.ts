@@ -44,7 +44,7 @@ export interface SubsetFormApi {
   change: (name: string, value: any) => void
   focus: (name: string) => void
   initialize: (values: object) => void
-  mutators?: { [key: string]: Function }
+  mutators: { [key: string]: Function }
   reset: () => void
 }
 
