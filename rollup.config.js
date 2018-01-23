@@ -34,16 +34,18 @@ if (es) {
 
 export default {
   input: 'src/index.js',
-  output: {
-    name: 'react-final-form',
-    exports: 'named',
-    globals: {
-      react: 'React',
-      'prop-types': 'PropTypes',
-      'final-form': 'FinalForm'
+  output: Object.assign(
+    {
+      name: 'react-final-form',
+      exports: 'named',
+      globals: {
+        react: 'React',
+        'prop-types': 'PropTypes',
+        'final-form': 'FinalForm'
+      }
     },
-    ...output
-  },
+    output
+  ),
   external: ['react', 'prop-types', 'final-form'],
   plugins: [
     resolve({ jsnext: true, main: true }),
