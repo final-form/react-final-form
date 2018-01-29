@@ -94,7 +94,8 @@ describe('Field', () => {
       <Form onSubmit={onSubmitMock} render={render} />
     )
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
   })
@@ -140,28 +141,29 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].active).toBeUndefined()
-    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].active).toBeUndefined()
+    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
     TestUtils.Simulate.focus(input)
 
-    expect(render).toHaveBeenCalledTimes(2)
-    expect(render.mock.calls[1][0].active).toBe('foo')
-    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
+    expect(render).toHaveBeenCalledTimes(3)
+    expect(render.mock.calls[2][0].active).toBe('foo')
+    expect(render.mock.calls[2][0].values.foo).toBeUndefined()
 
     TestUtils.Simulate.change(input, { target: { value: 'bar' } })
 
-    expect(render).toHaveBeenCalledTimes(3)
-    expect(render.mock.calls[2][0].active).toBe('foo')
-    expect(render.mock.calls[2][0].values.foo).toBe('bar')
+    expect(render).toHaveBeenCalledTimes(4)
+    expect(render.mock.calls[3][0].active).toBe('foo')
+    expect(render.mock.calls[3][0].values.foo).toBe('bar')
 
     TestUtils.Simulate.blur(input)
 
-    expect(render).toHaveBeenCalledTimes(4)
-    expect(render.mock.calls[3][0].active).toBeUndefined()
-    expect(render.mock.calls[3][0].values.foo).toBe('bar')
+    expect(render).toHaveBeenCalledTimes(5)
+    expect(render.mock.calls[4][0].active).toBeUndefined()
+    expect(render.mock.calls[4][0].values.foo).toBe('bar')
   })
 
   it("should convert '' to undefined on change", () => {
@@ -177,20 +179,21 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
 
     TestUtils.Simulate.change(input, { target: { value: 'bar' } })
 
-    expect(render).toHaveBeenCalledTimes(2)
-    expect(render.mock.calls[1][0].values.foo).toBe('bar')
+    expect(render).toHaveBeenCalledTimes(3)
+    expect(render.mock.calls[2][0].values.foo).toBe('bar')
 
     TestUtils.Simulate.change(input, { target: { value: '' } })
 
-    expect(render).toHaveBeenCalledTimes(3)
-    expect(render.mock.calls[2][0].values.foo).toBeUndefined()
+    expect(render).toHaveBeenCalledTimes(4)
+    expect(render.mock.calls[3][0].values.foo).toBeUndefined()
   })
 
   it('should accept a null parse prop to preserve empty strings', () => {
@@ -206,20 +209,21 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
 
     TestUtils.Simulate.change(input, { target: { value: '' } })
 
-    expect(render).toHaveBeenCalledTimes(2)
-    expect(render.mock.calls[1][0].values.foo).toBe('')
+    expect(render).toHaveBeenCalledTimes(3)
+    expect(render.mock.calls[2][0].values.foo).toBe('')
 
     TestUtils.Simulate.change(input, { target: { value: 'abc' } })
 
-    expect(render).toHaveBeenCalledTimes(3)
-    expect(render.mock.calls[2][0].values.foo).toBe('abc')
+    expect(render).toHaveBeenCalledTimes(4)
+    expect(render.mock.calls[3][0].values.foo).toBe('abc')
   })
 
   it('should accept a format function prop', () => {
@@ -236,8 +240,9 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     expect(format).toHaveBeenCalled()
     expect(format).toHaveBeenCalledTimes(1)
@@ -271,8 +276,9 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
@@ -348,18 +354,19 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     renderInput.mock.calls[0][0].input.onChange('bar')
 
-    expect(render).toHaveBeenCalledTimes(2)
-    expect(render.mock.calls[1][0].values.foo).toBe('bar')
+    expect(render).toHaveBeenCalledTimes(3)
+    expect(render.mock.calls[2][0].values.foo).toBe('bar')
 
     renderInput.mock.calls[0][0].input.onChange(null)
 
-    expect(render).toHaveBeenCalledTimes(3)
-    expect(render.mock.calls[2][0].values.foo).toBe(null)
+    expect(render).toHaveBeenCalledTimes(4)
+    expect(render.mock.calls[3][0].values.foo).toBe(null)
   })
 
   it('should not let validate prop bleed through', () => {
@@ -377,8 +384,9 @@ describe('Field', () => {
     )
 
     expect(input).toHaveBeenCalled()
-    expect(input).toHaveBeenCalledTimes(1)
-    expect(input.mock.calls[0][0].validate).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].validate).toBeUndefined()
   })
 
   it('should not let subscription prop bleed through', () => {
@@ -395,8 +403,9 @@ describe('Field', () => {
     )
 
     expect(input).toHaveBeenCalled()
-    expect(input).toHaveBeenCalledTimes(1)
-    expect(input.mock.calls[0][0].subscription).toBeUndefined()
+    // called twice due to field registration adding touched and visited values
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].subscription).toBeUndefined()
   })
 
   it('should allow changing field-level validation function', () => {
@@ -433,30 +442,31 @@ describe('Field', () => {
     )
 
     expect(input).toHaveBeenCalled()
-    expect(input).toHaveBeenCalledTimes(1)
-    expect(input.mock.calls[0][0].meta.error).toBe('Required')
+    // called twice due to field registration adding touched and visited values
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].meta.error).toBe('Required')
 
-    const { input: { onChange } } = input.mock.calls[0][0]
+    const { input: { onChange } } = input.mock.calls[1][0]
 
     onChange('hi')
 
     // valid now
-    expect(input).toHaveBeenCalledTimes(2)
-    expect(input.mock.calls[1][0].meta.error).toBeUndefined()
+    expect(input).toHaveBeenCalledTimes(3)
+    expect(input.mock.calls[2][0].meta.error).toBeUndefined()
 
     // toggle rules
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
 
     // props changed, but still valid. doesn't update until next time validation is run
-    expect(input).toHaveBeenCalledTimes(3)
-    expect(input.mock.calls[2][0].meta.error).toBeUndefined()
+    expect(input).toHaveBeenCalledTimes(4)
+    expect(input.mock.calls[3][0].meta.error).toBeUndefined()
 
     onChange('his')
 
     // invalid now
-    expect(input).toHaveBeenCalledTimes(4)
-    expect(input.mock.calls[3][0].meta.error).toBe('Must be uppercase')
+    expect(input).toHaveBeenCalledTimes(5)
+    expect(input.mock.calls[4][0].meta.error).toBe('Must be uppercase')
   })
 
   it('should render checkboxes with checked prop', () => {
@@ -475,8 +485,9 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBe(true)
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBe(true)
 
     const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
     expect(input.checked).toBe(true)
@@ -499,8 +510,9 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toEqual(['a', 'b', 'c'])
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toEqual(['a', 'b', 'c'])
 
     const inputs = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input')
     expect(inputs[0].checked).toBe(true)
@@ -524,8 +536,9 @@ describe('Field', () => {
     )
 
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].values.foo).toBe('Bar')
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toBe('Bar')
 
     const [barInput, bazInput] = TestUtils.scryRenderedDOMComponentsWithTag(
       dom,
@@ -620,5 +633,41 @@ describe('Field', () => {
     expect(input).toHaveBeenCalledTimes(6) // once for form and once for field
     expect(input.mock.calls[5][0].meta.dirty).toBe(false)
     expect(input.mock.calls[5][0].meta.pristine).toBe(true)
+  })
+
+  it('should only call each field-level validation once upon initial mount', () => {
+    const fooValidate = jest.fn()
+    const barValidate = jest.fn()
+    const bazValidate = jest.fn()
+    TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={() => (
+          <form>
+            <Field
+              name="foo"
+              component="input"
+              type="text"
+              validate={fooValidate}
+            />
+            <Field
+              name="bar"
+              component="input"
+              type="text"
+              validate={barValidate}
+            />
+            <Field
+              name="baz"
+              component="input"
+              type="text"
+              validate={bazValidate}
+            />
+          </form>
+        )}
+      />
+    )
+    expect(fooValidate).toHaveBeenCalledTimes(1)
+    expect(barValidate).toHaveBeenCalledTimes(1)
+    expect(bazValidate).toHaveBeenCalledTimes(1)
   })
 })

@@ -90,17 +90,19 @@ describe('ReactFinalForm', () => {
       <Form onSubmit={onSubmitMock} render={render} />
     )
     expect(render).toHaveBeenCalled()
-    expect(render).toHaveBeenCalledTimes(1)
-    expect(render.mock.calls[0][0].dirty).toEqual(false)
-    expect(typeof render.mock.calls[0][0].handleSubmit).toBe('function')
-    expect(render.mock.calls[0][0].invalid).toEqual(false)
-    expect(render.mock.calls[0][0].pristine).toEqual(true)
-    expect(render.mock.calls[0][0].submitFailed).toEqual(false)
-    expect(render.mock.calls[0][0].submitSucceeded).toEqual(false)
-    expect(render.mock.calls[0][0].submitting).toEqual(false)
-    expect(render.mock.calls[0][0].valid).toEqual(true)
-    expect(render.mock.calls[0][0].validating).toEqual(false)
-    expect(render.mock.calls[0][0].values).toEqual({})
+
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].dirty).toEqual(false)
+    expect(typeof render.mock.calls[1][0].handleSubmit).toBe('function')
+    expect(render.mock.calls[1][0].invalid).toEqual(false)
+    expect(render.mock.calls[1][0].pristine).toEqual(true)
+    expect(render.mock.calls[1][0].submitFailed).toEqual(false)
+    expect(render.mock.calls[1][0].submitSucceeded).toEqual(false)
+    expect(render.mock.calls[1][0].submitting).toEqual(false)
+    expect(render.mock.calls[1][0].valid).toEqual(true)
+    expect(render.mock.calls[1][0].validating).toEqual(false)
+    expect(render.mock.calls[1][0].values).toEqual({})
   })
 
   it('should render with a field with a limited subscription', () => {

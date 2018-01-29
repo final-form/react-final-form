@@ -115,6 +115,18 @@ export default class ReactFinalForm extends React.PureComponent<Props, State> {
     return this.form.submit()
   }
 
+  componentWillMount() {
+    if (this.form) {
+      this.form.pauseValidation()
+    }
+  }
+
+  componentDidMount() {
+    if (this.form) {
+      this.form.resumeValidation()
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (!shallowEqual(this.props.initialValues, nextProps.initialValues)) {
       this.form.initialize(nextProps.initialValues)
