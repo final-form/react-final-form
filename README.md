@@ -128,6 +128,7 @@ const MyForm = () => (
   * [Auto-Save with Debounce](#auto-save-with-debounce)
   * [Auto-Save on Field Blur](#auto-save-on-field-blur)
   * [Custom Validation Engine](#custom-validation-engine)
+  * [Loading, Normalizing, Saving, and Reinitializing](#loading-normalizing-saving-and-reinitializing)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -138,7 +139,7 @@ const MyForm = () => (
   * [`FieldProps`](#fieldprops)
     * [`allowNull?: boolean`](#allownull-boolean)
     * [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
-    * [`component?: React.ComponentType<FieldRenderProps>`](#component-reactcomponenttypefieldrenderprops)
+    * [`component?: React.ComponentType<FieldRenderProps> | string`](#component-reactcomponenttypefieldrenderprops--string)
     * [`format?: ((value: any, name: string) => any) | null`](#format-value-any-name-string--any--null)
     * [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     * [`name: string`](#name-string)
@@ -313,6 +314,10 @@ Demonstrates how to use a `FormSpy` component to listen for values and active fi
 ### [Custom Validation Engine](https://codesandbox.io/s/kxxw4l0p9o)
 
 Demonstrates how incredibly extensible `FormSpy`, the [`setFieldData` mutator](https://github.com/final-form/final-form-set-field-data), and render props are by implementing a custom validation engine completely apart from the built-in validation in 🏁 Final Form, thus allowing for special behaviors, like only validating a single field when that field is blurred.
+
+### [Loading, Normalizing, Saving, and Reinitializing](https://codesandbox.io/s/xr0mvl1904)
+
+Demonstrates how to make a wrapper component to handle loading, normalization of data, saving, and reinitializing of the form, to maintain `pristine`/`dirty` state with saved data.
 
 ## Rendering
 
