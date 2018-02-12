@@ -11,7 +11,8 @@
   "scripts": {
     "start": "nps",
     "test": "nps test",
-    "precommit": "lint-staged && npm start validate"
+    "precommit": "lint-staged && npm start validate",
+    "postinstall": "opencollective postinstall"
   },
   "author":
     "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
@@ -49,6 +50,7 @@
     "lint-staged": "^6.0.1",
     "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
+    "opencollective": "^1.0.3",
     "prettier": "^1.8.2",
     "prettier-eslint-cli": "^4.4.2",
     "prop-types": "^15.6.0",
@@ -89,5 +91,9 @@
       "path": "dist/react-final-form.cjs.js",
       "threshold": "3kB"
     }
-  ]
+  ],
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/final-form"
+  }
 }
