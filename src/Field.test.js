@@ -39,14 +39,14 @@ describe('Field', () => {
     expect(renderInput).not.toHaveBeenCalled()
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
-    expect(renderInput.mock.calls[0][0].input.value).toBe('Odie')
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('Odie')
 
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
 
-    expect(renderInput).toHaveBeenCalledTimes(2)
-    expect(renderInput.mock.calls[1][0].input.value).toBe('Garfield')
+    expect(renderInput).toHaveBeenCalledTimes(4)
+    expect(renderInput.mock.calls[3][0].input.value).toBe('Garfield')
   })
 
   it('should not resubscribe if name changes when not inside a <Form> (duh)', () => {
@@ -97,7 +97,7 @@ describe('Field', () => {
     // called twice due to field registration adding touched and visited values
     expect(render).toHaveBeenCalledTimes(2)
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput).toHaveBeenCalledTimes(2)
   })
 
   it('should unsubscribe on unmount', () => {
@@ -245,20 +245,20 @@ describe('Field', () => {
     expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     expect(format).toHaveBeenCalled()
-    expect(format).toHaveBeenCalledTimes(1)
+    expect(format).toHaveBeenCalledTimes(2)
     expect(format.mock.calls[0]).toEqual([undefined, 'foo'])
 
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput).toHaveBeenCalledTimes(2)
     expect(renderInput.mock.calls[0][0].input.value).toBe('format.undefined')
 
     renderInput.mock.calls[0][0].input.onChange('bar')
 
-    expect(format).toHaveBeenCalledTimes(2)
-    expect(format.mock.calls[1]).toEqual(['bar', 'foo'])
+    expect(format).toHaveBeenCalledTimes(4)
+    expect(format.mock.calls[3]).toEqual(['bar', 'foo'])
 
-    expect(renderInput).toHaveBeenCalledTimes(2)
-    expect(renderInput.mock.calls[1][0].input.value).toBe('format.bar')
+    expect(renderInput).toHaveBeenCalledTimes(4)
+    expect(renderInput.mock.calls[3][0].input.value).toBe('format.bar')
   })
 
   it('should accept a null format prop to preserve undefined values', () => {
@@ -281,13 +281,13 @@ describe('Field', () => {
     expect(render.mock.calls[1][0].values.foo).toBeUndefined()
 
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
-    expect(renderInput.mock.calls[0][0].input.value).toBeUndefined()
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBeUndefined()
 
     renderInput.mock.calls[0][0].input.onChange('bar')
 
-    expect(renderInput).toHaveBeenCalledTimes(2)
-    expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
+    expect(renderInput).toHaveBeenCalledTimes(4)
+    expect(renderInput.mock.calls[3][0].input.value).toBe('bar')
   })
 
   it('should provide a value of [] when empty on a select multiple', () => {
@@ -322,18 +322,18 @@ describe('Field', () => {
     )
 
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
-    expect(renderInput.mock.calls[0][0].input.value).toBe('')
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('')
 
     renderInput.mock.calls[0][0].input.onChange('bar')
 
-    expect(renderInput).toHaveBeenCalledTimes(2)
-    expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
+    expect(renderInput).toHaveBeenCalledTimes(4)
+    expect(renderInput.mock.calls[3][0].input.value).toBe('bar')
 
     renderInput.mock.calls[1][0].input.onChange(null)
 
-    expect(renderInput).toHaveBeenCalledTimes(3)
-    expect(renderInput.mock.calls[2][0].input.value).toBe('')
+    expect(renderInput).toHaveBeenCalledTimes(6)
+    expect(renderInput.mock.calls[5][0].input.value).toBe('')
   })
 
   it('should optionally allow null values', () => {
@@ -451,22 +451,22 @@ describe('Field', () => {
     onChange('hi')
 
     // valid now
-    expect(input).toHaveBeenCalledTimes(3)
-    expect(input.mock.calls[2][0].meta.error).toBeUndefined()
+    expect(input).toHaveBeenCalledTimes(4)
+    expect(input.mock.calls[3][0].meta.error).toBeUndefined()
 
     // toggle rules
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
 
     // props changed, but still valid. doesn't update until next time validation is run
-    expect(input).toHaveBeenCalledTimes(4)
-    expect(input.mock.calls[3][0].meta.error).toBeUndefined()
+    expect(input).toHaveBeenCalledTimes(5)
+    expect(input.mock.calls[4][0].meta.error).toBeUndefined()
 
     onChange('his')
 
     // invalid now
-    expect(input).toHaveBeenCalledTimes(5)
-    expect(input.mock.calls[4][0].meta.error).toBe('Must be uppercase')
+    expect(input).toHaveBeenCalledTimes(7)
+    expect(input.mock.calls[6][0].meta.error).toBe('Must be uppercase')
   })
 
   it('should render checkboxes with checked prop', () => {

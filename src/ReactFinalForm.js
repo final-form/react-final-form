@@ -36,7 +36,7 @@ type State = {
   state: FormState
 }
 
-export default class ReactFinalForm extends React.PureComponent<Props, State> {
+export default class ReactFinalForm extends React.Component<Props, State> {
   context: ReactContext
   props: Props
   state: State

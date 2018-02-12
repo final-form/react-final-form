@@ -11,7 +11,7 @@ import { all } from './ReactFinalForm'
 
 type State = { state: FormState }
 
-export default class FormSpy extends React.PureComponent<Props, State> {
+export default class FormSpy extends React.Component<Props, State> {
   context: ReactContext
   props: Props
   state: State
