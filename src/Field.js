@@ -19,7 +19,7 @@ type State = {
   state: FieldState
 }
 
-export default class Field extends React.PureComponent<Props, State> {
+export default class Field extends React.Component<Props, State> {
   context: ReactContext
   props: Props
   state: State

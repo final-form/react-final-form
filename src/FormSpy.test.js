@@ -47,24 +47,24 @@ describe('FormSpy', () => {
     expect(render.mock.calls[1][0].validating).toBe(false)
     expect(render.mock.calls[1][0].values).toEqual({})
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput).toHaveBeenCalledTimes(2)
 
     // change value
     renderInput.mock.calls[0][0].input.onChange('bar')
 
-    expect(render).toHaveBeenCalledTimes(3)
-    hasFormApi(render.mock.calls[2][0])
-    expect(render.mock.calls[2][0].dirty).toBe(true)
-    expect(render.mock.calls[2][0].errors).toEqual({})
-    expect(render.mock.calls[2][0].invalid).toBe(false)
-    expect(render.mock.calls[2][0].pristine).toBe(false)
-    expect(render.mock.calls[2][0].submitFailed).toBe(false)
-    expect(render.mock.calls[2][0].submitSucceeded).toBe(false)
-    expect(render.mock.calls[2][0].submitting).toBe(false)
-    expect(render.mock.calls[2][0].valid).toBe(true)
-    expect(render.mock.calls[2][0].validating).toBe(false)
-    expect(render.mock.calls[2][0].values).toEqual({ foo: 'bar' })
-    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(render).toHaveBeenCalledTimes(4)
+    hasFormApi(render.mock.calls[3][0])
+    expect(render.mock.calls[3][0].dirty).toBe(true)
+    expect(render.mock.calls[3][0].errors).toEqual({})
+    expect(render.mock.calls[3][0].invalid).toBe(false)
+    expect(render.mock.calls[3][0].pristine).toBe(false)
+    expect(render.mock.calls[3][0].submitFailed).toBe(false)
+    expect(render.mock.calls[3][0].submitSucceeded).toBe(false)
+    expect(render.mock.calls[3][0].submitting).toBe(false)
+    expect(render.mock.calls[3][0].valid).toBe(true)
+    expect(render.mock.calls[3][0].validating).toBe(false)
+    expect(render.mock.calls[3][0].values).toEqual({ foo: 'bar' })
+    expect(renderInput).toHaveBeenCalledTimes(4)
   })
 
   it('should resubscribe if subscription changes', () => {
@@ -164,7 +164,7 @@ describe('FormSpy', () => {
     expect(render.mock.calls[1][0].validating).toBeUndefined()
     expect(render.mock.calls[1][0].values).toEqual({})
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput).toHaveBeenCalledTimes(2)
 
     // change value
     renderInput.mock.calls[0][0].input.onChange('bar')
@@ -182,7 +182,7 @@ describe('FormSpy', () => {
     expect(render.mock.calls[3][0].valid).toBeUndefined()
     expect(render.mock.calls[3][0].validating).toBeUndefined()
     expect(render.mock.calls[3][0].values).toEqual({ foo: 'bar' })
-    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput).toHaveBeenCalledTimes(4)
   })
 
   it('should not unsubscribe/resubscribe if not in form', () => {
@@ -259,14 +259,14 @@ describe('FormSpy', () => {
       </Form>
     )
     expect(input).toHaveBeenCalled()
-    expect(input).toHaveBeenCalledTimes(1)
+    expect(input).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenCalled()
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith({ dirty: false })
 
     input.mock.calls[0][0].input.onChange('bar')
 
-    expect(input).toHaveBeenCalledTimes(2)
+    expect(input).toHaveBeenCalledTimes(4)
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenCalledWith({ dirty: true })
   })
