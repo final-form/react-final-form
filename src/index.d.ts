@@ -71,6 +71,7 @@ export interface FieldProps extends RenderableProps<FieldRenderProps> {
   format?: ((value: any, name: string) => any) | null
   parse?: ((value: any, name: string) => any) | null
   name: string
+  isEqual?: (a: any, b: any) => boolean
   subscription?: FieldSubscription
   validate?: (value: any, allValues: object) => any
   value?: any
