@@ -115,6 +115,7 @@ const MyForm = () => (
   * [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
   * [Submission Errors](#submission-errors)
   * [Third Party Components](#third-party-components)
+  * [Material UI 1.0](#material-ui-10)
   * [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
   * [Independent Error Component](#independent-error-component)
   * [Loading and Initializing Values](#loading-and-initializing-values)
@@ -203,6 +204,9 @@ const MyForm = () => (
     * [`initialize: (values: Object) => void`](#initialize-values-object--void-1)
     * [`mutators?: { [string]: Function }`](#mutators--string-function--1)
     * [`reset: () => void`](#reset---void-1)
+* [Contributors](#contributors)
+* [Backers](#backers)
+* [Sponsors](#sponsors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -246,6 +250,10 @@ is reserved for communications or server exceptions.
 Demonstrates how easy it is to use third party input components. All the third
 party component really needs is `value` and `onChange`, but more complex
 components can accept things like errors.
+
+### [Material UI 1.0](https://codesandbox.io/s/2z5y03y81r)
+
+Demonstrates how to use Material UI 1.0 input components.
 
 ### 💥 [Performance Optimization Through Subscriptions](https://codesandbox.io/s/32r824vxy1) 💥
 
