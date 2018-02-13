@@ -529,7 +529,7 @@ describe('Field', () => {
       </form>
     ))
 
-    const dom = TestUtils.renderIntoDocument(
+    TestUtils.renderIntoDocument(
       <Form
         onSubmit={onSubmitMock}
         render={render}
