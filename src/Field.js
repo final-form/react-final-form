@@ -147,7 +147,7 @@ export default class Field extends React.Component<Props, State> {
       if (_value === undefined) {
         input.checked = !!value
       } else {
-        input.checked = Array.isArray(value) && ~value.indexOf(_value)
+        input.checked = !!(Array.isArray(value) && ~value.indexOf(_value))
         input.value = _value
       }
     } else if (rest.type === 'radio') {

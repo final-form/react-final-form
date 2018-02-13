@@ -519,6 +519,38 @@ describe('Field', () => {
     expect(inputs[1].checked).toBe(false)
   })
 
+  it('should render "array" custom checkboxes with checked prop when value is included in array', () => {
+    const checkboxA = jest.fn(({ input }) => <input {...input} />)
+    const checkboxD = jest.fn(({ input }) => <input {...input} />)
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" component={checkboxA} type="checkbox" value="a" />
+        <Field name="foo" component={checkboxD} type="checkbox" value="d" />
+      </form>
+    ))
+
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        render={render}
+        initialValues={{ foo: ['a', 'b', 'c'] }}
+      />
+    )
+
+    expect(render).toHaveBeenCalled()
+    // called twice due to field registration adding touched and visited values
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[1][0].values.foo).toEqual(['a', 'b', 'c'])
+
+    expect(checkboxA).toHaveBeenCalled()
+    expect(checkboxA).toHaveBeenCalledTimes(2)
+    expect(checkboxA.mock.calls[1][0].input.checked).toBe(true)
+
+    expect(checkboxD).toHaveBeenCalled()
+    expect(checkboxD).toHaveBeenCalledTimes(2)
+    expect(checkboxD.mock.calls[1][0].input.checked).toBe(false)
+  })
+
   it('should render radio buttons with checked prop', () => {
     const render = jest.fn(() => (
       <form>
