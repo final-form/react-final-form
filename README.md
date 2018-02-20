@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 **2.8k gzipped** 💥
+✅ 💥 [**2.9k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
 
 ---
 
