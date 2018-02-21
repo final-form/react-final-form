@@ -130,6 +130,8 @@ const MyForm = () => (
   * [Auto-Save on Field Blur](#auto-save-on-field-blur)
   * [Custom Validation Engine](#custom-validation-engine)
   * [Loading, Normalizing, Saving, and Reinitializing](#loading-normalizing-saving-and-reinitializing)
+  * [🏎️ Downshift Type-Ahead](#-downshift-type-ahead)
+  * [Redux Example](#redux-example)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -326,6 +328,14 @@ Demonstrates how incredibly extensible `FormSpy`, the [`setFieldData` mutator](h
 ### [Loading, Normalizing, Saving, and Reinitializing](https://codesandbox.io/s/xr0mvl1904)
 
 Demonstrates how to make a wrapper component to handle loading, normalization of data, saving, and reinitializing of the form, to maintain `pristine`/`dirty` state with saved data.
+
+### [🏎️ Downshift Type-Ahead](https://codesandbox.io/s/qzm43nn2mj)
+
+Demonstrates how to use a [🏎️ Downshift](https://github.com/paypal/downshift) type-ahead component as an input.
+
+### [Redux Example](https://codesandbox.io/s/4xq2qpzw79)
+
+The only reason to keep your 🏁 Final Form form data in Redux is if you need to be able to read it from outside your form. This example demonstrates how to use a `FormSpy` to keep a copy of your form data in the Redux store. Note that the canonical authoritative version of the data still lives in 🏁 Final Form. If you need to _mutate_ your data via dispatching Redux actions, you should probably use [Redux Form](https://redux-form.com).
 
 ## Rendering
 
