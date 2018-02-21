@@ -46,7 +46,7 @@ your component needs to render, and nothing else.
 
 Here's what it looks like in your code:
 
-```js
+```jsx
 import { Form, Field } from 'react-final-form'
 
 const MyForm = () => (
