@@ -111,7 +111,10 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   notify = (state: FormState) => this.setState({ state })
 
   handleSubmit = (event?: SyntheticEvent<HTMLFormElement>) => {
-    event && event.preventDefault()
+    if (event && typeof event.preventDefault === 'function') {
+      // sometimes not true, e.g. React Native
+      event.preventDefault()
+    }
     return this.form.submit()
   }
 
