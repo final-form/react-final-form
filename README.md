@@ -644,6 +644,10 @@ A function that initializes the form values.
 A function that resets the form values to their last initialized values.
 [See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset---void).
 
+### `invalid: boolean`
+
+Boolean value set to true if errors exist in form
+
 ### `FormSpyProps`
 
 These are the props that you pass to
