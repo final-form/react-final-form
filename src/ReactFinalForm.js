@@ -17,7 +17,7 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
-import { version } from './index'
+export const version = '3.1.0'
 
 const versions = {
   'final-form': ffVersion,
@@ -94,7 +94,9 @@ export default class ReactFinalForm extends React.Component<Props, State> {
         }, subscription || all)
       )
     }
-    this.state = { state: initialState }
+    if (initialState) {
+      this.state = { state: initialState }
+    }
     if (decorators) {
       decorators.forEach(decorator => {
         this.unsubscriptions.push(decorator(this.form))
@@ -131,7 +133,10 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (!shallowEqual(this.props.initialValues, nextProps.initialValues)) {
+    if (
+      nextProps.initialValues &&
+      !shallowEqual(this.props.initialValues, nextProps.initialValues)
+    ) {
       this.form.initialize(nextProps.initialValues)
     }
   }
@@ -155,7 +160,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     return renderComponent(
       {
         ...props,
-        ...this.state.state,
+        ...(this.state ? this.state.state : {}),
         mutators: this.form && this.form.mutators,
         batch: this.form && this.form.batch,
         blur: this.form && this.form.blur,

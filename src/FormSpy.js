@@ -37,7 +37,9 @@ export default class FormSpy extends React.Component<Props, State> {
         }
       })
     }
-    this.state = { state: initialState }
+    if (initialState) {
+      this.state = { state: initialState }
+    }
   }
 
   subscribe = (
@@ -86,7 +88,7 @@ export default class FormSpy extends React.Component<Props, State> {
       : renderComponent(
           {
             ...rest,
-            ...this.state.state,
+            ...(this.state ? this.state.state : {}),
             mutators: reactFinalForm && reactFinalForm.mutators,
             batch: reactFinalForm && reactFinalForm.batch,
             blur: reactFinalForm && reactFinalForm.blur,
