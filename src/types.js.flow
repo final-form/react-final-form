@@ -6,8 +6,11 @@ import type {
   Decorator,
   FormState,
   FormSubscription,
-  FieldSubscription
+  FieldSubscription,
+  FieldValidator
 } from 'final-form'
+
+type SupportedInputs = 'input' | 'select' | 'textarea'
 
 export type ReactContext = {
   reactFinalForm: FormApi
@@ -21,22 +24,22 @@ export type FieldRenderProps = {
     onFocus: (?SyntheticFocusEvent<*>) => void,
     value: any
   },
-  meta: $Shape<{
+  meta: {
     // TODO: Make a diff of `FieldState` without all the functions
-    active: boolean,
-    dirty: boolean,
-    dirtySinceLastSubmit: boolean,
-    error: any,
-    initial: boolean,
-    invalid: boolean,
-    pristine: boolean,
-    submitError: any,
-    submitFailed: boolean,
-    submitSucceeded: boolean,
-    touched: boolean,
-    valid: boolean,
-    visited: boolean
-  }>
+    active?: boolean,
+    dirty?: boolean,
+    dirtySinceLastSubmit?: boolean,
+    error?: any,
+    initial?: boolean,
+    invalid?: boolean,
+    pristine?: boolean,
+    submitError?: any,
+    submitFailed?: boolean,
+    submitSucceeded?: boolean,
+    touched?: boolean,
+    valid?: boolean,
+    visited?: boolean
+  }
 }
 
 export type SubsetFormApi = {
@@ -55,11 +58,11 @@ export type FormRenderProps = {
 
 export type FormSpyRenderProps = SubsetFormApi & FormState
 
-export type RenderableProps<T> = $Shape<{
-  children: ((props: T) => React.Node) | React.Node,
-  component: React.ComponentType<*>,
-  render: (props: T) => React.Node
-}>
+export type RenderableProps<T> = {
+  children?: ((props: T) => React.Node) | React.Node,
+  component?: React.ComponentType<*> | string,
+  render?: (props: T) => React.Node
+}
 
 export type FormProps = {
   subscription?: FormSubscription,
@@ -69,12 +72,13 @@ export type FormProps = {
 
 export type FieldProps = {
   allowNull?: boolean,
-  format: ((value: any, name: string) => any) | null,
+  component?: React.ComponentType<*> | SupportedInputs,
+  format?: (value: any, name: string) => any,
   isEqual?: (a: any, b: any) => boolean,
   name: string,
-  parse: ((value: any, name: string) => any) | null,
+  parse?: (value: any, name: string) => any,
   subscription?: FieldSubscription,
-  validate?: (value: ?any, allValues: Object) => ?any,
+  validate?: FieldValidator,
   validateFields?: string[],
   value?: any
 } & RenderableProps<FieldRenderProps>

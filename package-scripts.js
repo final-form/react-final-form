@@ -51,7 +51,15 @@ module.exports = {
       },
       andTest: series.nps('build', 'test.size')
     },
-    copyTypes: npsUtils.copy('src/*.js.flow src/*.d.ts dist'),
+    copyTypes: series(
+      npsUtils.copy('src/*.js.flow src/*.d.ts dist'),
+      npsUtils.copy(
+        'dist/index.js.flow dist --rename="react-final-form.cjs.js.flow"'
+      ),
+      npsUtils.copy(
+        'dist/index.js.flow dist --rename="react-final-form.es.js.flow"'
+      )
+    ),
     docs: {
       description: 'Generates table of contents in README',
       script: 'doctoc README.md'
@@ -71,7 +79,13 @@ module.exports = {
     validate: {
       description:
         'This runs several scripts to make sure things look good before committing or on clean install',
-      default: concurrent.nps('lint', 'flow', 'typescript', 'build.andTest', 'test')
+      default: concurrent.nps(
+        'lint',
+        'flow',
+        'typescript',
+        'build.andTest',
+        'test'
+      )
     }
   },
   options: {

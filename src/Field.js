@@ -16,7 +16,7 @@ const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
 }, {})
 
 type State = {
-  state: FieldState
+  state: ?FieldState
 }
 
 export default class Field extends React.Component<Props, State> {
@@ -51,7 +51,7 @@ export default class Field extends React.Component<Props, State> {
         }
       })
     }
-    this.state = { state: initialState || {} }
+    this.state = { state: initialState }
   }
 
   subscribe = (
@@ -96,20 +96,24 @@ export default class Field extends React.Component<Props, State> {
 
   handlers = {
     onBlur: (event: ?SyntheticFocusEvent<*>) => {
-      this.state.state.blur()
+      this.state.state && this.state.state.blur()
     },
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const { parse, value: _value } = this.props
       const value: any =
         event && event.target
-          ? getValue(event, this.state.state.value, _value, isReactNative)
+          ? getValue(
+              event,
+              this.state.state && this.state.state.value,
+              _value,
+              isReactNative
+            )
           : event
-      this.state.state.change(
-        parse !== null ? parse(value, this.props.name) : value
-      )
+      this.state.state &&
+        this.state.state.change(parse ? parse(value, this.props.name) : value)
     },
     onFocus: (event: ?SyntheticFocusEvent<*>) => {
-      this.state.state.focus()
+      this.state.state && this.state.state.focus()
     }
   }
 
@@ -128,15 +132,9 @@ export default class Field extends React.Component<Props, State> {
       value: _value,
       ...rest
     } = this.props
-    let {
-      blur,
-      change,
-      focus,
-      value,
-      name: ignoreName,
-      ...meta
-    } = this.state.state
-    if (format !== null) {
+    let { blur, change, focus, value, name: ignoreName, ...meta } =
+      this.state.state || {}
+    if (format) {
       value = format(value, name)
     }
     if (value === null && !allowNull) {
