@@ -16,7 +16,14 @@ const hasFormApi = props => {
 
 describe('FormSpy', () => {
   it('should warn error if not used inside a form', () => {
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     TestUtils.renderIntoDocument(<FormSpy render={() => <div />} />)
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      'Warning: FormSpy must be used inside of a ReactFinalForm component'
+    )
+    spy.mockRestore()
   })
 
   it('should allow subscribing to everything', () => {
@@ -47,7 +54,7 @@ describe('FormSpy', () => {
     expect(render.mock.calls[1][0].validating).toBe(false)
     expect(render.mock.calls[1][0].values).toEqual({})
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput).toHaveBeenCalledTimes(1)
 
     // change value
     renderInput.mock.calls[0][0].input.onChange('bar')
@@ -64,7 +71,7 @@ describe('FormSpy', () => {
     expect(render.mock.calls[3][0].valid).toBe(true)
     expect(render.mock.calls[3][0].validating).toBe(false)
     expect(render.mock.calls[3][0].values).toEqual({ foo: 'bar' })
-    expect(renderInput).toHaveBeenCalledTimes(4)
+    expect(renderInput).toHaveBeenCalledTimes(3)
   })
 
   it('should resubscribe if subscription changes', () => {
@@ -150,39 +157,38 @@ describe('FormSpy', () => {
       </Form>
     )
     expect(render).toHaveBeenCalled()
-    // called twice due to field registration adding touched and visited values
-    expect(render).toHaveBeenCalledTimes(2)
-    hasFormApi(render.mock.calls[1][0])
-    expect(render.mock.calls[1][0].dirty).toBe(false)
-    expect(render.mock.calls[1][0].errors).toBeUndefined()
-    expect(render.mock.calls[1][0].invalid).toBeUndefined()
-    expect(render.mock.calls[1][0].pristine).toBeUndefined()
-    expect(render.mock.calls[1][0].submitFailed).toBeUndefined()
-    expect(render.mock.calls[1][0].submitSucceeded).toBeUndefined()
-    expect(render.mock.calls[1][0].submitting).toBeUndefined()
-    expect(render.mock.calls[1][0].valid).toBeUndefined()
-    expect(render.mock.calls[1][0].validating).toBeUndefined()
-    expect(render.mock.calls[1][0].values).toEqual({})
+    expect(render).toHaveBeenCalledTimes(1)
+    hasFormApi(render.mock.calls[0][0])
+    expect(render.mock.calls[0][0].dirty).toBe(false)
+    expect(render.mock.calls[0][0].errors).toBeUndefined()
+    expect(render.mock.calls[0][0].invalid).toBeUndefined()
+    expect(render.mock.calls[0][0].pristine).toBeUndefined()
+    expect(render.mock.calls[0][0].submitFailed).toBeUndefined()
+    expect(render.mock.calls[0][0].submitSucceeded).toBeUndefined()
+    expect(render.mock.calls[0][0].submitting).toBeUndefined()
+    expect(render.mock.calls[0][0].valid).toBeUndefined()
+    expect(render.mock.calls[0][0].validating).toBeUndefined()
+    expect(render.mock.calls[0][0].values).toEqual({})
     expect(renderInput).toHaveBeenCalled()
-    expect(renderInput).toHaveBeenCalledTimes(2)
+    expect(renderInput).toHaveBeenCalledTimes(1)
 
     // change value
     renderInput.mock.calls[0][0].input.onChange('bar')
 
     // once because whole form rerendered, and again because state changed
-    expect(render).toHaveBeenCalledTimes(4)
-    hasFormApi(render.mock.calls[3][0])
-    expect(render.mock.calls[3][0].dirty).toBe(true)
-    expect(render.mock.calls[3][0].errors).toBeUndefined()
-    expect(render.mock.calls[3][0].invalid).toBeUndefined()
-    expect(render.mock.calls[3][0].pristine).toBeUndefined()
-    expect(render.mock.calls[3][0].submitFailed).toBeUndefined()
-    expect(render.mock.calls[3][0].submitSucceeded).toBeUndefined()
-    expect(render.mock.calls[3][0].submitting).toBeUndefined()
-    expect(render.mock.calls[3][0].valid).toBeUndefined()
-    expect(render.mock.calls[3][0].validating).toBeUndefined()
-    expect(render.mock.calls[3][0].values).toEqual({ foo: 'bar' })
-    expect(renderInput).toHaveBeenCalledTimes(4)
+    expect(render).toHaveBeenCalledTimes(3)
+    hasFormApi(render.mock.calls[2][0])
+    expect(render.mock.calls[2][0].dirty).toBe(true)
+    expect(render.mock.calls[2][0].errors).toBeUndefined()
+    expect(render.mock.calls[2][0].invalid).toBeUndefined()
+    expect(render.mock.calls[2][0].pristine).toBeUndefined()
+    expect(render.mock.calls[2][0].submitFailed).toBeUndefined()
+    expect(render.mock.calls[2][0].submitSucceeded).toBeUndefined()
+    expect(render.mock.calls[2][0].submitting).toBeUndefined()
+    expect(render.mock.calls[2][0].valid).toBeUndefined()
+    expect(render.mock.calls[2][0].validating).toBeUndefined()
+    expect(render.mock.calls[2][0].values).toEqual({ foo: 'bar' })
+    expect(renderInput).toHaveBeenCalledTimes(3)
   })
 
   it('should not unsubscribe/resubscribe if not in form', () => {
@@ -206,6 +212,7 @@ describe('FormSpy', () => {
         )
       }
     }
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     expect(render).not.toHaveBeenCalled()
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(render).toHaveBeenCalled()
@@ -215,6 +222,12 @@ describe('FormSpy', () => {
     TestUtils.Simulate.click(button)
 
     expect(render).toHaveBeenCalledTimes(2)
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      'Warning: FormSpy must be used inside of a ReactFinalForm component'
+    )
+    spy.mockRestore()
   })
 
   it('should unsubscribe on unmount', () => {
@@ -259,14 +272,14 @@ describe('FormSpy', () => {
       </Form>
     )
     expect(input).toHaveBeenCalled()
-    expect(input).toHaveBeenCalledTimes(2)
+    expect(input).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalled()
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith({ dirty: false })
 
     input.mock.calls[0][0].input.onChange('bar')
 
-    expect(input).toHaveBeenCalledTimes(4)
+    expect(input).toHaveBeenCalledTimes(3)
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenCalledWith({ dirty: true })
   })

@@ -41,6 +41,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   props: Props
   state: State
   form: FormApi
+  mounted: boolean
   unsubscriptions: Unsubscribe[]
 
   static childContextTypes = {
@@ -52,22 +53,15 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     const {
-      children,
-      component,
       debug,
       decorators,
       initialValues,
       mutators,
       onSubmit,
-      render,
       subscription,
       validate,
       validateOnBlur
     } = props
-    warning(
-      render || typeof children === 'function' || component,
-      'Must specify either a render prop, a render function as children, or a component prop'
-    )
     const config: Config = {
       debug,
       initialValues,
@@ -76,25 +70,19 @@ export default class ReactFinalForm extends React.Component<Props, State> {
       validate,
       validateOnBlur
     }
+    this.mounted = false
     try {
       this.form = createForm(config)
     } catch (e) {
       warning(false, e.message)
     }
-    let initialState
     this.unsubscriptions = []
     if (this.form) {
-      this.unsubscriptions.push(
-        this.form.subscribe((state: FormState) => {
-          if (initialState) {
-            this.notify(state)
-          } else {
-            initialState = state
-          }
-        }, subscription || all)
-      )
-    }
-    if (initialState) {
+      // set initial state
+      let initialState: FormState
+      this.form.subscribe((state: FormState) => {
+        initialState = state
+      }, subscription || all)()
       this.state = { state: initialState }
     }
     if (decorators) {
@@ -110,7 +98,11 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     }
   }
 
-  notify = (state: FormState) => this.setState({ state })
+  notify = (state: FormState) => {
+    if (this.mounted) {
+      this.setState({ state })
+    }
+  }
 
   handleSubmit = (event?: SyntheticEvent<HTMLFormElement>) => {
     if (event && typeof event.preventDefault === 'function') {
@@ -128,8 +120,12 @@ export default class ReactFinalForm extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.form) {
+      this.unsubscriptions.push(
+        this.form.subscribe(this.notify, this.props.subscription || all)
+      )
       this.form.resumeValidation()
     }
+    this.mounted = true
   }
 
   componentWillReceiveProps(nextProps: Props) {
