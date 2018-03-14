@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import TestUtils from 'react-dom/test-utils'
 import Form from './ReactFinalForm'
 import Field from './Field'
@@ -26,15 +27,27 @@ describe('ReactFinalForm', () => {
   })
 
   it('should print a warning with no render or children specified', () => {
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     TestUtils.renderIntoDocument(<Form onSubmit={onSubmitMock} />)
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      'Warning: Must specify either a render prop, a render function as children, or a component prop to ReactFinalForm'
+    )
+    spy.mockRestore()
   })
 
   it('should print a warning with no onSubmit specified', () => {
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     const render = jest.fn(() => <div />)
     expect(render).not.toHaveBeenCalled()
     TestUtils.renderIntoDocument(<Form render={render} />)
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith('Warning: No onSubmit function specified')
+    spy.mockRestore()
   })
 
   it('should allow render to be a component', () => {
@@ -91,18 +104,17 @@ describe('ReactFinalForm', () => {
     )
     expect(render).toHaveBeenCalled()
 
-    // called twice due to field registration adding touched and visited values
-    expect(render).toHaveBeenCalledTimes(2)
-    expect(render.mock.calls[1][0].dirty).toEqual(false)
-    expect(typeof render.mock.calls[1][0].handleSubmit).toBe('function')
-    expect(render.mock.calls[1][0].invalid).toEqual(false)
-    expect(render.mock.calls[1][0].pristine).toEqual(true)
-    expect(render.mock.calls[1][0].submitFailed).toEqual(false)
-    expect(render.mock.calls[1][0].submitSucceeded).toEqual(false)
-    expect(render.mock.calls[1][0].submitting).toEqual(false)
-    expect(render.mock.calls[1][0].valid).toEqual(true)
-    expect(render.mock.calls[1][0].validating).toEqual(false)
-    expect(render.mock.calls[1][0].values).toEqual({})
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].dirty).toEqual(false)
+    expect(typeof render.mock.calls[0][0].handleSubmit).toBe('function')
+    expect(render.mock.calls[0][0].invalid).toEqual(false)
+    expect(render.mock.calls[0][0].pristine).toEqual(true)
+    expect(render.mock.calls[0][0].submitFailed).toEqual(false)
+    expect(render.mock.calls[0][0].submitSucceeded).toEqual(false)
+    expect(render.mock.calls[0][0].submitting).toEqual(false)
+    expect(render.mock.calls[0][0].valid).toEqual(true)
+    expect(render.mock.calls[0][0].validating).toEqual(false)
+    expect(render.mock.calls[0][0].values).toEqual({})
   })
 
   it('should render with a field with a limited subscription', () => {
@@ -376,5 +388,20 @@ describe('ReactFinalForm', () => {
     TestUtils.Simulate.click(button)
 
     expect(unsubscribe).toHaveBeenCalled()
+  })
+
+  it('should work with server-side rendering', () => {
+    const spy = jest.spyOn(global.console, 'error')
+    ReactDOMServer.renderToString(
+      <Form
+        onSubmit={onSubmitMock}
+        render={() => (
+          <form>
+            <Field name="foo" component="input" type="text" />
+          </form>
+        )}
+      />
+    )
+    expect(spy).not.toHaveBeenCalled()
   })
 })
