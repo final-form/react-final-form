@@ -132,6 +132,7 @@ const MyForm = () => (
   * [Loading, Normalizing, Saving, and Reinitializing](#loading-normalizing-saving-and-reinitializing)
   * [🏎️ Downshift Type-Ahead](#-downshift-type-ahead)
   * [Redux Example](#redux-example)
+  * [Conditional Fields](#conditional-fields)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -336,6 +337,10 @@ Demonstrates how to use a [🏎️ Downshift](https://github.com/paypal/downshif
 ### [Redux Example](https://codesandbox.io/s/4xq2qpzw79)
 
 The only reason to keep your 🏁 Final Form form data in Redux is if you need to be able to read it from outside your form. This example demonstrates how to use a `FormSpy` to keep a copy of your form data in the Redux store. Note that the canonical authoritative version of the data still lives in 🏁 Final Form. If you need to _mutate_ your data via dispatching Redux actions, you should probably use [Redux Form](https://redux-form.com).
+
+### [Conditional Fields](https://codesandbox.io/s/lm4p3m92q)
+
+Sometimes you might want to conditionally show or hide some parts of your form depending on values the user has already provided for other form inputs. 🏁 React Final Form makes that very easy to do by creating a `Condition` component out of a `Field` component.
 
 ## Rendering
 
