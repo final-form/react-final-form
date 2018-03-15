@@ -133,6 +133,7 @@ const MyForm = () => (
   * [🏎️ Downshift Type-Ahead](#-downshift-type-ahead)
   * [Redux Example](#redux-example)
   * [Conditional Fields](#conditional-fields)
+  * [Listening for External Changes](#listening-for-external-changes)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -341,6 +342,10 @@ The only reason to keep your 🏁 Final Form form data in Redux is if you need t
 ### [Conditional Fields](https://codesandbox.io/s/lm4p3m92q)
 
 Sometimes you might want to conditionally show or hide some parts of your form depending on values the user has already provided for other form inputs. 🏁 React Final Form makes that very easy to do by creating a `Condition` component out of a `Field` component.
+
+### [Listening for External Changes](https://codesandbox.io/s/3x989zl866)
+
+By wrapping a stateful `ExternalModificationDetector` component in a `Field` component, we can listen for changes to a field's value, and by knowing whether or not the field is active, deduce when a field's value changes due to external influences.
 
 ## Rendering
 
