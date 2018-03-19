@@ -134,6 +134,7 @@ const MyForm = () => (
   * [Redux Example](#redux-example)
   * [Conditional Fields](#conditional-fields)
   * [Listening for External Changes](#listening-for-external-changes)
+  * [Focus On First Error](#focus-on-first-error)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -346,6 +347,10 @@ Sometimes you might want to conditionally show or hide some parts of your form d
 ### [Listening for External Changes](https://codesandbox.io/s/3x989zl866)
 
 By wrapping a stateful `ExternalModificationDetector` component in a `Field` component, we can listen for changes to a field's value, and by knowing whether or not the field is active, deduce when a field's value changes due to external influences.
+
+### [Focus On First Error](https://codesandbox.io/s/6174kqr403)
+
+Demonstrates how to incorporate the [🏁 Final Form Focus 🧐](https://github.com/final-form/final-form-focus) decorator to provide this functionality out of the box.
 
 ## Rendering
 
