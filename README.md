@@ -19,6 +19,14 @@
 
 ---
 
+## 💬 [Give Feedback on React Final Form](https://goo.gl/forms/dxdfxKNy64DLb99z2) 💬
+
+In the interest of making 🏁 React Final Form the best library it can be, we'd love your thoughts and feedback.
+
+[Take a quick survey](https://goo.gl/forms/dxdfxKNy64DLb99z2).
+
+---
+
 ## Installation
 
 ```bash
