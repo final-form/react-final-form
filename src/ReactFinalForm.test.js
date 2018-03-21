@@ -390,6 +390,28 @@ describe('ReactFinalForm', () => {
     expect(unsubscribe).toHaveBeenCalled()
   })
 
+  it('should show form as invalid on first load if field-level validation errors are present', () => {
+    // Debugging https://github.com/final-form/react-final-form/issues/196
+    const render = jest.fn()
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock}>
+        {({ invalid }) => {
+          render(invalid)
+          return (
+            <Field
+              name="foo"
+              component="input"
+              validate={value => (value ? undefined : 'Required')}
+            />
+          )
+        }}
+      </Form>
+    )
+    expect(render).toHaveBeenCalledTimes(2)
+    expect(render.mock.calls[0][0]).toBe(false)
+    expect(render.mock.calls[1][0]).toBe(true)
+  })
+
   it('should work with server-side rendering', () => {
     const spy = jest.spyOn(global.console, 'error')
     ReactDOMServer.renderToString(

@@ -102,6 +102,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     if (this.mounted) {
       this.setState({ state })
     }
+    this.mounted = true
   }
 
   handleSubmit = (event?: SyntheticEvent<HTMLFormElement>) => {
@@ -125,7 +126,6 @@ export default class ReactFinalForm extends React.Component<Props, State> {
       )
       this.form.resumeValidation()
     }
-    this.mounted = true
   }
 
   componentWillReceiveProps(nextProps: Props) {
