@@ -141,18 +141,18 @@ export default class Field extends React.Component<Props, State> {
       value = ''
     }
     const input = { name, value, ...this.handlers }
-    if (rest.type === 'checkbox') {
+    if ((rest: Object).type === 'checkbox') {
       if (_value === undefined) {
         input.checked = !!value
       } else {
         input.checked = !!(Array.isArray(value) && ~value.indexOf(_value))
         input.value = _value
       }
-    } else if (rest.type === 'radio') {
+    } else if ((rest: Object).type === 'radio') {
       input.checked = value === _value
       input.value = _value
     }
-    if (component === 'select' && rest.multiple) {
+    if (component === 'select' && (rest: Object).multiple) {
       input.value = input.value || []
     }
 

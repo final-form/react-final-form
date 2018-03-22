@@ -21,9 +21,9 @@ const getValue = (
   if (
     !isReactNative &&
     event.nativeEvent &&
-    event.nativeEvent.text !== undefined
+    (event.nativeEvent: Object).text !== undefined
   ) {
-    return event.nativeEvent.text
+    return (event.nativeEvent: Object).text
   }
   if (isReactNative && event.nativeEvent) {
     return (event.nativeEvent: any).text
