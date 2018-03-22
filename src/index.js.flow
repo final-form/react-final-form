@@ -2,7 +2,15 @@
 import * as React from 'react'
 import type { FieldProps, FormProps, FormSpyProps } from './types'
 
-export type { ReactContext } from './types'
+export type {
+  FieldProps,
+  FieldRenderProps,
+  FormProps,
+  FormRenderProps,
+  FormSpyProps,
+  FormSpyRenderProps,
+  ReactContext
+} from './types'
 
 declare export var Field: React.ComponentType<FieldProps>
 declare export var Form: React.ComponentType<FormProps>
