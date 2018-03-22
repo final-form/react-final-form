@@ -79,7 +79,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     this.unsubscriptions = []
     if (this.form) {
       // set initial state
-      let initialState: FormState
+      let initialState: FormState = {}
       this.form.subscribe((state: FormState) => {
         initialState = state
       }, subscription || all)()

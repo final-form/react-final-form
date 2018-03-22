@@ -4,7 +4,7 @@ import Form from './ReactFinalForm'
 import Field from './Field'
 import FormSpy from './FormSpy'
 
-const onSubmitMock = values => {}
+const onSubmitMock = () => {}
 const hasFormApi = props => {
   expect(typeof props.batch).toBe('function')
   expect(typeof props.blur).toBe('function')
