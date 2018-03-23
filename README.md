@@ -143,6 +143,7 @@ const MyForm = () => (
   * [Conditional Fields](#conditional-fields)
   * [Listening for External Changes](#listening-for-external-changes)
   * [Focus On First Error](#focus-on-first-error)
+  * [Credit Card Example](#credit-card-example)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -359,6 +360,10 @@ By wrapping a stateful `ExternalModificationDetector` component in a `Field` com
 ### [Focus On First Error](https://codesandbox.io/s/6174kqr403)
 
 Demonstrates how to incorporate the [🏁 Final Form Focus 🧐](https://github.com/final-form/final-form-focus) decorator to provide this functionality out of the box.
+
+### [Credit Card Example](https://codesandbox.io/s/9y8vkrrx9o)
+
+Demonstrates how to make an awesome credit card UX using [React Credit Cards](https://github.com/amarofashion/react-credit-cards).
 
 ## Rendering
 
