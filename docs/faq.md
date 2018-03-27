@@ -19,8 +19,7 @@
 ## Why not Redux-Form or Formik?
 
 Those are both excellent form libraries. Like all engineering decisions, it
-depends on your requirements and what trade-offs you wish to make. Here is a
-[Comparison Table](comparison.md).
+depends on your requirements and what trade-offs you wish to make.
 
 ## Why no HOC?
 
