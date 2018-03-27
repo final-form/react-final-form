@@ -100,6 +100,30 @@ export default class Field extends React.Component<Props, State> {
     },
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const { parse, value: _value } = this.props
+
+      if (process.env.NODE_ENV !== 'production' && event && event.target) {
+        const targetType = event.target.type
+        const props: Object = this.props
+        const unknown =
+          ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
+          !props.type
+
+        const type = targetType === 'select-multiple' ? 'select' : targetType
+        const { value }: any =
+          targetType === 'select-multiple' ? this.state.state || {} : props
+
+        if (unknown) {
+          console.error(
+            `Warning: You must pass \`type="${type}"\` prop to your Field(${
+              props.name
+            }) component.\n` +
+              `Without it we don't know how to unpack your \`value\` prop - ${
+                Array.isArray(value) ? `[${value}]` : `"${value}"`
+              }.`
+          )
+        }
+      }
+
       const value: any =
         event && event.target
           ? getValue(
@@ -151,8 +175,7 @@ export default class Field extends React.Component<Props, State> {
     } else if ((rest: Object).type === 'radio') {
       input.checked = value === _value
       input.value = _value
-    }
-    if (component === 'select' && (rest: Object).multiple) {
+    } else if (component === 'select' && (rest: Object).multiple) {
       input.value = input.value || []
     }
 
