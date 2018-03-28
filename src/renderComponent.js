@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import warning from './warning'
 import type { RenderableProps } from './types'
 
 // shared logic between components that use either render prop,
@@ -17,12 +16,11 @@ export default function renderComponent<T>(
     return render({ ...rest, children }) // inject children back in
   }
   if (typeof children !== 'function') {
-    warning(
-      false,
-      `Must specify either a render prop, a render function as children, or a component prop to ${
-        name
-      }`
-    )
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(
+        `Warning: Must specify either a render prop, a render function as children, or a component prop to ${name}`
+      )
+    }
     return null // warning will alert developer to their mistake
   }
   return children(rest)
