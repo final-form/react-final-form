@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import warning from './warning'
 import {
   createForm,
   formSubscriptionItems,
@@ -74,7 +73,9 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     try {
       this.form = createForm(config)
     } catch (e) {
-      warning(false, e.message)
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(`Warning: ${e.message}`)
+      }
     }
     this.unsubscriptions = []
     if (this.form) {

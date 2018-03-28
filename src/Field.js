@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import warning from './warning'
 import PropTypes from 'prop-types'
 import { fieldSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
@@ -37,10 +36,13 @@ export default class Field extends React.Component<Props, State> {
   constructor(props: Props, context: ReactContext) {
     super(props, context)
     let initialState
-    warning(
-      context.reactFinalForm,
-      'Field must be used inside of a ReactFinalForm component'
-    )
+
+    if (process.env.NODE_ENV !== 'production' && !context.reactFinalForm) {
+      console.error(
+        'Warning: Field must be used inside of a ReactFinalForm component'
+      )
+    }
+
     if (this.context.reactFinalForm) {
       // avoid error, warning will alert developer to their mistake
       this.subscribe(props, (state: FieldState) => {
