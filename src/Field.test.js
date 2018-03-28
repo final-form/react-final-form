@@ -706,4 +706,68 @@ describe('Field', () => {
     expect(barValidate).toHaveBeenCalledTimes(1)
     expect(bazValidate).toHaveBeenCalledTimes(1)
   })
+
+  it('should warn when used without type prop and rendering radio, checkbox or multiple select indirectly', () => {
+    class Container extends React.Component {
+      render() {
+        return (
+          <Form initialValues={{ select_test: [] }} onSubmit={() => {}}>
+            {() => (
+              <div>
+                <Field name="checkbox_test" value="checkbox_value">
+                  {({ input }) => <input type="checkbox" {...input} />}
+                </Field>
+                <Field name="radio_test" value="radio_value">
+                  {({ input }) => <input type="radio" {...input} />}
+                </Field>
+                <Field name="select_test">
+                  {({ input }) => (
+                    <select multiple {...input}>
+                      <option>{'Option'}</option>
+                    </select>
+                  )}
+                </Field>
+              </div>
+            )}
+          </Form>
+        )
+      }
+    }
+
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
+    const dom = TestUtils.renderIntoDocument(<Container />)
+
+    const [checkbox, radio] = TestUtils.scryRenderedDOMComponentsWithTag(
+      dom,
+      'input'
+    )
+    const [select] = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'select')
+
+    TestUtils.Simulate.change(checkbox, {
+      target: { type: 'checkbox', value: 'checkbox_value' }
+    })
+    TestUtils.Simulate.change(radio, {
+      target: { type: 'radio', value: 'radio_value' }
+    })
+    TestUtils.Simulate.change(select, {
+      target: { type: 'select-multiple', value: ['select_value'] }
+    })
+
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(3)
+    expect(spy.mock.calls[0][0]).toBe(
+      'Warning: You must pass `type="checkbox"` prop to your Field(checkbox_test) component.\n' +
+        'Without it we don\'t know how to unpack your `value` prop - "checkbox_value".'
+    )
+    expect(spy.mock.calls[1][0]).toBe(
+      'Warning: You must pass `type="radio"` prop to your Field(radio_test) component.\n' +
+        'Without it we don\'t know how to unpack your `value` prop - "radio_value".'
+    )
+    expect(spy.mock.calls[2][0]).toBe(
+      'Warning: You must pass `type="select"` prop to your Field(select_test) component.\n' +
+        "Without it we don't know how to unpack your `value` prop - []."
+    )
+
+    spy.mockRestore()
+  })
 })
