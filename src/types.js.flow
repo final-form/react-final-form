@@ -22,7 +22,8 @@ export type FieldRenderProps = {
     onBlur: (?SyntheticFocusEvent<*>) => void,
     onChange: (SyntheticInputEvent<*> | any) => void,
     onFocus: (?SyntheticFocusEvent<*>) => void,
-    value: any
+    value: any,
+    checked?: boolean
   },
   meta: {
     // TODO: Make a diff of `FieldState` without all the functions

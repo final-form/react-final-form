@@ -19,6 +19,7 @@ export interface FieldRenderProps {
     onChange: <T>(event: React.ChangeEvent<T> | any) => void
     onFocus: <T>(event?: React.FocusEvent<T>) => void
     value: any
+    checked?: boolean
   }
   meta: Partial<{
     // TODO: Make a diff of `FieldState` without all the functions
