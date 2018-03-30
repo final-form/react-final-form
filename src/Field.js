@@ -143,6 +143,29 @@ export default class Field extends React.Component<Props, State> {
     }
   }
 
+  const fieldActions = {
+    blur: () => {
+      if (this.context.reactFinalForm) {
+        this.context.reactFinalForm.blur(this.props.name);
+      }
+    },
+    change: (value: any) => {
+      if (this.context.reactFinalForm) {
+        this.context.reactFinalForm.change(this.props.name, value);
+      }
+    },
+    focus: () => {
+      if (this.context.reactFinalForm) {
+        this.context.reactFinalForm.focus(this.props.name);
+      }
+    },
+    reset: () => {
+      if (this.context.reactFinalForm) {
+        this.context.reactFinalForm.change(this.props.name, this.state.state.initial);
+      }
+    },
+  }
+
   render() {
     const {
       allowNull,
@@ -190,7 +213,7 @@ export default class Field extends React.Component<Props, State> {
       return React.createElement(component, { ...input, children, ...rest })
     }
     return renderComponent(
-      { input, meta, children, component, ...rest },
+      { input, meta, children, component, ...fieldActions, ...rest },
       `Field(${name})`
     )
   }
