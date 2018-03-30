@@ -143,7 +143,7 @@ export default class Field extends React.Component<Props, State> {
     }
   }
 
-  const fieldActions = {
+  fieldActions = {
     blur: () => {
       if (this.context.reactFinalForm) {
         this.context.reactFinalForm.blur(this.props.name);
