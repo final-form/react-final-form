@@ -213,7 +213,7 @@ export default class Field extends React.Component<Props, State> {
       return React.createElement(component, { ...input, children, ...rest })
     }
     return renderComponent(
-      { input, meta, children, component, ...fieldActions, ...rest },
+      { input, meta, children, component, ...this.fieldActions, ...rest },
       `Field(${name})`
     )
   }
