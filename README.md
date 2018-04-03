@@ -144,6 +144,8 @@ const MyForm = () => (
   * [Listening for External Changes](#listening-for-external-changes)
   * [Focus On First Error](#focus-on-first-error)
   * [Credit Card Example](#credit-card-example)
+  * [Async Redux Submission](#async-redux-submission)
+  * [Declarative Form Rules](#declarative-form-rules)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -368,6 +370,10 @@ Demonstrates how to make an awesome credit card UX using [React Credit Cards](ht
 ### [Async Redux Submission](https://codesandbox.io/s/x71mx66z8w)
 
 Want to use `redux-saga` or `redux-observable` to manage your form submissions? Now you can, using [`react-redux-promise-listener`](https://github.com/erikras/react-redux-promise-listener#react-redux-promise-listener) to convert your dispatched Redux actions into the `Promise` that 🏁 React Final Form is expecting for its `onSubmit` function.
+
+### [Declarative Form Rules](https://codesandbox.io/s/52q597j2p)
+
+What if you could define rules to update fields when other fields change _as components_? This example explores such possibilities. There's also [a Medium post](https://medium.com/@erikras/declarative-form-rules-c5949ea97366) about writing it, and creating a companion library, [`react-final-form-listeners`](https://github.com/final-form/react-final-form-listeners#-react-final-form-listeners).
 
 ## Rendering
 
