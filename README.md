@@ -365,6 +365,10 @@ Demonstrates how to incorporate the [🏁 Final Form Focus 🧐](https://github.
 
 Demonstrates how to make an awesome credit card UX using [React Credit Cards](https://github.com/amarofashion/react-credit-cards).
 
+### [Async Redux Submission](https://codesandbox.io/s/x71mx66z8w)
+
+Want to use `redux-saga` or `redux-observable` to manage your form submissions? Now you can, using [`react-redux-promise-listener`](https://github.com/erikras/react-redux-promise-listener#react-redux-promise-listener) to convert your dispatched Redux actions into the `Promise` that 🏁 React Final Form is expecting for its `onSubmit` function.
+
 ## Rendering
 
 There are three ways to tell `<Form/>` and `<Field/>` what to render:
@@ -437,7 +441,7 @@ A function that takes the value from the form values and the name of the field a
 
 #### `name: string`
 
-The name of your field.
+The name of your field. Field values may be deeply nested using dot-and-bracket syntax. [Learn more about Field Names](https://github.com/final-form/final-form#field-names).
 
 #### `parse?: ((value: any, name: string) => any) | null`
 
