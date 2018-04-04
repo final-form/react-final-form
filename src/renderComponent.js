@@ -16,6 +16,7 @@ export default function renderComponent<T>(
     return render({ ...rest, children }) // inject children back in
   }
   if (typeof children !== 'function') {
+    // istanbul ignore next
     if (process.env.NODE_ENV !== 'production') {
       console.error(
         `Warning: Must specify either a render prop, a render function as children, or a component prop to ${name}`
