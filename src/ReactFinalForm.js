@@ -147,14 +147,16 @@ export default class ReactFinalForm extends React.Component<Props, State> {
       }
     )
     if (process.env.NODE_ENV !== 'production') {
-      warning(
-        shallowEqual(this.props.decorators, nextProps.decorators),
-        'Form decorators should not change from one render to the next as new values will be ignored'
-      )
-      warning(
-        shallowEqual(this.props.subscription, nextProps.subscription),
-        'Form subscription should not change from one render to the next as new values will be ignored'
-      )
+      if (!shallowEqual(this.props.decorators, nextProps.decorators)) {
+        console.error(
+          'Waring: Form decorators should not change from one render to the next as new values will be ignored'
+        )
+      }
+      if (!shallowEqual(this.props.subscription, nextProps.subscription)) {
+        console.error(
+          'Warning: Form subscription should not change from one render to the next as new values will be ignored'
+        )
+      }
     }
   }
 
