@@ -73,6 +73,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     try {
       this.form = createForm(config)
     } catch (e) {
+      // istanbul ignore next
       if (process.env.NODE_ENV !== 'production') {
         console.error(`Warning: ${e.message}`)
       }
@@ -141,11 +142,13 @@ export default class ReactFinalForm extends React.Component<Props, State> {
         if (this.props[key] === nextProps[key]) {
           return
         }
+        // istanbul ignore next
         if (this.form.setConfig) {
           this.form.setConfig(key, nextProps[key])
         }
       }
     )
+    // istanbul ignore next
     if (process.env.NODE_ENV !== 'production') {
       if (!shallowEqual(this.props.decorators, nextProps.decorators)) {
         console.error(
