@@ -20,6 +20,7 @@ export default class FormSpy extends React.Component<Props, State> {
     super(props, context)
     let initialState
 
+    // istanbul ignore next
     if (process.env.NODE_ENV !== 'production' && !context.reactFinalForm) {
       console.error(
         'Warning: FormSpy must be used inside of a ReactFinalForm component'

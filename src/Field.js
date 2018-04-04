@@ -37,6 +37,7 @@ export default class Field extends React.Component<Props, State> {
     super(props, context)
     let initialState
 
+    // istanbul ignore next
     if (process.env.NODE_ENV !== 'production' && !context.reactFinalForm) {
       console.error(
         'Warning: Field must be used inside of a ReactFinalForm component'
@@ -103,6 +104,7 @@ export default class Field extends React.Component<Props, State> {
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const { parse, value: _value } = this.props
 
+      // istanbul ignore next
       if (process.env.NODE_ENV !== 'production' && event && event.target) {
         const targetType = event.target.type
         const props: Object = this.props
