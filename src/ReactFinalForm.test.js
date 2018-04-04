@@ -254,6 +254,43 @@ describe('ReactFinalForm', () => {
     expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
   })
 
+  it('should update when onSubmit changes', async () => {
+    const oldOnSubmit = jest.fn()
+    const newOnSubmit = jest.fn()
+    class Container extends React.Component {
+      state = { submit: newOnSubmit }
+
+      render() {
+        return (
+          <Form onSubmit={this.state.submit} subscription={{ dirty: true }}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <button
+                  type="button"
+                  onClick={() => this.setState({ submit: newOnSubmit })}
+                >
+                  Update
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(<Container />)
+
+    const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(update)
+
+    const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+    TestUtils.Simulate.submit(form)
+
+    expect(oldOnSubmit).not.toHaveBeenCalled()
+    expect(newOnSubmit).toHaveBeenCalled()
+    expect(newOnSubmit).toHaveBeenCalledTimes(1)
+  })
+
   it('should return a promise from handleSubmit when submission is async', async () => {
     const onSubmit = jest.fn()
     let promise
