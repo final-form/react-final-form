@@ -258,7 +258,7 @@ describe('ReactFinalForm', () => {
     const oldOnSubmit = jest.fn()
     const newOnSubmit = jest.fn()
     class Container extends React.Component {
-      state = { submit: newOnSubmit }
+      state = { submit: oldOnSubmit }
 
       render() {
         return (
@@ -279,16 +279,108 @@ describe('ReactFinalForm', () => {
     }
 
     const dom = TestUtils.renderIntoDocument(<Container />)
+    const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+
+    TestUtils.Simulate.submit(form)
+
+    expect(oldOnSubmit).toHaveBeenCalled()
+    expect(oldOnSubmit).toHaveBeenCalledTimes(1)
+    expect(newOnSubmit).not.toHaveBeenCalled()
 
     const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(update)
 
-    const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
     TestUtils.Simulate.submit(form)
-
-    expect(oldOnSubmit).not.toHaveBeenCalled()
+    expect(oldOnSubmit).toHaveBeenCalledTimes(1)
     expect(newOnSubmit).toHaveBeenCalled()
     expect(newOnSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('should warn if decorators change', async () => {
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
+    const decoratorA = form => form
+    const decoratorB = form => form
+    const decoratorC = form => form
+    const oldDecorators = [decoratorA, decoratorB]
+    const newDecorators = [decoratorA, decoratorB, decoratorC]
+    class Container extends React.Component {
+      state = { decorators: oldDecorators }
+
+      render() {
+        return (
+          <Form
+            onSubmit={onSubmitMock}
+            subscription={{ dirty: true }}
+            decorators={this.state.decorators}
+          >
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <button
+                  type="button"
+                  onClick={() => this.setState({ decorators: newDecorators })}
+                >
+                  Update
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(<Container />)
+    expect(spy).not.toHaveBeenCalled()
+
+    const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(update)
+
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      'Warning: Form decorators should not change from one render to the next as new values will be ignored'
+    )
+    spy.mockRestore()
+  })
+
+  it('should warn if subscription changes', async () => {
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
+    const oldSubscription = { values: true, valid: true }
+    const newSubscription = { values: true, invalid: true, dirty: true }
+    class Container extends React.Component {
+      state = { subscription: oldSubscription }
+
+      render() {
+        return (
+          <Form onSubmit={onSubmitMock} subscription={this.state.subscription}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({ subscription: newSubscription })
+                  }
+                >
+                  Update
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(<Container />)
+    expect(spy).not.toHaveBeenCalled()
+
+    const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(update)
+
+    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      'Warning: Form subscription should not change from one render to the next as new values will be ignored'
+    )
+    spy.mockRestore()
   })
 
   it('should return a promise from handleSubmit when submission is async', async () => {
