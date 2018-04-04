@@ -136,21 +136,16 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     ) {
       this.form.initialize(nextProps.initialValues)
     }
-    if (this.props.debug !== nextProps.debug) {
-      this.form.setConfig('debug', nextProps.debug)
-    }
-    if (!shallowEqual(this.props.mutators, nextProps.mutators)) {
-      this.form.setConfig('mutators', nextProps.mutators)
-    }
-    if (this.props.onSubmit !== nextProps.onSubmit) {
-      this.form.setConfig('onSubmit', nextProps.onSubmit)
-    }
-    if (this.props.validate !== nextProps.validate) {
-      this.form.setConfig('validate', nextProps.validate)
-    }
-    if (this.props.validateOnBlur !== nextProps.validateOnBlur) {
-      this.form.setConfig('validateOnBlur', nextProps.validateOnBlur)
-    }
+    ;['debug', 'mutators', 'onSubmit', 'validate', 'validateOnBlur'].forEach(
+      key => {
+        if (this.props[key] === nextProps[key]) {
+          return
+        }
+        if (this.form.setConfig) {
+          this.form.setConfig(key, nextProps[key])
+        }
+      }
+    )
     if (process.env.NODE_ENV !== 'production') {
       warning(
         shallowEqual(this.props.decorators, nextProps.decorators),
