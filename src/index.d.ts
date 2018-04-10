@@ -27,7 +27,7 @@ export interface FieldRenderProps {
     dirty: boolean
     dirtySinceLastSubmit: boolean
     error: any
-    initial: boolean
+    initial: any
     invalid: boolean
     pristine: boolean
     submitError: any
