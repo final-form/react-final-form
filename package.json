@@ -1,6 +1,6 @@
 {
   "name": "react-final-form",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "description":
     "🏁 High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/final-form/react-final-form#readme",
   "devDependencies": {
-    "@types/react": "^16.3.5",
+    "@types/react": "^16.3.8",
     "babel-eslint": "^8.0.3",
     "babel-jest": "^22.4.3",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -44,12 +44,12 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.7.0",
-    "final-form": "^4.4.0",
+    "final-form": "^4.5.1",
     "flow-bin": "^0.69.0",
     "glow": "^1.2.2",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
-    "lint-staged": "^7.0.3",
+    "lint-staged": "^7.0.4",
     "nps": "^5.9.0",
     "nps-utils": "^1.5.0",
     "opencollective": "^1.0.3",
