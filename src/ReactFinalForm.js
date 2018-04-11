@@ -16,7 +16,7 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
-export const version = '3.2.0'
+export const version = '3.2.1'
 
 const versions = {
   'final-form': ffVersion,
