@@ -3,6 +3,7 @@
     [
       "env",
       {
+        "loose": true,
         "targets": {
           "node": "8"
         }

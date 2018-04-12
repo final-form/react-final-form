@@ -60,7 +60,7 @@ export default {
     babel({
       exclude: 'node_modules/**',
       babelrc: false,
-      presets: [['env', { modules: false }], 'stage-2'],
+      presets: [['env', { loose: true, modules: false }], 'stage-2'],
       plugins: ['external-helpers']
     }),
     umd
