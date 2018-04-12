@@ -16,6 +16,7 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
+import type { FormRenderProps } from './types.js.flow'
 export const version = '3.2.1'
 
 const versions = {
@@ -46,8 +47,6 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   static childContextTypes = {
     reactFinalForm: PropTypes.object
   }
-
-  static displayName = `ReactFinalForm(${ffVersion})(${version})`
 
   constructor(props: Props) {
     super(props)
@@ -179,18 +178,96 @@ export default class ReactFinalForm extends React.Component<Props, State> {
       validateOnBlur,
       ...props
     } = this.props
+    const renderProps: FormRenderProps = {
+      // assign to force Flow check
+      ...(this.state ? this.state.state : {}),
+      batch:
+        this.form &&
+        ((fn: () => void) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.batch() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.batch() instead. Check your ReactFinalForm render prop.`
+            )
+          }
+          return this.form.batch(fn)
+        }),
+      blur:
+        this.form &&
+        ((name: string) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.blur() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.blur() instead. Check your ReactFinalForm render prop.`
+            )
+          }
+          return this.form.blur(name)
+        }),
+      change:
+        this.form &&
+        ((name: string, value: any) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.change() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.change() instead. Check your ReactFinalForm render prop.`
+            )
+          }
+          return this.form.change(name, value)
+        }),
+      focus:
+        this.form &&
+        ((name: string) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.focus() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.focus() instead. Check your ReactFinalForm render prop.`
+            )
+          }
+          return this.form.focus(name)
+        }),
+      form: this.form,
+      handleSubmit: this.handleSubmit,
+      initialize:
+        this.form &&
+        ((values: Object) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.initialize() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.initialize() instead. Check your ReactFinalForm render prop.`
+            )
+          }
+          return this.form.initialize(values)
+        }),
+      mutators:
+        this.form &&
+        Object.keys(this.form.mutators).reduce((result, key) => {
+          result[key] = (...args) => {
+            this.form.mutators[key](...args)
+            // istanbul ignore next
+            if (process.env.NODE_ENV !== 'production') {
+              console.error(
+                `Warning: As of React Final Form v3.3.0, props.mutators is deprecated and will be removed in the next major version of React Final Form. Use: props.form.mutators instead. Check your ReactFinalForm render prop.`
+              )
+            }
+          }
+          return result
+        }, {}),
+      reset:
+        this.form &&
+        ((values?: Object) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.reset() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.reset() instead. Check your ReactFinalForm render prop.`
+            )
+          }
+          return this.form.reset(values)
+        })
+    }
     return renderComponent(
       {
         ...props,
-        ...(this.state ? this.state.state : {}),
-        mutators: this.form && this.form.mutators,
-        batch: this.form && this.form.batch,
-        blur: this.form && this.form.blur,
-        change: this.form && this.form.change,
-        focus: this.form && this.form.focus,
-        handleSubmit: this.handleSubmit,
-        initialize: this.form && this.form.initialize,
-        reset: this.form && this.form.reset,
+        ...renderProps,
         __versions: versions
       },
       'ReactFinalForm'

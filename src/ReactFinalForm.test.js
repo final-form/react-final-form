@@ -383,6 +383,62 @@ describe('ReactFinalForm', () => {
     spy.mockRestore()
   })
 
+  const deprecatedFns = {
+    // map from name to args
+    batch: [() => {}],
+    blur: ['foo'],
+    change: ['foo', 'bar'],
+    focus: [],
+    initialize: [{ foo: 'bar' }],
+    reset: []
+  }
+
+  Object.keys(deprecatedFns).forEach(key => {
+    it(`should warn if deprecated function props.${key}() is called`, async () => {
+      const spy = jest
+        .spyOn(global.console, 'error')
+        .mockImplementation(() => {})
+      TestUtils.renderIntoDocument(
+        <Form onSubmit={onSubmitMock}>
+          {props => {
+            expect(spy).not.toHaveBeenCalled()
+            props[key](...deprecatedFns[key])
+            expect(spy).toHaveBeenCalled()
+            expect(spy).toHaveBeenCalledTimes(1)
+            expect(spy).toHaveBeenCalledWith(
+              `Warning: As of React Final Form v3.3.0, props.${key}() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.${key}() instead. Check your ReactFinalForm render prop.`
+            )
+            return <div />
+          }}
+        </Form>
+      )
+      spy.mockRestore()
+    })
+  })
+
+  it(`should warn if deprecated function props.mutators.whatever() is called`, async () => {
+    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
+    const mutator = jest.fn()
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock} mutators={{ whatever: mutator }}>
+        {props => {
+          expect(spy).not.toHaveBeenCalled()
+          expect(mutator).not.toHaveBeenCalled()
+          props.mutators.whatever()
+          expect(mutator).toHaveBeenCalled()
+          expect(mutator).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalled()
+          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledWith(
+            `Warning: As of React Final Form v3.3.0, props.mutators is deprecated and will be removed in the next major version of React Final Form. Use: props.form.mutators instead. Check your ReactFinalForm render prop.`
+          )
+          return <div />
+        }}
+      </Form>
+    )
+    spy.mockRestore()
+  })
+
   it('should return a promise from handleSubmit when submission is async', async () => {
     const onSubmit = jest.fn()
     let promise
@@ -527,11 +583,7 @@ describe('ReactFinalForm', () => {
         {({ invalid }) => {
           render(invalid)
           return (
-            <Field
-              name="foo"
-              component="input"
-              validate={value => (value ? undefined : 'Required')}
-            />
+            <Field name="foo" component="input" validate={() => 'Required'} />
           )
         }}
       </Form>
