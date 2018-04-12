@@ -4,7 +4,11 @@ import PropTypes from 'prop-types'
 import { formSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
 import renderComponent from './renderComponent'
-import type { FormSpyProps as Props, ReactContext } from './types'
+import type {
+  FormSpyProps as Props,
+  FormSpyRenderProps,
+  ReactContext
+} from './types'
 import type { FormState } from 'final-form'
 import { all } from './ReactFinalForm'
 
@@ -86,19 +90,96 @@ export default class FormSpy extends React.Component<Props, State> {
   render() {
     const { onChange, subscription, ...rest } = this.props
     const { reactFinalForm } = this.context
+    const renderProps: FormSpyRenderProps = {
+      batch:
+        reactFinalForm &&
+        ((fn: () => void) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.batch() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.batch() instead. Check your FormSpy render prop.`
+            )
+          }
+          return reactFinalForm.batch(fn)
+        }),
+      blur:
+        reactFinalForm &&
+        ((name: string) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.blur() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.blur() instead. Check your FormSpy render prop.`
+            )
+          }
+          return reactFinalForm.blur(name)
+        }),
+      change:
+        reactFinalForm &&
+        ((name: string, value: any) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.change() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.change() instead. Check your FormSpy render prop.`
+            )
+          }
+          return reactFinalForm.change(name, value)
+        }),
+      focus:
+        reactFinalForm &&
+        ((name: string) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.focus() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.focus() instead. Check your FormSpy render prop.`
+            )
+          }
+          return reactFinalForm.focus(name)
+        }),
+      form: reactFinalForm,
+      initialize:
+        reactFinalForm &&
+        ((values: Object) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.initialize() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.initialize() instead. Check your FormSpy render prop.`
+            )
+          }
+          return reactFinalForm.initialize(values)
+        }),
+      mutators:
+        reactFinalForm &&
+        Object.keys(reactFinalForm.mutators).reduce((result, key) => {
+          result[key] = (...args) => {
+            reactFinalForm.mutators[key](...args)
+            // istanbul ignore next
+            if (process.env.NODE_ENV !== 'production') {
+              console.error(
+                `Warning: As of React Final Form v3.3.0, props.mutators is deprecated and will be removed in the next major version of React Final Form. Use: props.form.mutators instead. Check your FormSpy render prop.`
+              )
+            }
+          }
+          return result
+        }, {}),
+      reset:
+        reactFinalForm &&
+        ((values?: Object) => {
+          // istanbul ignore next
+          if (process.env.NODE_ENV !== 'production') {
+            console.error(
+              `Warning: As of React Final Form v3.3.0, props.reset() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.reset() instead. Check your FormSpy render prop.`
+            )
+          }
+          return reactFinalForm.reset(values)
+        })
+    }
     return onChange
       ? null
       : renderComponent(
           {
             ...rest,
             ...(this.state ? this.state.state : {}),
-            mutators: reactFinalForm && reactFinalForm.mutators,
-            batch: reactFinalForm && reactFinalForm.batch,
-            blur: reactFinalForm && reactFinalForm.blur,
-            change: reactFinalForm && reactFinalForm.change,
-            focus: reactFinalForm && reactFinalForm.focus,
-            initialize: reactFinalForm && reactFinalForm.initialize,
-            reset: reactFinalForm && reactFinalForm.reset
+            ...renderProps
           },
           'FormSpy'
         )

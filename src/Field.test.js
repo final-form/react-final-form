@@ -422,7 +422,9 @@ describe('Field', () => {
     const requiredUppercase = value =>
       !value
         ? 'Required'
-        : value.toUpperCase() === value ? undefined : 'Must be uppercase'
+        : value.toUpperCase() === value
+          ? undefined
+          : 'Must be uppercase'
     class FieldsContainer extends React.Component {
       state = { uppercase: false }
 
@@ -454,7 +456,9 @@ describe('Field', () => {
     expect(input).toHaveBeenCalledTimes(2)
     expect(input.mock.calls[1][0].meta.error).toBe('Required')
 
-    const { input: { onChange } } = input.mock.calls[1][0]
+    const {
+      input: { onChange }
+    } = input.mock.calls[1][0]
 
     onChange('hi')
 
@@ -584,7 +588,7 @@ describe('Field', () => {
     expect(barInput.checked).toBe(true)
     expect(bazInput.checked).toBe(false)
 
-    render.mock.calls[0][0].change('foo', 'Baz')
+    render.mock.calls[0][0].form.change('foo', 'Baz')
 
     expect(barInput.checked).toBe(false)
     expect(bazInput.checked).toBe(true)

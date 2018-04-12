@@ -53,11 +53,15 @@ export type SubsetFormApi = {
 } & FormState
 
 export type FormRenderProps = {
-  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void
+  handleSubmit: (SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
+  form: FormApi
 } & FormState &
   SubsetFormApi
 
-export type FormSpyRenderProps = SubsetFormApi & FormState
+export type FormSpyRenderProps = {
+  form: FormApi
+} & SubsetFormApi &
+  FormState
 
 export type RenderableProps<T> = {
   children?: ((props: T) => React.Node) | React.Node,

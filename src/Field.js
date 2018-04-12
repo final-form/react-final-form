@@ -4,7 +4,11 @@ import PropTypes from 'prop-types'
 import { fieldSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
 import type { FieldSubscription, FieldState } from 'final-form'
-import type { FieldProps as Props, ReactContext } from './types'
+import type {
+  FieldProps as Props,
+  FieldRenderProps,
+  ReactContext
+} from './types'
 import renderComponent from './renderComponent'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
@@ -160,8 +164,24 @@ export default class Field extends React.Component<Props, State> {
       value: _value,
       ...rest
     } = this.props
-    let { blur, change, focus, value, name: ignoreName, ...meta } =
+    let { blur, change, focus, value, name: ignoreName, ...otherState } =
       this.state.state || {}
+    const meta = {
+      // this is to appease the Flow gods
+      active: otherState.active,
+      dirty: otherState.dirty,
+      dirtySinceLastSubmit: otherState.dirtySinceLastSubmit,
+      error: otherState.error,
+      initial: otherState.initial,
+      invalid: otherState.invalid,
+      pristine: otherState.pristine,
+      submitError: otherState.submitError,
+      submitFailed: otherState.submitFailed,
+      submitSucceeded: otherState.submitSucceeded,
+      touched: otherState.touched,
+      valid: otherState.valid,
+      visited: otherState.visited
+    }
     if (format) {
       value = format(value, name)
     }
@@ -191,8 +211,9 @@ export default class Field extends React.Component<Props, State> {
       // ignore meta, combine input with any other props
       return React.createElement(component, { ...input, children, ...rest })
     }
+    const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
     return renderComponent(
-      { input, meta, children, component, ...rest },
+      { ...renderProps, children, component, ...rest },
       `Field(${name})`
     )
   }
