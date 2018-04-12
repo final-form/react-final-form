@@ -4,6 +4,7 @@ import flow from 'rollup-plugin-flow'
 import commonjs from 'rollup-plugin-commonjs'
 import uglify from 'rollup-plugin-uglify'
 import replace from 'rollup-plugin-replace'
+import pkg from './package.json'
 
 const minify = process.env.MINIFY
 const format = process.env.FORMAT
@@ -46,7 +47,12 @@ export default {
     },
     output
   ),
-  external: ['react', 'prop-types', 'final-form'],
+  external: umd
+    ? Object.keys(pkg.peerDependencies || {})
+    : [
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ],
   plugins: [
     resolve({ jsnext: true, main: true }),
     flow(),
