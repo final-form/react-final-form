@@ -169,6 +169,7 @@ export default class Field extends React.Component<Props, State> {
     const meta = {
       // this is to appease the Flow gods
       active: otherState.active,
+      data: otherState.data,
       dirty: otherState.dirty,
       dirtySinceLastSubmit: otherState.dirtySinceLastSubmit,
       error: otherState.error,
