@@ -173,7 +173,7 @@ const MyForm = () => (
     * [`input.onFocus: (?SyntheticFocusEvent<*>) => void`](#inputonfocus-syntheticfocusevent--void)
     * [`input.value: any`](#inputvalue-any)
     * [`meta.active?: boolean`](#metaactive-boolean)
-    * [`meta.data: Object`](#metadata-object)
+    * [`meta.data?: Object`](#metadata-object)
     * [`meta.dirty?: boolean`](#metadirty-boolean)
     * [`meta.error?: any`](#metaerror-any)
     * [`meta.initial?: any`](#metainitial-any)
@@ -528,7 +528,7 @@ The current value of the field.
 
 [See the 🏁 Final Form docs on `active`](https://github.com/final-form/final-form#active-boolean).
 
-#### `meta.data: Object`
+#### `meta.data?: Object`
 
 [See the 🏁 Final Form docs on `data`](https://github.com/final-form/final-form#data-object).
 
