@@ -28,6 +28,7 @@ export type FieldRenderProps = {
   meta: {
     // TODO: Make a diff of `FieldState` without all the functions
     active?: boolean,
+    data: Object,
     dirty?: boolean,
     dirtySinceLastSubmit?: boolean,
     error?: any,
