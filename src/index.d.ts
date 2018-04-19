@@ -24,6 +24,7 @@ export interface FieldRenderProps {
   meta: Partial<{
     // TODO: Make a diff of `FieldState` without all the functions
     active: boolean
+    data: object,
     dirty: boolean
     dirtySinceLastSubmit: boolean
     error: any
