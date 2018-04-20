@@ -106,7 +106,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     this.mounted = true
   }
 
-  handleSubmit = (event?: SyntheticEvent<HTMLFormElement>) => {
+  handleSubmit = (event: ?SyntheticEvent<HTMLFormElement>) => {
     if (event && typeof event.preventDefault === 'function') {
       // sometimes not true, e.g. React Native
       event.preventDefault()
