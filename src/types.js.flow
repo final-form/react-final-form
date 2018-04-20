@@ -54,7 +54,7 @@ export type SubsetFormApi = {
 } & FormState
 
 export type FormRenderProps = {
-  handleSubmit: (SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
+  handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
   form: FormApi
 } & FormState &
   SubsetFormApi
