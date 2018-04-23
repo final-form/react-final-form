@@ -129,6 +129,18 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     }
   }
 
+  componentWillUpdate() {
+    if (this.form) {
+      this.form.pauseValidation()
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.form) {
+      this.form.resumeValidation()
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.initialValues &&

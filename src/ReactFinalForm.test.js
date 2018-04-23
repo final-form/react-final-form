@@ -537,6 +537,61 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(2)
   })
 
+  it('should not repeatedly call validation for every field on mount', () => {
+    const validate = jest.fn(values => ({}))
+    const count = 1000
+
+    class Container extends React.Component {
+      constructor() {
+        super()
+        this.state = { ids: [], time: undefined }
+      }
+      componentDidMount() {
+        const ids = []
+        while (ids.length < count) {
+          ids.push(ids.length)
+        }
+        this.setState({ ids, time: Date.now() })
+      }
+
+      componentDidUpdate() {
+        if (this.state.time) {
+          console.info('Took', Date.now() - this.state.time)
+        }
+      }
+
+      render() {
+        return this.props.children(this.state.ids)
+      }
+    }
+
+    TestUtils.renderIntoDocument(
+      <Container>
+        {ids => (
+          <Form
+            onSubmit={onSubmitMock}
+            subscription={{ submitting: true }}
+            initialValues={{ submitting: true }}
+            validate={validate}
+            validateOnBlur
+            ids={ids}
+            render={() => (
+              <form>
+                {ids.map(id => (
+                  <input key={id} name={`field${id}`} />
+                  // <Field key={id} name={`field${id}`} component="input" />
+                ))}
+              </form>
+            )}
+          />
+        )}
+      </Container>
+    )
+
+    expect(validate).toHaveBeenCalled()
+    expect(validate).toHaveBeenCalledTimes(1)
+  })
+
   it('should add decorators', () => {
     const unsubscribe = jest.fn()
     const decorator = jest.fn(() => unsubscribe)
