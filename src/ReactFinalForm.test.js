@@ -539,7 +539,7 @@ describe('ReactFinalForm', () => {
 
   it('should not repeatedly call validation for every field on mount', () => {
     const validate = jest.fn(values => ({}))
-    const count = 1000
+    const count = 10
 
     class Container extends React.Component {
       constructor() {
@@ -552,12 +552,6 @@ describe('ReactFinalForm', () => {
           ids.push(ids.length)
         }
         this.setState({ ids, time: Date.now() })
-      }
-
-      componentDidUpdate() {
-        if (this.state.time) {
-          console.info('Took', Date.now() - this.state.time)
-        }
       }
 
       render() {
