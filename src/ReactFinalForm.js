@@ -42,6 +42,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   state: State
   form: FormApi
   mounted: boolean
+  resumeValidation: ?boolean
   unsubscriptions: Unsubscribe[]
 
   static childContextTypes = {
@@ -131,12 +132,13 @@ export default class ReactFinalForm extends React.Component<Props, State> {
 
   componentWillUpdate() {
     if (this.form) {
+      this.resumeValidation = !this.form.isValidationPaused()
       this.form.pauseValidation()
     }
   }
 
   componentDidUpdate() {
-    if (this.form) {
+    if (this.form && this.resumeValidation) {
       this.form.resumeValidation()
     }
   }
@@ -153,10 +155,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
         if (this.props[key] === nextProps[key]) {
           return
         }
-        // istanbul ignore next
-        if (this.form.setConfig) {
-          this.form.setConfig(key, nextProps[key])
-        }
+        this.form.setConfig(key, nextProps[key])
       }
     )
     // istanbul ignore next
