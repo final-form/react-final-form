@@ -11,7 +11,7 @@ script:
   - npm start validate
 after_success:
   - npx codecov
-  - npm install --global semantic-release
+  # - npm install --global semantic-release
   # - semantic-release pre && npm publish && semantic-release post
 branches:
   only:
