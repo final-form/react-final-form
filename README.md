@@ -238,7 +238,7 @@ form with no validation.
 Introduces a whole-record validation function and demonstrates how to display
 errors next to fields using child render functions.
 
-### [Synchronous Field-Level Validation](https://codesandbox.io/s/2k054qp40)
+### [Synchronous Field-Level Validation](https://codesandbox.io/s/5vrpj542kx)
 
 Introduces field-level validation functions and demonstrates how to display
 errors next to fields using child render functions.
