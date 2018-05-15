@@ -146,6 +146,7 @@ const MyForm = () => (
   * [Credit Card Example](#credit-card-example)
   * [Async Redux Submission](#async-redux-submission)
   * [Declarative Form Rules](#declarative-form-rules)
+  * [Format String By Pattern](#format-string-by-pattern)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -202,10 +203,11 @@ const MyForm = () => (
     * [`blur: (name: string) => void`](#blur-name-string--void)
     * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
     * [`focus: (name: string) => void`](#focus-name-string--void)
+    * [`form: FormApi`](#form-formapi)
     * [`handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
     * [`initialize: (values: Object) => void`](#initialize-values-object--void)
     * [`mutators?: { [string]: Function }`](#mutators--string-function-)
-    * [`reset: () => void`](#reset---void)
+    * [`reset: (newInitialValues?: Object) => void`](#reset-newinitialvalues-object--void)
   * [`FormSpyProps`](#formspyprops)
     * [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
@@ -217,9 +219,10 @@ const MyForm = () => (
     * [`blur: (name: string) => void`](#blur-name-string--void-1)
     * [`change: (name: string, value: any) => void`](#change-name-string-value-any--void-1)
     * [`focus: (name: string) => void`](#focus-name-string--void-1)
+    * [`form: FormApi`](#form-formapi-1)
     * [`initialize: (values: Object) => void`](#initialize-values-object--void-1)
     * [`mutators?: { [string]: Function }`](#mutators--string-function--1)
-    * [`reset: () => void`](#reset---void-1)
+    * [`reset: (newInitialValues?: Object) => void`](#reset-newinitialvalues-object--void-1)
 * [Contributors](#contributors)
 * [Backers](#backers)
 * [Sponsors](#sponsors)
@@ -374,6 +377,10 @@ Want to use `redux-saga` or `redux-observable` to manage your form submissions? 
 ### [Declarative Form Rules](https://codesandbox.io/s/52q597j2p)
 
 What if you could define rules to update fields when other fields change _as components_? This example explores such possibilities. There's also [a Medium post](https://medium.com/@erikras/declarative-form-rules-c5949ea97366) about writing it, and creating a companion library, [`react-final-form-listeners`](https://github.com/final-form/react-final-form-listeners#-react-final-form-listeners).
+
+### [Format String By Pattern](https://codesandbox.io/s/no20p7z3l)
+
+Demonstrates how to use the library `format-string-by-pattern` to create input masks for your 🏁 React Final Form fields.
 
 ## Rendering
 
