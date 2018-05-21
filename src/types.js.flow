@@ -72,7 +72,8 @@ export type RenderableProps<T> = {
 
 export type FormProps = {
   subscription?: FormSubscription,
-  decorators?: Decorator[]
+  decorators?: Decorator[],
+  allowReinitializeValues: boolean,
 } & Config &
   RenderableProps<FormRenderProps>
 
