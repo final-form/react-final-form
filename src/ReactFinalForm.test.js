@@ -26,6 +26,21 @@ describe('ReactFinalForm', () => {
     expect(render).toHaveBeenCalledTimes(1)
   })
 
+  it('should re-render with forceUpdate render prop', () => {
+    let rerender
+    const render = jest.fn(({ forceUpdate }) => {
+      rerender = forceUpdate
+      return <div />
+    })
+    expect(render).not.toHaveBeenCalled()
+    TestUtils.renderIntoDocument(<Form onSubmit={onSubmitMock}>{render}</Form>)
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+
+    rerender()
+    expect(render).toHaveBeenCalledTimes(2)
+  })
+
   it('should print a warning with no render or children specified', () => {
     const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     TestUtils.renderIntoDocument(<Form onSubmit={onSubmitMock} />)

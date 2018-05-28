@@ -284,7 +284,8 @@ export default class ReactFinalForm extends React.Component<Props, State> {
             )
           }
           return this.form.reset(values)
-        })
+        }),
+      forceUpdate: this.forceUpdate.bind(this)
     }
     return renderComponent(
       {

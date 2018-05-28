@@ -707,6 +707,10 @@ _**[DEPRECATED]** Use `form.reset()` instead_
 A function that resets the form values to their last initialized values.
 [See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset-initialvalues-object--void).
 
+#### `forceUpdate: () => void`
+
+Forces rerender of the Form component
+
 ### `FormSpyProps`
 
 These are the props that you pass to
