@@ -6,6 +6,7 @@ cache:
 notifications:
   email: false
 node_js:
+  - '10'
   - '8'
 script:
   - npm start validate
