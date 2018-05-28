@@ -16,6 +16,7 @@ import type {
 import type { FormProps as Props, ReactContext } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
+import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
 export const version = '3.4.2'
 
@@ -236,7 +237,17 @@ export default class ReactFinalForm extends React.Component<Props, State> {
           }
           return this.form.focus(name)
         }),
-      form: this.form,
+      form: {
+        ...this.form,
+        reset: eventOrValues => {
+          if (isSyntheticEvent(eventOrValues)) {
+            // it's a React SyntheticEvent, call reset with no arguments
+            this.form.reset()
+          } else {
+            this.form.reset(eventOrValues)
+          }
+        }
+      },
       handleSubmit: this.handleSubmit,
       initialize:
         this.form &&

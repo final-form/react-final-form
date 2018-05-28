@@ -10,6 +10,7 @@ import type {
   ReactContext
 } from './types'
 import type { FormState } from 'final-form'
+import isSyntheticEvent from './isSyntheticEvent'
 import { all } from './ReactFinalForm'
 
 type State = { state: FormState }
@@ -135,7 +136,17 @@ export default class FormSpy extends React.Component<Props, State> {
           }
           return reactFinalForm.focus(name)
         }),
-      form: reactFinalForm,
+      form: {
+        ...reactFinalForm,
+        reset: eventOrValues => {
+          if (isSyntheticEvent(eventOrValues)) {
+            // it's a React SyntheticEvent, call reset with no arguments
+            reactFinalForm.reset()
+          } else {
+            reactFinalForm.reset(eventOrValues)
+          }
+        }
+      },
       initialize:
         reactFinalForm &&
         ((values: Object) => {

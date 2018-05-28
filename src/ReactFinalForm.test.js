@@ -537,6 +537,70 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(2)
   })
 
+  it('should ignore SyntheticEvents on form reset ', () => {
+    const input = jest.fn(({ input }) => <input {...input} />)
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        subscription={{}}
+        initialValues={{ foo: 'bar' }}
+      >
+        {({ form: { reset } }) => (
+          <form>
+            <Field name="foo" render={input} />
+            <button onClick={reset}>Reset</button>
+          </form>
+        )}
+      </Form>
+    )
+    expect(input).toHaveBeenCalled()
+    expect(input).toHaveBeenCalledTimes(1)
+    expect(input.mock.calls[0][0].input.value).toBe('bar')
+
+    input.mock.calls[0][0].input.onChange('baz')
+
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].input.value).toBe('baz')
+
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(button)
+
+    expect(input).toHaveBeenCalledTimes(3)
+    expect(input.mock.calls[2][0].input.value).toBe('bar')
+  })
+
+  it('should accept new initial values on form reset ', () => {
+    const input = jest.fn(({ input }) => <input {...input} />)
+    const dom = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={onSubmitMock}
+        subscription={{}}
+        initialValues={{ foo: 'bar' }}
+      >
+        {({ form: { reset } }) => (
+          <form>
+            <Field name="foo" render={input} />
+            <button onClick={() => reset({ foo: 'newfoo' })}>Reset</button>
+          </form>
+        )}
+      </Form>
+    )
+    expect(input).toHaveBeenCalled()
+    expect(input).toHaveBeenCalledTimes(1)
+    expect(input.mock.calls[0][0].input.value).toBe('bar')
+
+    input.mock.calls[0][0].input.onChange('baz')
+
+    expect(input).toHaveBeenCalledTimes(2)
+    expect(input.mock.calls[1][0].input.value).toBe('baz')
+
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(button)
+
+    expect(input).toHaveBeenCalledTimes(3)
+    expect(input.mock.calls[2][0].input.value).toBe('newfoo')
+  })
+
   it('should not repeatedly call validation for every field on mount', () => {
     const validate = jest.fn(values => ({}))
     const count = 10
