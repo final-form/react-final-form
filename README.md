@@ -612,6 +612,13 @@ to apply to the form.
 
 [See the 🏁 Final Form docs on `initialValues`](https://github.com/final-form/final-form#initialvalues-object).
 
+#### `allowReinitializeValues: boolean`
+
+A boolean that indicates whether or not a change in the shallow values of
+`initialValues` should cause the form to reinitialize. Setting this to `true` is
+useful when you are re-rendering the `Form` component, and you are using nested
+values.
+
 #### `mutators?: { [string]: Mutator }`
 
 [See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).

@@ -50,6 +50,10 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     reactFinalForm: PropTypes.object
   }
 
+  static defaultProps = {
+    allowReinitializeValues: true,
+  }
+
   constructor(props: Props) {
     super(props)
     const {
@@ -147,6 +151,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.initialValues &&
+      nextProps.allowReinitializeValues &&
       !shallowEqual(this.props.initialValues, nextProps.initialValues)
     ) {
       this.form.initialize(nextProps.initialValues)
