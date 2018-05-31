@@ -69,7 +69,6 @@ describe('ReactFinalForm', () => {
     // This is mainly here for code coverage. 🧐
     class Container extends React.Component {
       state = { shown: true }
-
       render() {
         return (
           <div>
@@ -90,7 +89,6 @@ describe('ReactFinalForm', () => {
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
   })
-
   it('should render with a field', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const render = jest.fn(() => (
@@ -103,7 +101,6 @@ describe('ReactFinalForm', () => {
       <Form onSubmit={onSubmitMock} render={render} />
     )
     expect(render).toHaveBeenCalled()
-
     expect(render).toHaveBeenCalledTimes(1)
     expect(render.mock.calls[0][0].dirty).toEqual(false)
     expect(typeof render.mock.calls[0][0].handleSubmit).toBe('function')
@@ -116,7 +113,6 @@ describe('ReactFinalForm', () => {
     expect(render.mock.calls[0][0].validating).toEqual(false)
     expect(render.mock.calls[0][0].values).toEqual({})
   })
-
   it('should render with a field with a limited subscription', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const render = jest.fn(() => (
@@ -139,7 +135,6 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
   })
-
   it('should update dirty flag when form is dirty', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const render = jest.fn(() => (
@@ -160,15 +155,11 @@ describe('ReactFinalForm', () => {
     expect(render.mock.calls[0][0].dirty).toBe(false)
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     const change = renderInput.mock.calls[0][0].input.onChange
-
     change('bar')
-
     expect(render).toHaveBeenCalledTimes(2)
     expect(render.mock.calls[1][0].dirty).toBe(true)
   })
-
   it('should call onSubmit when form is submitted', () => {
     const onSubmit = jest.fn()
     const dom = TestUtils.renderIntoDocument(
@@ -186,15 +177,12 @@ describe('ReactFinalForm', () => {
       </Form>
     )
     expect(onSubmit).not.toHaveBeenCalled()
-
     const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
     TestUtils.Simulate.submit(form)
-
     expect(onSubmit).toHaveBeenCalled()
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit.mock.calls[0][0]).toEqual({ foo: 'bar' })
   })
-
   it('should not throw when handleSubmit is called with no event', () => {
     const onSubmit = jest.fn()
     const dom = TestUtils.renderIntoDocument(
@@ -214,12 +202,10 @@ describe('ReactFinalForm', () => {
     TestUtils.Simulate.submit(form)
     expect(onSubmit).toHaveBeenCalled()
   })
-
   it('should reinitialize when initialValues prop changes', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     class Container extends React.Component {
       state = { initValues: {} }
-
       render() {
         return (
           <Form
@@ -242,24 +228,19 @@ describe('ReactFinalForm', () => {
         )
       }
     }
-
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     const init = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(init)
-
     expect(renderInput).toHaveBeenCalledTimes(2)
     expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
   })
-
   it('should update when onSubmit changes', async () => {
     const oldOnSubmit = jest.fn()
     const newOnSubmit = jest.fn()
     class Container extends React.Component {
       state = { submit: oldOnSubmit }
-
       render() {
         return (
           <Form onSubmit={this.state.submit} subscription={{ dirty: true }}>
@@ -277,25 +258,19 @@ describe('ReactFinalForm', () => {
         )
       }
     }
-
     const dom = TestUtils.renderIntoDocument(<Container />)
     const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
-
     TestUtils.Simulate.submit(form)
-
     expect(oldOnSubmit).toHaveBeenCalled()
     expect(oldOnSubmit).toHaveBeenCalledTimes(1)
     expect(newOnSubmit).not.toHaveBeenCalled()
-
     const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(update)
-
     TestUtils.Simulate.submit(form)
     expect(oldOnSubmit).toHaveBeenCalledTimes(1)
     expect(newOnSubmit).toHaveBeenCalled()
     expect(newOnSubmit).toHaveBeenCalledTimes(1)
   })
-
   it('should warn if decorators change', async () => {
     const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     const decoratorA = form => form
@@ -305,7 +280,6 @@ describe('ReactFinalForm', () => {
     const newDecorators = [decoratorA, decoratorB, decoratorC]
     class Container extends React.Component {
       state = { decorators: oldDecorators }
-
       render() {
         return (
           <Form
@@ -327,13 +301,10 @@ describe('ReactFinalForm', () => {
         )
       }
     }
-
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(spy).not.toHaveBeenCalled()
-
     const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(update)
-
     expect(spy).toHaveBeenCalled()
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(
@@ -341,14 +312,12 @@ describe('ReactFinalForm', () => {
     )
     spy.mockRestore()
   })
-
   it('should warn if subscription changes', async () => {
     const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     const oldSubscription = { values: true, valid: true }
     const newSubscription = { values: true, invalid: true, dirty: true }
     class Container extends React.Component {
       state = { subscription: oldSubscription }
-
       render() {
         return (
           <Form onSubmit={onSubmitMock} subscription={this.state.subscription}>
@@ -368,13 +337,10 @@ describe('ReactFinalForm', () => {
         )
       }
     }
-
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(spy).not.toHaveBeenCalled()
-
     const update = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(update)
-
     expect(spy).toHaveBeenCalled()
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(
@@ -382,7 +348,6 @@ describe('ReactFinalForm', () => {
     )
     spy.mockRestore()
   })
-
   const deprecatedFns = {
     // map from name to args
     batch: [() => {}],
@@ -392,7 +357,6 @@ describe('ReactFinalForm', () => {
     initialize: [{ foo: 'bar' }],
     reset: []
   }
-
   Object.keys(deprecatedFns).forEach(key => {
     it(`should warn if deprecated function props.${key}() is called`, async () => {
       const spy = jest
@@ -415,7 +379,6 @@ describe('ReactFinalForm', () => {
       spy.mockRestore()
     })
   })
-
   it(`should warn if deprecated function props.mutators.whatever() is called`, async () => {
     const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
     const mutator = jest.fn()
@@ -438,7 +401,6 @@ describe('ReactFinalForm', () => {
     )
     spy.mockRestore()
   })
-
   it('should return a promise from handleSubmit when submission is async', async () => {
     const onSubmit = jest.fn()
     let promise
@@ -464,12 +426,10 @@ describe('ReactFinalForm', () => {
       </Form>
     )
     expect(onSubmit).not.toHaveBeenCalled()
-
     const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
     TestUtils.Simulate.submit(form)
     return promise
   })
-
   it('should respect validateOnBlur', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     const validate = jest.fn(values => {
@@ -500,43 +460,34 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalled()
     expect(renderInput).toHaveBeenCalledTimes(1)
     expect(renderInput.mock.calls[0][0].meta.valid).toBe(true)
-
     expect(validate).toHaveBeenCalled()
     // once on form register, and again on field register
     expect(validate).toHaveBeenCalledTimes(2)
     const { onBlur, onChange, onFocus } = renderInput.mock.calls[0][0].input
-
     onFocus()
     expect(validate).toHaveBeenCalledTimes(2)
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     onChange('1') // this is where it would fail if not respecting validateOnBlur
     expect(validate).toHaveBeenCalledTimes(2)
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     onChange('10')
     expect(validate).toHaveBeenCalledTimes(2)
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     onBlur()
     expect(validate).toHaveBeenCalledTimes(3)
     // never called again because it was never invalid
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     onFocus()
     expect(validate).toHaveBeenCalledTimes(3)
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     // back to invalid
     onChange('1')
     expect(validate).toHaveBeenCalledTimes(3)
     expect(renderInput).toHaveBeenCalledTimes(1)
-
     onBlur() // NOW should be invalid
     expect(validate).toHaveBeenCalledTimes(4)
     expect(renderInput).toHaveBeenCalledTimes(2)
   })
-
   it('should ignore SyntheticEvents on form reset ', () => {
     const input = jest.fn(({ input }) => <input {...input} />)
     const dom = TestUtils.renderIntoDocument(
@@ -556,19 +507,14 @@ describe('ReactFinalForm', () => {
     expect(input).toHaveBeenCalled()
     expect(input).toHaveBeenCalledTimes(1)
     expect(input.mock.calls[0][0].input.value).toBe('bar')
-
     input.mock.calls[0][0].input.onChange('baz')
-
     expect(input).toHaveBeenCalledTimes(2)
     expect(input.mock.calls[1][0].input.value).toBe('baz')
-
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
-
     expect(input).toHaveBeenCalledTimes(3)
     expect(input.mock.calls[2][0].input.value).toBe('bar')
   })
-
   it('should accept new initial values on form reset ', () => {
     const input = jest.fn(({ input }) => <input {...input} />)
     const dom = TestUtils.renderIntoDocument(
@@ -588,23 +534,17 @@ describe('ReactFinalForm', () => {
     expect(input).toHaveBeenCalled()
     expect(input).toHaveBeenCalledTimes(1)
     expect(input.mock.calls[0][0].input.value).toBe('bar')
-
     input.mock.calls[0][0].input.onChange('baz')
-
     expect(input).toHaveBeenCalledTimes(2)
     expect(input.mock.calls[1][0].input.value).toBe('baz')
-
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
-
     expect(input).toHaveBeenCalledTimes(3)
     expect(input.mock.calls[2][0].input.value).toBe('newfoo')
   })
-
   it('should not repeatedly call validation for every field on mount', () => {
     const validate = jest.fn(values => ({}))
     const count = 10
-
     class Container extends React.Component {
       constructor() {
         super()
@@ -617,12 +557,10 @@ describe('ReactFinalForm', () => {
         }
         this.setState({ ids, time: Date.now() })
       }
-
       render() {
         return this.props.children(this.state.ids)
       }
     }
-
     TestUtils.renderIntoDocument(
       <Container>
         {ids => (
@@ -645,17 +583,14 @@ describe('ReactFinalForm', () => {
         )}
       </Container>
     )
-
     expect(validate).toHaveBeenCalled()
-    expect(validate).toHaveBeenCalledTimes(1)
+    expect(validate).toHaveBeenCalledTimes(2)
   })
-
   it('should add decorators', () => {
     const unsubscribe = jest.fn()
     const decorator = jest.fn(() => unsubscribe)
     class Container extends React.Component {
       state = { shown: true }
-
       render() {
         return (
           <div>
@@ -677,17 +612,13 @@ describe('ReactFinalForm', () => {
       }
     }
     const dom = TestUtils.renderIntoDocument(<Container />)
-
     expect(decorator).toHaveBeenCalled()
     expect(decorator).toHaveBeenCalledTimes(1)
     expect(unsubscribe).not.toHaveBeenCalled()
-
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(button)
-
     expect(unsubscribe).toHaveBeenCalled()
   })
-
   it('should show form as invalid on first load if field-level validation errors are present', () => {
     // Debugging https://github.com/final-form/react-final-form/issues/196
     const render = jest.fn()
@@ -705,7 +636,6 @@ describe('ReactFinalForm', () => {
     expect(render.mock.calls[0][0]).toBe(false)
     expect(render.mock.calls[1][0]).toBe(true)
   })
-
   it('should work with server-side rendering', () => {
     const spy = jest.spyOn(global.console, 'error')
     ReactDOMServer.renderToString(

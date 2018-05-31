@@ -2,6 +2,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import {
+  configOptions,
   createForm,
   formSubscriptionItems,
   version as ffVersion
@@ -151,14 +152,12 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     ) {
       this.form.initialize(nextProps.initialValues)
     }
-    ;['debug', 'mutators', 'onSubmit', 'validate', 'validateOnBlur'].forEach(
-      key => {
-        if (this.props[key] === nextProps[key]) {
-          return
-        }
-        this.form.setConfig(key, nextProps[key])
+    configOptions.forEach(key => {
+      if (this.props[key] === nextProps[key]) {
+        return
       }
-    )
+      this.form.setConfig(key, nextProps[key])
+    })
     // istanbul ignore next
     if (process.env.NODE_ENV !== 'production') {
       if (!shallowEqual(this.props.decorators, nextProps.decorators)) {

@@ -192,6 +192,7 @@ const MyForm = () => (
     * [`debug?: DebugFunction`](#debug-debugfunction)
     * [`decorators?: Decorator[]`](#decorators-decorator)
     * [`initialValues?: Object`](#initialvalues-object)
+    * [`keepDirtyOnReinitialize?: boolean`](#keepdirtyonreinitialize-boolean)
     * [`mutators?: { [string]: Mutator }`](#mutators--string-mutator-)
     * [`onSubmit: (values: Object, form: FormApi, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-form-formapi-callback-errors-object--void--object--promiseobject--void)
     * [`render?: (props: FormRenderProps) => React.Node`](#render-props-formrenderprops--reactnode)
@@ -611,6 +612,10 @@ to apply to the form.
 #### `initialValues?: Object`
 
 [See the 🏁 Final Form docs on `initialValues`](https://github.com/final-form/final-form#initialvalues-object).
+
+#### `keepDirtyOnReinitialize?: boolean`
+
+[See the 🏁 Final Form docs on `keepDirtyOnReinitialize`](https://github.com/final-form/final-form##keepdirtyonreinitialize-boolean).
 
 #### `mutators?: { [string]: Mutator }`
 
