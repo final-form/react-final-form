@@ -57,6 +57,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
       debug,
       decorators,
       initialValues,
+      keepDirtyOnReinitialize,
       mutators,
       onSubmit,
       subscription,
@@ -66,6 +67,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     const config: Config = {
       debug,
       initialValues,
+      keepDirtyOnReinitialize,
       mutators,
       onSubmit,
       validate,

@@ -236,6 +236,44 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(2)
     expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
   })
+  it('should respect keepDirtyOnReinitialize prop when initialValues prop changes', () => {
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    class Container extends React.Component {
+      state = { initValues: { foo: 'bar' } }
+      render() {
+        return (
+          <Form
+            onSubmit={onSubmitMock}
+            subscription={{ dirty: true }}
+            keepDirtyOnReinitialize={true}
+            initialValues={this.state.initValues}
+          >
+            {() => (
+              <form>
+                <Field name="foo" render={renderInput} />
+                <button
+                  type="button"
+                  onClick={() => this.setState({ initValues: { foo: 'bar' } })}
+                >
+                  Initialize
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+    const dom = TestUtils.renderIntoDocument(<Container />)
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+    TestUtils.Simulate.change(input, { target: { value: 'baz' } })
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    const init = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(init)
+    expect(renderInput).toHaveBeenCalledTimes(3)
+    expect(renderInput.mock.calls[1][0].input.value).toBe('baz')
+  })
   it('should update when onSubmit changes', async () => {
     const oldOnSubmit = jest.fn()
     const newOnSubmit = jest.fn()
