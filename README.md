@@ -147,6 +147,7 @@ const MyForm = () => (
   * [Async Redux Submission](#async-redux-submission)
   * [Declarative Form Rules](#declarative-form-rules)
   * [Format String By Pattern](#format-string-by-pattern)
+  * [AsyncTypeahead and Redux](#asynctypeahead-redux)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -382,6 +383,10 @@ What if you could define rules to update fields when other fields change _as com
 ### [Format String By Pattern](https://codesandbox.io/s/no20p7z3l)
 
 Demonstrates how to use the library `format-string-by-pattern` to create input masks for your 🏁 React Final Form fields.
+
+### [AsyncTypeahead and Redux](https://codesandbox.io/s/5m4w2909k)
+
+Demonstrates creating an `AsyncTypeahead` to select github users, while storing the search results in the redux store and the form state (selected github users) via `react-final-form`. Also makes use of the [`setFieldData` mutator](https://github.com/final-form/final-form-set-field-data).
 
 ## Rendering
 
