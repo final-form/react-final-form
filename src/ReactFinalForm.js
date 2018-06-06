@@ -19,7 +19,7 @@ import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
-export const version = '3.5.0'
+export const version = '3.5.2'
 
 const versions = {
   'final-form': ffVersion,
