@@ -58,7 +58,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "rollup": "^0.59.4",
+    "rollup": "^0.60.0",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-flow": "^1.1.1",
@@ -93,5 +93,8 @@
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/final-form"
+  },
+  "dependencies": {
+    "react-lifecycles-compat": "^3.0.4"
   }
 }

@@ -54,25 +54,14 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     const {
-      debug,
-      decorators,
-      initialValues,
-      keepDirtyOnReinitialize,
-      mutators,
-      onSubmit,
+      children,
+      component,
+      render,
       subscription,
-      validate,
-      validateOnBlur
+      decorators,
+      ...rest
     } = props
-    const config: Config = {
-      debug,
-      initialValues,
-      keepDirtyOnReinitialize,
-      mutators,
-      onSubmit,
-      validate,
-      validateOnBlur
-    }
+    const config: Config = rest
     this.mounted = false
     try {
       this.form = createForm(config)
@@ -119,7 +108,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     return this.form.submit()
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.form) {
       this.form.pauseValidation()
     }
@@ -134,7 +123,8 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     }
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
+    // istanbul ignore next
     if (this.form) {
       this.resumeValidation = !this.form.isValidationPaused()
       this.form.pauseValidation()
@@ -142,12 +132,13 @@ export default class ReactFinalForm extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
+    // istanbul ignore next
     if (this.form && this.resumeValidation) {
       this.form.resumeValidation()
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.initialValues &&
       !shallowEqual(this.props.initialValues, nextProps.initialValues)

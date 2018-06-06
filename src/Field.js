@@ -79,7 +79,7 @@ export default class Field extends React.Component<Props, State> {
 
   notify = (state: FieldState) => this.setState({ state })
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { name, subscription } = nextProps
     if (
       this.props.name !== name ||

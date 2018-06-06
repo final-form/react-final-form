@@ -687,5 +687,6 @@ describe('ReactFinalForm', () => {
       />
     )
     expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
   })
 })

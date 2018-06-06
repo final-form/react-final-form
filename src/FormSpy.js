@@ -67,7 +67,7 @@ export default class FormSpy extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { subscription } = nextProps
     if (
       diffSubscription(
