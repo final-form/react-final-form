@@ -149,6 +149,7 @@ const MyForm = () => (
   * [Format String By Pattern](#format-string-by-pattern)
   * [AsyncTypeahead and Redux](#asynctypeahead-and-redux)
   * [Format On Blur](#format-on-blur)
+  * [Styling with 🍭 Smooth-UI](#styling-with--smooth-ui)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -393,6 +394,10 @@ Demonstrates creating an `AsyncTypeahead` to select github users, while storing 
 ### [Format On Blur](https://codesandbox.io/s/3rp260ly51)
 
 Demonstrates how to use the `formatOnBlur` prop to postpone the formatting of a form field value until the field loses focus. Very useful for formatting numbers, like currencies.
+
+### [Styling with 🍭 Smooth-UI](https://codesandbox.io/s/40o45po3l4)
+
+Demonstrates how to use the Smooth-UI styling library to make your forms look fabulous! All you really need is a higher order component that adapts The 🍭 Smooth-UI form controls to work with 🏁 React Final Form.
 
 ## Rendering
 
