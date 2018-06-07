@@ -80,6 +80,7 @@ export type FieldProps = {
   allowNull?: boolean,
   component?: React.ComponentType<*> | SupportedInputs,
   format?: (value: any, name: string) => any,
+  formatOnBlur?: boolean,
   isEqual?: (a: any, b: any) => boolean,
   name: string,
   parse?: (value: any, name: string) => any,

@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 [**2.9k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
+✅ 💥 [**3.1k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
 
 ---
 
@@ -147,7 +147,7 @@ const MyForm = () => (
   * [Async Redux Submission](#async-redux-submission)
   * [Declarative Form Rules](#declarative-form-rules)
   * [Format String By Pattern](#format-string-by-pattern)
-  * [AsyncTypeahead and Redux](#asynctypeahead-redux)
+  * [AsyncTypeahead and Redux](#asynctypeahead-and-redux)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -160,6 +160,7 @@ const MyForm = () => (
     * [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     * [`component?: React.ComponentType<FieldRenderProps> | string`](#component-reactcomponenttypefieldrenderprops--string)
     * [`format?: ((value: any, name: string) => any) | null`](#format-value-any-name-string--any--null)
+    * [`formatOnBlur?: boolean`](#formatonblur-boolean)
     * [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     * [`name: string`](#name-string)
     * [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
@@ -453,6 +454,10 @@ well as any non-API props passed into the `<Field/>` component.
 A function that takes the value from the form values and the name of the field and formats the value to give to the input. Common use cases include converting javascript `Date` values into a localized date string. Almost always used in conjunction with `parse`.
 
 **Note: If you pass `null` to `format`, it will override the default behavior of converting `undefined` into `''`. If you do this, making sure your inputs are "controlled" is up to you.**
+
+#### `formatOnBlur?: boolean`
+
+If `true`, the `format` function will only be called when the field is blurred. If `false`, `format` will be called on every render. Defaults to `false`.
 
 #### `isEqual?: (a: any, b: any) => boolean`
 

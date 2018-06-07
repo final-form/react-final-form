@@ -270,6 +270,48 @@ describe('Field', () => {
     expect(renderInput.mock.calls[2][0].input.value).toBe('format.bar')
   })
 
+  it('should only format on blur if formatOnBlur is true', () => {
+    const format = jest.fn((value, name) => `format.${value}`)
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const render = jest.fn(() => (
+      <form>
+        <Field name="foo" render={renderInput} format={format} formatOnBlur />
+      </form>
+    ))
+
+    TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmitMock} render={render} subscription={{}} />
+    )
+
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].values).toBeUndefined()
+
+    expect(format).not.toHaveBeenCalled()
+
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    expect(renderInput.mock.calls[0][0].input.value).toBe('')
+
+    const { onFocus, onChange, onBlur } = renderInput.mock.calls[0][0].input
+
+    onFocus()
+    expect(renderInput).toHaveBeenCalledTimes(2)
+    onChange('bar')
+    expect(renderInput).toHaveBeenCalledTimes(3)
+
+    expect(format).not.toHaveBeenCalled()
+
+    onBlur()
+
+    expect(format).toHaveBeenCalled()
+    expect(format).toHaveBeenCalledTimes(1)
+    expect(format.mock.calls[0]).toEqual(['bar', 'foo'])
+
+    expect(renderInput).toHaveBeenCalledTimes(5)
+    expect(renderInput.mock.calls[4][0].input.value).toBe('format.bar')
+  })
+
   it('should accept a null format prop to preserve undefined values', () => {
     const renderInput = jest.fn(({ input }) => (
       <input {...input} value={input.value || ''} />
@@ -422,9 +464,7 @@ describe('Field', () => {
     const requiredUppercase = value =>
       !value
         ? 'Required'
-        : value.toUpperCase() === value
-          ? undefined
-          : 'Must be uppercase'
+        : value.toUpperCase() === value ? undefined : 'Must be uppercase'
     class FieldsContainer extends React.Component {
       state = { uppercase: false }
 
@@ -456,9 +496,7 @@ describe('Field', () => {
     expect(input).toHaveBeenCalledTimes(2)
     expect(input.mock.calls[1][0].meta.error).toBe('Required')
 
-    const {
-      input: { onChange }
-    } = input.mock.calls[1][0]
+    const { input: { onChange } } = input.mock.calls[1][0]
 
     onChange('hi')
 
