@@ -24,7 +24,7 @@ export interface FieldRenderProps {
   meta: Partial<{
     // TODO: Make a diff of `FieldState` without all the functions
     active: boolean
-    data: object,
+    data: object
     dirty: boolean
     dirtySinceLastSubmit: boolean
     error: any
@@ -74,6 +74,7 @@ export interface FormProps extends Config, RenderableProps<FormRenderProps> {
 export interface FieldProps extends RenderableProps<FieldRenderProps> {
   allowNull?: boolean
   format?: ((value: any, name: string) => any) | null
+  formatOnBlur?: boolean
   parse?: ((value: any, name: string) => any) | null
   name: string
   isEqual?: (a: any, b: any) => boolean

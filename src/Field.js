@@ -103,7 +103,16 @@ export default class Field extends React.Component<Props, State> {
 
   handlers = {
     onBlur: (event: ?SyntheticFocusEvent<*>) => {
-      this.state.state && this.state.state.blur()
+      const { state } = this.state
+      // this is to appease the Flow gods
+      // istanbul ignore next
+      if (state) {
+        const { format, formatOnBlur } = this.props
+        state.blur()
+        if (format && formatOnBlur) {
+          state.change(format(state.value, state.name))
+        }
+      }
     },
     onChange: (event: SyntheticInputEvent<*> | any) => {
       const { parse, value: _value } = this.props
@@ -155,6 +164,7 @@ export default class Field extends React.Component<Props, State> {
       component,
       children,
       format,
+      formatOnBlur,
       parse,
       isEqual,
       name,
@@ -183,7 +193,9 @@ export default class Field extends React.Component<Props, State> {
       valid: otherState.valid,
       visited: otherState.visited
     }
-    if (format) {
+    if (formatOnBlur) {
+      value = Field.defaultProps.format(value, name)
+    } else if (format) {
       value = format(value, name)
     }
     if (value === null && !allowNull) {

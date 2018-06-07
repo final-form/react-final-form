@@ -11,7 +11,8 @@
   "scripts": {
     "start": "nps",
     "test": "nps test",
-    "precommit": "lint-staged && npm start validate",
+    "precommit":
+      "doctoc README.md && doctoc docs/faq.md && lint-staged && npm start validate",
     "prepublish": "npm start validate",
     "postinstall": "opencollective postinstall || exit 0"
   },
