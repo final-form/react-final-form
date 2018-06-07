@@ -148,6 +148,7 @@ const MyForm = () => (
   * [Declarative Form Rules](#declarative-form-rules)
   * [Format String By Pattern](#format-string-by-pattern)
   * [AsyncTypeahead and Redux](#asynctypeahead-and-redux)
+  * [Format On Blur](#format-on-blur)
 * [Rendering](#rendering)
 * [API](#api)
   * [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -388,6 +389,10 @@ Demonstrates how to use the library `format-string-by-pattern` to create input m
 ### [AsyncTypeahead and Redux](https://codesandbox.io/s/5m4w2909k)
 
 Demonstrates creating an `AsyncTypeahead` to select github users, while storing the search results in the redux store and the form state (selected github users) via `react-final-form`. Also makes use of the [`setFieldData` mutator](https://github.com/final-form/final-form-set-field-data).
+
+### [Format On Blur](https://codesandbox.io/s/3rp260ly51)
+
+Demonstrates how to use the `formatOnBlur` prop to postpone the formatting of a form field value until the field loses focus. Very useful for formatting numbers, like currencies.
 
 ## Rendering
 
