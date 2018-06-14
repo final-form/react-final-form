@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import {
   configOptions,
@@ -38,7 +39,7 @@ type State = {
   state: FormState
 }
 
-export default class ReactFinalForm extends React.Component<Props, State> {
+class ReactFinalForm extends React.Component<Props, State> {
   context: ReactContext
   props: Props
   state: State
@@ -288,3 +289,7 @@ export default class ReactFinalForm extends React.Component<Props, State> {
     )
   }
 }
+
+polyfill(ReactFinalForm)
+
+export default ReactFinalForm
