@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import { formSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
@@ -15,7 +16,7 @@ import { all } from './ReactFinalForm'
 
 type State = { state: FormState }
 
-export default class FormSpy extends React.Component<Props, State> {
+class FormSpy extends React.Component<Props, State> {
   context: ReactContext
   props: Props
   state: State
@@ -200,3 +201,7 @@ export default class FormSpy extends React.Component<Props, State> {
 FormSpy.contextTypes = {
   reactFinalForm: PropTypes.object
 }
+
+polyfill(FormSpy)
+
+export default FormSpy

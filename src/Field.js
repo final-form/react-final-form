@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import { fieldSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
@@ -22,7 +23,7 @@ type State = {
   state: ?FieldState
 }
 
-export default class Field extends React.Component<Props, State> {
+class Field extends React.Component<Props, State> {
   context: ReactContext
   props: Props
   state: State
@@ -233,3 +234,7 @@ export default class Field extends React.Component<Props, State> {
     )
   }
 }
+
+polyfill(Field)
+
+export default Field
