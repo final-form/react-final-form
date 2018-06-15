@@ -233,8 +233,10 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(1)
     const init = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
     TestUtils.Simulate.click(init)
-    expect(renderInput).toHaveBeenCalledTimes(2)
-    expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
+
+    // once to change prop and again after reinitialization
+    expect(renderInput).toHaveBeenCalledTimes(3)
+    expect(renderInput.mock.calls[2][0].input.value).toBe('bar')
   })
   it('should respect keepDirtyOnReinitialize prop when initialValues prop changes', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)

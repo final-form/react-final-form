@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import { fieldSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
@@ -80,12 +79,12 @@ class Field extends React.Component<Props, State> {
 
   notify = (state: FieldState) => this.setState({ state })
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { name, subscription } = nextProps
+  componentDidUpdate(prevProps: Props) {
+    const { name, subscription } = this.props
     if (
-      this.props.name !== name ||
+      prevProps.name !== name ||
       diffSubscription(
-        this.props.subscription,
+        prevProps.subscription,
         subscription,
         fieldSubscriptionItems
       )
@@ -93,7 +92,7 @@ class Field extends React.Component<Props, State> {
       if (this.context.reactFinalForm) {
         // avoid error, warning will alert developer to their mistake
         this.unsubscribe()
-        this.subscribe(nextProps, this.notify)
+        this.subscribe(this.props, this.notify)
       }
     }
   }
@@ -234,7 +233,5 @@ class Field extends React.Component<Props, State> {
     )
   }
 }
-
-polyfill(Field)
 
 export default Field

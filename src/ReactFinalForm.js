@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import {
   configOptions,
@@ -109,7 +108,7 @@ class ReactFinalForm extends React.Component<Props, State> {
     return this.form.submit()
   }
 
-  UNSAFE_componentWillMount() {
+  componentWillMount() {
     if (this.form) {
       this.form.pauseValidation()
     }
@@ -124,7 +123,7 @@ class ReactFinalForm extends React.Component<Props, State> {
     }
   }
 
-  UNSAFE_componentWillUpdate() {
+  componentWillUpdate() {
     // istanbul ignore next
     if (this.form) {
       this.resumeValidation = !this.form.isValidationPaused()
@@ -132,34 +131,31 @@ class ReactFinalForm extends React.Component<Props, State> {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props) {
     // istanbul ignore next
     if (this.form && this.resumeValidation) {
       this.form.resumeValidation()
     }
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
-      nextProps.initialValues &&
-      !shallowEqual(this.props.initialValues, nextProps.initialValues)
+      this.props.initialValues &&
+      !shallowEqual(prevProps.initialValues, this.props.initialValues)
     ) {
-      this.form.initialize(nextProps.initialValues)
+      this.form.initialize(this.props.initialValues)
     }
     configOptions.forEach(key => {
-      if (this.props[key] === nextProps[key]) {
+      if (prevProps[key] === this.props[key]) {
         return
       }
-      this.form.setConfig(key, nextProps[key])
+      this.form.setConfig(key, this.props[key])
     })
     // istanbul ignore next
     if (process.env.NODE_ENV !== 'production') {
-      if (!shallowEqual(this.props.decorators, nextProps.decorators)) {
+      if (!shallowEqual(prevProps.decorators, this.props.decorators)) {
         console.error(
           'Warning: Form decorators should not change from one render to the next as new values will be ignored'
         )
       }
-      if (!shallowEqual(this.props.subscription, nextProps.subscription)) {
+      if (!shallowEqual(prevProps.subscription, this.props.subscription)) {
         console.error(
           'Warning: Form subscription should not change from one render to the next as new values will be ignored'
         )
@@ -289,7 +285,5 @@ class ReactFinalForm extends React.Component<Props, State> {
     )
   }
 }
-
-polyfill(ReactFinalForm)
 
 export default ReactFinalForm

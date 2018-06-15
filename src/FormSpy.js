@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import { formSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
@@ -68,11 +67,11 @@ class FormSpy extends React.Component<Props, State> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { subscription } = nextProps
+  componentDidUpdate(prevProps: Props) {
+    const { subscription } = this.props
     if (
       diffSubscription(
-        this.props.subscription,
+        prevProps.subscription,
         subscription,
         formSubscriptionItems
       )
@@ -80,7 +79,7 @@ class FormSpy extends React.Component<Props, State> {
       if (this.context.reactFinalForm) {
         // avoid error, warning will alert developer to their mistake
         this.unsubscribe()
-        this.subscribe(nextProps, this.notify)
+        this.subscribe(this.props, this.notify)
       }
     }
   }
@@ -201,7 +200,5 @@ class FormSpy extends React.Component<Props, State> {
 FormSpy.contextTypes = {
   reactFinalForm: PropTypes.object
 }
-
-polyfill(FormSpy)
 
 export default FormSpy
