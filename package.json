@@ -95,8 +95,5 @@
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/final-form"
-  },
-  "dependencies": {
-    "react-lifecycles-compat": "^3.0.4"
   }
 }
