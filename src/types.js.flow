@@ -65,8 +65,8 @@ export type FormSpyRenderProps = {
   FormState
 
 export type RenderableProps<T> = {
+  component?: React.ComponentType<*>,
   children?: ((props: T) => React.Node) | React.Node,
-  component?: React.ComponentType<*> | string,
   render?: (props: T) => React.Node
 }
 
