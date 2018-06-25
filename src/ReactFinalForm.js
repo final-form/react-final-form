@@ -143,7 +143,7 @@ class ReactFinalForm extends React.Component<Props, State> {
       this.form.initialize(this.props.initialValues)
     }
     configOptions.forEach(key => {
-      if (prevProps[key] === this.props[key]) {
+      if (key === 'initialValues' || prevProps[key] === this.props[key]) {
         return
       }
       this.form.setConfig(key, this.props[key])
