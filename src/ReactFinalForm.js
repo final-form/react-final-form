@@ -101,9 +101,15 @@ class ReactFinalForm extends React.Component<Props, State> {
   }
 
   handleSubmit = (event: ?SyntheticEvent<HTMLFormElement>) => {
-    if (event && typeof event.preventDefault === 'function') {
+    if (event) {
       // sometimes not true, e.g. React Native
-      event.preventDefault()
+      if (typeof event.preventDefault === 'function') {
+        event.preventDefault()
+      }
+      if (typeof event.stopPropagation === 'function') {
+        // prevent any outer forms from receiving the event too
+        event.stopPropagation()
+      }
     }
     return this.form.submit()
   }
