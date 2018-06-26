@@ -238,6 +238,46 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(3)
     expect(renderInput.mock.calls[2][0].input.value).toBe('bar')
   })
+  it('should not reinitialize if initialValues prop is shallow equal', () => {
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const lastRenderInputCall = () =>
+      renderInput.mock.calls[renderInput.mock.calls.length - 1]
+    class Container extends React.Component {
+      state = { initValues: { foo: 'bar' } }
+      render() {
+        return (
+          <Form
+            onSubmit={onSubmitMock}
+            subscription={{ dirty: true }}
+            initialValues={this.state.initValues}
+          >
+            {() => (
+              <form>
+                <Field name="foo" render={renderInput} />
+                <button
+                  type="button"
+                  onClick={() => this.setState({ initValues: { foo: 'bar' } })}
+                >
+                  Initialize
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+    const dom = TestUtils.renderIntoDocument(<Container />)
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    lastRenderInputCall()[0].input.onChange('bar!')
+    expect(lastRenderInputCall()[0].input.value).toBe('bar!')
+    const init = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(init)
+
+    // field should still be edited
+    const numCalls = renderInput.mock.calls.length
+    expect(renderInput.mock.calls[numCalls - 1][0].input.value).toBe('bar!')
+  })
   it('should respect keepDirtyOnReinitialize prop when initialValues prop changes', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     class Container extends React.Component {
@@ -624,7 +664,7 @@ describe('ReactFinalForm', () => {
       </Container>
     )
     expect(validate).toHaveBeenCalled()
-    expect(validate).toHaveBeenCalledTimes(2)
+    expect(validate).toHaveBeenCalledTimes(1)
   })
   it('should add decorators', () => {
     const unsubscribe = jest.fn()
