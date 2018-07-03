@@ -65,14 +65,14 @@ export type FormSpyRenderProps = {
   FormState
 
 export type RenderableProps<T> = {
-  component?: React.ComponentType<*>,
   children?: ((props: T) => React.Node) | React.Node,
   render?: (props: T) => React.Node
 }
 
 export type FormProps = {
   subscription?: FormSubscription,
-  decorators?: Decorator[]
+  decorators?: Decorator[],
+  component?: React.ComponentType<*>
 } & Config &
   RenderableProps<FormRenderProps>
 
@@ -92,5 +92,6 @@ export type FieldProps = {
 
 export type FormSpyProps = {
   onChange?: (formState: FormState) => void,
-  subscription?: FormSubscription
+  subscription?: FormSubscription,
+  component?: React.ComponentType<*>
 } & RenderableProps<FormSpyRenderProps>
