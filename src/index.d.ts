@@ -53,7 +53,9 @@ export interface SubsetFormApi {
 export interface FormRenderProps extends FormState, SubsetFormApi {
   batch: (fn: () => void) => void
   form: FormApi
-  handleSubmit: (event?: React.SyntheticEvent<HTMLFormElement>) => void
+  handleSubmit: (
+    event?: React.SyntheticEvent<HTMLFormElement>
+  ) => Promise<object | undefined> | undefined
 }
 
 export interface FormSpyRenderProps extends FormState, SubsetFormApi {
