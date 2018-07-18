@@ -78,7 +78,6 @@ export type FormProps = {
 
 export type FieldProps = {
   allowNull?: boolean,
-  component?: React.ComponentType<*> | SupportedInputs,
   format?: (value: any, name: string) => any,
   formatOnBlur?: boolean,
   isEqual?: (a: any, b: any) => boolean,
@@ -88,7 +87,9 @@ export type FieldProps = {
   validate?: FieldValidator,
   validateFields?: string[],
   value?: any
-} & RenderableProps<FieldRenderProps>
+} & RenderableProps<FieldRenderProps> & {
+  component?: React.ComponentType<*> | SupportedInputs
+}
 
 export type FormSpyProps = {
   onChange?: (formState: FormState) => void,
