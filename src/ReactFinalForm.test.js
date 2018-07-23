@@ -202,6 +202,28 @@ describe('ReactFinalForm', () => {
     TestUtils.Simulate.submit(form)
     expect(onSubmit).toHaveBeenCalled()
   })
+  it('does not throw if handleSubmit event preventDefault or stopPropagation are not functions', () => {
+    const onSubmit = jest.fn()
+    const dom = TestUtils.renderIntoDocument(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <form
+            onSubmit={() => {
+              handleSubmit({
+                preventDefault: undefined,
+                stopPropagation: undefined
+              })
+            }}
+          >
+            <Field name="foo" component="input" />
+          </form>
+        )}
+      </Form>
+    )
+    const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+    TestUtils.Simulate.submit(form)
+    expect(onSubmit).toHaveBeenCalled()
+  })
   it('should reinitialize when initialValues prop changes', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     class Container extends React.Component {

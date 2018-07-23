@@ -8,7 +8,7 @@ We are open to, and grateful for, any contributions made by the community.
 ## Reporting issues and asking questions
 
 Before opening an issue, please search
-the[issue tracker](https://github.com/final-form/react-final-form/issues) to
+the [issue tracker](https://github.com/final-form/react-final-form/issues) to
 make sure your issue hasn’t already been reported.
 
 **We use the issue tracker to keep track of bugs and improvements** to 🏁 React
