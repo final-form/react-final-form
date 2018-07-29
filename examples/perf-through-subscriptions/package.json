@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-performance-optimization-through-subscriptions",
+  "description": "This example demonstrates how, by restricting which parts of form state the form component needs to render, it reduce the number of times the whole form has to rerender. Yet, if some part of form state is needed inside of it, the FormSpy component can be used to attain it.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/perf-through-subscriptions",
+  "keywords": [
+    "form",
+    "react",
+    "react-final-form",
+    "final-form",
+    "performance"
+  ],
+  "dependencies": {
+    "final-form": "4.6.1",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-final-form": "3.4.0",
+    "styled-components": "3.2.6"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

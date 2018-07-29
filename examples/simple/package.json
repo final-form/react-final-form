@@ -1,0 +1,31 @@
+{
+  "name": "react-final-form-simple-example",
+  "description": "This example uses no custom field rendering techniques, only default input, select, and textarea inputs.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/simple",
+  "keywords": [
+    "state management",
+    "react-final-form",
+    "form",
+    "final-form",
+    "react"
+  ],
+  "dependencies": {
+    "styled-components": "latest",
+    "react-fontawesome": "latest",
+    "react-final-form": "latest",
+    "react-dom": "latest",
+    "react": "latest",
+    "final-form": "latest"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

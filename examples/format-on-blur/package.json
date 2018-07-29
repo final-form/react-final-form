@@ -1,0 +1,31 @@
+{
+  "name": "react-final-form-format-on-blur-example",
+  "description": "Demonstrates how to use the formatOnBlur prop to postpone the formatting of a form field value until the field loses focus.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/format-on-blur",
+  "keywords": [
+    "react-final-form",
+    "final-form",
+    "format",
+    "form",
+    "currency"
+  ],
+  "dependencies": {
+    "final-form": "4.8.0",
+    "numeral": "2.0.6",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-final-form": "3.6.0",
+    "styled-components": "3.3.2"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

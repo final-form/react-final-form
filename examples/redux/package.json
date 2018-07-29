@@ -1,0 +1,32 @@
+{
+  "name": "🏁 React Final Form - Redux Example",
+  "description": "Demonstrates how to store a copy of your form data in the Redux store for easy access outside your form.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/redux",
+  "keywords": [
+    "redux",
+    "form",
+    "react-final-form",
+    "final-form",
+    "forms"
+  ],
+  "dependencies": {
+    "final-form": "4.6.1",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-final-form": "3.4.2",
+    "react-redux": "5.0.7",
+    "redux": "3.7.2",
+    "styled-components": "3.1.6"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

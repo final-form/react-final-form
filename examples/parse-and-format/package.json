@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-parse-and-format",
+  "description": "Demonstrates how to use parse and format props to control how values are shown in the input and saved into the form state.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/parse-and-format",
+  "keywords": [
+    "parse",
+    "react",
+    "react-final-form",
+    "format",
+    "final-form"
+  ],
+  "dependencies": {
+    "styled-components": "latest",
+    "react-final-form": "latest",
+    "react-dom": "16.0.0",
+    "react": "16.0.0",
+    "final-form": "latest"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

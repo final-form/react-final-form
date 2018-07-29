@@ -1,0 +1,28 @@
+{
+  "name": "react-final-form-reusable-field-groups",
+  "description": "Demonstrates how fields can be grouped into a reusable component.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/reusable-field-groups",
+  "keywords": [
+    "final-form",
+    "form",
+    "react-final-form"
+  ],
+  "dependencies": {
+    "final-form": "1.3.2",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-final-form": "1.2.1",
+    "styled-components": "2.2.4"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

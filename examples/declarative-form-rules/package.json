@@ -1,0 +1,31 @@
+{
+  "name": "react-final-form-declarative-form-rules",
+  "description": "Demonstrates how to use React Final Form Listeners to listen to the change of one field to update another.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/declarative-form-rules",
+  "keywords": [
+    "react",
+    "forms",
+    "final-form",
+    "react-final-form",
+    "listener"
+  ],
+  "dependencies": {
+    "final-form": "4.4.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-final-form": "3.1.5",
+    "react-final-form-listeners": "1.0.0",
+    "styled-components": "3.2.3"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

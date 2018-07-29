@@ -1,0 +1,32 @@
+{
+  "name": "react-final-form-downshift-example",
+  "description": "Demonstrates how to use a 🏎️ Downshift type-ahead component as an input.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/downshift",
+  "keywords": [
+    "final-form",
+    "downshift",
+    "typeahead",
+    "react-final-form",
+    "form"
+  ],
+  "dependencies": {
+    "downshift": "1.28.0",
+    "final-form": "4.2.0",
+    "match-sorter": "2.2.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-final-form": "3.1.0",
+    "styled-components": "3.1.6"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

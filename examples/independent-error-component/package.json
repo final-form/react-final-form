@@ -1,0 +1,28 @@
+{
+  "name": "react-final-form-independent-error-component",
+  "description": "This example demonstrates how to make a special Error component to display the error for any form field.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/independent-error-component",
+  "keywords": [
+    "final-form",
+    "form",
+    "react-final-form"
+  ],
+  "dependencies": {
+    "styled-components": "2.2.4",
+    "react-final-form": "1.1.1",
+    "react-dom": "16.0.0",
+    "react": "16.0.0",
+    "final-form": "1.2.1"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

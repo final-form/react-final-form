@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-submission-errors-example",
+  "description": "This example demonstrates how to return submission errors from failed submits. Notice that the promise should RESOLVE to the submission error (not reject). Rejection is reserved for actual communications or server exceptions.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/submission-errors",
+  "keywords": [
+    "form",
+    "submission",
+    "final-form",
+    "validation",
+    "react-final-form"
+  ],
+  "dependencies": {
+    "final-form": "4.6.1",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-final-form": "3.4.0",
+    "styled-components": "3.2.6"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

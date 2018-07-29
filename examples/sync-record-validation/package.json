@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-synchronous-record-level-validation-example",
+  "description": "This example demonstrates how to introduce a whole-record validation function. In a real application, the Field render functions would be abstracted away, but the duplicate code has been left in here to keep it simple.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/sync-record-validation",
+  "keywords": [
+    "react",
+    "final-form",
+    "form",
+    "react-final-form",
+    "validation"
+  ],
+  "dependencies": {
+    "final-form": "4.6.1",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-final-form": "3.4.0",
+    "styled-components": "3.2.6"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

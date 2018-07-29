@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-custom-validation-engine",
+  "description": "Demonstrates how extensible 🏁 React Final Form can be with the combination of FormSpy and setFieldData by creating a totally separate validation engine that runs when a field is blurred.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/custom-validation-engine",
+  "keywords": [
+    "final-form",
+    "form",
+    "react-final-form"
+  ],
+  "dependencies": {
+    "final-form": "4.0.0",
+    "final-form-set-field-data": "1.0.1",
+    "react": "16.0.0",
+    "react-dom": "16.0.0",
+    "react-final-form": "3.0.2",
+    "react-fontawesome": "latest",
+    "styled-components": "2.4.0"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

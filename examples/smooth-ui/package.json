@@ -1,0 +1,31 @@
+{
+  "name": "react-final-form-smooth-ui-example",
+  "description": "Demonstrates how to use the 🍭 Smooth UI styling library to make your forms gorgeous in 🏁 React Final Form.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/smooth-ui",
+  "keywords": [
+    "react-final-form",
+    "final-form",
+    "smooth-ui",
+    "styling",
+    "forms"
+  ],
+  "dependencies": {
+    "final-form": "4.8.0",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-final-form": "3.6.0",
+    "smooth-ui": "4.2.1",
+    "styled-components": "3.3.2"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

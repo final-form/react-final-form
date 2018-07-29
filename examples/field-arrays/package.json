@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-field-arrays",
+  "description": "This example demonstrates how to use helper packages final-form-arrays and react-final-form-arrays to manage array fields.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/field-arrays",
+  "keywords": [
+    "final-form",
+    "form",
+    "react-final-form"
+  ],
+  "dependencies": {
+    "styled-components": "2.2.4",
+    "react-final-form-arrays": "1.0.0",
+    "react-final-form": "1.1.1",
+    "react-dom": "16.2.0",
+    "react": "16.2.0",
+    "final-form-arrays": "1.0.0",
+    "final-form": "1.2.1"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

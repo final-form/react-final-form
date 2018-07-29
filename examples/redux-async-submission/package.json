@@ -1,0 +1,34 @@
+{
+  "name": "react-final-form-async-redux-submission",
+  "description": "Demonstrates how to use react-redux-promise-listener to construct a promise out of Redux actions to give to 🏁 React Final Form's onSubmit.",
+  "private": true,
+  "main": "src/index.js",
+  "homepage": "https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/redux-async-submission",
+  "keywords": [
+    "form",
+    "redux",
+    "async",
+    "submit",
+    "promise"
+  ],
+  "dependencies": {
+    "final-form": "4.4.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-final-form": "3.1.5",
+    "react-redux": "5.0.7",
+    "react-redux-promise-listener": "1.0.0",
+    "redux": "3.7.2",
+    "redux-promise-listener": "1.0.0",
+    "styled-components": "3.2.3"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
