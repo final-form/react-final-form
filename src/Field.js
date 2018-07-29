@@ -10,7 +10,6 @@ import type {
   ReactContext
 } from './types'
 import renderComponent from './renderComponent'
-import isReactNative from './isReactNative'
 import getValue from './getValue'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
@@ -147,7 +146,6 @@ class Field extends React.Component<Props, State> {
               event,
               this.state.state && this.state.state.value,
               _value,
-              isReactNative
             )
           : event
       this.state.state &&
