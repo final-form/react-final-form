@@ -508,7 +508,7 @@ returns an error if the value is invalid, or `undefined` if the value is valid.
 
 #### `value?: any`
 
-**This is only used for checkboxes radio buttons!**
+**This is only used for checkboxes and radio buttons!**
 
 * Radio Buttons: The value of the radio button. The radio button will render as `checked` if and only if the value given here `===` the value for the field in the form.
 * Checkboxes:
