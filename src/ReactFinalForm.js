@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import {
   configOptions,
   createForm,
@@ -14,11 +13,13 @@ import type {
   FormState,
   Unsubscribe
 } from 'final-form'
-import type { FormProps as Props, ReactContext } from './types'
+import type { FormProps as Props } from './types'
 import shallowEqual from './shallowEqual'
 import renderComponent from './renderComponent'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
+import { ReactFinalFormContext } from './reactFinalFormContext'
+
 export const version = '3.6.0'
 
 const versions = {
@@ -39,17 +40,12 @@ type State = {
 }
 
 class ReactFinalForm extends React.Component<Props, State> {
-  context: ReactContext
   props: Props
   state: State
   form: FormApi
   mounted: boolean
   resumeValidation: ?boolean
   unsubscriptions: Unsubscribe[]
-
-  static childContextTypes = {
-    reactFinalForm: PropTypes.object
-  }
 
   constructor(props: Props) {
     super(props)
@@ -84,12 +80,6 @@ class ReactFinalForm extends React.Component<Props, State> {
       decorators.forEach(decorator => {
         this.unsubscriptions.push(decorator(this.form))
       })
-    }
-  }
-
-  getChildContext() {
-    return {
-      reactFinalForm: this.form
     }
   }
 
@@ -281,13 +271,17 @@ class ReactFinalForm extends React.Component<Props, State> {
           return this.form.reset(values)
         })
     }
-    return renderComponent(
-      {
-        ...props,
-        ...renderProps,
-        __versions: versions
-      },
-      'ReactFinalForm'
+    return React.createElement(
+      ReactFinalFormContext.Provider,
+      { value: { reactFinalForm: this.form } },
+      renderComponent(
+        {
+          ...props,
+          ...renderProps,
+          __versions: versions
+        },
+        'ReactFinalForm'
+      )
     )
   }
 }
