@@ -41,7 +41,8 @@ export type FieldRenderProps = {
     touched?: boolean,
     valid?: boolean,
     visited?: boolean
-  }
+  },
+  reactFinalForm: FormApi
 }
 
 export type SubsetFormApi = {
