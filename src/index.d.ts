@@ -95,3 +95,7 @@ export var Field: React.ComponentType<FieldProps>
 export var Form: React.ComponentType<FormProps>
 export var FormSpy: React.ComponentType<FormSpyProps>
 export var version: string
+
+export function withReactFinalForm<T>(
+  component: React.ComponentType<T>
+): React.ComponentType<T & ReactContext>

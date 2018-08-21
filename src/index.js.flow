@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import type { FieldProps, FormProps, FormSpyProps } from './types'
+import type { FieldProps, FormProps, FormSpyProps, ReactContext } from './types';
 
 export type {
   FieldProps,
@@ -16,3 +16,5 @@ declare export var Field: React.ComponentType<FieldProps>
 declare export var Form: React.ComponentType<FormProps>
 declare export var FormSpy: React.ComponentType<FormSpyProps>
 declare export var version: string
+
+declare export function withReactFinalForm<T>(component: React.ComponentType<T>): React.ComponentType<T & ReactContext>
