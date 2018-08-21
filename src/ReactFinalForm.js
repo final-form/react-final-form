@@ -273,7 +273,7 @@ class ReactFinalForm extends React.Component<Props, State> {
     }
     return React.createElement(
       ReactFinalFormContext.Provider,
-      { value: { reactFinalForm: this.form } },
+      { value: this.form },
       renderComponent(
         {
           ...props,
