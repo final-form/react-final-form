@@ -635,7 +635,7 @@ to apply to the form.
 
 #### `keepDirtyOnReinitialize?: boolean`
 
-[See the 🏁 Final Form docs on `keepDirtyOnReinitialize`](https://github.com/final-form/final-form##keepdirtyonreinitialize-boolean).
+[See the 🏁 Final Form docs on `keepDirtyOnReinitialize`](https://github.com/final-form/final-form#keepdirtyonreinitialize-boolean).
 
 #### `mutators?: { [string]: Mutator }`
 
