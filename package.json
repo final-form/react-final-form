@@ -80,6 +80,9 @@
       "git add"
     ]
   },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "bundlesize": [
     {
       "path": "dist/react-final-form.umd.min.js",
