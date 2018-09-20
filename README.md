@@ -287,7 +287,7 @@ Demonstrates how to use Material-UI 1.0 input components.
 ### 💥 [Performance Optimization Through Subscriptions](https://codesandbox.io/s/32r824vxy1) 💥
 
 Demonstrates how, by restricting which parts of form state the form component
-needs to render, it reduce the number of times the whole form has to rerender.
+needs to render, it reduces the number of times the whole form has to rerender.
 Yet, if some part of form state is needed inside of it, the
 [`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
 attain it.
