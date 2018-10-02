@@ -144,7 +144,10 @@ class ReactFinalForm extends React.Component<Props, State> {
     }
     if (
       this.props.initialValues &&
-      !shallowEqual(prevProps.initialValues, this.props.initialValues)
+      !(this.props.initialValuesEqual || shallowEqual)(
+        prevProps.initialValues,
+        this.props.initialValues
+      )
     ) {
       this.form.initialize(this.props.initialValues)
     }

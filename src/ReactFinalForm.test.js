@@ -3,6 +3,7 @@ import ReactDOMServer from 'react-dom/server'
 import TestUtils from 'react-dom/test-utils'
 import Form from './ReactFinalForm'
 import Field from './Field'
+import deepEqual from 'fast-deep-equal'
 
 const onSubmitMock = values => {}
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -224,6 +225,7 @@ describe('ReactFinalForm', () => {
     TestUtils.Simulate.submit(form)
     expect(onSubmit).toHaveBeenCalled()
   })
+
   it('should reinitialize when initialValues prop changes', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     class Container extends React.Component {
@@ -260,12 +262,11 @@ describe('ReactFinalForm', () => {
     expect(renderInput).toHaveBeenCalledTimes(3)
     expect(renderInput.mock.calls[2][0].input.value).toBe('bar')
   })
-  it('should not reinitialize if initialValues prop is shallow equal', () => {
+
+  it('should reinitialize when initialValues prop changes, deeply', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
-    const lastRenderInputCall = () =>
-      renderInput.mock.calls[renderInput.mock.calls.length - 1]
     class Container extends React.Component {
-      state = { initValues: { foo: 'bar' } }
+      state = { initValues: { foo: { bar: 'baz' } } }
       render() {
         return (
           <Form
@@ -275,10 +276,54 @@ describe('ReactFinalForm', () => {
           >
             {() => (
               <form>
-                <Field name="foo" render={renderInput} />
+                <Field name="foo.bar" render={renderInput} />
                 <button
                   type="button"
-                  onClick={() => this.setState({ initValues: { foo: 'bar' } })}
+                  onClick={() =>
+                    this.setState({ initValues: { foo: { bar: 'baq' } } })
+                  }
+                >
+                  Initialize
+                </button>
+              </form>
+            )}
+          </Form>
+        )
+      }
+    }
+    const dom = TestUtils.renderIntoDocument(<Container />)
+    expect(renderInput).toHaveBeenCalled()
+    expect(renderInput).toHaveBeenCalledTimes(1)
+    const init = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+    TestUtils.Simulate.click(init)
+
+    // once to change prop and again after reinitialization
+    expect(renderInput).toHaveBeenCalledTimes(3)
+    expect(renderInput.mock.calls[2][0].input.value).toBe('baq')
+  })
+
+  it('should not reinitialize if initialValues prop is deep equal', () => {
+    const renderInput = jest.fn(({ input }) => <input {...input} />)
+    const lastRenderInputCall = () =>
+      renderInput.mock.calls[renderInput.mock.calls.length - 1]
+    class Container extends React.Component {
+      state = { initValues: { foo: { bar: 'baz' } } }
+      render() {
+        return (
+          <Form
+            onSubmit={onSubmitMock}
+            subscription={{ dirty: true }}
+            initialValues={this.state.initValues}
+            initialValuesEqual={deepEqual}
+          >
+            {() => (
+              <form>
+                <Field name="foo.bar" render={renderInput} />
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({ initValues: { foo: { bar: 'baz' } } })
+                  }
                 >
                   Initialize
                 </button>
@@ -300,6 +345,7 @@ describe('ReactFinalForm', () => {
     const numCalls = renderInput.mock.calls.length
     expect(renderInput.mock.calls[numCalls - 1][0].input.value).toBe('bar!')
   })
+
   it('should respect keepDirtyOnReinitialize prop when initialValues prop changes', () => {
     const renderInput = jest.fn(({ input }) => <input {...input} />)
     class Container extends React.Component {
