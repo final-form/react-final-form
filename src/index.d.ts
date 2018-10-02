@@ -71,6 +71,7 @@ export interface RenderableProps<T> {
 export interface FormProps extends Config, RenderableProps<FormRenderProps> {
   subscription?: FormSubscription
   decorators?: Decorator[]
+  initialValuesEqual?: (a?: object, b?: object) => boolean
 }
 
 export interface FieldProps extends RenderableProps<FieldRenderProps> {

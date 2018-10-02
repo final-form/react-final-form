@@ -195,6 +195,7 @@ const MyForm = () => (
     - [`debug?: DebugFunction`](#debug-debugfunction)
     - [`decorators?: Decorator[]`](#decorators-decorator)
     - [`initialValues?: Object`](#initialvalues-object)
+    - [`initialValuesEqual?: (?Object, ?Object) => boolean`](#initialvaluesequal-object-object--boolean)
     - [`keepDirtyOnReinitialize?: boolean`](#keepdirtyonreinitialize-boolean)
     - [`mutators?: { [string]: Mutator }`](#mutators--string-mutator-)
     - [`onSubmit: (values: Object, form: FormApi, callback: ?(errors: ?Object) => void) => ?Object | Promise<?Object> | void`](#onsubmit-values-object-form-formapi-callback-errors-object--void--object--promiseobject--void)
@@ -637,6 +638,10 @@ to apply to the form.
 #### `initialValues?: Object`
 
 [See the 🏁 Final Form docs on `initialValues`](https://github.com/final-form/final-form#initialvalues-object).
+
+#### `initialValuesEqual?: (?Object, ?Object) => boolean`
+
+A predicate to determine whether or not the `initialValues` prop has changed. Useful for passing in a "deep equals" function if you need to. Defaults to "shallow equals".
 
 #### `keepDirtyOnReinitialize?: boolean`
 

@@ -72,7 +72,8 @@ export type RenderableProps<T> = {
 
 export type FormProps = {
   subscription?: FormSubscription,
-  decorators?: Decorator[]
+  decorators?: Decorator[],
+  initialValuesEqual?: (?Object, ?Object) => boolean
 } & Config &
   RenderableProps<FormRenderProps>
 
@@ -88,8 +89,8 @@ export type FieldProps = {
   validateFields?: string[],
   value?: any
 } & RenderableProps<FieldRenderProps> & {
-  component?: React.ComponentType<*> | SupportedInputs
-}
+    component?: React.ComponentType<*> | SupportedInputs
+  }
 
 export type FormSpyProps = {
   onChange?: (formState: FormState) => void,
