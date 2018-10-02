@@ -132,7 +132,8 @@ class ReactFinalForm extends React.Component<Props, State> {
   componentWillUpdate() {
     // istanbul ignore next
     if (this.form) {
-      this.resumeValidation = !this.form.isValidationPaused()
+      this.resumeValidation =
+        this.resumeValidation || !this.form.isValidationPaused()
       this.form.pauseValidation()
     }
   }
