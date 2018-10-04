@@ -7,7 +7,8 @@
   "module": "dist/react-final-form.es.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "scripts"
   ],
   "scripts": {
     "start": "nps",
