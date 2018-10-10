@@ -6,14 +6,13 @@ cache:
 notifications:
   email: false
 node_js:
+  - '9'
   - '10'
-  - '8'
+  - 'stable'
 script:
   - npm start validate
 after_success:
   - npx codecov
-  # - npm install --global semantic-release
-  # - semantic-release pre && npm publish && semantic-release post
 branches:
   only:
     - master
