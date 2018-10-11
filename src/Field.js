@@ -226,7 +226,11 @@ class Field extends React.Component<Props, State> {
       // ignore meta, combine input with any other props
       return React.createElement(component, { ...input, children, ...rest })
     }
-    const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
+    const renderProps: FieldRenderProps = {
+      input,
+      meta,
+      reactFinalForm: this.context.reactFinalForm
+    } // assign to force Flow check
     return renderComponent(
       { ...renderProps, children, component, ...rest },
       `Field(${name})`
