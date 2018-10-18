@@ -68,7 +68,7 @@ trigger React's event handlers.
 }}>Submit</button>
 
 <button onClick={() => {
-  document.getElementById('myForm').dispatchEvent(new Event('submit')) // ✅
+  document.getElementById('myForm').dispatchEvent(new Event('submit', { cancelable: true })) // ✅
 }}>Submit</button>
 
 <form id="myForm" onSubmit={handleSubmit}>
