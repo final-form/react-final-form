@@ -34,6 +34,7 @@ export interface FieldRenderProps {
     submitError: any
     submitFailed: boolean
     submitSucceeded: boolean
+    submitting: boolean
     touched: boolean
     valid: boolean
     visited: boolean
