@@ -186,6 +186,7 @@ const MyForm = () => (
     - [`meta.submitError?: any`](#metasubmiterror-any)
     - [`meta.submitFailed?: boolean`](#metasubmitfailed-boolean)
     - [`meta.submitSucceeded?: boolean`](#metasubmitsucceeded-boolean)
+    - [`meta.submitting?: boolean`](#metasubmitting-boolean)
     - [`meta.touched?: boolean`](#metatouched-boolean)
     - [`meta.valid?: boolean`](#metavalid-boolean)
     - [`meta.visited?: boolean`](#metavisited-boolean)
@@ -597,6 +598,10 @@ The current value of the field.
 #### `meta.submitSucceeded?: boolean`
 
 [See the 🏁 Final Form docs on `submitSucceeded`](https://github.com/final-form/final-form#submitsucceeded-boolean).
+
+#### `meta.submitting?: boolean`
+
+[See the 🏁 Final Form docs on `submitting`](https://github.com/final-form/final-form#submitting-boolean).
 
 #### `meta.touched?: boolean`
 

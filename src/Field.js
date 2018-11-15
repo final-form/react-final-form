@@ -189,6 +189,7 @@ class Field extends React.Component<Props, State> {
       submitError: otherState.submitError,
       submitFailed: otherState.submitFailed,
       submitSucceeded: otherState.submitSucceeded,
+      submitting: otherState.submitting,
       touched: otherState.touched,
       valid: otherState.valid,
       visited: otherState.visited
