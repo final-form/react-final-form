@@ -30,7 +30,6 @@
   "homepage": "https://github.com/final-form/react-final-form#readme",
   "devDependencies": {
     "@babel/core": "^7.1.2",
-    "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
@@ -41,6 +40,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
@@ -113,5 +113,8 @@
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/final-form"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.1.2"
   }
 }
