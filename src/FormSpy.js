@@ -1,38 +1,33 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import { formSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
 import renderComponent from './renderComponent'
-import type {
-  FormSpyProps as Props,
-  FormSpyRenderProps,
-  ReactContext
-} from './types'
+import type { FormSpyProps as Props, FormSpyRenderProps } from './types'
 import type { FormState } from 'final-form'
 import isSyntheticEvent from './isSyntheticEvent'
 import { all } from './ReactFinalForm'
+import { withReactFinalForm } from './reactFinalFormContext'
 
 type State = { state: FormState }
 
 class FormSpy extends React.Component<Props, State> {
-  context: ReactContext
   props: Props
   state: State
   unsubscribe: () => void
 
-  constructor(props: Props, context: ReactContext) {
-    super(props, context)
+  constructor(props: Props) {
+    super(props)
     let initialState
 
     // istanbul ignore next
-    if (process.env.NODE_ENV !== 'production' && !context.reactFinalForm) {
+    if (process.env.NODE_ENV !== 'production' && !this.props.reactFinalForm) {
       console.error(
         'Warning: FormSpy must be used inside of a ReactFinalForm component'
       )
     }
 
-    if (this.context.reactFinalForm) {
+    if (this.props.reactFinalForm) {
       // avoid error, warning will alert developer to their mistake
       this.subscribe(props, (state: FormState) => {
         if (initialState) {
@@ -54,7 +49,7 @@ class FormSpy extends React.Component<Props, State> {
     { subscription }: Props,
     listener: (state: FormState) => void
   ) => {
-    this.unsubscribe = this.context.reactFinalForm.subscribe(
+    this.unsubscribe = this.props.reactFinalForm.subscribe(
       listener,
       subscription || all
     )
@@ -76,7 +71,7 @@ class FormSpy extends React.Component<Props, State> {
         formSubscriptionItems
       )
     ) {
-      if (this.context.reactFinalForm) {
+      if (this.props.reactFinalForm) {
         // avoid error, warning will alert developer to their mistake
         this.unsubscribe()
         this.subscribe(this.props, this.notify)
@@ -89,8 +84,7 @@ class FormSpy extends React.Component<Props, State> {
   }
 
   render() {
-    const { onChange, subscription, ...rest } = this.props
-    const { reactFinalForm } = this.context
+    const { onChange, reactFinalForm, ...rest } = this.props
     const renderProps: FormSpyRenderProps = {
       batch:
         reactFinalForm &&
@@ -197,8 +191,4 @@ class FormSpy extends React.Component<Props, State> {
   }
 }
 
-FormSpy.contextTypes = {
-  reactFinalForm: PropTypes.object
-}
-
-export default FormSpy
+export default withReactFinalForm(FormSpy)

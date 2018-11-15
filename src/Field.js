@@ -1,17 +1,13 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import { fieldSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
 import type { FieldSubscription, FieldState } from 'final-form'
-import type {
-  FieldProps as Props,
-  FieldRenderProps,
-  ReactContext
-} from './types'
+import type { FieldProps as Props, FieldRenderProps } from './types'
 import renderComponent from './renderComponent'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
+import { withReactFinalForm } from './reactFinalFormContext'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   result[key] = true
@@ -23,32 +19,27 @@ type State = {
 }
 
 class Field extends React.Component<Props, State> {
-  context: ReactContext
   props: Props
   state: State
   unsubscribe: () => void
-
-  static contextTypes = {
-    reactFinalForm: PropTypes.object
-  }
 
   static defaultProps = {
     format: (value: ?any, name: string) => (value === undefined ? '' : value),
     parse: (value: ?any, name: string) => (value === '' ? undefined : value)
   }
 
-  constructor(props: Props, context: ReactContext) {
-    super(props, context)
+  constructor(props: Props) {
+    super(props)
     let initialState
 
     // istanbul ignore next
-    if (process.env.NODE_ENV !== 'production' && !context.reactFinalForm) {
+    if (process.env.NODE_ENV !== 'production' && !this.props.reactFinalForm) {
       console.error(
         'Warning: Field must be used inside of a ReactFinalForm component'
       )
     }
 
-    if (this.context.reactFinalForm) {
+    if (this.props.reactFinalForm) {
       // avoid error, warning will alert developer to their mistake
       this.subscribe(props, (state: FieldState) => {
         if (initialState) {
@@ -65,7 +56,7 @@ class Field extends React.Component<Props, State> {
     { isEqual, name, subscription, validateFields }: Props,
     listener: (state: FieldState) => void
   ) => {
-    this.unsubscribe = this.context.reactFinalForm.registerField(
+    this.unsubscribe = this.props.reactFinalForm.registerField(
       name,
       listener,
       subscription || all,
@@ -89,7 +80,7 @@ class Field extends React.Component<Props, State> {
         fieldSubscriptionItems
       )
     ) {
-      if (this.context.reactFinalForm) {
+      if (this.props.reactFinalForm) {
         // avoid error, warning will alert developer to their mistake
         this.unsubscribe()
         this.subscribe(this.props, this.notify)
@@ -171,6 +162,7 @@ class Field extends React.Component<Props, State> {
       subscription,
       validate,
       validateFields,
+      reactFinalForm,
       value: _value,
       ...rest
     } = this.props
@@ -235,4 +227,4 @@ class Field extends React.Component<Props, State> {
   }
 }
 
-export default Field
+export default withReactFinalForm(Field)
