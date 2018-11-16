@@ -98,7 +98,10 @@ export type FieldPropsWithForm = {
 } & FieldProps
 
 export type FormSpyProps = {
-  reactFinalForm: FormApi,
   onChange?: (formState: FormState) => void,
   subscription?: FormSubscription
 } & RenderableProps<FormSpyRenderProps>
+
+export type FormSpyPropsWithForm = {
+  reactFinalForm: FormApi
+} & FormSpyProps
