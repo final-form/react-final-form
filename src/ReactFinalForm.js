@@ -20,7 +20,7 @@ import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
 import { ReactFinalFormContext } from './reactFinalFormContext'
 
-export const version = '4.0.1'
+export const version = '4.0.2'
 
 const versions = {
   'final-form': ffVersion,
