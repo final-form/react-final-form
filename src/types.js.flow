@@ -79,7 +79,6 @@ export type FormProps = {
   RenderableProps<FormRenderProps>
 
 export type FieldProps = {
-  reactFinalForm: FormApi,
   allowNull?: boolean,
   format?: (value: any, name: string) => any,
   formatOnBlur?: boolean,
@@ -93,6 +92,10 @@ export type FieldProps = {
 } & RenderableProps<FieldRenderProps> & {
     component?: React.ComponentType<*> | SupportedInputs
   }
+
+export type FieldPropsWithForm = {
+  reactFinalForm: FormApi
+} & FieldProps
 
 export type FormSpyProps = {
   reactFinalForm: FormApi,
