@@ -8,7 +8,7 @@ cache:
 notifications:
   email: false
 node_js:
-  - '9'
+  - '8'
   - '10'
   - 'stable'
 script:
