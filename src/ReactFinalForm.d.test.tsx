@@ -1,14 +1,16 @@
+/* tslint:disable: no-shadowed-variable */
+import { Mutator } from 'final-form/dist'
 import * as React from 'react'
 import {
-  Form,
   Field,
+  Form,
   ReactContext,
   ReactFinalFormContext,
   withReactFinalForm
 } from './index'
-import { Mutator } from 'final-form/dist'
 
 const onSubmit = async (values: any) => {
+  // tslint:disable-next-line no-console
   console.log(values)
 }
 
@@ -26,6 +28,7 @@ const FooContextConsumer = () => (
     {reactFinalForm => <div>{reactFinalForm.blur}</div>}
   </ReactFinalFormContext.Consumer>
 )
+
 // FIXME: uncomment when react-final-form switches to react >=16.6
 class FooStaticContext extends React.Component<{}> {
   public static contextType = ReactFinalFormContext
@@ -99,8 +102,8 @@ function simpleSubscription() {
     <Form
       onSubmit={onSubmit}
       subscription={{
-        submitting: true,
         pristine: true,
+        submitting: true,
         values: true
       }}
     >
