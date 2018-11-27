@@ -13,28 +13,36 @@ const onSubmit = async (values: any) => {
 }
 
 // context
-function withContext() {
-  return withReactFinalForm((props: {} & ReactContext) => (
+export interface FooWithContextProps {}
+
+const FooWithContext = withReactFinalForm<FooWithContextProps>(
+  (props: FooWithContextProps & ReactContext) => (
     <div>{props.reactFinalForm.blur}</div>
-  ))
+  )
+)
+
+const FooContextConsumer = () => (
+  <ReactFinalFormContext.Consumer>
+    {reactFinalForm => <div>{reactFinalForm.blur}</div>}
+  </ReactFinalFormContext.Consumer>
+)
+// FIXME: uncomment when react-final-form switches to react >=16.6
+class FooStaticContext extends React.Component<{}> {
+  public static contextType = ReactFinalFormContext
+  public render() {
+    return <div>{this.context.blur}</div>
+  }
 }
 
-function contextConsumer() {
+function contextUsage() {
   return (
-    <ReactFinalFormContext.Consumer>
-      {reactFinalForm => <div>{reactFinalForm.blur}</div>}
-    </ReactFinalFormContext.Consumer>
+    <React.Fragment>
+      <FooWithContext />
+      <FooContextConsumer />
+      <FooStaticContext />
+    </React.Fragment>
   )
 }
-// FIXME: uncomment when react-final-form switches to react >=16.6
-// function staticContext() {
-//   class Foo extends React.Component<{}> {
-//     public static contextType = ReactFinalFormContext
-//     public render() {
-//       return <div>{this.context.blur}</div>
-//     }
-//   }
-// }
 
 // basic
 function basic() {
