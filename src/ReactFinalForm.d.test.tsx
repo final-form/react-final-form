@@ -1,10 +1,40 @@
 import * as React from 'react'
-import { Form, Field } from './index'
+import {
+  Form,
+  Field,
+  ReactContext,
+  ReactFinalFormContext,
+  withReactFinalForm
+} from './index'
 import { Mutator } from 'final-form/dist'
 
 const onSubmit = async (values: any) => {
   console.log(values)
 }
+
+// context
+function withContext() {
+  return withReactFinalForm((props: {} & ReactContext) => (
+    <div>{props.reactFinalForm.blur}</div>
+  ))
+}
+
+function contextConsumer() {
+  return (
+    <ReactFinalFormContext.Consumer>
+      {reactFinalForm => <div>{reactFinalForm.blur}</div>}
+    </ReactFinalFormContext.Consumer>
+  )
+}
+// FIXME: uncomment when react-final-form switches to react >=16.6
+// function staticContext() {
+//   class Foo extends React.Component<{}> {
+//     public static contextType = ReactFinalFormContext
+//     public render() {
+//       return <div>{this.context.blur}</div>
+//     }
+//   }
+// }
 
 // basic
 function basic() {

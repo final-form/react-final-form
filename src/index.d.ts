@@ -101,3 +101,5 @@ export var version: string
 export function withReactFinalForm<T>(
   component: React.ComponentType<T>
 ): React.ComponentType<T & ReactContext>
+
+export var ReactFinalFormContext: React.Context<FormApi>
