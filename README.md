@@ -127,6 +127,7 @@ const MyForm = () => (
   - [Independent Error Component](#independent-error-component)
   - [Loading and Initializing Values](#loading-and-initializing-values)
   - [Field Arrays](#field-arrays)
+  - [Fields Component](#fields-component)
   - [Calculated Fields](#calculated-fields)
   - [Field Warnings](#field-warnings)
   - [Reusable Field Groups](#reusable-field-groups)
@@ -167,7 +168,7 @@ const MyForm = () => (
     - [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
     - [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     - [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
-    - [`validate?: (value: ?any, allValues: Object, meta: FieldState) => ?any`](#validate-value-any-allvalues-object--any)
+    - [`validate?: (value: ?any, allValues: Object, meta: FieldState) => ?any`](#validate-value-any-allvalues-object-meta-fieldstate--any)
     - [`validateFields?: string[]`](#validatefields-string)
     - [`value?: any`](#value-any)
   - [`FieldRenderProps`](#fieldrenderprops)
@@ -310,6 +311,12 @@ Demostrates how to use the `<FieldArray/>` component, from
 [`react-final-form-arrays`](https://github.com/final-form/react-final-form-arrays),
 to render an array of inputs, as well as use `push`, `pop`, and `remove`
 mutations.
+
+### [Fields Component](https://codesandbox.io/s/pyrwplknom)
+
+Wondering how to get field state from multiple fields at once?
+
+People coming from Redux-Form might be wondering where the equivalent of Redux Form's `Fields` component is, as a way to get state from several fields at once. The answer is that it's not included in the library because it's so easy to write one recursively composing `Field` components together.
 
 ### [Calculated Fields](https://codesandbox.io/s/oq52p6v96y)
 
