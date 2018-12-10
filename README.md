@@ -238,9 +238,12 @@ const MyForm = () => (
 
 ## Videos
 
-| [![Next Generation Forms with 🏁 React Final Form – React Alicante 2018](docs/ReactAlicante2018.gif)](https://youtu.be/WoSzy-4mviQ) |
-| :---------------------------------------------------------------------------------------------------------------------------------: |
-|                              **Next Generation Forms with 🏁 React Final Form – React Alicante 2018**                               |
+|       [![🏁Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia](docs/HolyJS2018.gif)](https://youtu.be/fxEW4jgoX-4)        |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                 **🏁 Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia**                                 |
+| [![Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain](docs/ReactAlicante2018.gif)](https://youtu.be/WoSzy-4mviQ) |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                              **Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain**                               |
 
 ## Examples
 
