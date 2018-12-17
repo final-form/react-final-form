@@ -472,7 +472,7 @@ as any non-API props passed into the `<Field/>` component.
 
 #### `component?: React.ComponentType<FieldRenderProps> | string`
 
-A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, as
+A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, children and render props, as
 well as any non-API props passed into the `<Field/>` component.
 
 #### `format?: ((value: any, name: string) => any) | null`
@@ -501,7 +501,7 @@ A function that takes the value from the input and name of the field and convert
 
 #### `render?: (props: FieldRenderProps) => React.Node`
 
-A render function that is given [`FieldRenderProps`](#fieldrenderprops), as well
+A render function that is given [`FieldRenderProps`](#fieldrenderprops), children prop, as well
 as any non-API props passed into the `<Field/>` component.
 
 #### `subscription?: FieldSubscription`
