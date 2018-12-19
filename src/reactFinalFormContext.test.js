@@ -19,4 +19,22 @@ describe('reactFinalFormContext', () => {
       formComponent.form
     )
   })
+
+  it('should have a displayName using name from the wrapped component', () => {
+    const MyComponent = () => <div />
+    const BoundComponent = withReactFinalForm(MyComponent)
+
+    expect(BoundComponent.displayName).toEqual(
+      'withReactFinalForm(MyComponent)'
+    )
+  })
+
+  it('should have a displayName using displayName from the wrapped component', () => {
+    const MyComponent = () => <div />
+    MyComponent.displayName = 'CustomName'
+
+    const BoundComponent = withReactFinalForm(MyComponent)
+
+    expect(BoundComponent.displayName).toEqual('withReactFinalForm(CustomName)')
+  })
 })
