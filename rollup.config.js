@@ -68,7 +68,8 @@ export default {
     flow(),
     commonjs({ include: 'node_modules/**' }),
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
+      runtimeHelpers: true
     }),
     umd
       ? replace({
