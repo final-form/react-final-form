@@ -513,7 +513,7 @@ that selects all of the items of
 wish to update for. If you don't pass a `subscription` prop, it defaults to
 _all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
 
-#### `validate?: (value: ?any, allValues: Object, meta: FieldState) => ?any`
+#### `validate?: (value: ?any, allValues: Object, meta: ?FieldState) => ?any`
 
 A function that takes the field value, all the values of the form and the `meta` data about the field and
 returns an error if the value is invalid, or `undefined` if the value is valid.
