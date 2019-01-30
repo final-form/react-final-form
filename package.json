@@ -5,10 +5,11 @@
   "main": "dist/react-final-form.cjs.js",
   "jsnext:main": "dist/react-final-form.es.js",
   "module": "dist/react-final-form.es.js",
-  "typings": "dist/index.d.ts",
+  "typings": "typescript/index.d.ts",
   "files": [
     "dist",
-    "scripts"
+    "scripts",
+    "typescript"
   ],
   "scripts": {
     "start": "nps",
@@ -50,6 +51,7 @@
     "babel-jest": "^24.1.0",
     "bundlesize": "^0.17.1",
     "doctoc": "^1.4.0",
+    "dtslint": "^0.4.4",
     "eslint": "^5.13.0",
     "eslint-config-react-app": "^3.0.6",
     "eslint-plugin-babel": "^5.2.1",

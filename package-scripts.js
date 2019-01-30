@@ -52,7 +52,7 @@ module.exports = {
       andTest: series.nps('build', 'test.size')
     },
     copyTypes: series(
-      npsUtils.copy('src/*.js.flow src/*.d.ts dist'),
+      npsUtils.copy('src/*.js.flow dist'),
       npsUtils.copy(
         'dist/index.js.flow dist --rename="react-final-form.cjs.js.flow"'
       ),
@@ -73,8 +73,10 @@ module.exports = {
       script: 'flow check'
     },
     typescript: {
-      description: 'typescript check the entire project',
-      script: 'tsc'
+      default: {
+        description: 'typescript',
+        script: 'dtslint --onlyTestTsNext ./typescript'
+      }
     },
     validate: {
       description:
