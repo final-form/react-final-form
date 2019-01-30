@@ -69,6 +69,7 @@ export default {
     commonjs({ include: 'node_modules/**' }),
     babel({
       exclude: 'node_modules/**',
+      plugins: [['@babel/plugin-transform-runtime', { useESModules: !cjs }]],
       runtimeHelpers: true
     }),
     umd

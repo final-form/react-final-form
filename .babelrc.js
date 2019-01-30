@@ -16,7 +16,6 @@ module.exports = {
   ],
   plugins: [
     '@babel/plugin-transform-flow-strip-types',
-    '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-import-meta',
     ['@babel/plugin-proposal-class-properties', { loose }],
