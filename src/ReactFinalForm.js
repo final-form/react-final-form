@@ -7,8 +7,8 @@ import {
   version as ffVersion
 } from 'final-form'
 import type {
-  FormApi,
   Config,
+  FormApi,
   FormSubscription,
   FormState,
   Unsubscribe
@@ -36,59 +36,17 @@ export const all: FormSubscription = formSubscriptionItems.reduce(
 )
 
 type State = {
-  state: FormState
+  state: ?FormState,
+  mounted: boolean
 }
 
 class ReactFinalForm extends React.Component<Props, State> {
   props: Props
-  state: State
+  state: State = { state: undefined, mounted: false }
   form: FormApi
-  mounted: boolean
-  resumeValidation: ?boolean
-  unsubscriptions: Unsubscribe[]
+  unsubscriptions: Unsubscribe[] = []
 
-  constructor(props: Props) {
-    super(props)
-    const {
-      children,
-      component,
-      render,
-      subscription,
-      decorators,
-      ...rest
-    } = props
-    const config: Config = rest
-    this.mounted = false
-    try {
-      this.form = createForm(config)
-    } catch (e) {
-      // istanbul ignore next
-      if (process.env.NODE_ENV !== 'production') {
-        console.error(`Warning: ${e.message}`)
-      }
-    }
-    this.unsubscriptions = []
-    if (this.form) {
-      // set initial state
-      let initialState: FormState = {}
-      this.form.subscribe((state: FormState) => {
-        initialState = state
-      }, subscription || all)()
-      this.state = { state: initialState }
-    }
-    if (decorators) {
-      decorators.forEach(decorator => {
-        this.unsubscriptions.push(decorator(this.form))
-      })
-    }
-  }
-
-  notify = (state: FormState) => {
-    if (this.mounted) {
-      this.setState({ state })
-    }
-    this.mounted = true
-  }
+  notify = (state: FormState) => this.setState({ state })
 
   handleSubmit = (event: ?SyntheticEvent<HTMLFormElement>) => {
     if (event) {
@@ -104,35 +62,70 @@ class ReactFinalForm extends React.Component<Props, State> {
     return this.form.submit()
   }
 
-  componentWillMount() {
-    if (this.form) {
-      this.form.pauseValidation()
-    }
-  }
-
   componentDidMount() {
-    if (this.form) {
+    const {
+      children,
+      component,
+      render,
+      subscription,
+      decorators,
+      ...rest
+    } = this.props
+    const config: Config = rest
+
+    try {
+      const form = createForm(config)
+      form.pauseValidation()
+
+      this.form = {
+        ...form,
+        reset: eventOrValues => {
+          if (isSyntheticEvent(eventOrValues)) {
+            // it's a React SyntheticEvent, call reset with no arguments
+            form.reset()
+          } else {
+            form.reset(eventOrValues)
+          }
+        }
+      }
+
+      const { decorators = [], subscription = all } = this.props
       this.unsubscriptions.push(
-        this.form.subscribe(this.notify, this.props.subscription || all)
+        ...decorators.map(decorator => decorator(this.form))
       )
-      this.form.resumeValidation()
+      this.unsubscriptions.push(this.form.subscribe(this.notify, subscription))
+    } catch (e) {
+      // istanbul ignore next
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(`Warning: ${e.message}`)
+      }
     }
+
+    this.setState({ mounted: true })
   }
 
-  componentWillUpdate() {
-    // istanbul ignore next
-    if (this.form) {
-      this.resumeValidation =
-        this.resumeValidation || !this.form.isValidationPaused()
-      this.form.pauseValidation()
+  fieldsMounted: boolean = false
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (!this.fieldsMounted) {
+      this.fieldsMounted = true
+      if (this.form) {
+        this.form.resumeValidation()
+      }
+      return
     }
-  }
 
-  componentDidUpdate(prevProps: Props) {
-    // istanbul ignore next
-    if (this.form && this.resumeValidation) {
-      this.form.resumeValidation()
+    if (this.props === prevProps) {
+      // Ignore `setState` updates
+      return
     }
+
+    if (!this.form) {
+      // avoid error, warning will alert developer to their mistake
+      return
+    }
+
+    this.form.pauseValidation()
+
     if (
       this.props.initialValues &&
       !(this.props.initialValuesEqual || shallowEqual)(
@@ -142,12 +135,14 @@ class ReactFinalForm extends React.Component<Props, State> {
     ) {
       this.form.initialize(this.props.initialValues)
     }
+
     configOptions.forEach(key => {
       if (key === 'initialValues' || prevProps[key] === this.props[key]) {
         return
       }
       this.form.setConfig(key, this.props[key])
     })
+
     // istanbul ignore next
     if (process.env.NODE_ENV !== 'production') {
       if (!shallowEqual(prevProps.decorators, this.props.decorators)) {
@@ -161,6 +156,8 @@ class ReactFinalForm extends React.Component<Props, State> {
         )
       }
     }
+
+    this.form.resumeValidation()
   }
 
   componentWillUnmount() {
@@ -168,6 +165,11 @@ class ReactFinalForm extends React.Component<Props, State> {
   }
 
   render() {
+    if (!this.state.mounted) {
+      // Not yet mounted and subscribed to the form.
+      return null
+    }
+
     // remove config props
     const {
       debug,
@@ -179,102 +181,14 @@ class ReactFinalForm extends React.Component<Props, State> {
       validateOnBlur,
       ...props
     } = this.props
+
+    // assign to force Flow check
     const renderProps: FormRenderProps = {
-      // assign to force Flow check
-      ...(this.state ? this.state.state : {}),
-      batch:
-        this.form &&
-        ((fn: () => void) => {
-          // istanbul ignore next
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(
-              `Warning: As of React Final Form v3.3.0, props.batch() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.batch() instead. Check your ReactFinalForm render prop.`
-            )
-          }
-          return this.form.batch(fn)
-        }),
-      blur:
-        this.form &&
-        ((name: string) => {
-          // istanbul ignore next
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(
-              `Warning: As of React Final Form v3.3.0, props.blur() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.blur() instead. Check your ReactFinalForm render prop.`
-            )
-          }
-          return this.form.blur(name)
-        }),
-      change:
-        this.form &&
-        ((name: string, value: any) => {
-          // istanbul ignore next
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(
-              `Warning: As of React Final Form v3.3.0, props.change() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.change() instead. Check your ReactFinalForm render prop.`
-            )
-          }
-          return this.form.change(name, value)
-        }),
-      focus:
-        this.form &&
-        ((name: string) => {
-          // istanbul ignore next
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(
-              `Warning: As of React Final Form v3.3.0, props.focus() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.focus() instead. Check your ReactFinalForm render prop.`
-            )
-          }
-          return this.form.focus(name)
-        }),
-      form: {
-        ...this.form,
-        reset: eventOrValues => {
-          if (isSyntheticEvent(eventOrValues)) {
-            // it's a React SyntheticEvent, call reset with no arguments
-            this.form.reset()
-          } else {
-            this.form.reset(eventOrValues)
-          }
-        }
-      },
-      handleSubmit: this.handleSubmit,
-      initialize:
-        this.form &&
-        ((values: Object) => {
-          // istanbul ignore next
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(
-              `Warning: As of React Final Form v3.3.0, props.initialize() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.initialize() instead. Check your ReactFinalForm render prop.`
-            )
-          }
-          return this.form.initialize(values)
-        }),
-      mutators:
-        this.form &&
-        Object.keys(this.form.mutators).reduce((result, key) => {
-          result[key] = (...args) => {
-            this.form.mutators[key](...args)
-            // istanbul ignore next
-            if (process.env.NODE_ENV !== 'production') {
-              console.error(
-                `Warning: As of React Final Form v3.3.0, props.mutators is deprecated and will be removed in the next major version of React Final Form. Use: props.form.mutators instead. Check your ReactFinalForm render prop.`
-              )
-            }
-          }
-          return result
-        }, {}),
-      reset:
-        this.form &&
-        ((values?: Object) => {
-          // istanbul ignore next
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(
-              `Warning: As of React Final Form v3.3.0, props.reset() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.reset() instead. Check your ReactFinalForm render prop.`
-            )
-          }
-          return this.form.reset(values)
-        })
+      ...this.state.state,
+      form: this.form,
+      handleSubmit: this.handleSubmit
     }
+
     return React.createElement(
       ReactFinalFormContext.Provider,
       { value: this.form },

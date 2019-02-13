@@ -12,46 +12,40 @@ export interface ReactContext {
   reactFinalForm: FormApi
 }
 
+export interface FieldRenderInputProps {
+  name: string
+  onBlur: <T>(event?: React.FocusEvent<T>) => void
+  onChange: <T>(event: React.ChangeEvent<T> | any) => void
+  onFocus: <T>(event?: React.FocusEvent<T>) => void
+  value: any
+  checked?: boolean
+}
+
+// TODO: Make a diff of `FieldState` without all the functions
+export interface FieldRenderMetaProp {
+  active: boolean
+  data: object
+  dirty: boolean
+  dirtySinceLastSubmit: boolean
+  error: any
+  initial: any
+  invalid: boolean
+  pristine: boolean
+  submitError: any
+  submitFailed: boolean
+  submitSucceeded: boolean
+  submitting: boolean
+  touched: boolean
+  valid: boolean
+  visited: boolean
+}
+
 export interface FieldRenderProps {
-  input: {
-    name: string
-    onBlur: <T>(event?: React.FocusEvent<T>) => void
-    onChange: <T>(event: React.ChangeEvent<T> | any) => void
-    onFocus: <T>(event?: React.FocusEvent<T>) => void
-    value: any
-    checked?: boolean
-  }
-  meta: Partial<{
-    // TODO: Make a diff of `FieldState` without all the functions
-    active: boolean
-    data: object
-    dirty: boolean
-    dirtySinceLastSubmit: boolean
-    error: any
-    initial: any
-    invalid: boolean
-    pristine: boolean
-    submitError: any
-    submitFailed: boolean
-    submitSucceeded: boolean
-    submitting: boolean
-    touched: boolean
-    valid: boolean
-    visited: boolean
-  }>
+  input: FieldRenderInputProps
+  meta: Partial<FieldRenderMetaProp>
 }
 
-export interface SubsetFormApi {
-  batch: (fn: () => void) => void
-  blur: (name: string) => void
-  change: (name: string, value: any) => void
-  focus: (name: string) => void
-  initialize: (values: object) => void
-  mutators: { [key: string]: Function }
-  reset: () => void
-}
-
-export interface FormRenderProps extends FormState, SubsetFormApi {
+export interface FormRenderProps extends FormState {
   batch: (fn: () => void) => void
   form: FormApi
   handleSubmit: (
@@ -59,7 +53,7 @@ export interface FormRenderProps extends FormState, SubsetFormApi {
   ) => Promise<object | undefined> | undefined
 }
 
-export interface FormSpyRenderProps extends FormState, SubsetFormApi {
+export interface FormSpyRenderProps extends FormState {
   form: FormApi
 }
 

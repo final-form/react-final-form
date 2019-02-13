@@ -3,7 +3,11 @@ import * as React from 'react'
 import { fieldSubscriptionItems } from 'final-form'
 import diffSubscription from './diffSubscription'
 import type { FieldSubscription, FieldState } from 'final-form'
-import type { FieldPropsWithForm as Props, FieldRenderProps } from './types'
+import type {
+  FieldPropsWithForm as Props,
+  FieldRenderInputProp,
+  FieldRenderMetaProp
+} from './types'
 import renderComponent from './renderComponent'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
@@ -15,12 +19,13 @@ const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
 }, {})
 
 type State = {
-  state: ?FieldState
+  state: ?FieldState,
+  mounted: boolean
 }
 
 class Field extends React.Component<Props, State> {
   props: Props
-  state: State
+  state: State = { state: undefined, mounted: false }
   unsubscribe: () => void
 
   static defaultProps = {
@@ -30,35 +35,28 @@ class Field extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    let initialState
 
     // istanbul ignore next
-    if (process.env.NODE_ENV !== 'production' && !this.props.reactFinalForm) {
+    if (process.env.NODE_ENV !== 'production' && !props.reactFinalForm) {
       console.error(
         'Warning: Field must be used inside of a ReactFinalForm component'
       )
     }
-
-    if (this.props.reactFinalForm) {
-      // avoid error, warning will alert developer to their mistake
-      this.subscribe(props, (state: FieldState) => {
-        if (initialState) {
-          this.notify(state)
-        } else {
-          initialState = state
-        }
-      })
-    }
-    this.state = { state: initialState }
   }
 
-  subscribe = (
-    { isEqual, name, subscription, validateFields }: Props,
-    listener: (state: FieldState) => void
-  ) => {
-    this.unsubscribe = this.props.reactFinalForm.registerField(
+  notify = (state: FieldState) => this.setState({ state })
+
+  subscribe = () => {
+    const {
+      isEqual,
       name,
-      listener,
+      subscription,
+      validateFields,
+      reactFinalForm
+    } = this.props
+    this.unsubscribe = reactFinalForm.registerField(
+      name,
+      this.notify,
       subscription || all,
       {
         isEqual,
@@ -68,23 +66,28 @@ class Field extends React.Component<Props, State> {
     )
   }
 
-  notify = (state: FieldState) => this.setState({ state })
+  componentDidMount() {
+    if (this.props.reactFinalForm) {
+      // avoid error, warning will alert developer to their mistake
+      this.subscribe()
+    }
+    this.setState({ mounted: true })
+  }
 
   componentDidUpdate(prevProps: Props) {
     const { name, subscription } = this.props
     if (
-      prevProps.name !== name ||
-      diffSubscription(
-        prevProps.subscription,
-        subscription,
-        fieldSubscriptionItems
-      )
+      this.props.reactFinalForm &&
+      (prevProps.name !== name ||
+        diffSubscription(
+          prevProps.subscription,
+          subscription,
+          fieldSubscriptionItems
+        ))
     ) {
-      if (this.props.reactFinalForm) {
-        // avoid error, warning will alert developer to their mistake
-        this.unsubscribe()
-        this.subscribe(this.props, this.notify)
-      }
+      // avoid error, warning will alert developer to their mistake
+      this.unsubscribe()
+      this.subscribe()
     }
   }
 
@@ -132,17 +135,14 @@ class Field extends React.Component<Props, State> {
         }
       }
 
+      const { state } = this.state
+
       const value: any =
         event && event.target
-          ? getValue(
-              event,
-              this.state.state && this.state.state.value,
-              _value,
-              isReactNative
-            )
+          ? getValue(event, state && state.value, _value, isReactNative)
           : event
-      this.state.state &&
-        this.state.state.change(parse ? parse(value, this.props.name) : value)
+
+      state && state.change(parse ? parse(value, this.props.name) : value)
     },
     onFocus: (event: ?SyntheticFocusEvent<*>) => {
       this.state.state && this.state.state.focus()
@@ -150,6 +150,12 @@ class Field extends React.Component<Props, State> {
   }
 
   render() {
+    // If is in form, but hasn't been mounted yet, don't render anything.
+    // This will re-render from `componentDidMount` and flush within the same tick.
+    if (!this.state.mounted) {
+      return null
+    }
+
     const {
       allowNull,
       component,
@@ -166,46 +172,32 @@ class Field extends React.Component<Props, State> {
       value: _value,
       ...rest
     } = this.props
-    let { blur, change, focus, value, name: ignoreName, ...otherState } =
+
+    const { blur, change, focus, value, name: ignoreName, ...otherState } =
       this.state.state || {}
-    const meta = {
-      // this is to appease the Flow gods
-      active: otherState.active,
-      data: otherState.data,
-      dirty: otherState.dirty,
-      dirtySinceLastSubmit: otherState.dirtySinceLastSubmit,
-      error: otherState.error,
-      initial: otherState.initial,
-      invalid: otherState.invalid,
-      pristine: otherState.pristine,
-      submitError: otherState.submitError,
-      submitFailed: otherState.submitFailed,
-      submitSucceeded: otherState.submitSucceeded,
-      submitting: otherState.submitting,
-      touched: otherState.touched,
-      valid: otherState.valid,
-      visited: otherState.visited
-    }
+
+    const input: FieldRenderInputProp = { name, value, ...this.handlers }
+    const meta: FieldRenderMetaProp = otherState
+
     if (formatOnBlur) {
-      value = Field.defaultProps.format(value, name)
+      input.value = Field.defaultProps.format(input.value, name)
     } else if (format) {
-      value = format(value, name)
+      input.value = format(input.value, name)
     }
-    if (value === null && !allowNull) {
-      value = ''
+    if (input.value === null && !allowNull) {
+      input.value = ''
     }
-    const input = { name, value, ...this.handlers }
+
     if ((rest: Object).type === 'checkbox') {
       if (_value === undefined) {
-        ;(input: Object).checked = !!value
+        input.checked = !!input.value
       } else {
-        ;(input: Object).checked = !!(
-          Array.isArray(value) && ~value.indexOf(_value)
-        )
+        input.checked =
+          Array.isArray(input.value) && !!~input.value.indexOf(_value)
         input.value = _value
       }
     } else if ((rest: Object).type === 'radio') {
-      ;(input: Object).checked = value === _value
+      input.checked = input.value === _value
       input.value = _value
     } else if (component === 'select' && (rest: Object).multiple) {
       input.value = input.value || []
@@ -219,9 +211,9 @@ class Field extends React.Component<Props, State> {
       // ignore meta, combine input with any other props
       return React.createElement(component, { ...input, children, ...rest })
     }
-    const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
+
     return renderComponent(
-      { ...renderProps, children, component, ...rest },
+      { input, meta, children, component, ...rest },
       `Field(${name})`
     )
   }

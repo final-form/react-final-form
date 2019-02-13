@@ -5,14 +5,6 @@ import Field from './Field'
 import FormSpy from './FormSpy'
 
 const onSubmitMock = () => {}
-const hasFormApi = props => {
-  expect(typeof props.batch).toBe('function')
-  expect(typeof props.blur).toBe('function')
-  expect(typeof props.change).toBe('function')
-  expect(typeof props.focus).toBe('function')
-  expect(typeof props.initialize).toBe('function')
-  expect(typeof props.reset).toBe('function')
-}
 
 describe('FormSpy', () => {
   it('should warn error if not used inside a form', () => {
@@ -41,7 +33,6 @@ describe('FormSpy', () => {
     )
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
-    hasFormApi(render.mock.calls[0][0])
     expect(render.mock.calls[0][0].dirty).toBe(false)
     expect(render.mock.calls[0][0].errors).toEqual({})
     expect(render.mock.calls[0][0].invalid).toBe(false)
@@ -59,7 +50,6 @@ describe('FormSpy', () => {
     renderInput.mock.calls[0][0].input.onChange('bar')
 
     expect(render).toHaveBeenCalledTimes(3)
-    hasFormApi(render.mock.calls[2][0])
     expect(render.mock.calls[2][0].dirty).toBe(true)
     expect(render.mock.calls[2][0].errors).toEqual({})
     expect(render.mock.calls[2][0].invalid).toBe(false)
@@ -107,7 +97,6 @@ describe('FormSpy', () => {
     const dom = TestUtils.renderIntoDocument(<Container />)
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
-    hasFormApi(render.mock.calls[0][0])
     expect(render.mock.calls[0][0].dirty).toBeUndefined()
     expect(render.mock.calls[0][0].errors).toBeUndefined()
     expect(render.mock.calls[0][0].invalid).toBeUndefined()
@@ -127,7 +116,6 @@ describe('FormSpy', () => {
 
     // one for new prop, and again after reregistering
     expect(render).toHaveBeenCalledTimes(3)
-    hasFormApi(render.mock.calls[2][0])
     expect(render.mock.calls[2][0].dirty).toBe(false)
     expect(render.mock.calls[2][0].errors).toBeUndefined()
     expect(render.mock.calls[2][0].invalid).toBeUndefined()
@@ -158,7 +146,6 @@ describe('FormSpy', () => {
     )
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
-    hasFormApi(render.mock.calls[0][0])
     expect(render.mock.calls[0][0].dirty).toBe(false)
     expect(render.mock.calls[0][0].errors).toBeUndefined()
     expect(render.mock.calls[0][0].invalid).toBeUndefined()
@@ -177,7 +164,6 @@ describe('FormSpy', () => {
 
     // once because whole form rerendered, and again because state changed
     expect(render).toHaveBeenCalledTimes(3)
-    hasFormApi(render.mock.calls[2][0])
     expect(render.mock.calls[2][0].dirty).toBe(true)
     expect(render.mock.calls[2][0].errors).toBeUndefined()
     expect(render.mock.calls[2][0].invalid).toBeUndefined()
@@ -415,76 +401,5 @@ describe('FormSpy', () => {
     expect(onChange).toHaveBeenCalled()
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(render).not.toHaveBeenCalled()
-  })
-
-  const deprecatedFns = {
-    // map from name to args
-    batch: [() => {}],
-    blur: ['foo'],
-    change: ['foo', 'bar'],
-    focus: [],
-    initialize: [{ foo: 'bar' }],
-    reset: []
-  }
-
-  Object.keys(deprecatedFns).forEach(key => {
-    it(`should warn if deprecated function props.${key}() is called`, async () => {
-      const spy = jest
-        .spyOn(global.console, 'error')
-        .mockImplementation(() => {})
-      const dom = TestUtils.renderIntoDocument(
-        <Form onSubmit={onSubmitMock}>
-          {() => (
-            <FormSpy>
-              {props => (
-                <button
-                  onClick={() => {
-                    expect(spy).not.toHaveBeenCalled()
-                    props[key](...deprecatedFns[key])
-                    expect(spy).toHaveBeenCalled()
-                    expect(spy).toHaveBeenCalledTimes(1)
-                    expect(spy).toHaveBeenCalledWith(
-                      `Warning: As of React Final Form v3.3.0, props.${key}() is deprecated and will be removed in the next major version of React Final Form. Use: props.form.${key}() instead. Check your FormSpy render prop.`
-                    )
-                  }}
-                >
-                  Click me, Alice!
-                </button>
-              )}
-            </FormSpy>
-          )}
-        </Form>
-      )
-      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
-      TestUtils.Simulate.click(button)
-      spy.mockRestore()
-    })
-  })
-
-  it(`should warn if deprecated function props.mutators.whatever() is called`, async () => {
-    const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
-    const mutator = jest.fn()
-    TestUtils.renderIntoDocument(
-      <Form onSubmit={onSubmitMock} mutators={{ whatever: mutator }}>
-        {() => (
-          <FormSpy>
-            {props => {
-              expect(spy).not.toHaveBeenCalled()
-              expect(mutator).not.toHaveBeenCalled()
-              props.mutators.whatever()
-              expect(mutator).toHaveBeenCalled()
-              expect(mutator).toHaveBeenCalledTimes(1)
-              expect(spy).toHaveBeenCalled()
-              expect(spy).toHaveBeenCalledTimes(1)
-              expect(spy).toHaveBeenCalledWith(
-                `Warning: As of React Final Form v3.3.0, props.mutators is deprecated and will be removed in the next major version of React Final Form. Use: props.form.mutators instead. Check your FormSpy render prop.`
-              )
-              return <div />
-            }}
-          </FormSpy>
-        )}
-      </Form>
-    )
-    spy.mockRestore()
   })
 })

@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react'
 import type {
-  FormApi,
   Config,
   Decorator,
-  FormState,
-  FormSubscription,
+  FieldState,
   FieldSubscription,
-  FieldValidator
+  FieldValidator,
+  FormApi,
+  FormState,
+  FormSubscription
 } from 'final-form'
 
 type SupportedInputs = 'input' | 'select' | 'textarea'
@@ -16,54 +17,40 @@ export type ReactContext = {
   reactFinalForm: FormApi
 }
 
-export type FieldRenderProps = {
-  input: {
-    name: string,
-    onBlur: (?SyntheticFocusEvent<*>) => void,
-    onChange: (SyntheticInputEvent<*> | any) => void,
-    onFocus: (?SyntheticFocusEvent<*>) => void,
-    value: any,
-    checked?: boolean
-  },
-  meta: {
-    // TODO: Make a diff of `FieldState` without all the functions
-    active?: boolean,
-    data?: Object,
-    dirty?: boolean,
-    dirtySinceLastSubmit?: boolean,
-    error?: any,
-    initial?: boolean,
-    invalid?: boolean,
-    pristine?: boolean,
-    submitError?: any,
-    submitFailed?: boolean,
-    submitSucceeded?: boolean,
-    submitting?: boolean,
-    touched?: boolean,
-    valid?: boolean,
-    visited?: boolean
-  }
+export type FieldRenderInputProp = {
+  name: $PropertyType<FieldState, 'name'>,
+  onBlur: (?SyntheticFocusEvent<*>) => void,
+  onChange: (SyntheticInputEvent<*> | any) => void,
+  onFocus: (?SyntheticFocusEvent<*>) => void,
+  value: $PropertyType<FieldState, 'value'>,
+  checked?: boolean
 }
 
-export type SubsetFormApi = {
-  blur: (name: string) => void,
-  change: (name: string, value: any) => void,
-  focus: (name: string) => void,
-  initialize: (values: Object) => void,
-  mutators: { [string]: Function },
-  reset: () => void
-} & FormState
+export type FieldRenderMetaProp = $Diff<
+  FieldState,
+  {
+    name: $PropertyType<FieldState, 'name'>,
+    value: $PropertyType<FieldState, 'value'>,
+    length: $PropertyType<FieldState, 'length'>,
+    change: $PropertyType<FieldState, 'change'>,
+    blur: $PropertyType<FieldState, 'blur'>,
+    focus: $PropertyType<FieldState, 'focus'>
+  }
+>
+
+export type FieldRenderProps = {
+  input: FieldRenderInputProp,
+  meta: FieldRenderMetaProp
+}
 
 export type FormRenderProps = {
   handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
   form: FormApi
-} & FormState &
-  SubsetFormApi
+} & FormState
 
 export type FormSpyRenderProps = {
   form: FormApi
-} & SubsetFormApi &
-  FormState
+} & FormState
 
 export type RenderableProps<T> = {
   component?: React.ComponentType<*> | SupportedInputs,
