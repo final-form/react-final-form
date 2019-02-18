@@ -116,3 +116,29 @@ function mutated() {
     </Form>
   )
 }
+
+// with typed form data
+
+const typedOnSubmit = (values: { firstName: string }) => {
+  console.log(values)
+}
+
+function withTypedFormData() {
+  return (
+    <Form<{ firstName: string }> onSubmit={typedOnSubmit}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>First Name</label>
+            <Field
+              name="firstName"
+              component="input"
+              type="text"
+              placeholder="First Name"
+            />
+          </div>
+        </form>
+      )}
+    </Form>
+  )
+}
