@@ -69,7 +69,8 @@ export interface RenderableProps<T> {
   render?: (props: T) => React.ReactNode
 }
 
-export interface FormProps extends Config, RenderableProps<FormRenderProps> {
+export interface FormProps<FormData = object> extends 
+  <FormData>, RenderableProps<FormRenderProps> {
   subscription?: FormSubscription
   decorators?: Decorator[]
   initialValuesEqual?: (a?: object, b?: object) => boolean
@@ -94,7 +95,7 @@ export interface FormSpyProps extends RenderableProps<FormSpyRenderProps> {
 }
 
 export var Field: React.ComponentType<FieldProps>
-export var Form: React.ComponentType<FormProps>
+export var Form<FormData = object>: React.ComponentType<FormProps<FormData>>
 export var FormSpy: React.ComponentType<FormSpyProps>
 export var version: string
 
