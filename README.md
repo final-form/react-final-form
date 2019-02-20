@@ -118,6 +118,7 @@ const MyForm = () => (
   - [Simple Example](#simple-example)
   - [Synchronous Record-Level Validation](#synchronous-record-level-validation)
   - [Synchronous Field-Level Validation](#synchronous-field-level-validation)
+  - [Synchronous Record-Level Validation (with delayed error render)](#synchronous-record-level-validation-with-delayed-error-render)
   - [Asynchronous Field-Level Validation](#asynchronous-field-level-validation)
   - [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
   - [Submission Errors](#submission-errors)
@@ -238,11 +239,11 @@ const MyForm = () => (
 
 ## Videos
 
-| [![🏁Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia](https://github.com/final-form/react-final-form/raw/master/docs/HolyJS2018.gif)](https://youtu.be/fxEW4jgoX-4) |
-| :----------------------------------------------------------: |
-| **🏁 Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia** |
+|       [![🏁Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia](https://github.com/final-form/react-final-form/raw/master/docs/HolyJS2018.gif)](https://youtu.be/fxEW4jgoX-4)        |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                              **🏁 Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia**                                                              |
 | [![Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain](https://github.com/final-form/react-final-form/raw/master/docs/ReactAlicante2018.gif)](https://youtu.be/WoSzy-4mviQ) |
-| **Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain** |
+|                                                           **Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain**                                                            |
 
 ## Examples
 
@@ -260,6 +261,10 @@ errors next to fields using child render functions.
 
 Introduces field-level validation functions and demonstrates how to display
 errors next to fields using child render functions.
+
+### [Synchronous Record-Level Validation (with delayed error render)](https://codesandbox.io/s/z2zqr008pm)
+
+Sometimes you want to give your user a chance to make it through a brief invalid value on their way to a valid one, e.g. a date string that needs two numbers on either side of a slash. With a simple delayed rendering component, this becomes easy. Plus, the error will disappear immediately when the user fixes the problem.
 
 ### [Asynchronous Field-Level Validation](https://codesandbox.io/s/wy7z7q5zx5)
 
