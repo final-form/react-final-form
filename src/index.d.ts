@@ -72,7 +72,7 @@ export interface FieldProps extends RenderableProps<FieldRenderProps> {
   name: string
   isEqual?: (a: any, b: any) => boolean
   subscription?: FieldSubscription
-  validate?: (value: any, allValues: object, meta: FieldPlaneState) => any
+  validate?: (value: any, allValues: object, meta?: FieldPlaneState) => any
   value?: any
   [otherProp: string]: any
 }
