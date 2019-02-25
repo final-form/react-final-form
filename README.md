@@ -290,7 +290,7 @@ Demonstrates how easy it is to use third party input components. All the third
 party component really needs is `value` and `onChange`, but more complex
 components can accept things like errors.
 
-### [Material-UI 3.0](https://codesandbox.io/s/2z5y03y81r)
+### [Material-UI 3.0](https://codesandbox.io/s/9ywq085k9w)
 
 Demonstrates how to use Material-UI 3.0 input components.
 
