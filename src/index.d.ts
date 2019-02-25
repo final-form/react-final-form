@@ -5,6 +5,7 @@ import {
   Decorator,
   FormState,
   FormSubscription,
+  FieldState,
   FieldSubscription
 } from 'final-form'
 
@@ -83,7 +84,7 @@ export interface FieldProps extends RenderableProps<FieldRenderProps> {
   name: string
   isEqual?: (a: any, b: any) => boolean
   subscription?: FieldSubscription
-  validate?: (value: any, allValues: object) => any
+  validate?: (value: any, allValues: object, meta?: FieldState) => any
   value?: any
   [otherProp: string]: any
 }
