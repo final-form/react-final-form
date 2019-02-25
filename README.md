@@ -114,6 +114,10 @@ const MyForm = () => (
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Videos](#videos)
+- [Helper Libraries](#helper-libraries)
+  - [Define Form and React Define Form](#define-form-and-react-define-form)
+  - [🏁 React Final Form HTML5 Validation](#-react-final-form-html5-validation)
+  - [Final Form Material UI](#final-form-material-ui)
 - [Examples](#examples)
   - [Simple Example](#simple-example)
   - [Synchronous Record-Level Validation](#synchronous-record-level-validation)
@@ -169,7 +173,7 @@ const MyForm = () => (
     - [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
     - [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     - [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
-    - [`validate?: (value: ?any, allValues: Object, meta: FieldState) => ?any`](#validate-value-any-allvalues-object-meta-fieldstate--any)
+    - [`validate?: (value: ?any, allValues: Object, meta: ?FieldState) => ?any`](#validate-value-any-allvalues-object-meta-fieldstate--any)
     - [`validateFields?: string[]`](#validatefields-string)
     - [`value?: any`](#value-any)
   - [`FieldRenderProps`](#fieldrenderprops)
@@ -244,6 +248,20 @@ const MyForm = () => (
 |                                                              **🏁 Final Form: Form state management via Observers - HolyJS 2018, Moscow, Russia**                                                              |
 | [![Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain](https://github.com/final-form/react-final-form/raw/master/docs/ReactAlicante2018.gif)](https://youtu.be/WoSzy-4mviQ) |
 |                                                           **Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain**                                                            |
+
+## Helper Libraries
+
+### [Define Form](https://github.com/ForbesLindesay/define-form/tree/master/packages/define-form) and [React Define Form](https://github.com/ForbesLindesay/define-form/tree/master/packages/react-define-form)
+
+Define Form offers alternative typescript bindings for 🏁 Final Form. The key difference is that _the form data is now a strongly typed object_, rather than an `any`. This makes the `initialValues` config option required.
+
+### [🏁 React Final Form HTML5 Validation](https://github.com/final-form/react-final-form-html5-validation)
+
+A swap-in replacement for 🏁 React Final Form's `<Field>` component to provide HTML5 Validation.
+
+### [Final Form Material UI](https://github.com/Deadly0/final-form-material-ui#readme)
+
+A set of adaptor components to facilitate using Material-UI with 🏁 React Final Form.
 
 ## Examples
 
