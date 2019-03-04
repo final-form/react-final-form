@@ -498,6 +498,12 @@ as any non-API props passed into the `<Field/>` component.
 A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, children and render props, as
 well as any non-API props passed into the `<Field/>` component.
 
+#### `defaultValue?: any`
+
+⚠️ You probably want `initialValue`! ⚠️
+
+_**Before using this prop, read and understand the 🏁 Final Form documentation on [`initialValue`](https://github.com/final-form/final-form#initialvalue-any) and [`defaultValue`](https://github.com/final-form/final-form#defaultvalue-any)!**_
+
 #### `format?: ((value: any, name: string) => any) | null`
 
 A function that takes the value from the form values and the name of the field and formats the value to give to the input. Common use cases include converting javascript `Date` values into a localized date string. Almost always used in conjunction with `parse`.
@@ -507,6 +513,10 @@ A function that takes the value from the form values and the name of the field a
 #### `formatOnBlur?: boolean`
 
 If `true`, the `format` function will only be called when the field is blurred. If `false`, `format` will be called on every render. Defaults to `false`.
+
+#### `initialValue?: any`
+
+[See the 🏁 Final Form docs on `initialValue`](https://github.com/final-form/final-form# #initialvalue-any)
 
 #### `isEqual?: (a: any, b: any) => boolean`
 
@@ -614,6 +624,10 @@ The current value of the field.
 #### `meta.invalid?: boolean`
 
 [See the 🏁 Final Form docs on `invalid`](https://github.com/final-form/final-form#invalid-boolean).
+
+#### `meta.modified?: boolean`
+
+[See the 🏁 Final Form docs on `modified`](https://github.com/final-form/final-form#modified-boolean).
 
 #### `meta.pristine?: boolean`
 
