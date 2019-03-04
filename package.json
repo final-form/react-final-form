@@ -69,7 +69,6 @@
     "opencollective": "^1.0.3",
     "prettier": "^1.16.4",
     "prettier-eslint-cli": "^4.7.1",
-    "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "rollup": "^1.4.1",
@@ -84,7 +83,6 @@
   },
   "peerDependencies": {
     "final-form": "^4.11.0",
-    "prop-types": "^15.6.0",
     "react": "^16.3.0"
   },
   "lint-staged": {

@@ -49,7 +49,6 @@ export default {
       exports: 'named',
       globals: {
         react: 'React',
-        'prop-types': 'PropTypes',
         'final-form': 'FinalForm'
       }
     },
