@@ -5,12 +5,18 @@ import {
   Decorator,
   FormState,
   FormSubscription,
+  FieldState,
   FieldSubscription
 } from 'final-form';
 
 export interface ReactContext {
   reactFinalForm: FormApi;
 }
+
+export type FieldPlaneState = Pick<
+  FieldState,
+  Exclude<keyof FieldState, 'blur' | 'change' | 'focus'>
+>;
 
 export interface FieldRenderProps<T extends HTMLElement> {
   input: {
@@ -21,24 +27,7 @@ export interface FieldRenderProps<T extends HTMLElement> {
     value: any;
     checked?: boolean;
   };
-  meta: Partial<{
-    // TODO: Make a diff of `FieldState` without all the functions
-    active: boolean;
-    data: object;
-    dirty: boolean;
-    dirtySinceLastSubmit: boolean;
-    error: any;
-    initial: any;
-    invalid: boolean;
-    pristine: boolean;
-    submitError: any;
-    submitFailed: boolean;
-    submitSucceeded: boolean;
-    submitting: boolean;
-    touched: boolean;
-    valid: boolean;
-    visited: boolean;
-  }>;
+  meta: FieldPlaneState;
 }
 
 export interface SubsetFormApi {
@@ -84,7 +73,7 @@ export interface FieldProps<T extends HTMLElement>
   name: string;
   isEqual?: (a: any, b: any) => boolean;
   subscription?: FieldSubscription;
-  validate?: (value: any, allValues: object) => any;
+  validate?: (value: any, allValues: object, meta?: FieldPlaneState) => any;
   value?: any;
   [otherProp: string]: any;
 }
@@ -100,5 +89,7 @@ export const FormSpy: React.ComponentType<FormSpyProps>;
 export const version: string;
 
 export function withReactFinalForm<T>(
-  component: React.ComponentType<T>
-): React.ComponentType<T & ReactContext>;
+  component: React.ComponentType<T & ReactContext>
+): React.ComponentType<T>;
+
+export var ReactFinalFormContext: React.Context<FormApi>;
