@@ -13,6 +13,11 @@ export interface ReactContext {
   reactFinalForm: FormApi
 }
 
+export type FieldPlaneState = Pick<
+  FieldState,
+  Exclude<keyof FieldState, 'blur' | 'change' | 'focus'>
+>
+
 export interface FieldRenderProps {
   input: {
     name: string
@@ -22,24 +27,7 @@ export interface FieldRenderProps {
     value: any
     checked?: boolean
   }
-  meta: Partial<{
-    // TODO: Make a diff of `FieldState` without all the functions
-    active: boolean
-    data: object
-    dirty: boolean
-    dirtySinceLastSubmit: boolean
-    error: any
-    initial: any
-    invalid: boolean
-    pristine: boolean
-    submitError: any
-    submitFailed: boolean
-    submitSucceeded: boolean
-    submitting: boolean
-    touched: boolean
-    valid: boolean
-    visited: boolean
-  }>
+  meta: FieldPlaneState
 }
 
 export interface SubsetFormApi {
@@ -84,7 +72,7 @@ export interface FieldProps extends RenderableProps<FieldRenderProps> {
   name: string
   isEqual?: (a: any, b: any) => boolean
   subscription?: FieldSubscription
-  validate?: (value: any, allValues: object, meta?: FieldState) => any
+  validate?: (value: any, allValues: object, meta?: FieldPlaneState) => any
   value?: any
   [otherProp: string]: any
 }
