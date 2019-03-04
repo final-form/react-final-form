@@ -51,7 +51,7 @@
     "babel-jest": "^24.1.0",
     "bundlesize": "^0.17.1",
     "doctoc": "^1.4.0",
-    "dtslint": "^0.4.4",
+    "dtslint": "^0.5.3",
     "eslint": "^5.13.0",
     "eslint-config-react-app": "^3.0.6",
     "eslint-plugin-babel": "^5.2.1",
