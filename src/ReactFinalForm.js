@@ -44,6 +44,7 @@ class ReactFinalForm extends React.Component<Props, State> {
   state: State
   form: FormApi
   mounted: boolean
+  submitLock: boolean
   resumeValidation: ?boolean
   unsubscriptions: Unsubscribe[]
 
@@ -59,6 +60,7 @@ class ReactFinalForm extends React.Component<Props, State> {
     } = props
     const config: Config = rest
     this.mounted = false
+    this.submitLock = false
     try {
       this.form = createForm(config)
     } catch (e) {
@@ -101,7 +103,23 @@ class ReactFinalForm extends React.Component<Props, State> {
         event.stopPropagation()
       }
     }
-    return this.form.submit()
+
+    if (this.submitLock) {
+      return
+    }
+
+    const onComplete = () => (this.submitLock = false)
+
+    this.submitLock = true
+    const result = this.form.submit()
+
+    if (result && typeof result.then === 'function') {
+      result.then(onComplete, onComplete)
+    } else {
+      onComplete()
+    }
+
+    return result
   }
 
   componentWillMount() {
