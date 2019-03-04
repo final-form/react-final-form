@@ -1,3 +1,17 @@
-semi: false
-singleQuote: true
-trailingComma: none
+{
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": [".prettierrc"],
+      "options": { "parser": "json" }
+    },
+    {
+      "files": ["*.ts*"],
+      "options": {
+        "semi": true
+      }
+    }
+  ]
+}
