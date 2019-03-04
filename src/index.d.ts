@@ -31,6 +31,7 @@ export interface FieldRenderProps {
     error: any
     initial: any
     invalid: boolean
+    modified: boolean
     pristine: boolean
     submitError: any
     submitFailed: boolean
@@ -78,10 +79,12 @@ export interface FormProps extends Config, RenderableProps<FormRenderProps> {
 
 export interface FieldProps extends RenderableProps<FieldRenderProps> {
   allowNull?: boolean
+  defaultValue?: any
   format?: ((value: any, name: string) => any) | null
   formatOnBlur?: boolean
   parse?: ((value: any, name: string) => any) | null
   name: string
+  initialValue?: any
   isEqual?: (a: any, b: any) => boolean
   subscription?: FieldSubscription
   validate?: (value: any, allValues: object, meta?: FieldState) => any

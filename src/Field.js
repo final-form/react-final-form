@@ -53,7 +53,14 @@ class Field extends React.Component<Props, State> {
   }
 
   subscribe = (
-    { isEqual, name, subscription, validateFields }: Props,
+    {
+      defaultValue,
+      initialValue,
+      isEqual,
+      name,
+      subscription,
+      validateFields
+    }: Props,
     listener: (state: FieldState) => void
   ) => {
     this.unsubscribe = this.props.reactFinalForm.registerField(
@@ -61,8 +68,10 @@ class Field extends React.Component<Props, State> {
       listener,
       subscription || all,
       {
-        isEqual,
+        defaultValue,
         getValidator: () => this.props.validate,
+        initialValue,
+        isEqual,
         validateFields
       }
     )
@@ -177,6 +186,7 @@ class Field extends React.Component<Props, State> {
       error: otherState.error,
       initial: otherState.initial,
       invalid: otherState.invalid,
+      modified: otherState.modified,
       pristine: otherState.pristine,
       submitError: otherState.submitError,
       submitFailed: otherState.submitFailed,
