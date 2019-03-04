@@ -5,8 +5,8 @@ import {
   Decorator,
   FormState,
   FormSubscription,
-  FieldSubscription,
-  FieldState
+  FieldState,
+  FieldSubscription
 } from 'final-form'
 
 export interface ReactContext {

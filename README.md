@@ -114,6 +114,10 @@ const MyForm = () => (
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Videos](#videos)
+- [Helper Libraries](#helper-libraries)
+  - [Define Form and React Define Form](#define-form-and-react-define-form)
+  - [🏁 React Final Form HTML5 Validation](#-react-final-form-html5-validation)
+  - [Final Form Material UI](#final-form-material-ui)
 - [Examples](#examples)
   - [Simple Example](#simple-example)
   - [Synchronous Record-Level Validation](#synchronous-record-level-validation)
@@ -123,7 +127,7 @@ const MyForm = () => (
   - [Hybrid Synchronous/Asynchronous Record-Level Validation](#hybrid-synchronousasynchronous-record-level-validation)
   - [Submission Errors](#submission-errors)
   - [Third Party Components](#third-party-components)
-  - [Material-UI 1.0](#material-ui-10)
+  - [Material-UI 3.0](#material-ui-30)
   - [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
   - [Independent Error Component](#independent-error-component)
   - [Loading and Initializing Values](#loading-and-initializing-values)
@@ -169,7 +173,7 @@ const MyForm = () => (
     - [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
     - [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     - [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
-    - [`validate?: (value: ?any, allValues: Object, meta: FieldState) => ?any`](#validate-value-any-allvalues-object-meta-fieldstate--any)
+    - [`validate?: (value: ?any, allValues: Object, meta: ?FieldState) => ?any`](#validate-value-any-allvalues-object-meta-fieldstate--any)
     - [`validateFields?: string[]`](#validatefields-string)
     - [`value?: any`](#value-any)
   - [`FieldRenderProps`](#fieldrenderprops)
@@ -245,6 +249,20 @@ const MyForm = () => (
 | [![Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain](https://github.com/final-form/react-final-form/raw/master/docs/ReactAlicante2018.gif)](https://youtu.be/WoSzy-4mviQ) |
 |                                                           **Next Generation Forms with 🏁 React Final Form – React Alicante 2018, Alicante, Spain**                                                            |
 
+## Helper Libraries
+
+### [Define Form](https://github.com/ForbesLindesay/define-form/tree/master/packages/define-form) and [React Define Form](https://github.com/ForbesLindesay/define-form/tree/master/packages/react-define-form)
+
+Define Form offers alternative typescript bindings for 🏁 Final Form. The key difference is that _the form data is now a strongly typed object_, rather than an `any`. This makes the `initialValues` config option required.
+
+### [🏁 React Final Form HTML5 Validation](https://github.com/final-form/react-final-form-html5-validation)
+
+A swap-in replacement for 🏁 React Final Form's `<Field>` component to provide HTML5 Validation.
+
+### [Final Form Material UI](https://github.com/Deadly0/final-form-material-ui#readme)
+
+A set of adaptor components to facilitate using Material-UI with 🏁 React Final Form.
+
 ## Examples
 
 ### [Simple Example](https://codesandbox.io/s/ww40y2m595)
@@ -290,9 +308,9 @@ Demonstrates how easy it is to use third party input components. All the third
 party component really needs is `value` and `onChange`, but more complex
 components can accept things like errors.
 
-### [Material-UI 1.0](https://codesandbox.io/s/2z5y03y81r)
+### [Material-UI 3.0](https://codesandbox.io/s/9ywq085k9w)
 
-Demonstrates how to use Material-UI 1.0 input components.
+Demonstrates how to use Material-UI 3.0 input components.
 
 ### 💥 [Performance Optimization Through Subscriptions](https://codesandbox.io/s/32r824vxy1) 💥
 
@@ -477,7 +495,7 @@ as any non-API props passed into the `<Field/>` component.
 
 #### `component?: React.ComponentType<FieldRenderProps> | string`
 
-A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, as
+A component that is given [`FieldRenderProps`](#fieldrenderprops) as props, children and render props, as
 well as any non-API props passed into the `<Field/>` component.
 
 #### `format?: ((value: any, name: string) => any) | null`
@@ -506,7 +524,7 @@ A function that takes the value from the input and name of the field and convert
 
 #### `render?: (props: FieldRenderProps) => React.Node`
 
-A render function that is given [`FieldRenderProps`](#fieldrenderprops), as well
+A render function that is given [`FieldRenderProps`](#fieldrenderprops), children prop, as well
 as any non-API props passed into the `<Field/>` component.
 
 #### `subscription?: FieldSubscription`
@@ -518,7 +536,7 @@ that selects all of the items of
 wish to update for. If you don't pass a `subscription` prop, it defaults to
 _all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
 
-#### `validate?: (value: ?any, allValues: Object, meta: FieldState) => ?any`
+#### `validate?: (value: ?any, allValues: Object, meta: ?FieldState) => ?any`
 
 A function that takes the field value, all the values of the form and the `meta` data about the field and
 returns an error if the value is invalid, or `undefined` if the value is valid.
