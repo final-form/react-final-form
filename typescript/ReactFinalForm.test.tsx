@@ -1,18 +1,28 @@
 /* tslint:disable: no-shadowed-variable */
-import { Mutator } from 'final-form/dist'
-import * as React from 'react'
+import { Mutator } from 'final-form';
+import * as React from 'react';
 import {
   Field,
   Form,
   ReactContext,
   ReactFinalFormContext,
   withReactFinalForm
-} from './index'
+} from 'react-final-form';
+
+const noop = () => {};
+// missing required props
+const C1 = () => {
+  // $ExpectError
+  return <Form />;
+};
+
+// provided required props
+const C2 = () => <Form onSubmit={noop} />;
 
 const onSubmit = async (values: any) => {
   // tslint:disable-next-line no-console
-  console.log(values)
-}
+  console.log(values);
+};
 
 // context
 export interface FooWithContextProps {}
@@ -21,19 +31,19 @@ const FooWithContext = withReactFinalForm<FooWithContextProps>(
   (props: FooWithContextProps & ReactContext) => (
     <div>{props.reactFinalForm.blur}</div>
   )
-)
+);
 
 const FooContextConsumer = () => (
   <ReactFinalFormContext.Consumer>
     {reactFinalForm => <div>{reactFinalForm.blur}</div>}
   </ReactFinalFormContext.Consumer>
-)
+);
 
 // FIXME: uncomment when react-final-form switches to react >=16.6
 class FooStaticContext extends React.Component<{}> {
-  public static contextType = ReactFinalFormContext
+  public static contextType = ReactFinalFormContext;
   public render() {
-    return <div>{this.context.blur}</div>
+    return <div>{this.context.blur}</div>;
   }
 }
 
@@ -44,7 +54,7 @@ function contextUsage() {
       <FooContextConsumer />
       <FooStaticContext />
     </React.Fragment>
-  )
+  );
 }
 
 // basic
@@ -65,7 +75,7 @@ function basic() {
         </form>
       )}
     </Form>
-  )
+  );
 }
 
 // simple
@@ -94,7 +104,7 @@ function simple() {
         </form>
       )}
     </Form>
-  )
+  );
 }
 
 function simpleSubscription() {
@@ -120,12 +130,12 @@ function simpleSubscription() {
         </form>
       )}
     </Form>
-  )
+  );
 }
 
 const setValue: Mutator = ([name, newValue], state, { changeValue }) => {
-  changeValue(state, name, value => newValue)
-}
+  changeValue(state, name, value => newValue);
+};
 
 function mutated() {
   return (
@@ -155,5 +165,5 @@ function mutated() {
         </form>
       )}
     </Form>
-  )
+  );
 }

@@ -75,7 +75,7 @@ module.exports = {
     typescript: {
       default: {
         description: 'typescript',
-        script: 'dtslint --onlyTestTsNext ./typescript'
+        script: 'dtslint --onlyTestTsNext --expectOnly ./typescript'
       }
     },
     validate: {
