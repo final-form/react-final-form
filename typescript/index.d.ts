@@ -8,15 +8,13 @@ import {
   FieldState,
   FieldSubscription
 } from 'final-form';
+import { Omit } from 'ts-essentials';
 
 export interface ReactContext {
   reactFinalForm: FormApi;
 }
 
-export type FieldPlaneState = Pick<
-  FieldState,
-  Exclude<keyof FieldState, 'blur' | 'change' | 'focus'>
->;
+export type FieldPlaneState = Omit<FieldState, 'blur' | 'change' | 'focus'>;
 
 export interface FieldRenderProps<T extends HTMLElement> {
   input: {
