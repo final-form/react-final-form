@@ -177,6 +177,7 @@ class ReactFinalForm extends React.Component<Props, State> {
       subscription,
       validate,
       validateOnBlur,
+      name,
       ...props
     } = this.props
     const renderProps: FormRenderProps = {
@@ -273,7 +274,8 @@ class ReactFinalForm extends React.Component<Props, State> {
             )
           }
           return this.form.reset(values)
-        })
+        }),
+      formName: this.form && (() => this.form.getFormName())
     }
     return React.createElement(
       ReactFinalFormContext.Provider,

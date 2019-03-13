@@ -194,7 +194,8 @@ class Field extends React.Component<Props, State> {
       submitting: otherState.submitting,
       touched: otherState.touched,
       valid: otherState.valid,
-      visited: otherState.visited
+      visited: otherState.visited,
+      formName: reactFinalForm ? reactFinalForm.getFormName() : ''
     }
     if (formatOnBlur) {
       value = Field.defaultProps.format(value, name)

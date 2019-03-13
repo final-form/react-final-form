@@ -42,7 +42,8 @@ export type FieldRenderProps = {
     submitting?: boolean,
     touched?: boolean,
     valid?: boolean,
-    visited?: boolean
+    visited?: boolean,
+    formName?: ?string
   }
 }
 

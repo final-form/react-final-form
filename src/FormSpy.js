@@ -176,7 +176,8 @@ class FormSpy extends React.Component<Props, State> {
             )
           }
           return reactFinalForm.reset(values)
-        })
+        }),
+      formName: reactFinalForm && (() => reactFinalForm.getFormName())
     }
     return onChange
       ? null
