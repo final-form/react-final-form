@@ -36,5 +36,27 @@ describe('reactFinalFormContext', () => {
     expect(mockComponent.mock.calls[0][0].reactFinalForm).toBe(
       formComponent.form
     )
+    console.log(mockComponent.mock.calls[0][0].reactFinalForm.getFormName())
+  })
+  it('should get formName form formApi using HOC', () => {
+    const mockComponent = jest.fn(() => <div />)
+    const render = () => {
+      const BoundComponent = withReactFinalForm(mockComponent)
+      return <BoundComponent />
+    }
+    const formComponent = TestUtils.renderIntoDocument(
+      <Form
+        onSubmit={() => {}}
+        render={render}
+        name="carefullyThoughtOutFormName"
+      />
+    )
+    expect(mockComponent).toHaveBeenCalled()
+    expect(mockComponent.mock.calls[0][0].reactFinalForm).toBe(
+      formComponent.form
+    )
+    expect(mockComponent.mock.calls[0][0].reactFinalForm.getFormName()).toBe(
+      'carefullyThoughtOutFormName'
+    )
   })
 })

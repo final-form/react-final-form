@@ -464,7 +464,9 @@ describe('Field', () => {
     const requiredUppercase = value =>
       !value
         ? 'Required'
-        : value.toUpperCase() === value ? undefined : 'Must be uppercase'
+        : value.toUpperCase() === value
+        ? undefined
+        : 'Must be uppercase'
     class FieldsContainer extends React.Component {
       state = { uppercase: false }
 
@@ -496,7 +498,9 @@ describe('Field', () => {
     expect(input).toHaveBeenCalledTimes(2)
     expect(input.mock.calls[1][0].meta.error).toBe('Required')
 
-    const { input: { onChange } } = input.mock.calls[1][0]
+    const {
+      input: { onChange }
+    } = input.mock.calls[1][0]
 
     onChange('hi')
 
@@ -811,5 +815,36 @@ describe('Field', () => {
     )
 
     spy.mockRestore()
+  })
+
+  it('should render formName in meta', () => {
+    const input = jest.fn(({ input }) => <input {...input} />)
+
+    TestUtils.renderIntoDocument(
+      <Form
+        name="carefullyThoughtOutFormName"
+        onSubmit={onSubmitMock}
+        initialValues={{ foo: 'Bar' }}
+        subscription={{ pristine: true }}
+      >
+        {() => (
+          <form>
+            <Field
+              name="foo"
+              render={input}
+              isEqual={(a, b) =>
+                (a && a.toUpperCase()) === (b && b.toUpperCase())
+              }
+            />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(input).toHaveBeenCalled()
+    expect(input).toHaveBeenCalledTimes(1)
+    expect(input.mock.calls[0][0].meta.formName).toBe(
+      'carefullyThoughtOutFormName'
+    )
   })
 })
