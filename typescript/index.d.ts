@@ -18,7 +18,7 @@ export type FieldPlaneState = Pick<
   Exclude<keyof FieldState, 'blur' | 'change' | 'focus'>
 >;
 
-export interface FieldRenderProps<T extends HTMLElement> {
+export interface FieldRenderProps<T extends HTMLElement = HTMLElement> {
   input: {
     name: string;
     onBlur: (event?: React.FocusEvent<T>) => void;
