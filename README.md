@@ -353,7 +353,7 @@ decorator to achieve realtime field calculations through easily defined rules.
 
 Demonstrates how the power of subscriptions and mutators can be used to build a
 warning engine: logic to display a message next to each field that is _not_ an
-error that prevents form submission.
+error (thus it does _not_ prevent form submission).
 
 ### [Reusable Field Groups](https://codesandbox.io/s/8z5jm6x80)
 
