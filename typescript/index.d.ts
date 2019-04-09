@@ -22,7 +22,7 @@ export interface FieldRenderProps<T extends HTMLElement> {
   input: {
     name: string;
     onBlur: (event?: React.FocusEvent<T>) => void;
-    onChange: (event: React.ChangeEvent<T>) => void;
+    onChange: (event: React.ChangeEvent<T> | any) => void;
     onFocus: (event?: React.FocusEvent<T>) => void;
     value: any;
     checked?: boolean;
