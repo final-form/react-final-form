@@ -140,7 +140,7 @@ const MyForm = () => (
   - [Wizard Form](#wizard-form)
   - [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
   - [Auto-Save with Debounce](#auto-save-with-debounce)
-  - [Auto-Save with _Selective_ Debounce](#auto-save-with-_selective_-debounce)
+  - [Auto-Save with Selective Debounce](#auto-save-with-selective-debounce)
   - [Auto-Save on Field Blur](#auto-save-on-field-blur)
   - [Custom Validation Engine](#custom-validation-engine)
   - [Loading, Normalizing, Saving, and Reinitializing](#loading-normalizing-saving-and-reinitializing)
@@ -382,7 +382,7 @@ Demonstrates how to use 🏁 React Final Form's `parse` and `format` props to co
 
 Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period.
 
-### [Auto-Save with _Selective_ Debounce](https://codesandbox.io/s/98j0v46zj4)
+### [Auto-Save with Selective Debounce](https://codesandbox.io/s/98j0v46zj4)
 
 Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period, but only does the debounce for certain specified fields, in this case, all the text fields.
 
