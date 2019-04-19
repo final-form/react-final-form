@@ -140,6 +140,7 @@ const MyForm = () => (
   - [Wizard Form](#wizard-form)
   - [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
   - [Auto-Save with Debounce](#auto-save-with-debounce)
+  - [Auto-Save with _Selective_ Debounce](#auto-save-with-_selective_-debounce)
   - [Auto-Save on Field Blur](#auto-save-on-field-blur)
   - [Custom Validation Engine](#custom-validation-engine)
   - [Loading, Normalizing, Saving, and Reinitializing](#loading-normalizing-saving-and-reinitializing)
@@ -166,8 +167,10 @@ const MyForm = () => (
     - [`allowNull?: boolean`](#allownull-boolean)
     - [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     - [`component?: React.ComponentType<FieldRenderProps> | string`](#component-reactcomponenttypefieldrenderprops--string)
+    - [`defaultValue?: any`](#defaultvalue-any)
     - [`format?: ((value: any, name: string) => any) | null`](#format-value-any-name-string--any--null)
     - [`formatOnBlur?: boolean`](#formatonblur-boolean)
+    - [`initialValue?: any`](#initialvalue-any)
     - [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     - [`name: string`](#name-string)
     - [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
@@ -188,6 +191,7 @@ const MyForm = () => (
     - [`meta.error?: any`](#metaerror-any)
     - [`meta.initial?: any`](#metainitial-any)
     - [`meta.invalid?: boolean`](#metainvalid-boolean)
+    - [`meta.modified?: boolean`](#metamodified-boolean)
     - [`meta.pristine?: boolean`](#metapristine-boolean)
     - [`meta.submitError?: any`](#metasubmiterror-any)
     - [`meta.submitFailed?: boolean`](#metasubmitfailed-boolean)
@@ -377,6 +381,10 @@ Demonstrates how to use 🏁 React Final Form's `parse` and `format` props to co
 ### [Auto-Save with Debounce](https://codesandbox.io/s/5w4yrpyo7k)
 
 Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period.
+
+### [Auto-Save with _Selective_ Debounce](https://codesandbox.io/s/98j0v46zj4)
+
+Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period, but only does the debounce for certain specified fields, in this case, all the text fields.
 
 ### [Auto-Save on Field Blur](https://codesandbox.io/s/7k742qpo36)
 
