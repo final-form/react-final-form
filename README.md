@@ -118,6 +118,7 @@ const MyForm = () => (
   - [Define Form and React Define Form](#define-form-and-react-define-form)
   - [🏁 React Final Form HTML5 Validation](#-react-final-form-html5-validation)
   - [Final Form Material UI](#final-form-material-ui)
+  - [Final Form Validators](#final-form-validators)
 - [Examples](#examples)
   - [Simple Example](#simple-example)
   - [Synchronous Record-Level Validation](#synchronous-record-level-validation)
@@ -128,6 +129,7 @@ const MyForm = () => (
   - [Submission Errors](#submission-errors)
   - [Third Party Components](#third-party-components)
   - [Material-UI 3.0](#material-ui-30)
+  - [Form Validators](#form-validators-record-level-validation)
   - [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
   - [Independent Error Component](#independent-error-component)
   - [Loading and Initializing Values](#loading-and-initializing-values)
@@ -267,6 +269,10 @@ A swap-in replacement for 🏁 React Final Form's `<Field>` component to provide
 
 A set of adaptor components to facilitate using Material-UI with 🏁 React Final Form.
 
+### [Final Form Validators](https://github.com/gtournie/redux-form-validators#readme)
+
+A set of pre-defined validators to help with form validation.
+
 ## Examples
 
 ### [Simple Example](https://codesandbox.io/s/ww40y2m595)
@@ -315,6 +321,13 @@ components can accept things like errors.
 ### [Material-UI 3.0](https://codesandbox.io/s/9ywq085k9w)
 
 Demonstrates how to use Material-UI 3.0 input components.
+
+### [Form Validators](https://codesandbox.io/s/y43o4vqj1) (Record-Level Validation)
+
+Demonstrates how easy it is to validate a form with redux-form-validators. 
+
+Here is the [Field-Level Validation example](https://codesandbox.io/s/94wp5r6z1r).
+
 
 ### 💥 [Performance Optimization Through Subscriptions](https://codesandbox.io/s/32r824vxy1) 💥
 
