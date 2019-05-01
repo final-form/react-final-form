@@ -75,6 +75,7 @@ class ReactFinalForm extends React.Component<Props, State> {
         initialState = state
       }, subscription || all)()
       this.state = { state: initialState }
+      this.form.pauseValidation()
     }
     if (decorators) {
       decorators.forEach(decorator => {
@@ -104,12 +105,6 @@ class ReactFinalForm extends React.Component<Props, State> {
     return this.form.submit()
   }
 
-  componentWillMount() {
-    if (this.form) {
-      this.form.pauseValidation()
-    }
-  }
-
   componentDidMount() {
     if (this.form) {
       this.unsubscriptions.push(
@@ -119,7 +114,7 @@ class ReactFinalForm extends React.Component<Props, State> {
     }
   }
 
-  componentWillUpdate() {
+  getSnapshotBeforeUpdate() {
     // istanbul ignore next
     if (this.form) {
       this.resumeValidation =
