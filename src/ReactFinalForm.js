@@ -121,6 +121,7 @@ class ReactFinalForm extends React.Component<Props, State> {
         this.resumeValidation || !this.form.isValidationPaused()
       this.form.pauseValidation()
     }
+    return null
   }
 
   componentDidUpdate(prevProps: Props) {
