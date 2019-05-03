@@ -156,6 +156,7 @@ const MyForm = () => (
   - [AsyncTypeahead and Redux](#asynctypeahead-and-redux)
   - [Format On Blur](#format-on-blur)
   - [Styling with 🍭 Smooth-UI](#styling-with--smooth-ui)
+  - [CLI Example 🤯](#cli-example-)
 - [Rendering](#rendering)
 - [API](#api)
   - [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
@@ -445,6 +446,10 @@ Demonstrates how to use the `formatOnBlur` prop to postpone the formatting of a 
 ### [Styling with 🍭 Smooth-UI](https://codesandbox.io/s/40o45po3l4)
 
 Demonstrates how to use the Smooth-UI styling library to make your forms look fabulous! All you really need is a higher order component that adapts The 🍭 Smooth-UI form controls to work with 🏁 React Final Form.
+
+### [CLI Example](https://github.com/final-form/rff-cli-example) 🤯
+
+Yes! You can actually use 🏁 React Final Form in a command line interface! Thanks to packages like [Ink](https://github.com/vadimdemedes/ink) and [Pastel](https://github.com/vadimdemedes/pastel), the power of 🏁 Final Form's form state management works just fine on the command line.
 
 ## Rendering
 
