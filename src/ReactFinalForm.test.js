@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent, cleanup } from 'react-testing-library'
 import 'jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
-import { Toggle, wrapWith } from './testUtils'
+import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'
 
@@ -40,16 +40,19 @@ describe('ReactFinalForm', () => {
   })
 
   it('should print a warning with no onSubmit specified', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-    const { getByTestId } = render(
-      <Form render={() => <div data-testid="myDiv" />} />
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+    const errorSpy = jest.fn()
+    render(
+      <ErrorBoundary spy={errorSpy}>
+        <Form render={() => <div data-testid="myDiv" />} />
+      </ErrorBoundary>
     )
-    expect(getByTestId('myDiv')).toBeDefined()
     expect(errorSpy).toHaveBeenCalled()
-    expect(errorSpy).toHaveBeenCalledWith(
-      'Warning: No onSubmit function specified'
+    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy.mock.calls[0][0].message).toBe(
+      'No onSubmit function specified'
     )
-    errorSpy.mockRestore()
+    console.error.mockRestore()
   })
 
   it('should allow render to be a component', () => {

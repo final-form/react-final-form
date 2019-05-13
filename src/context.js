@@ -2,4 +2,7 @@
 import * as React from 'react'
 import type { FormApi } from 'final-form'
 
-export default React.createContext<?FormApi>(null)
+// This is dumb, but it's getting around a flow error, so...
+type Maybe<T> = T | void
+
+export default React.createContext<Maybe<FormApi>>(undefined)

@@ -63,7 +63,7 @@ export default {
         ]
   ),
   plugins: [
-    resolve({ jsnext: true, main: true }),
+    resolve({ mainFields: ['jsnext:main'] }),
     flow(),
     commonjs({ include: 'node_modules/**' }),
     babel({

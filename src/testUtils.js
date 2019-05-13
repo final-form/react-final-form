@@ -15,3 +15,13 @@ export function Toggle({ children }) {
     </div>
   )
 }
+
+export class ErrorBoundary extends React.Component {
+  componentDidCatch(error) {
+    this.props.spy(error)
+  }
+
+  render() {
+    return this.props.children
+  }
+}

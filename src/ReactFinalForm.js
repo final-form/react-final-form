@@ -15,6 +15,7 @@ import type {
 import type { FormProps as Props } from './types'
 import renderComponent from './renderComponent'
 import useWhenValueChanges from './useWhenValueChanges'
+import useConstant from './useConstant'
 import shallowEqual from './shallowEqual'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
@@ -62,30 +63,21 @@ const ReactFinalForm = ({
     validate,
     validateOnBlur
   }
-  const form = React.useRef<?FormApi>()
-  if (!form.current) {
-    try {
-      form.current = createForm(config)
-      form.current.pauseValidation()
-    } catch (e) {
-      // istanbul ignore next
-      if (process.env.NODE_ENV !== 'production') {
-        console.error(`Warning: ${e.message}`)
-      }
-    }
-  }
 
+  const form: FormApi = useConstant(() => {
+    const f = createForm(config)
+    f.pauseValidation()
+    return f
+  })
   const firstRender = React.useRef(true)
 
   // synchronously register and unregister to query form state for our subscription on first render
   const [state, setState] = React.useState<FormState>(
     (): FormState => {
       let initialState: FormState = {}
-      if (form.current) {
-        form.current.subscribe(state => {
-          initialState = state
-        }, subscription || all)()
-      }
+      form.subscribe(state => {
+        initialState = state
+      }, subscription || all)()
       return initialState
     }
   )
@@ -93,28 +85,24 @@ const ReactFinalForm = ({
   const flattenedSubscription = flattenSubscription(subscription || all)
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation
-    form.current &&
-      form.current.isValidationPaused() &&
-      form.current.resumeValidation()
+    form.isValidationPaused() && form.resumeValidation()
     const unsubscriptions: Unsubscribe[] = [
-      form.current
-        ? form.current.subscribe(s => {
-            if (firstRender.current) {
-              if (validationStateChanged(state, s)) {
-                // this may happen if we have field-level validation
-                setState(s)
-              }
-            } else {
-              setState(s)
-            }
-            firstRender.current = false
-          }, subscription || all)
-        : () => {},
+      form.subscribe(s => {
+        if (firstRender.current) {
+          if (validationStateChanged(state, s)) {
+            // this may happen if we have field-level validation
+            setState(s)
+          }
+        } else {
+          setState(s)
+        }
+        firstRender.current = false
+      }, subscription || all),
       ...(decorators
         ? decorators.map(decorator =>
             // this noop ternary is to appease the flow gods
             // istanbul ignore next
-            form.current ? decorator(form.current) : () => {}
+            decorator(form)
           )
         : [])
     ]
@@ -141,34 +129,32 @@ const ReactFinalForm = ({
 
   // allow updatable config
   useWhenValueChanges(debug, () => {
-    form.current && form.current.setConfig('debug', debug)
+    form.setConfig('debug', debug)
   })
   useWhenValueChanges(destroyOnUnregister, () => {
-    form.current &&
-      form.current.setConfig('destroyOnUnregister', destroyOnUnregister)
+    form.setConfig('destroyOnUnregister', destroyOnUnregister)
   })
   useWhenValueChanges(
     initialValues,
     () => {
-      form.current && form.current.setConfig('initialValues', initialValues)
+      form.setConfig('initialValues', initialValues)
     },
     initialValuesEqual || shallowEqual
   )
   useWhenValueChanges(keepDirtyOnReinitialize, () => {
-    form.current &&
-      form.current.setConfig('keepDirtyOnReinitialize', keepDirtyOnReinitialize)
+    form.setConfig('keepDirtyOnReinitialize', keepDirtyOnReinitialize)
   })
   useWhenValueChanges(mutators, () => {
-    form.current && form.current.setConfig('mutators', mutators)
+    form.setConfig('mutators', mutators)
   })
   useWhenValueChanges(onSubmit, () => {
-    form.current && form.current.setConfig('onSubmit', onSubmit)
+    form.setConfig('onSubmit', onSubmit)
   })
   useWhenValueChanges(validate, () => {
-    form.current && form.current.setConfig('validate', validate)
+    form.setConfig('validate', validate)
   })
   useWhenValueChanges(validateOnBlur, () => {
-    form.current && form.current.setConfig('validateOnBlur', validateOnBlur)
+    form.setConfig('validateOnBlur', validateOnBlur)
   })
 
   const handleSubmit = (event: ?SyntheticEvent<HTMLFormElement>) => {
@@ -182,20 +168,20 @@ const ReactFinalForm = ({
         event.stopPropagation()
       }
     }
-    return form.current && form.current.submit()
+    return form.submit()
   }
 
   const renderProps: FormRenderProps = {
     // assign to force Flow check
     ...state,
     form: {
-      ...form.current,
+      ...form,
       reset: eventOrValues => {
         if (isSyntheticEvent(eventOrValues)) {
           // it's a React SyntheticEvent, call reset with no arguments
-          form.current && form.current.reset()
+          form.reset()
         } else {
-          form.current && form.current.reset(eventOrValues)
+          form.reset(eventOrValues)
         }
       }
     },
@@ -203,7 +189,7 @@ const ReactFinalForm = ({
   }
   return React.createElement(
     ReactFinalFormContext.Provider,
-    { value: form.current },
+    { value: form },
     renderComponent(
       {
         ...rest,
