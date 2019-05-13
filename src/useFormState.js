@@ -6,7 +6,10 @@ import type { FormState, FormApi } from 'final-form'
 import { all } from './ReactFinalForm'
 import ReactFinalFormContext from './context'
 
-const useFormState = ({ onChange, subscription }: UseFormStateParams) => {
+const useFormState = ({
+  onChange,
+  subscription
+}: UseFormStateParams): FormState | void => {
   const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
   // istanbul ignore next
   if (process.env.NODE_ENV !== 'production' && !reactFinalForm) {
@@ -49,7 +52,7 @@ const useFormState = ({ onChange, subscription }: UseFormStateParams) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     flattenedSubscription
   )
-  return onChange ? null : state
+  return onChange ? undefined : state
 }
 
 export default useFormState

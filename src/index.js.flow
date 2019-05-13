@@ -1,20 +1,21 @@
 // @flow
 import * as React from 'react'
-import type { FieldProps, FormProps, FormSpyProps, ReactContext } from './types';
-
-export type {
+import type { FormState } from 'final-form'
+import type {
   FieldProps,
   FieldRenderProps,
   FormProps,
-  FormRenderProps,
   FormSpyProps,
-  FormSpyRenderProps,
-  ReactContext
+  UseFieldConfig,
+  UseFormStateParams
 } from './types'
 
 declare export var Field: React.ComponentType<FieldProps>
 declare export var Form: React.ComponentType<FormProps>
 declare export var FormSpy: React.ComponentType<FormSpyProps>
+declare export var useFormState: UseFormStateParams => ?FormState
+declare export var useField: (
+  name: string,
+  config: UseFieldConfig
+) => FieldRenderProps
 declare export var version: string
-
-declare export function withReactFinalForm<T>(component: React.ComponentType<T>): React.ComponentType<T & ReactContext>
