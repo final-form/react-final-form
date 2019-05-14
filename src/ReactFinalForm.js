@@ -92,6 +92,10 @@ const ReactFinalForm = ({
           if (validationStateChanged(state, s)) {
             // this may happen if we have field-level validation
             setState(s)
+            // NOTE: If you are doing any other shenanigans that is modifying form
+            // state on *first* render, like changing values in a FormSpy, if you want
+            // thate state to be reflected immediately, you'll need to put those changes
+            // in a setTimeout(), to let this execute first to flip firstRender to false.
           }
         } else {
           setState(s)
@@ -114,18 +118,23 @@ const ReactFinalForm = ({
   }, [decorators, ...flattenedSubscription])
 
   // warn about decorator changes
-  useWhenValueChanges(
-    decorators,
-    () => {
-      console.error(
-        'Warning: Form decorators should not change from one render to the next as new values will be ignored'
-      )
-    },
-    // this env check short circuts the comparison in production
-    // so we don't run the shallowEqual on every render
-    // istanbul ignore next
-    process.env.NODE_ENV === 'production' ? () => true : shallowEqual
-  )
+  // istanbul ignore next
+  if (process.env.NODE_ENV !== 'production') {
+    // You're never supposed to use hooks inside a conditional, but in this
+    // case we can be certain that you're not going to be changing your
+    // NODE_ENV between renders, so this is safe.
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useWhenValueChanges(
+      decorators,
+      () => {
+        console.error(
+          'Warning: Form decorators should not change from one render to the next as new values will be ignored'
+        )
+      },
+      shallowEqual
+    )
+  }
 
   // allow updatable config
   useWhenValueChanges(debug, () => {

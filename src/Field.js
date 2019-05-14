@@ -9,13 +9,13 @@ const Field = ({
   children,
   component,
   defaultValue,
-  format,
+  format = defaultFormat,
   formatOnBlur,
   initialValue,
   isEqual,
   multiple,
   name,
-  parse,
+  parse = defaultParse,
   subscription,
   type,
   validate,
@@ -53,11 +53,6 @@ const Field = ({
     { ...field, children, component, ...rest },
     `Field(${name})`
   )
-}
-
-Field.defaultProps = {
-  format: defaultFormat,
-  parse: defaultParse
 }
 
 export default Field

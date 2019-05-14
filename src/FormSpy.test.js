@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, cleanup } from 'react-testing-library'
 import 'jest-dom/extend-expect'
-import { Toggle, wrapWith } from './testUtils'
+import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'
 import FormSpy from './FormSpy'
@@ -21,13 +21,19 @@ describe('FormSpy', () => {
   afterEach(cleanup)
 
   it('should warn if not used inside a form', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-    render(<FormSpy render={() => <div />} />)
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+    const errorSpy = jest.fn()
+    render(
+      <ErrorBoundary spy={errorSpy}>
+        <FormSpy render={() => <div />} />
+      </ErrorBoundary>
+    )
     expect(errorSpy).toHaveBeenCalled()
-    expect(errorSpy).toHaveBeenCalledWith(
+    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy.mock.calls[0][0].message).toBe(
       'Warning: FormSpy must be used inside of a ReactFinalForm component'
     )
-    errorSpy.mockRestore()
+    console.error.mockRestore()
   })
 
   it('should allow subscribing to everything', () => {

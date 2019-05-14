@@ -9,9 +9,8 @@ import ReactFinalFormContext from './context'
 
 const FormSpy = ({ onChange, subscription, ...rest }: Props) => {
   const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
-  // istanbul ignore next
-  if (process.env.NODE_ENV !== 'production' && !reactFinalForm) {
-    console.error(
+  if (!reactFinalForm) {
+    throw new Error(
       'Warning: FormSpy must be used inside of a ReactFinalForm component'
     )
   }
@@ -22,9 +21,9 @@ const FormSpy = ({ onChange, subscription, ...rest }: Props) => {
       reset: eventOrValues => {
         if (isSyntheticEvent(eventOrValues)) {
           // it's a React SyntheticEvent, call reset with no arguments
-          reactFinalForm && reactFinalForm.reset()
+          reactFinalForm.reset()
         } else {
-          reactFinalForm && reactFinalForm.reset(eventOrValues)
+          reactFinalForm.reset(eventOrValues)
         }
       }
     }

@@ -9,12 +9,11 @@ import ReactFinalFormContext from './context'
 const useFormState = ({
   onChange,
   subscription
-}: UseFormStateParams): FormState | void => {
+}: UseFormStateParams = {}): FormState | void => {
   const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
-  // istanbul ignore next
-  if (process.env.NODE_ENV !== 'production' && !reactFinalForm) {
-    console.error(
-      'Warning: FormSpy must be used inside of a ReactFinalForm component'
+  if (!reactFinalForm) {
+    throw new Error(
+      'Warning: useFormState must be used inside of a ReactFinalForm component'
     )
   }
   const firstRender = React.useRef(true)
@@ -37,18 +36,16 @@ const useFormState = ({
   const flattenedSubscription = flattenSubscription(subscription || all)
   React.useEffect(
     () =>
-      reactFinalForm
-        ? reactFinalForm.subscribe(newState => {
-            if (firstRender.current) {
-              firstRender.current = false
-            } else {
-              setState(newState)
-              if (onChange) {
-                onChange(newState)
-              }
-            }
-          }, subscription || all)
-        : () => {},
+      reactFinalForm.subscribe(newState => {
+        if (firstRender.current) {
+          firstRender.current = false
+        } else {
+          setState(newState)
+          if (onChange) {
+            onChange(newState)
+          }
+        }
+      }, subscription || all),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     flattenedSubscription
   )

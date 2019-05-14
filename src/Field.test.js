@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, cleanup, act } from 'react-testing-library'
 import 'jest-dom/extend-expect'
-import { Toggle, wrapWith } from './testUtils'
+import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'
 
@@ -11,13 +11,19 @@ describe('Field', () => {
   afterEach(cleanup)
 
   it('should warn if not used inside a form', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-    render(<Field name="name" component="input" />)
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+    const errorSpy = jest.fn()
+    render(
+      <ErrorBoundary spy={errorSpy}>
+        <Field name="name" component="input" />
+      </ErrorBoundary>
+    )
     expect(errorSpy).toHaveBeenCalled()
-    expect(errorSpy).toHaveBeenCalledWith(
+    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy.mock.calls[0][0].message).toBe(
       'Warning: useField must be used inside of a ReactFinalForm component'
     )
-    errorSpy.mockRestore()
+    console.error.mockRestore()
   })
 
   it('should resubscribe if name changes', () => {

@@ -38,27 +38,26 @@ const useField = (
   }: UseFieldConfig = {}
 ): FieldRenderProps => {
   const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
-  // istanbul ignore next
-  if (process.env.NODE_ENV !== 'production' && !reactFinalForm) {
-    console.error(
+  if (!reactFinalForm) {
+    throw new Error(
       'Warning: useField must be used inside of a ReactFinalForm component'
     )
   }
 
   // keep ref to most recent copy of validate function
   const validateRef = React.useRef(validate)
-  validateRef.current = validate
+  React.useEffect(() => {
+    validateRef.current = validate
+  }, [validate])
 
   const register = (callback: FieldState => void) =>
-    reactFinalForm
-      ? reactFinalForm.registerField(name, callback, subscription || all, {
-          defaultValue,
-          getValidator: () => validateRef.current,
-          initialValue,
-          isEqual,
-          validateFields
-        })
-      : () => {}
+    reactFinalForm.registerField(name, callback, subscription || all, {
+      defaultValue,
+      getValidator: () => validateRef.current,
+      initialValue,
+      isEqual,
+      validateFields
+    })
 
   const firstRender = React.useRef(true)
 
