@@ -1,7 +1,7 @@
 /* tslint:disable: no-shadowed-variable */
 import { Mutator } from 'final-form';
 import * as React from 'react';
-import { Field, Form, FormSpy, useField, useFormState } from 'react-final-form';
+import { Field, Form } from 'react-final-form';
 
 const noop = () => {};
 // missing required props
