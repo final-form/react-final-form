@@ -13,9 +13,9 @@ const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   return result
 }, {})
 
-export const defaultFormat = (value: ?any, name: string) =>
+const defaultFormat = (value: ?any, name: string) =>
   value === undefined ? '' : value
-export const defaultParse = (value: ?any, name: string) =>
+const defaultParse = (value: ?any, name: string) =>
   value === '' ? undefined : value
 
 const useField = (
@@ -24,12 +24,12 @@ const useField = (
     allowNull,
     component,
     defaultValue,
-    format,
+    format = defaultFormat,
     formatOnBlur,
     initialValue,
     isEqual,
     multiple,
-    parse,
+    parse = defaultParse,
     subscription,
     type,
     validate,
@@ -48,7 +48,7 @@ const useField = (
   const validateRef = React.useRef(validate)
   React.useEffect(() => {
     validateRef.current = validate
-  }, [validate])
+  })
 
   const register = (callback: FieldState => void) =>
     reactFinalForm.registerField(name, callback, subscription || all, {

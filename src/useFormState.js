@@ -9,7 +9,7 @@ import ReactFinalFormContext from './context'
 const useFormState = ({
   onChange,
   subscription
-}: UseFormStateParams = {}): FormState | void => {
+}: UseFormStateParams = {}): FormState => {
   const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
   if (!reactFinalForm) {
     throw new Error(
@@ -49,7 +49,7 @@ const useFormState = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     flattenedSubscription
   )
-  return onChange ? undefined : state
+  return state
 }
 
 export default useFormState

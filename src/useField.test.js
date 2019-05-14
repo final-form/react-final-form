@@ -52,7 +52,7 @@ describe('useField', () => {
     )
     expect(getByTestId('name').value).toBe('')
     expect(spy).toHaveBeenCalledTimes(1)
-    expect(spy.mock.calls[0][0]).toBeUndefined()
+    expect(spy.mock.calls[0][0]).toBe('')
     fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
     expect(getByTestId('name').value).toBe('erikras')
     expect(spy).toHaveBeenCalledTimes(2)

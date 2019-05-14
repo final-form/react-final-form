@@ -2,20 +2,20 @@
 import * as React from 'react'
 import type { FieldProps as Props, FieldRenderProps } from './types'
 import renderComponent from './renderComponent'
-import useField, { defaultFormat, defaultParse } from './useField'
+import useField from './useField'
 
 const Field = ({
   allowNull,
   children,
   component,
   defaultValue,
-  format = defaultFormat,
+  format,
   formatOnBlur,
   initialValue,
   isEqual,
   multiple,
   name,
-  parse = defaultParse,
+  parse,
   subscription,
   type,
   validate,

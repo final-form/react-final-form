@@ -15,6 +15,10 @@ const FormSpy = ({ onChange, subscription, ...rest }: Props) => {
     )
   }
   const state = useFormState({ onChange, subscription })
+  if (onChange) {
+    return null
+  }
+
   const renderProps: FormSpyRenderProps = {
     form: {
       ...reactFinalForm,
@@ -28,16 +32,14 @@ const FormSpy = ({ onChange, subscription, ...rest }: Props) => {
       }
     }
   }
-  return onChange
-    ? null
-    : renderComponent(
-        {
-          ...rest,
-          ...state,
-          ...renderProps
-        },
-        'FormSpy'
-      )
+  return renderComponent(
+    {
+      ...rest,
+      ...state,
+      ...renderProps
+    },
+    'FormSpy'
+  )
 }
 
 export default FormSpy
