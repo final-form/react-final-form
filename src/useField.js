@@ -181,16 +181,16 @@ const useField = (
   }
   const input: FieldInputProps = { name, value, ...handlers }
   if (type === 'checkbox') {
+    input.type = type // make sure it gets passed along to input
     if (_value === undefined) {
-      ;(input: Object).checked = !!value
+      input.checked = !!value
     } else {
-      ;(input: Object).checked = !!(
-        Array.isArray(value) && ~value.indexOf(_value)
-      )
+      input.checked = !!(Array.isArray(value) && ~value.indexOf(_value))
       input.value = _value
     }
   } else if (type === 'radio') {
-    ;(input: Object).checked = value === _value
+    input.type = type // make sure it gets passed along to input
+    input.checked = value === _value
     input.value = _value
   } else if (component === 'select' && multiple) {
     input.value = input.value || []

@@ -22,6 +22,7 @@ export type FieldInputProps = {
   onChange: (SyntheticInputEvent<*> | any) => void,
   onFocus: (?SyntheticFocusEvent<*>) => void,
   value: any,
+  type?: string,
   checked?: boolean,
   multiple?: boolean
 }

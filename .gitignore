@@ -10,3 +10,4 @@ es
 npm-debug.log
 .DS_Store
 yarn.lock
+.yalc

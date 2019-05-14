@@ -21,15 +21,19 @@ export type FieldPlainState = Pick<
   Exclude<keyof FieldState, 'blur' | 'change' | 'focus'>
 >;
 
+interface FieldInputProps<T extends HTMLElement> {
+  name: string;
+  onBlur: (event?: React.FocusEvent<T>) => void;
+  onChange: (event: React.ChangeEvent<T> | any) => void;
+  onFocus: (event?: React.FocusEvent<T>) => void;
+  type?: string;
+  value: any;
+  checked?: boolean;
+  multiple?: boolean;
+}
+
 export interface FieldRenderProps<T extends HTMLElement> {
-  input: {
-    name: string;
-    onBlur: (event?: React.FocusEvent<T>) => void;
-    onChange: (event: React.ChangeEvent<T> | any) => void;
-    onFocus: (event?: React.FocusEvent<T>) => void;
-    value: any;
-    checked?: boolean;
-  };
+  input: FieldInputProps<T>;
   meta: FieldPlainState;
 }
 

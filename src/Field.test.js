@@ -497,6 +497,7 @@ describe('Field', () => {
         )}
       </Form>
     )
+    expect(getByTestId('employed').type).toBe('checkbox')
     expect(getByTestId('employed').checked).toBe(false)
     fireEvent.change(getByTestId('employed'), { target: { checked: true } })
     expect(getByTestId('employed').checked).toBe(true)
@@ -605,8 +606,11 @@ describe('Field', () => {
         )}
       </Form>
     )
+    expect(getByTestId('red').type).toBe('radio')
     expect(getByTestId('red').checked).toBe(false)
+    expect(getByTestId('green').type).toBe('radio')
     expect(getByTestId('green').checked).toBe(true)
+    expect(getByTestId('blue').type).toBe('radio')
     expect(getByTestId('blue').checked).toBe(false)
   })
 
