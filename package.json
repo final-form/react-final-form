@@ -64,7 +64,7 @@
     "final-form": "^4.12.0",
     "flow-bin": "^0.98.1",
     "glow": "^1.2.2",
-    "husky": "^2.2.0",
+    "husky": "^2.3.0",
     "jest": "^24.8.0",
     "jest-dom": "^3.2.2",
     "jest-mock-console": "^0.4.2",
