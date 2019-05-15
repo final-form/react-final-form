@@ -89,7 +89,7 @@
   },
   "peerDependencies": {
     "final-form": "^4.11.0",
-    "react": "^16.3.0"
+    "react": "^16.8.0"
   },
   "lint-staged": {
     "*.{js*,ts*,json,md,css}": [
