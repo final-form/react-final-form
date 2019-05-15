@@ -4,28 +4,22 @@ import flattenSubscription from './flattenSubscription'
 import type { UseFormStateParams } from './types'
 import type { FormState, FormApi } from 'final-form'
 import { all } from './ReactFinalForm'
-import ReactFinalFormContext from './context'
+import useForm from './useForm'
 
 const useFormState = ({
   onChange,
   subscription
 }: UseFormStateParams = {}): FormState => {
-  const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
-  if (!reactFinalForm) {
-    throw new Error(
-      'Warning: useFormState must be used inside of a ReactFinalForm component'
-    )
-  }
+  const form: FormApi = useForm('useFormState')
   const firstRender = React.useRef(true)
 
   // synchronously register and unregister to query field state for our subscription on first render
   const [state, setState] = React.useState<FormState>(
     (): FormState => {
       let initialState: FormState = {}
-      reactFinalForm &&
-        reactFinalForm.subscribe(state => {
-          initialState = state
-        }, subscription || all)()
+      form.subscribe(state => {
+        initialState = state
+      }, subscription || all)()
       if (onChange) {
         onChange(initialState)
       }
@@ -36,7 +30,7 @@ const useFormState = ({
   const flattenedSubscription = flattenSubscription(subscription || all)
   React.useEffect(
     () =>
-      reactFinalForm.subscribe(newState => {
+      form.subscribe(newState => {
         if (firstRender.current) {
           firstRender.current = false
         } else {

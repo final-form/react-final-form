@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import type { FormState } from 'final-form'
+import type { FormApi, FormState } from 'final-form'
 import type {
   FieldProps,
   FieldRenderProps,
@@ -13,6 +13,7 @@ import type {
 declare export var Field: React.ComponentType<FieldProps>
 declare export var Form: React.ComponentType<FormProps>
 declare export var FormSpy: React.ComponentType<FormSpyProps>
+declare export var useForm: () => FormApi
 declare export var useFormState: UseFormStateParams => ?FormState
 declare export var useField: (
   name: string,

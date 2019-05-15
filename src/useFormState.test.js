@@ -24,7 +24,7 @@ describe('useField', () => {
     expect(errorSpy).toHaveBeenCalled()
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(errorSpy.mock.calls[0][0].message).toBe(
-      'Warning: useFormState must be used inside of a ReactFinalForm component'
+      'Warning: useFormState must be used inside of a <Form> component'
     )
     console.error.mockRestore()
   })

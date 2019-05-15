@@ -162,6 +162,7 @@ const MyForm = () => (
   - [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
   - [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
   - [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
+  - [`useForm`](#useform)
   - [`useField`](#usefield)
   - [`useFormState`](#useformstate)
   - [`version: string`](#version-string)
@@ -473,6 +474,10 @@ A component that takes [`FormProps`](#formprops) and surrounds your entire form.
 
 A component that takes [`FormSpyProps`](#formspyprops) and can listen to form
 state from inside an optimized `<Form/>`.
+
+### `useForm`
+
+The `useForm` hook plucks the [`FormApi`](https://github.com/final-form/final-form#formapi) out of the React context for you. It will throw an exception if you try to use it outside of a `<Form>` component.
 
 ### `useField`
 

@@ -7,6 +7,7 @@ import type { UseFieldConfig, FieldInputProps, FieldRenderProps } from './types'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
 import ReactFinalFormContext from './context'
+import useForm from './useForm'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   result[key] = true
@@ -37,12 +38,7 @@ const useField = (
     value: _value
   }: UseFieldConfig = {}
 ): FieldRenderProps => {
-  const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
-  if (!reactFinalForm) {
-    throw new Error(
-      'Warning: useField must be used inside of a ReactFinalForm component'
-    )
-  }
+  const form: FormApi = useForm('useField')
 
   // keep ref to most recent copy of validate function
   const validateRef = React.useRef(validate)
@@ -51,7 +47,7 @@ const useField = (
   })
 
   const register = (callback: FieldState => void) =>
-    reactFinalForm.registerField(name, callback, subscription || all, {
+    form.registerField(name, callback, subscription || all, {
       defaultValue,
       getValidator: () => validateRef.current,
       initialValue,
@@ -80,7 +76,7 @@ const useField = (
   //   initialValue,
   //   isEqual,
   //   validateFields,
-  //   reactFinalForm
+  //   form
   // })
   React.useEffect(
     () =>
@@ -101,7 +97,6 @@ const useField = (
       initialValue,
       isEqual,
       validateFields,
-      reactFinalForm,
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ...flattenedSubscription
     ]
