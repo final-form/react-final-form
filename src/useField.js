@@ -108,47 +108,57 @@ const useField = (
   )
 
   const handlers = {
-    onBlur: (event: ?SyntheticFocusEvent<*>) => {
-      // this is to appease the Flow gods
-      // istanbul ignore next
-      if (state) {
-        state.blur()
-        if (format && formatOnBlur) {
-          state.change(format(state.value, state.name))
+    onBlur: React.useCallback(
+      (event: ?SyntheticFocusEvent<*>) => {
+        // this is to appease the Flow gods
+        // istanbul ignore next
+        if (state) {
+          state.blur()
+          if (format && formatOnBlur) {
+            state.change(format(state.value, state.name))
+          }
         }
-      }
-    },
-    onChange: (event: SyntheticInputEvent<*> | any) => {
-      // istanbul ignore next
-      if (process.env.NODE_ENV !== 'production' && event && event.target) {
-        const targetType = event.target.type
-        const unknown =
-          ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) && !type
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [state.name, state.value, format, formatOnBlur]
+    ),
+    onChange: React.useCallback(
+      (event: SyntheticInputEvent<*> | any) => {
+        // istanbul ignore next
+        if (process.env.NODE_ENV !== 'production' && event && event.target) {
+          const targetType = event.target.type
+          const unknown =
+            ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
+            !type
 
-        const { value }: any =
-          targetType === 'select-multiple' ? state || {} : { value: _value }
+          const value: any =
+            targetType === 'select-multiple' ? state.value : _value
 
-        if (unknown) {
-          console.error(
-            `Warning: You must pass \`type="${
-              targetType === 'select-multiple' ? 'select' : targetType
-            }"\` prop to your Field(${name}) component.\n` +
-              `Without it we don't know how to unpack your \`value\` prop - ${
-                Array.isArray(value) ? `[${value}]` : `"${value}"`
-              }.`
-          )
+          if (unknown) {
+            console.error(
+              `Warning: You must pass \`type="${
+                targetType === 'select-multiple' ? 'select' : targetType
+              }"\` prop to your Field(${name}) component.\n` +
+                `Without it we don't know how to unpack your \`value\` prop - ${
+                  Array.isArray(value) ? `[${value}]` : `"${value}"`
+                }.`
+            )
+          }
         }
-      }
 
-      const value: any =
-        event && event.target
-          ? getValue(event, state.value, _value, isReactNative)
-          : event
-      state.change(parse ? parse(value, name) : value)
-    },
-    onFocus: (event: ?SyntheticFocusEvent<*>) => {
+        const value: any =
+          event && event.target
+            ? getValue(event, state.value, _value, isReactNative)
+            : event
+        state.change(parse ? parse(value, name) : value)
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [_value, name, parse, state.value, type]
+    ),
+    onFocus: React.useCallback((event: ?SyntheticFocusEvent<*>) => {
       state.focus()
-    }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
   }
 
   let { blur, change, focus, value, name: ignoreName, ...otherState } = state

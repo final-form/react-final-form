@@ -36,8 +36,6 @@ export const all: FormSubscription = formSubscriptionItems.reduce(
   },
   {}
 )
-const validationStateChanged = (a: FormState, b: FormState) =>
-  ['valid', 'invalid', 'errors'].some(key => !shallowEqual(a[key], b[key]))
 
 const ReactFinalForm = ({
   debug,
@@ -69,7 +67,6 @@ const ReactFinalForm = ({
     f.pauseValidation()
     return f
   })
-  const firstRender = React.useRef(true)
 
   // synchronously register and unregister to query form state for our subscription on first render
   const [state, setState] = React.useState<FormState>(
@@ -88,19 +85,9 @@ const ReactFinalForm = ({
     form.isValidationPaused() && form.resumeValidation()
     const unsubscriptions: Unsubscribe[] = [
       form.subscribe(s => {
-        if (firstRender.current) {
-          if (validationStateChanged(state, s)) {
-            // this may happen if we have field-level validation
-            setState(s)
-            // NOTE: If you are doing any other shenanigans that is modifying form
-            // state on *first* render, like changing values in a FormSpy, if you want
-            // thate state to be reflected immediately, you'll need to put those changes
-            // in a setTimeout(), to let this execute first to flip firstRender to false.
-          }
-        } else {
+        if (!shallowEqual(s, state)) {
           setState(s)
         }
-        firstRender.current = false
       }, subscription || all),
       ...(decorators
         ? decorators.map(decorator =>

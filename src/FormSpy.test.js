@@ -53,7 +53,10 @@ describe('FormSpy', () => {
       </Form>
     )
     expect(spy).toHaveBeenCalled()
-    expect(spy).toHaveBeenCalledTimes(1)
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
+    expect(spy).toHaveBeenCalledTimes(2)
     hasFormApi(spy.mock.calls[0][0])
     expect(spy.mock.calls[0][0].dirty).toBe(false)
     expect(spy.mock.calls[0][0].errors).toEqual({})
@@ -65,23 +68,35 @@ describe('FormSpy', () => {
     expect(spy.mock.calls[0][0].valid).toBe(true)
     expect(spy.mock.calls[0][0].validating).toBe(false)
     expect(spy.mock.calls[0][0].values).toEqual({})
-
-    // change value
-    fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
-
-    expect(spy).toHaveBeenCalledTimes(2)
     hasFormApi(spy.mock.calls[1][0])
-    expect(spy.mock.calls[1][0].dirty).toBe(true)
+    expect(spy.mock.calls[1][0].dirty).toBe(false)
     expect(spy.mock.calls[1][0].errors).toEqual({})
     expect(spy.mock.calls[1][0].invalid).toBe(false)
-    expect(spy.mock.calls[1][0].pristine).toBe(false)
+    expect(spy.mock.calls[1][0].pristine).toBe(true)
     expect(spy.mock.calls[1][0].submitFailed).toBe(false)
     expect(spy.mock.calls[1][0].submitSucceeded).toBe(false)
     expect(spy.mock.calls[1][0].submitting).toBe(false)
     expect(spy.mock.calls[1][0].valid).toBe(true)
     expect(spy.mock.calls[1][0].validating).toBe(false)
-    expect(spy.mock.calls[1][0].values).toEqual({ name: 'erikras' })
+    expect(spy.mock.calls[1][0].values).toEqual({})
+
+    // change value
+    fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
+
+    expect(spy).toHaveBeenCalledTimes(3)
+    hasFormApi(spy.mock.calls[2][0])
+    expect(spy.mock.calls[2][0].dirty).toBe(true)
+    expect(spy.mock.calls[2][0].errors).toEqual({})
+    expect(spy.mock.calls[2][0].invalid).toBe(false)
+    expect(spy.mock.calls[2][0].pristine).toBe(false)
+    expect(spy.mock.calls[2][0].submitFailed).toBe(false)
+    expect(spy.mock.calls[2][0].submitSucceeded).toBe(false)
+    expect(spy.mock.calls[2][0].submitting).toBe(false)
+    expect(spy.mock.calls[2][0].valid).toBe(true)
+    expect(spy.mock.calls[2][0].validating).toBe(false)
+    expect(spy.mock.calls[2][0].values).toEqual({ name: 'erikras' })
   })
+
   it('should resubscribe if subscription changes', () => {
     const firstSubscription = { values: true, pristine: true }
     const secondSubscription = { dirty: true, submitting: true }
@@ -115,7 +130,10 @@ describe('FormSpy', () => {
       </Toggle>
     )
     expect(spy).toHaveBeenCalled()
-    expect(spy).toHaveBeenCalledTimes(1)
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
+    expect(spy).toHaveBeenCalledTimes(2)
     hasFormApi(spy.mock.calls[0][0])
     expect(spy.mock.calls[0][0].dirty).toBeUndefined()
     expect(spy.mock.calls[0][0].errors).toBeUndefined()
@@ -130,22 +148,36 @@ describe('FormSpy', () => {
       dog: 'Odie',
       cat: 'Garfield'
     })
+    hasFormApi(spy.mock.calls[1][0])
+    expect(spy.mock.calls[1][0].dirty).toBeUndefined()
+    expect(spy.mock.calls[1][0].errors).toBeUndefined()
+    expect(spy.mock.calls[1][0].invalid).toBeUndefined()
+    expect(spy.mock.calls[1][0].pristine).toBe(true)
+    expect(spy.mock.calls[1][0].submitFailed).toBeUndefined()
+    expect(spy.mock.calls[1][0].submitSucceeded).toBeUndefined()
+    expect(spy.mock.calls[1][0].submitting).toBeUndefined()
+    expect(spy.mock.calls[1][0].valid).toBeUndefined()
+    expect(spy.mock.calls[1][0].validating).toBeUndefined()
+    expect(spy.mock.calls[1][0].values).toEqual({
+      dog: 'Odie',
+      cat: 'Garfield'
+    })
 
     fireEvent.click(getByText('Toggle'))
 
     // one for new prop, and again after reregistering
-    expect(spy).toHaveBeenCalledTimes(3)
-    hasFormApi(spy.mock.calls[2][0])
-    expect(spy.mock.calls[2][0].dirty).toBe(false)
-    expect(spy.mock.calls[2][0].errors).toBeUndefined()
-    expect(spy.mock.calls[2][0].invalid).toBeUndefined()
-    expect(spy.mock.calls[2][0].pristine).toBeUndefined()
-    expect(spy.mock.calls[2][0].submitFailed).toBeUndefined()
-    expect(spy.mock.calls[2][0].submitSucceeded).toBeUndefined()
-    expect(spy.mock.calls[2][0].submitting).toBe(false)
-    expect(spy.mock.calls[2][0].valid).toBeUndefined()
-    expect(spy.mock.calls[2][0].validating).toBeUndefined()
-    expect(spy.mock.calls[2][0].values).toBeUndefined()
+    expect(spy).toHaveBeenCalledTimes(4)
+    hasFormApi(spy.mock.calls[3][0])
+    expect(spy.mock.calls[3][0].dirty).toBe(false)
+    expect(spy.mock.calls[3][0].errors).toBeUndefined()
+    expect(spy.mock.calls[3][0].invalid).toBeUndefined()
+    expect(spy.mock.calls[3][0].pristine).toBeUndefined()
+    expect(spy.mock.calls[3][0].submitFailed).toBeUndefined()
+    expect(spy.mock.calls[3][0].submitSucceeded).toBeUndefined()
+    expect(spy.mock.calls[3][0].submitting).toBe(false)
+    expect(spy.mock.calls[3][0].valid).toBeUndefined()
+    expect(spy.mock.calls[3][0].validating).toBeUndefined()
+    expect(spy.mock.calls[3][0].values).toBeUndefined()
   })
 
   it('should hear changes', () => {
@@ -165,7 +197,10 @@ describe('FormSpy', () => {
       </Form>
     )
     expect(spy).toHaveBeenCalled()
-    expect(spy).toHaveBeenCalledTimes(1)
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
+    expect(spy).toHaveBeenCalledTimes(2)
     hasFormApi(spy.mock.calls[0][0])
     expect(spy.mock.calls[0][0].dirty).toBe(false)
     expect(spy.mock.calls[0][0].errors).toBeUndefined()
@@ -177,12 +212,8 @@ describe('FormSpy', () => {
     expect(spy.mock.calls[0][0].valid).toBeUndefined()
     expect(spy.mock.calls[0][0].validating).toBeUndefined()
     expect(spy.mock.calls[0][0].values).toEqual({})
-
-    fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
-
-    expect(spy).toHaveBeenCalledTimes(2)
     hasFormApi(spy.mock.calls[1][0])
-    expect(spy.mock.calls[1][0].dirty).toBe(true)
+    expect(spy.mock.calls[1][0].dirty).toBe(false)
     expect(spy.mock.calls[1][0].errors).toBeUndefined()
     expect(spy.mock.calls[1][0].invalid).toBeUndefined()
     expect(spy.mock.calls[1][0].pristine).toBeUndefined()
@@ -191,7 +222,22 @@ describe('FormSpy', () => {
     expect(spy.mock.calls[1][0].submitting).toBeUndefined()
     expect(spy.mock.calls[1][0].valid).toBeUndefined()
     expect(spy.mock.calls[1][0].validating).toBeUndefined()
-    expect(spy.mock.calls[1][0].values).toEqual({ name: 'erikras' })
+    expect(spy.mock.calls[1][0].values).toEqual({})
+
+    fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
+
+    expect(spy).toHaveBeenCalledTimes(3)
+    hasFormApi(spy.mock.calls[2][0])
+    expect(spy.mock.calls[2][0].dirty).toBe(true)
+    expect(spy.mock.calls[2][0].errors).toBeUndefined()
+    expect(spy.mock.calls[2][0].invalid).toBeUndefined()
+    expect(spy.mock.calls[2][0].pristine).toBeUndefined()
+    expect(spy.mock.calls[2][0].submitFailed).toBeUndefined()
+    expect(spy.mock.calls[2][0].submitSucceeded).toBeUndefined()
+    expect(spy.mock.calls[2][0].submitting).toBeUndefined()
+    expect(spy.mock.calls[2][0].valid).toBeUndefined()
+    expect(spy.mock.calls[2][0].validating).toBeUndefined()
+    expect(spy.mock.calls[2][0].values).toEqual({ name: 'erikras' })
   })
 
   it('should unsubscribe on unmount', () => {
@@ -218,9 +264,12 @@ describe('FormSpy', () => {
       </Toggle>
     )
     expect(spy).toHaveBeenCalled()
-    expect(spy).toHaveBeenCalledTimes(1)
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
+    expect(spy).toHaveBeenCalledTimes(2)
     fireEvent.click(getByText('Toggle'))
-    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 
   it('should call onChange', () => {

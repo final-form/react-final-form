@@ -51,12 +51,16 @@ describe('useField', () => {
       </Form>
     )
     expect(getByTestId('name').value).toBe('')
-    expect(spy).toHaveBeenCalledTimes(1)
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
+    expect(spy).toHaveBeenCalledTimes(2)
     expect(spy.mock.calls[0][0]).toBe('')
+    expect(spy.mock.calls[1][0]).toBe('')
     fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
     expect(getByTestId('name').value).toBe('erikras')
-    expect(spy).toHaveBeenCalledTimes(2)
-    expect(spy.mock.calls[1][0]).toBe('erikras')
+    expect(spy).toHaveBeenCalledTimes(3)
+    expect(spy.mock.calls[2][0]).toBe('erikras')
   })
 
   it('should allow for creation of render-controlled components', () => {

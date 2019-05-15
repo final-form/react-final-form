@@ -565,15 +565,21 @@ describe('Field', () => {
         )}
       </Form>
     )
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
     expect(red).toHaveBeenCalled()
-    expect(red).toHaveBeenCalledTimes(1)
+    expect(red).toHaveBeenCalledTimes(2)
     expect(red.mock.calls[0][0].input.checked).toBe(true)
+    expect(red.mock.calls[1][0].input.checked).toBe(true)
     expect(green).toHaveBeenCalled()
-    expect(green).toHaveBeenCalledTimes(1)
+    expect(green).toHaveBeenCalledTimes(2)
     expect(green.mock.calls[0][0].input.checked).toBe(false)
+    expect(green.mock.calls[1][0].input.checked).toBe(false)
     expect(blue).toHaveBeenCalled()
-    expect(blue).toHaveBeenCalledTimes(1)
+    expect(blue).toHaveBeenCalledTimes(2)
     expect(blue.mock.calls[0][0].input.checked).toBe(true)
+    expect(blue.mock.calls[1][0].input.checked).toBe(true)
   })
 
   it('should render radio buttons with checked prop', () => {
@@ -641,15 +647,21 @@ describe('Field', () => {
         )}
       </Form>
     )
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
     expect(red).toHaveBeenCalled()
-    expect(red).toHaveBeenCalledTimes(1)
+    expect(red).toHaveBeenCalledTimes(2)
     expect(red.mock.calls[0][0].input.checked).toBe(false)
+    expect(red.mock.calls[1][0].input.checked).toBe(false)
     expect(green).toHaveBeenCalled()
-    expect(green).toHaveBeenCalledTimes(1)
+    expect(green).toHaveBeenCalledTimes(2)
     expect(green.mock.calls[0][0].input.checked).toBe(true)
+    expect(green.mock.calls[1][0].input.checked).toBe(true)
     expect(blue).toHaveBeenCalled()
-    expect(blue).toHaveBeenCalledTimes(1)
+    expect(blue).toHaveBeenCalledTimes(2)
     expect(blue.mock.calls[0][0].input.checked).toBe(false)
+    expect(blue.mock.calls[1][0].input.checked).toBe(false)
   })
 
   it('should use isEqual to calculate dirty/pristine', () => {
