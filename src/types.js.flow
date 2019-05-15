@@ -16,15 +16,18 @@ export type ReactContext = {
   reactFinalForm: FormApi
 }
 
+export type FieldInputProps = {
+  name: string,
+  onBlur: (?SyntheticFocusEvent<*>) => void,
+  onChange: (SyntheticInputEvent<*> | any) => void,
+  onFocus: (?SyntheticFocusEvent<*>) => void,
+  value: any,
+  type?: string,
+  checked?: boolean,
+  multiple?: boolean
+}
 export type FieldRenderProps = {
-  input: {
-    name: string,
-    onBlur: (?SyntheticFocusEvent<*>) => void,
-    onChange: (SyntheticInputEvent<*> | any) => void,
-    onFocus: (?SyntheticFocusEvent<*>) => void,
-    value: any,
-    checked?: boolean
-  },
+  input: FieldInputProps,
   meta: {
     // TODO: Make a diff of `FieldState` without all the functions
     active?: boolean,
@@ -46,25 +49,14 @@ export type FieldRenderProps = {
   }
 }
 
-export type SubsetFormApi = {
-  blur: (name: string) => void,
-  change: (name: string, value: any) => void,
-  focus: (name: string) => void,
-  initialize: (values: Object) => void,
-  mutators: { [string]: Function },
-  reset: () => void
-} & FormState
-
 export type FormRenderProps = {
   handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
   form: FormApi
-} & FormState &
-  SubsetFormApi
+} & FormState
 
 export type FormSpyRenderProps = {
   form: FormApi
-} & SubsetFormApi &
-  FormState
+} & FormState
 
 export type RenderableProps<T> = {
   component?: React.ComponentType<*> | SupportedInputs,
@@ -79,31 +71,36 @@ export type FormProps = {
 } & Config &
   RenderableProps<FormRenderProps>
 
-export type FieldProps = {
+export type UseFieldConfig = {
   allowNull?: boolean,
+  component?: SupportedInputs,
   defaultValue?: any,
   format?: (value: any, name: string) => any,
   formatOnBlur?: boolean,
   initialValue?: any,
   isEqual?: (a: any, b: any) => boolean,
-  name: string,
+  multiple?: boolean,
   parse?: (value: any, name: string) => any,
   subscription?: FieldSubscription,
+  type?: string,
   validate?: FieldValidator,
   validateFields?: string[],
   value?: any
+}
+
+export type FieldProps = UseFieldConfig & {
+  name: string
 } & RenderableProps<FieldRenderProps> & {
     component?: React.ComponentType<*> | SupportedInputs
   }
 
-export type FieldPropsWithForm = {
-  reactFinalForm: FormApi
-} & FieldProps
-
-export type FormSpyProps = {
+export type UseFormStateParams = {
   onChange?: (formState: FormState) => void,
   subscription?: FormSubscription
-} & RenderableProps<FormSpyRenderProps>
+}
+
+export type FormSpyProps = UseFormStateParams &
+  RenderableProps<FormSpyRenderProps>
 
 export type FormSpyPropsWithForm = {
   reactFinalForm: FormApi

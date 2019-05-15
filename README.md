@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 [**3.0k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
+✅ 💥 [**2.8k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
 
 ---
 
@@ -162,6 +162,9 @@ const MyForm = () => (
   - [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
   - [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
   - [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
+  - [`useForm`](#useform)
+  - [`useField`](#usefield)
+  - [`useFormState`](#useformstate)
   - [`version: string`](#version-string)
 - [Types](#types)
   - [`FieldProps`](#fieldprops)
@@ -232,14 +235,7 @@ const MyForm = () => (
     - [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
     - [`subscription?: FormSubscription`](#subscription-formsubscription-1)
   - [`FormSpyRenderProps`](#formspyrenderprops)
-    - [`batch: (fn: () => void) => void)`](#batch-fn---void--void-1)
-    - [`blur: (name: string) => void`](#blur-name-string--void-1)
-    - [`change: (name: string, value: any) => void`](#change-name-string-value-any--void-1)
-    - [`focus: (name: string) => void`](#focus-name-string--void-1)
     - [`form: FormApi`](#form-formapi-1)
-    - [`initialize: (values: Object) => void`](#initialize-values-object--void-1)
-    - [`mutators?: { [string]: Function }`](#mutators--string-function--1)
-    - [`reset: (newInitialValues?: Object) => void`](#reset-newinitialvalues-object--void-1)
 - [Contributors](#contributors)
 - [Backers](#backers)
 - [Sponsors](#sponsors)
@@ -479,6 +475,22 @@ A component that takes [`FormProps`](#formprops) and surrounds your entire form.
 A component that takes [`FormSpyProps`](#formspyprops) and can listen to form
 state from inside an optimized `<Form/>`.
 
+### `useForm`
+
+The `useForm` hook plucks the [`FormApi`](https://github.com/final-form/final-form#formapi) out of the React context for you. It will throw an exception if you try to use it outside of a `<Form>` component.
+
+### `useField`
+
+The `useField` hook takes two parameters, the first is the name of the field, and the second is an optional object that looks just like [`FieldProps`](#fieldprops), except without the name. It returns an object just like [`FieldRenderProps`](#fieldrenderprops).
+
+`useField` is used internally inside `Field`.
+
+### `useFormState`
+
+The `useFormState` hook takes one optional parameter, which matches the exact shape of [`FormSpyProps`](#formspyprops). It returns a [`FormSpyRenderProps`](#formspyrenderprops).
+
+`useFormState` is used internally inside `FormSpy`.
+
 ### `version: string`
 
 The current used version of 🏁 React Final Form.
@@ -563,6 +575,8 @@ _all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
 
 A function that takes the field value, all the values of the form and the `meta` data about the field and
 returns an error if the value is invalid, or `undefined` if the value is valid.
+
+⚠️ IMPORTANT ⚠️ – By default, in order to allow inline fat-arrow validation functions, the field will not rerender if you change your validation function to an alternate function that has a different behavior. If you need your field to rerender with a new validation function, you will need to update another prop on the `Field`, such as `key`.
 
 #### `validateFields?: string[]`
 
@@ -856,54 +870,11 @@ that the values you receive here are dependent upon which values of
 subscribed to with the
 [`subscription` prop](https://github.com/final-form/react-final-form#subscription-formsubscription). Also included will be many of the same props provided to [`FormRenderProps`](#formrenderprops):
 
-#### `batch: (fn: () => void) => void)`
-
-_**[DEPRECATED]** Use `form.batch()` instead_
-
-A function that allows batch updates to be done to the form state.
-[See the 🏁 Final Form docs on `batch`](https://github.com/final-form/final-form#batch-fn---void--void).
-
-#### `blur: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.blur()` instead_
-
-A function to blur (mark inactive) any field.
-
-#### `change: (name: string, value: any) => void`
-
-_**[DEPRECATED]** Use `form.change()` instead_
-
-A function to change the value of any field.
-
-#### `focus: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.focus()` instead_
-
-A function to focus (mark active) any field.
-
 #### `form: FormApi`
 
 The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi).
 
-#### `initialize: (values: Object) => void`
-
-_**[DEPRECATED]** Use `form.initialize()` instead_
-
-A function that initializes the form values.
-[See the 🏁 Final Form docs on `initialize`](https://github.com/final-form/final-form#initialize-values-object--void).
-
-#### `mutators?: { [string]: Function }`
-
-_**[DEPRECATED]** Use `form.mutators` instead_
-
 [See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
-
-#### `reset: (newInitialValues?: Object) => void`
-
-_**[DEPRECATED]** Use `form.reset()` instead_
-
-A function that resets the form values to their last initialized values.
-[See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset-initialvalues-object--void).
 
 ## Contributors
 

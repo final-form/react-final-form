@@ -1,18 +1,17 @@
 # FAQ
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-* [Why not Redux-Form or Formik?](#why-not-redux-form-or-formik)
-* [Why no HOC?](#why-no-hoc)
-* [How can I trigger a submit from outside my form?](#how-can-i-trigger-a-submit-from-outside-my-form)
-  * [Via `document.getElementById()`](#via-documentgetelementbyid)
-  * [Via Closure](#via-closure)
-  * [Via Redux Dead Drop](#via-redux-dead-drop)
-* [Why can't I have numeric keys in an object?](#why-cant-i-have-numeric-keys-in-an-object)
+- [Why not Redux-Form or Formik?](#why-not-redux-form-or-formik)
+- [Why no HOC?](#why-no-hoc)
+- [How can I trigger a submit from outside my form?](#how-can-i-trigger-a-submit-from-outside-my-form)
+  - [Via `document.getElementById()`](#via-documentgetelementbyid)
+  - [Via Closure](#via-closure)
+  - [Via Redux Dead Drop](#via-redux-dead-drop)
+- [Why can't I have numeric keys in an object?](#why-cant-i-have-numeric-keys-in-an-object)
+- [I'm changing form state on first render, e.g. with FormSpy, why are my changes not reflected?](#im-changing-form-state-on-first-render-eg-with-formspy-why-are-my-changes-not-reflected)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -134,3 +133,7 @@ const destringifyKeys = values =>
   ...
 </Form>
 ```
+
+## I'm changing form state on first render, e.g. with FormSpy, why are my changes not reflected?
+
+As of `v5`, the only changes that occur during the first render that will cause the form to rerender are if adding field-level validation functions changes the validity of the form. You will need to put your side effect into either a React `useEffect` hook, or just call it in a `setTimeout` to allow the form to finish rendering and setting up its side effects before you go altering the state.

@@ -1,13 +1,7 @@
 /* tslint:disable: no-shadowed-variable */
 import { Mutator } from 'final-form';
 import * as React from 'react';
-import {
-  Field,
-  Form,
-  ReactContext,
-  ReactFinalFormContext,
-  withReactFinalForm
-} from 'react-final-form';
+import { Field, Form } from 'react-final-form';
 
 const noop = () => {};
 // missing required props
@@ -23,39 +17,6 @@ const onSubmit = async (values: any) => {
   // tslint:disable-next-line no-console
   console.log(values);
 };
-
-// context
-export interface FooWithContextProps {}
-
-const FooWithContext = withReactFinalForm<FooWithContextProps>(
-  (props: FooWithContextProps & ReactContext) => (
-    <div>{props.reactFinalForm.blur}</div>
-  )
-);
-
-const FooContextConsumer = () => (
-  <ReactFinalFormContext.Consumer>
-    {reactFinalForm => <div>{reactFinalForm.blur}</div>}
-  </ReactFinalFormContext.Consumer>
-);
-
-// FIXME: uncomment when react-final-form switches to react >=16.6
-class FooStaticContext extends React.Component<{}> {
-  public static contextType = ReactFinalFormContext;
-  public render() {
-    return <div>{this.context.blur}</div>;
-  }
-}
-
-function contextUsage() {
-  return (
-    <React.Fragment>
-      <FooWithContext />
-      <FooContextConsumer />
-      <FooStaticContext />
-    </React.Fragment>
-  );
-}
 
 // basic
 function basic() {

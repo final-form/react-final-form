@@ -13,7 +13,7 @@ export default function renderComponent<T>(
     return React.createElement(component, { ...rest, children, render })
   }
   if (render) {
-    return render({ ...rest, children }) // inject children back in
+    return render(children === undefined ? rest : { ...rest, children }) // inject children back in
   }
   if (typeof children !== 'function') {
     // istanbul ignore next
