@@ -67,16 +67,9 @@ const useField = (
     }
   )
 
+  // ⚠️ flattenedSubscription is probably not "hook-safe".
+  // In the future, changing subscriptions on the fly should be banned. ⚠️
   const flattenedSubscription = flattenSubscription(subscription || all)
-  // useDependenciesDebugger({
-  //   name,
-  //   defaultValue,
-  //   validate,
-  //   initialValue,
-  //   isEqual,
-  //   validateFields,
-  //   form
-  // })
   React.useEffect(
     () =>
       register(state => {

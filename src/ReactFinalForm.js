@@ -79,6 +79,8 @@ const ReactFinalForm = ({
     }
   )
 
+  // ⚠️ flattenedSubscription is probably not "hook-safe".
+  // In the future, changing subscriptions on the fly should be banned. ⚠️
   const flattenedSubscription = flattenSubscription(subscription || all)
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation

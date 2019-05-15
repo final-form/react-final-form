@@ -27,6 +27,8 @@ const useFormState = ({
     }
   )
 
+  // ⚠️ flattenedSubscription is probably not "hook-safe".
+  // In the future, changing subscriptions on the fly should be banned. ⚠️
   const flattenedSubscription = flattenSubscription(subscription || all)
   React.useEffect(
     () =>
