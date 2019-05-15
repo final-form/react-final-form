@@ -22,7 +22,7 @@ import type { FormRenderProps } from './types.js.flow'
 import flattenSubscription from './flattenSubscription'
 import ReactFinalFormContext from './context'
 
-export const version = '4.1.0'
+export const version = '5.0.1'
 
 const versions = {
   'final-form': ffVersion,

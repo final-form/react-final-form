@@ -482,6 +482,38 @@ describe('Field', () => {
     expect(getByTestId('error')).toHaveTextContent('')
   })
 
+  it('should pass along type prop', () => {
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="checkbox"
+              component="input"
+              type="checkbox"
+              data-testid="checkbox"
+            />
+            <Field
+              name="password"
+              component="input"
+              type="password"
+              data-testid="password"
+            />
+            <Field
+              name="radio"
+              component="input"
+              type="radio"
+              data-testid="radio"
+            />
+          </form>
+        )}
+      </Form>
+    )
+    expect(getByTestId('checkbox').type).toBe('checkbox')
+    expect(getByTestId('password').type).toBe('password')
+    expect(getByTestId('radio').type).toBe('radio')
+  })
+
   it('should render checkboxes with checked prop', () => {
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock}>
