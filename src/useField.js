@@ -6,7 +6,6 @@ import type { FieldSubscription, FieldState, FormApi } from 'final-form'
 import type { UseFieldConfig, FieldInputProps, FieldRenderProps } from './types'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
-import ReactFinalFormContext from './context'
 import useForm from './useForm'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
