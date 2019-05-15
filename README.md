@@ -767,31 +767,6 @@ This object contains everything in
 [🏁 Final Form's `FormState`](https://github.com/final-form/final-form#formstate)
 as well as:
 
-#### `batch: (fn: () => void) => void)`
-
-_**[DEPRECATED]** Use `form.batch()` instead_
-
-A function that allows batch updates to be done to the form state.
-[See the 🏁 Final Form docs on `batch`](https://github.com/final-form/final-form#batch-fn---void--void).
-
-#### `blur: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.blur()` instead_
-
-A function to blur (mark inactive) any field.
-
-#### `change: (name: string, value: any) => void`
-
-_**[DEPRECATED]** Use `form.change()` instead_
-
-A function to change the value of any field.
-
-#### `focus: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.focus()` instead_
-
-A function to focus (mark active) any field.
-
 #### `form: FormApi`
 
 The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi).
@@ -799,26 +774,6 @@ The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi
 #### `handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`
 
 A function intended for you to give directly to the `<form>` tag: `<form onSubmit={handleSubmit}/>`.
-
-#### `initialize: (values: Object) => void`
-
-_**[DEPRECATED]** Use `form.initialize()` instead_
-
-A function that initializes the form values.
-[See the 🏁 Final Form docs on `initialize`](https://github.com/final-form/final-form#initialize-values-object--void).
-
-#### `mutators?: { [string]: Function }`
-
-_**[DEPRECATED]** Use `form.mutators` instead_
-
-[See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
-
-#### `reset: (newInitialValues?: Object) => void`
-
-_**[DEPRECATED]** Use `form.reset()` instead_
-
-A function that resets the form values to their last initialized values.
-[See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset-initialvalues-object--void).
 
 ### `FormSpyProps`
 
