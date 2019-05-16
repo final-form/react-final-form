@@ -505,6 +505,10 @@ These are props that you pass to
 [`<Field/>`](#field--reactcomponenttypefieldprops). You must provide one of the
 ways to render: `component`, `render`, or `children`.
 
+#### `afterSubmit?: () => void`
+
+A callback to notify fields after submission has completed successfully.
+
 #### `allowNull?: boolean`
 
 By default, if your value is `null`, `<Field/>` will convert it to `''`, to
@@ -512,6 +516,10 @@ ensure
 [controlled inputs](https://reactjs.org/docs/forms.html#controlled-components).
 But if you pass `true` to `allowNull`, `<Field/>` will give you a `null` value.
 Defaults to `false`.
+
+#### `beforeSubmit?: () => void | false`
+
+A function to call just before calling `onSubmit`. If `beforeSubmit` returns `false`, the submission will be aborted. If one of your fields returns `false` on `beforeSubmit`, other fields may not have their `beforeSubmit` called, as the submission is aborted on the first one that returns `false`.
 
 #### `children?: ((props: FieldRenderProps) => React.Node) | React.Node`
 
