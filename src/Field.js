@@ -5,7 +5,9 @@ import renderComponent from './renderComponent'
 import useField from './useField'
 
 const Field = ({
+  afterSubmit,
   allowNull,
+  beforeSubmit,
   children,
   component,
   defaultValue,
@@ -24,7 +26,9 @@ const Field = ({
   ...rest
 }: Props) => {
   const field: FieldRenderProps = useField(name, {
+    afterSubmit,
     allowNull,
+    beforeSubmit,
     children,
     component,
     defaultValue,
