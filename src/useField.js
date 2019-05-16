@@ -32,7 +32,7 @@ const useField = (
     isEqual,
     multiple,
     parse = defaultParse,
-    subscription,
+    subscription = all,
     type,
     validate,
     validateFields,
@@ -49,7 +49,7 @@ const useField = (
 
   const beforeSubmitRef = React.useRef()
   const register = (callback: FieldState => void) =>
-    form.registerField(name, callback, subscription || all, {
+    form.registerField(name, callback, subscription, {
       afterSubmit,
       beforeSubmit: () => beforeSubmitRef.current && beforeSubmitRef.current(),
       defaultValue,
@@ -82,9 +82,8 @@ const useField = (
     return beforeSubmit && beforeSubmit()
   }
 
-  // ⚠️ flattenedSubscription is probably not "hook-safe".
   // In the future, changing subscriptions on the fly should be banned. ⚠️
-  const flattenedSubscription = flattenSubscription(subscription || all)
+  const flattenedSubscription = flattenSubscription(subscription)
   React.useEffect(
     () =>
       register(state => {
@@ -105,7 +104,7 @@ const useField = (
       isEqual,
       validateFields,
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      ...flattenedSubscription
+      flattenedSubscription
     ]
   )
 
