@@ -8,7 +8,7 @@ import useForm from './useForm'
 
 const useFormState = ({
   onChange,
-  subscription
+  subscription = all
 }: UseFormStateParams = {}): FormState => {
   const form: FormApi = useForm('useFormState')
   const firstRender = React.useRef(true)
@@ -19,7 +19,7 @@ const useFormState = ({
       let initialState: FormState = {}
       form.subscribe(state => {
         initialState = state
-      }, subscription || all)()
+      }, subscription)()
       if (onChange) {
         onChange(initialState)
       }
@@ -27,9 +27,8 @@ const useFormState = ({
     }
   )
 
-  // ⚠️ flattenedSubscription is probably not "hook-safe".
   // In the future, changing subscriptions on the fly should be banned. ⚠️
-  const flattenedSubscription = flattenSubscription(subscription || all)
+  const flattenedSubscription = flattenSubscription(subscription)
   React.useEffect(
     () =>
       form.subscribe(newState => {
@@ -41,9 +40,9 @@ const useFormState = ({
             onChange(newState)
           }
         }
-      }, subscription || all),
+      }, subscription),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    flattenedSubscription
+    [flattenedSubscription]
   )
   return state
 }

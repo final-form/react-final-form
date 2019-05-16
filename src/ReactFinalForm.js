@@ -46,7 +46,7 @@ const ReactFinalForm = ({
   keepDirtyOnReinitialize,
   mutators,
   onSubmit,
-  subscription,
+  subscription = all,
   validate,
   validateOnBlur,
   ...rest
@@ -74,14 +74,13 @@ const ReactFinalForm = ({
       let initialState: FormState = {}
       form.subscribe(state => {
         initialState = state
-      }, subscription || all)()
+      }, subscription)()
       return initialState
     }
   )
 
-  // ⚠️ flattenedSubscription is probably not "hook-safe".
   // In the future, changing subscriptions on the fly should be banned. ⚠️
-  const flattenedSubscription = flattenSubscription(subscription || all)
+  const flattenedSubscription = flattenSubscription(subscription)
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation
     form.isValidationPaused() && form.resumeValidation()
@@ -90,7 +89,7 @@ const ReactFinalForm = ({
         if (!shallowEqual(s, state)) {
           setState(s)
         }
-      }, subscription || all),
+      }, subscription),
       ...(decorators
         ? decorators.map(decorator =>
             // this noop ternary is to appease the flow gods
@@ -104,7 +103,7 @@ const ReactFinalForm = ({
       unsubscriptions.forEach(unsubscribe => unsubscribe())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [decorators, ...flattenedSubscription])
+  }, [decorators, flattenedSubscription])
 
   // warn about decorator changes
   // istanbul ignore next
