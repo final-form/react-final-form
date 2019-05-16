@@ -21,7 +21,9 @@ const defaultParse = (value: ?any, name: string) =>
 const useField = (
   name: string,
   {
+    afterSubmit,
     allowNull,
+    beforeSubmit,
     component,
     defaultValue,
     format = defaultFormat,
@@ -45,8 +47,11 @@ const useField = (
     validateRef.current = validate
   })
 
+  const beforeSubmitRef = React.useRef()
   const register = (callback: FieldState => void) =>
     form.registerField(name, callback, subscription || all, {
+      afterSubmit,
+      beforeSubmit: () => beforeSubmitRef.current && beforeSubmitRef.current(),
       defaultValue,
       getValidator: () => validateRef.current,
       initialValue,
@@ -66,6 +71,16 @@ const useField = (
       return initialState
     }
   )
+
+  beforeSubmitRef.current = () => {
+    if (format && formatOnBlur) {
+      const formatted = format(state.value, state.name)
+      if (formatted !== state.value) {
+        state.change(formatted)
+      }
+    }
+    return beforeSubmit && beforeSubmit()
+  }
 
   // ⚠️ flattenedSubscription is probably not "hook-safe".
   // In the future, changing subscriptions on the fly should be banned. ⚠️
@@ -97,13 +112,9 @@ const useField = (
   const handlers = {
     onBlur: React.useCallback(
       (event: ?SyntheticFocusEvent<*>) => {
-        // this is to appease the Flow gods
-        // istanbul ignore next
-        if (state) {
-          state.blur()
-          if (format && formatOnBlur) {
-            state.change(format(state.value, state.name))
-          }
+        state.blur()
+        if (format && formatOnBlur) {
+          state.change(format(state.value, state.name))
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps

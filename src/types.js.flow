@@ -72,7 +72,9 @@ export type FormProps = {
   RenderableProps<FormRenderProps>
 
 export type UseFieldConfig = {
+  afterSubmit?: () => void,
   allowNull?: boolean,
+  beforeSubmit?: () => void | false,
   component?: SupportedInputs,
   defaultValue?: any,
   format?: (value: any, name: string) => any,

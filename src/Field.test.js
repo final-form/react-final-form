@@ -803,4 +803,74 @@ describe('Field', () => {
     )
     errorSpy.mockRestore()
   })
+
+  it('should formatOnBlur on submit', () => {
+    const onSubmit = jest.fn()
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="name"
+              component="input"
+              format={value => value && value.toUpperCase()}
+              formatOnBlur
+              data-testid="name"
+            />
+            <button type="submit">Submit</button>
+          </form>
+        )}
+      </Form>
+    )
+    expect(getByTestId('name').value).toBe('')
+    fireEvent.focus(getByTestId('name'))
+    fireEvent.change(getByTestId('name'), { target: { value: 'erik' } })
+    expect(getByTestId('name').value).toBe('erik')
+    fireEvent.blur(getByTestId('name'))
+    expect(getByTestId('name').value).toBe('ERIK')
+
+    fireEvent.focus(getByTestId('name'))
+    fireEvent.change(getByTestId('name'), { target: { value: 'ERIKras' } })
+    expect(getByTestId('name').value).toBe('ERIKras')
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    fireEvent.click(getByText('Submit'))
+    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit.mock.calls[0][0]).toEqual({ name: 'ERIKRAS' })
+
+    // submit again with no need for format
+    fireEvent.click(getByText('Submit'))
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit.mock.calls[1][0]).toEqual({ name: 'ERIKRAS' })
+  })
+
+  it('should allow submission to be cancelled in beforeSubmit', () => {
+    const onSubmit = jest.fn()
+    const beforeSubmit = jest.fn(() => false)
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="name"
+              component="input"
+              beforeSubmit={beforeSubmit}
+              data-testid="name"
+            />
+            <button type="submit">Submit</button>
+          </form>
+        )}
+      </Form>
+    )
+    expect(getByTestId('name').value).toBe('')
+    fireEvent.focus(getByTestId('name'))
+    fireEvent.change(getByTestId('name'), { target: { value: 'erik' } })
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(beforeSubmit).not.toHaveBeenCalled()
+    fireEvent.click(getByText('Submit'))
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(beforeSubmit).toHaveBeenCalled()
+  })
 })
