@@ -1,7 +1,7 @@
 /* tslint:disable: no-shadowed-variable */
-import { Mutator } from 'final-form';
+import { FormApi, Mutator } from 'final-form';
 import * as React from 'react';
-import { Field, Form } from 'react-final-form';
+import { Field, Form, withReactFinalForm } from 'react-final-form';
 
 const noop = () => {};
 // missing required props
@@ -127,4 +127,19 @@ function mutated() {
       )}
     </Form>
   );
+}
+
+function HocTest() {
+  const FormConsumerComponent = (props: {
+    reactFinalForm: FormApi;
+    foo: string;
+  }) => <div />;
+  const FormConsumer = withReactFinalForm(FormConsumerComponent);
+
+  const IncorrectFormConsumerComponent = (props: { foo: string }) => <div />;
+
+  // $ExpectError
+  withReactFinalForm(IncorrectFormConsumerComponent);
+
+  return <FormConsumer foo="foo" />;
 }

@@ -11,6 +11,7 @@ import {
 } from 'final-form';
 
 type SupportedInputs = 'input' | 'select' | 'textarea';
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
 export interface ReactContext {
   reactFinalForm: FormApi;
@@ -112,4 +113,7 @@ export function useField<T extends HTMLElement>(
 ): FieldRenderProps<T>;
 export function useForm(): FormApi;
 export function useFormState(params: UseFormStateParams): FormState | void;
+export function withReactFinalForm<T extends { reactFinalForm: FormApi }>(
+  component: React.ComponentType<T>
+): React.ComponentType<Omit<T, 'reactFinalForm'>>;
 export const version: string;
