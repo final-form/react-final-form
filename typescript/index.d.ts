@@ -37,25 +37,14 @@ export interface FieldRenderProps<T extends HTMLElement> {
   meta: FieldPlainState;
 }
 
-export interface SubsetFormApi {
-  batch: (fn: () => void) => void;
-  blur: (name: string) => void;
-  change: (name: string, value: any) => void;
-  focus: (name: string) => void;
-  initialize: (values: object) => void;
-  mutators: { [key: string]: (...args: any[]) => any };
-  reset: () => void;
-}
-
-export interface FormRenderProps extends FormState, SubsetFormApi {
-  batch: (fn: () => void) => void;
+export interface FormRenderProps extends FormState {
   form: FormApi;
   handleSubmit: (
     event?: React.SyntheticEvent<HTMLFormElement>
   ) => Promise<object | undefined> | undefined;
 }
 
-export interface FormSpyRenderProps extends FormState, SubsetFormApi {
+export interface FormSpyRenderProps extends FormState {
   form: FormApi;
 }
 
