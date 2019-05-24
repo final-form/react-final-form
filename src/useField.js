@@ -150,7 +150,7 @@ const useField = (
         state.change(parse ? parse(value, name) : value)
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [_value, name, parse, state.value, type]
+      [_value, name, parse, state.change, state.value, type]
     ),
     onFocus: React.useCallback((event: ?SyntheticFocusEvent<*>) => {
       state.focus()
