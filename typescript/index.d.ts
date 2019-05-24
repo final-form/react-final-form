@@ -9,6 +9,7 @@ import {
   FieldSubscription,
   FieldValidator
 } from 'final-form';
+import { Omit } from 'ts-essentials';
 
 type SupportedInputs = 'input' | 'select' | 'textarea';
 
@@ -16,10 +17,7 @@ export interface ReactContext {
   reactFinalForm: FormApi;
 }
 
-export type FieldPlainState = Pick<
-  FieldState,
-  Exclude<keyof FieldState, 'blur' | 'change' | 'focus'>
->;
+export type FieldMetaState = Omit<FieldState, 'blur' | 'change' | 'focus'>;
 
 interface FieldInputProps<T extends HTMLElement> {
   name: string;
@@ -34,28 +32,17 @@ interface FieldInputProps<T extends HTMLElement> {
 
 export interface FieldRenderProps<T extends HTMLElement> {
   input: FieldInputProps<T>;
-  meta: FieldPlainState;
+  meta: FieldMetaState;
 }
 
-export interface SubsetFormApi {
-  batch: (fn: () => void) => void;
-  blur: (name: string) => void;
-  change: (name: string, value: any) => void;
-  focus: (name: string) => void;
-  initialize: (values: object) => void;
-  mutators: { [key: string]: (...args: any[]) => any };
-  reset: () => void;
-}
-
-export interface FormRenderProps extends FormState, SubsetFormApi {
-  batch: (fn: () => void) => void;
+export interface FormRenderProps extends FormState {
   form: FormApi;
   handleSubmit: (
     event?: React.SyntheticEvent<HTMLFormElement>
   ) => Promise<object | undefined> | undefined;
 }
 
-export interface FormSpyRenderProps extends FormState, SubsetFormApi {
+export interface FormSpyRenderProps extends FormState {
   form: FormApi;
 }
 
@@ -72,7 +59,9 @@ export interface FormProps extends Config, RenderableProps<FormRenderProps> {
 }
 
 export interface UseFieldConfig {
+  afterSubmit?: () => void;
   allowNull?: boolean;
+  beforeSubmit?: () => void | boolean;
   defaultValue?: any;
   format?: ((value: any, name: string) => any) | null;
   formatOnBlur?: boolean;
@@ -111,5 +100,5 @@ export function useField<T extends HTMLElement>(
   config: UseFieldConfig
 ): FieldRenderProps<T>;
 export function useForm(componentName?: string): FormApi;
-export function useFormState(params: UseFormStateParams): FormState | void;
+export function useFormState(params?: UseFormStateParams): FormState;
 export const version: string;

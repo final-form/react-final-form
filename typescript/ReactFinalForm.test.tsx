@@ -43,7 +43,7 @@ function basic() {
 function simple() {
   return (
     <Form onSubmit={onSubmit}>
-      {({ handleSubmit, reset, submitting, pristine, values }) => (
+      {({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <Field
             name="firstName"
@@ -53,7 +53,7 @@ function simple() {
           />
           <button
             type="button"
-            onClick={reset}
+            onClick={form.reset}
             disabled={submitting || pristine}
           >
             Reset
@@ -78,11 +78,11 @@ function simpleSubscription() {
         values: true
       }}
     >
-      {({ handleSubmit, reset, submitting, pristine, values }) => (
+      {({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <button
             type="button"
-            onClick={reset}
+            onClick={form.reset}
             disabled={submitting || pristine}
           >
             Reset
@@ -103,7 +103,9 @@ function mutated() {
     <Form onSubmit={onSubmit} mutators={{ setValue }}>
       {({
         handleSubmit,
-        mutators: { setValue },
+        form: {
+          mutators: { setValue }
+        },
         submitting,
         pristine,
         values
