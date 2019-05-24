@@ -59,7 +59,9 @@ export interface FormProps extends Config, RenderableProps<FormRenderProps> {
 }
 
 export interface UseFieldConfig {
+  afterSubmit?: () => void;
   allowNull?: boolean;
+  beforeSubmit?: () => void | boolean;
   defaultValue?: any;
   format?: ((value: any, name: string) => any) | null;
   formatOnBlur?: boolean;
