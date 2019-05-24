@@ -100,5 +100,5 @@ export function useField<T extends HTMLElement>(
   config: UseFieldConfig
 ): FieldRenderProps<T>;
 export function useForm(): FormApi;
-export function useFormState(params: UseFormStateParams): FormState | void;
+export function useFormState(params?: UseFormStateParams): FormState;
 export const version: string;
