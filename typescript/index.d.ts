@@ -6,53 +6,49 @@ import {
   FormState,
   FormSubscription,
   FieldState,
-  FieldSubscription
+  FieldSubscription,
+  FieldValidator
 } from 'final-form';
 import { Omit } from 'ts-essentials';
+
+type SupportedInputs = 'input' | 'select' | 'textarea';
 
 export interface ReactContext {
   reactFinalForm: FormApi;
 }
 
-export type FieldPlaneState = Omit<FieldState, 'blur' | 'change' | 'focus'>;
+export type FieldMetaState = Omit<FieldState, 'blur' | 'change' | 'focus'>;
+
+interface FieldInputProps<T extends HTMLElement> {
+  name: string;
+  onBlur: (event?: React.FocusEvent<T>) => void;
+  onChange: (event: React.ChangeEvent<T> | any) => void;
+  onFocus: (event?: React.FocusEvent<T>) => void;
+  type?: string;
+  value: any;
+  checked?: boolean;
+  multiple?: boolean;
+}
 
 export interface FieldRenderProps<T extends HTMLElement> {
-  input: {
-    name: string;
-    onBlur: (event?: React.FocusEvent<T>) => void;
-    onChange: (event: React.ChangeEvent<T>) => void;
-    onFocus: (event?: React.FocusEvent<T>) => void;
-    value: any;
-    checked?: boolean;
-  };
-  meta: FieldPlaneState;
+  input: FieldInputProps<T>;
+  meta: FieldMetaState;
 }
 
-export interface SubsetFormApi {
-  batch: (fn: () => void) => void;
-  blur: (name: string) => void;
-  change: (name: string, value: any) => void;
-  focus: (name: string) => void;
-  initialize: (values: object) => void;
-  mutators: { [key: string]: (...args: any[]) => any };
-  reset: () => void;
-}
-
-export interface FormRenderProps extends FormState, SubsetFormApi {
-  batch: (fn: () => void) => void;
+export interface FormRenderProps extends FormState {
   form: FormApi;
   handleSubmit: (
     event?: React.SyntheticEvent<HTMLFormElement>
   ) => Promise<object | undefined> | undefined;
 }
 
-export interface FormSpyRenderProps extends FormState, SubsetFormApi {
+export interface FormSpyRenderProps extends FormState {
   form: FormApi;
 }
 
 export interface RenderableProps<T> {
   children?: ((props: T) => React.ReactNode) | React.ReactNode;
-  component?: React.ComponentType<T> | string;
+  component?: React.ComponentType<T> | SupportedInputs;
   render?: (props: T) => React.ReactNode;
 }
 
@@ -62,32 +58,45 @@ export interface FormProps extends Config, RenderableProps<FormRenderProps> {
   initialValuesEqual?: (a?: object, b?: object) => boolean;
 }
 
-export interface FieldProps<T extends HTMLElement>
-  extends RenderableProps<FieldRenderProps<T>> {
+export interface UseFieldConfig {
   allowNull?: boolean;
+  defaultValue?: any;
   format?: ((value: any, name: string) => any) | null;
   formatOnBlur?: boolean;
-  parse?: ((value: any, name: string) => any) | null;
-  name: string;
+  initialValue?: any;
   isEqual?: (a: any, b: any) => boolean;
+  multiple?: boolean;
+  parse?: ((value: any, name: string) => any) | null;
   subscription?: FieldSubscription;
-  validate?: (value: any, allValues: object, meta?: FieldPlaneState) => any;
+  type?: string;
+  validate?: FieldValidator;
+  validateFields?: string[];
   value?: any;
+}
+
+export interface FieldProps<T extends HTMLElement>
+  extends UseFieldConfig,
+    RenderableProps<FieldRenderProps<T>> {
+  name: string;
   [otherProp: string]: any;
 }
 
-export interface FormSpyProps extends RenderableProps<FormSpyRenderProps> {
+export interface UseFormStateParams {
   onChange?: (formState: FormState) => void;
   subscription?: FormSubscription;
 }
 
+export interface FormSpyProps
+  extends UseFormStateParams,
+    RenderableProps<FormSpyRenderProps> {}
+
 export const Field: React.ComponentType<FieldProps<any>>;
 export const Form: React.ComponentType<FormProps>;
 export const FormSpy: React.ComponentType<FormSpyProps>;
+export function useField<T extends HTMLElement>(
+  name: string,
+  config: UseFieldConfig
+): FieldRenderProps<T>;
+export function useForm(): FormApi;
+export function useFormState(params?: UseFormStateParams): FormState;
 export const version: string;
-
-export function withReactFinalForm<T>(
-  component: React.ComponentType<T & ReactContext>
-): React.ComponentType<T>;
-
-export var ReactFinalFormContext: React.Context<FormApi>;

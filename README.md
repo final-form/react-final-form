@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 [**3.0k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
+✅ 💥 [**2.8k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
 
 ---
 
@@ -140,6 +140,7 @@ const MyForm = () => (
   - [Wizard Form](#wizard-form)
   - [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
   - [Auto-Save with Debounce](#auto-save-with-debounce)
+  - [Auto-Save with Selective Debounce](#auto-save-with-selective-debounce)
   - [Auto-Save on Field Blur](#auto-save-on-field-blur)
   - [Custom Validation Engine](#custom-validation-engine)
   - [Loading, Normalizing, Saving, and Reinitializing](#loading-normalizing-saving-and-reinitializing)
@@ -155,19 +156,27 @@ const MyForm = () => (
   - [AsyncTypeahead and Redux](#asynctypeahead-and-redux)
   - [Format On Blur](#format-on-blur)
   - [Styling with 🍭 Smooth-UI](#styling-with--smooth-ui)
+  - [CLI Example 🤯](#cli-example-)
 - [Rendering](#rendering)
 - [API](#api)
   - [`Field : React.ComponentType<FieldProps>`](#field--reactcomponenttypefieldprops)
   - [`Form : React.ComponentType<FormProps>`](#form--reactcomponenttypeformprops)
   - [`FormSpy : React.ComponentType<FormSpyProps>`](#formspy--reactcomponenttypeformspyprops)
+  - [`useForm`](#useform)
+  - [`useField`](#usefield)
+  - [`useFormState`](#useformstate)
   - [`version: string`](#version-string)
 - [Types](#types)
   - [`FieldProps`](#fieldprops)
+    - [`afterSubmit?: () => void`](#aftersubmit---void)
     - [`allowNull?: boolean`](#allownull-boolean)
+    - [`beforeSubmit?: () => void | false`](#beforesubmit---void--false)
     - [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     - [`component?: React.ComponentType<FieldRenderProps> | string`](#component-reactcomponenttypefieldrenderprops--string)
+    - [`defaultValue?: any`](#defaultvalue-any)
     - [`format?: ((value: any, name: string) => any) | null`](#format-value-any-name-string--any--null)
     - [`formatOnBlur?: boolean`](#formatonblur-boolean)
+    - [`initialValue?: any`](#initialvalue-any)
     - [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     - [`name: string`](#name-string)
     - [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
@@ -188,6 +197,7 @@ const MyForm = () => (
     - [`meta.error?: any`](#metaerror-any)
     - [`meta.initial?: any`](#metainitial-any)
     - [`meta.invalid?: boolean`](#metainvalid-boolean)
+    - [`meta.modified?: boolean`](#metamodified-boolean)
     - [`meta.pristine?: boolean`](#metapristine-boolean)
     - [`meta.submitError?: any`](#metasubmiterror-any)
     - [`meta.submitFailed?: boolean`](#metasubmitfailed-boolean)
@@ -211,15 +221,8 @@ const MyForm = () => (
     - [`validate?: (values: Object) => Object | Promise<Object>`](#validate-values-object--object--promiseobject)
     - [`validateOnBlur?: boolean`](#validateonblur-boolean)
   - [`FormRenderProps`](#formrenderprops)
-    - [`batch: (fn: () => void) => void)`](#batch-fn---void--void)
-    - [`blur: (name: string) => void`](#blur-name-string--void)
-    - [`change: (name: string, value: any) => void`](#change-name-string-value-any--void)
-    - [`focus: (name: string) => void`](#focus-name-string--void)
     - [`form: FormApi`](#form-formapi)
     - [`handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
-    - [`initialize: (values: Object) => void`](#initialize-values-object--void)
-    - [`mutators?: { [string]: Function }`](#mutators--string-function-)
-    - [`reset: (newInitialValues?: Object) => void`](#reset-newinitialvalues-object--void)
   - [`FormSpyProps`](#formspyprops)
     - [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
     - [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
@@ -227,14 +230,7 @@ const MyForm = () => (
     - [`render?: (props: FormSpyRenderProps) => React.Node`](#render-props-formspyrenderprops--reactnode)
     - [`subscription?: FormSubscription`](#subscription-formsubscription-1)
   - [`FormSpyRenderProps`](#formspyrenderprops)
-    - [`batch: (fn: () => void) => void)`](#batch-fn---void--void-1)
-    - [`blur: (name: string) => void`](#blur-name-string--void-1)
-    - [`change: (name: string, value: any) => void`](#change-name-string-value-any--void-1)
-    - [`focus: (name: string) => void`](#focus-name-string--void-1)
     - [`form: FormApi`](#form-formapi-1)
-    - [`initialize: (values: Object) => void`](#initialize-values-object--void-1)
-    - [`mutators?: { [string]: Function }`](#mutators--string-function--1)
-    - [`reset: (newInitialValues?: Object) => void`](#reset-newinitialvalues-object--void-1)
 - [Contributors](#contributors)
 - [Backers](#backers)
 - [Sponsors](#sponsors)
@@ -353,7 +349,7 @@ decorator to achieve realtime field calculations through easily defined rules.
 
 Demonstrates how the power of subscriptions and mutators can be used to build a
 warning engine: logic to display a message next to each field that is _not_ an
-error that prevents form submission.
+error (thus it does _not_ prevent form submission).
 
 ### [Reusable Field Groups](https://codesandbox.io/s/8z5jm6x80)
 
@@ -377,6 +373,10 @@ Demonstrates how to use 🏁 React Final Form's `parse` and `format` props to co
 ### [Auto-Save with Debounce](https://codesandbox.io/s/5w4yrpyo7k)
 
 Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period.
+
+### [Auto-Save with Selective Debounce](https://codesandbox.io/s/98j0v46zj4)
+
+Demonstrates how to use a `FormSpy` component to listen for value changes and automatically submit different values after a debounce period, but only does the debounce for certain specified fields, in this case, all the text fields.
 
 ### [Auto-Save on Field Blur](https://codesandbox.io/s/7k742qpo36)
 
@@ -438,6 +438,10 @@ Demonstrates how to use the `formatOnBlur` prop to postpone the formatting of a 
 
 Demonstrates how to use the Smooth-UI styling library to make your forms look fabulous! All you really need is a higher order component that adapts The 🍭 Smooth-UI form controls to work with 🏁 React Final Form.
 
+### [CLI Example](https://github.com/final-form/rff-cli-example) 🤯
+
+Yes! You can actually use 🏁 React Final Form in a command line interface! Thanks to packages like [Ink](https://github.com/vadimdemedes/ink) and [Pastel](https://github.com/vadimdemedes/pastel), the power of 🏁 Final Form's form state management works just fine on the command line.
+
 ## Rendering
 
 There are three ways to tell `<Form/>` and `<Field/>` what to render:
@@ -466,6 +470,22 @@ A component that takes [`FormProps`](#formprops) and surrounds your entire form.
 A component that takes [`FormSpyProps`](#formspyprops) and can listen to form
 state from inside an optimized `<Form/>`.
 
+### `useForm`
+
+The `useForm` hook plucks the [`FormApi`](https://github.com/final-form/final-form#formapi) out of the React context for you. It will throw an exception if you try to use it outside of a `<Form>` component.
+
+### `useField`
+
+The `useField` hook takes two parameters, the first is the name of the field, and the second is an optional object that looks just like [`FieldProps`](#fieldprops), except without the name. It returns an object just like [`FieldRenderProps`](#fieldrenderprops).
+
+`useField` is used internally inside `Field`.
+
+### `useFormState`
+
+The `useFormState` hook takes one optional parameter, which matches the exact shape of [`FormSpyProps`](#formspyprops). It returns a [`FormSpyRenderProps`](#formspyrenderprops).
+
+`useFormState` is used internally inside `FormSpy`.
+
 ### `version: string`
 
 The current used version of 🏁 React Final Form.
@@ -480,6 +500,10 @@ These are props that you pass to
 [`<Field/>`](#field--reactcomponenttypefieldprops). You must provide one of the
 ways to render: `component`, `render`, or `children`.
 
+#### `afterSubmit?: () => void`
+
+A callback to notify fields after submission has completed successfully.
+
 #### `allowNull?: boolean`
 
 By default, if your value is `null`, `<Field/>` will convert it to `''`, to
@@ -487,6 +511,10 @@ ensure
 [controlled inputs](https://reactjs.org/docs/forms.html#controlled-components).
 But if you pass `true` to `allowNull`, `<Field/>` will give you a `null` value.
 Defaults to `false`.
+
+#### `beforeSubmit?: () => void | false`
+
+A function to call just before calling `onSubmit`. If `beforeSubmit` returns `false`, the submission will be aborted. If one of your fields returns `false` on `beforeSubmit`, other fields may not have their `beforeSubmit` called, as the submission is aborted on the first one that returns `false`.
 
 #### `children?: ((props: FieldRenderProps) => React.Node) | React.Node`
 
@@ -550,6 +578,8 @@ _all_ of [`FieldState`](https://github.com/final-form/final-form#fieldstate).
 
 A function that takes the field value, all the values of the form and the `meta` data about the field and
 returns an error if the value is invalid, or `undefined` if the value is valid.
+
+⚠️ IMPORTANT ⚠️ – By default, in order to allow inline fat-arrow validation functions, the field will not rerender if you change your validation function to an alternate function that has a different behavior. If you need your field to rerender with a new validation function, you will need to update another prop on the `Field`, such as `key`.
 
 #### `validateFields?: string[]`
 
@@ -740,31 +770,6 @@ This object contains everything in
 [🏁 Final Form's `FormState`](https://github.com/final-form/final-form#formstate)
 as well as:
 
-#### `batch: (fn: () => void) => void)`
-
-_**[DEPRECATED]** Use `form.batch()` instead_
-
-A function that allows batch updates to be done to the form state.
-[See the 🏁 Final Form docs on `batch`](https://github.com/final-form/final-form#batch-fn---void--void).
-
-#### `blur: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.blur()` instead_
-
-A function to blur (mark inactive) any field.
-
-#### `change: (name: string, value: any) => void`
-
-_**[DEPRECATED]** Use `form.change()` instead_
-
-A function to change the value of any field.
-
-#### `focus: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.focus()` instead_
-
-A function to focus (mark active) any field.
-
 #### `form: FormApi`
 
 The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi).
@@ -772,26 +777,6 @@ The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi
 #### `handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`
 
 A function intended for you to give directly to the `<form>` tag: `<form onSubmit={handleSubmit}/>`.
-
-#### `initialize: (values: Object) => void`
-
-_**[DEPRECATED]** Use `form.initialize()` instead_
-
-A function that initializes the form values.
-[See the 🏁 Final Form docs on `initialize`](https://github.com/final-form/final-form#initialize-values-object--void).
-
-#### `mutators?: { [string]: Function }`
-
-_**[DEPRECATED]** Use `form.mutators` instead_
-
-[See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
-
-#### `reset: (newInitialValues?: Object) => void`
-
-_**[DEPRECATED]** Use `form.reset()` instead_
-
-A function that resets the form values to their last initialized values.
-[See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset-initialvalues-object--void).
 
 ### `FormSpyProps`
 
@@ -843,54 +828,11 @@ that the values you receive here are dependent upon which values of
 subscribed to with the
 [`subscription` prop](https://github.com/final-form/react-final-form#subscription-formsubscription). Also included will be many of the same props provided to [`FormRenderProps`](#formrenderprops):
 
-#### `batch: (fn: () => void) => void)`
-
-_**[DEPRECATED]** Use `form.batch()` instead_
-
-A function that allows batch updates to be done to the form state.
-[See the 🏁 Final Form docs on `batch`](https://github.com/final-form/final-form#batch-fn---void--void).
-
-#### `blur: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.blur()` instead_
-
-A function to blur (mark inactive) any field.
-
-#### `change: (name: string, value: any) => void`
-
-_**[DEPRECATED]** Use `form.change()` instead_
-
-A function to change the value of any field.
-
-#### `focus: (name: string) => void`
-
-_**[DEPRECATED]** Use `form.focus()` instead_
-
-A function to focus (mark active) any field.
-
 #### `form: FormApi`
 
 The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi).
 
-#### `initialize: (values: Object) => void`
-
-_**[DEPRECATED]** Use `form.initialize()` instead_
-
-A function that initializes the form values.
-[See the 🏁 Final Form docs on `initialize`](https://github.com/final-form/final-form#initialize-values-object--void).
-
-#### `mutators?: { [string]: Function }`
-
-_**[DEPRECATED]** Use `form.mutators` instead_
-
 [See the 🏁 Final Form docs on `mutators`](https://github.com/final-form/final-form#mutators--string-function-).
-
-#### `reset: (newInitialValues?: Object) => void`
-
-_**[DEPRECATED]** Use `form.reset()` instead_
-
-A function that resets the form values to their last initialized values.
-[See the 🏁 Final Form docs on `reset`](https://github.com/final-form/final-form#reset-initialvalues-object--void).
 
 ## Contributors
 
