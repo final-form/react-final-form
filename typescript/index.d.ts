@@ -17,7 +17,10 @@ export interface ReactContext {
   reactFinalForm: FormApi;
 }
 
-export type FieldMetaState = Omit<FieldState, 'blur' | 'change' | 'focus'>;
+export type FieldMetaState = Omit<
+  FieldState,
+  'blur' | 'change' | 'focus' | 'name' | 'value'
+>;
 
 interface FieldInputProps<T extends HTMLElement> {
   name: string;

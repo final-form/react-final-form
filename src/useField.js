@@ -168,6 +168,7 @@ const useField = (
     error: otherState.error,
     initial: otherState.initial,
     invalid: otherState.invalid,
+    length: otherState.length,
     modified: otherState.modified,
     pristine: otherState.pristine,
     submitError: otherState.submitError,

@@ -29,15 +29,15 @@ export type FieldInputProps = {
 export type FieldRenderProps = {
   input: FieldInputProps,
   meta: {
-    // TODO: Make a diff of `FieldState` without all the functions
     active?: boolean,
     data?: Object,
     dirty?: boolean,
     dirtySinceLastSubmit?: boolean,
     error?: any,
-    initial?: boolean,
+    initial?: any,
     invalid?: boolean,
-    meta?: boolean,
+    length?: number,
+    modified?: boolean,
     pristine?: boolean,
     submitError?: any,
     submitFailed?: boolean,
