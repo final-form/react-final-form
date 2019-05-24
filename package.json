@@ -123,5 +123,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.4"
+    "ts-essentials": "^2.0.2"
   }
 }
