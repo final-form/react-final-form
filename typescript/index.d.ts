@@ -95,9 +95,9 @@ export interface FormSpyProps
   extends UseFormStateParams,
     RenderableProps<FormSpyRenderProps> {}
 
-export const Field: React.ComponentType<FieldProps<any>>;
-export const Form: React.ComponentType<FormProps>;
-export const FormSpy: React.ComponentType<FormSpyProps>;
+export const Field: React.FC<FieldProps<any>>;
+export const Form: React.FC<FormProps>;
+export const FormSpy: React.FC<FormSpyProps>;
 export function useField<T extends HTMLElement>(
   name: string,
   config: UseFieldConfig
