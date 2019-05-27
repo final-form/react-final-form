@@ -55,7 +55,9 @@ export interface RenderableProps<T> {
   render?: (props: T) => React.ReactNode;
 }
 
-export interface FormProps extends Config, RenderableProps<FormRenderProps> {
+export interface FormProps<FormData = object>
+  extends Config<FormData>,
+    RenderableProps<FormRenderProps> {
   subscription?: FormSubscription;
   decorators?: Decorator[];
   initialValuesEqual?: (a?: object, b?: object) => boolean;
@@ -96,7 +98,7 @@ export interface FormSpyProps
     RenderableProps<FormSpyRenderProps> {}
 
 export const Field: React.FC<FieldProps<any>>;
-export const Form: React.FC<FormProps>;
+export const Form: React.FC<FormProps<object>>;
 export const FormSpy: React.FC<FormSpyProps>;
 export function useField<T extends HTMLElement>(
   name: string,
