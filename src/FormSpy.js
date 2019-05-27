@@ -10,9 +10,7 @@ import ReactFinalFormContext from './context'
 const FormSpy = ({ onChange, subscription, ...rest }: Props) => {
   const reactFinalForm: ?FormApi = React.useContext(ReactFinalFormContext)
   if (!reactFinalForm) {
-    throw new Error(
-      'Warning: FormSpy must be used inside of a ReactFinalForm component'
-    )
+    throw new Error('FormSpy must be used inside of a ReactFinalForm component')
   }
   const state = useFormState({ onChange, subscription })
   if (onChange) {

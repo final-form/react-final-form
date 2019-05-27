@@ -7,8 +7,7 @@ const useForm = (componentName?: string): FormApi => {
   const form: ?FormApi = React.useContext(ReactFinalFormContext)
   if (!form) {
     throw new Error(
-      `Warning: ${componentName ||
-        'useForm'} must be used inside of a <Form> component`
+      `${componentName || 'useForm'} must be used inside of a <Form> component`
     )
   }
   return form

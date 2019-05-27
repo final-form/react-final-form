@@ -21,7 +21,7 @@ describe('Field', () => {
     expect(errorSpy).toHaveBeenCalled()
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(errorSpy.mock.calls[0][0].message).toBe(
-      'Warning: useField must be used inside of a <Form> component'
+      'useField must be used inside of a <Form> component'
     )
     console.error.mockRestore()
   })
@@ -201,7 +201,7 @@ describe('Field', () => {
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {wrapWith(spy, () => (
           <form>
-            <Field name="name" parse={null}>
+            <Field name="name" parse={v => v}>
               {({ input: { value, ...props } }) => (
                 <input
                   {...props}
@@ -278,13 +278,32 @@ describe('Field', () => {
     expect(getByTestId('name').value).toBe('ERIKRAS')
   })
 
+  it('should not format value at all when formatOnBlur and render prop', () => {
+    const format = jest.fn(value => (value ? value.toUpperCase() : ''))
+    render(
+      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+        {() => (
+          <form>
+            <Field name="name" format={format} formatOnBlur data-testid="name">
+              {({ input }) => {
+                expect(input.value).toBeUndefined()
+                expect(format).not.toHaveBeenCalled()
+                return <input {...input} value={input.value || ''} />
+              }}
+            </Field>
+          </form>
+        )}
+      </Form>
+    )
+  })
+
   it('should accept a null format prop to preserve undefined values', () => {
     const spy = jest.fn()
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
           <form>
-            <Field name="name" format={null}>
+            <Field name="name" format={v => v}>
               {wrapWith(spy, ({ input: { value, ...props } }) => (
                 <input
                   {...props}
@@ -782,7 +801,7 @@ describe('Field', () => {
     })
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(errorSpy.mock.calls[0][0]).toBe(
-      'Warning: You must pass `type="checkbox"` prop to your Field(checkboxInput) component.\n' +
+      'You must pass `type="checkbox"` prop to your Field(checkboxInput) component.\n' +
         'Without it we don\'t know how to unpack your `value` prop - "checkboxValue".'
     )
     fireEvent.click(getByTestId('radio'), {
@@ -790,7 +809,7 @@ describe('Field', () => {
     })
     expect(errorSpy).toHaveBeenCalledTimes(2)
     expect(errorSpy.mock.calls[1][0]).toBe(
-      'Warning: You must pass `type="radio"` prop to your Field(radioInput) component.\n' +
+      'You must pass `type="radio"` prop to your Field(radioInput) component.\n' +
         'Without it we don\'t know how to unpack your `value` prop - "radioValue".'
     )
     fireEvent.change(getByTestId('select'), {
@@ -798,7 +817,7 @@ describe('Field', () => {
     })
     expect(errorSpy).toHaveBeenCalledTimes(3)
     expect(errorSpy.mock.calls[2][0]).toBe(
-      'Warning: You must pass `type="select"` prop to your Field(selectMultipleInput) component.\n' +
+      'You must pass `type="select"` prop to your Field(selectMultipleInput) component.\n' +
         "Without it we don't know how to unpack your `value` prop - []."
     )
     errorSpy.mockRestore()

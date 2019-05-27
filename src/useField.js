@@ -73,7 +73,7 @@ const useField = (
   )
 
   beforeSubmitRef.current = () => {
-    if (format && formatOnBlur) {
+    if (formatOnBlur) {
       const formatted = format(state.value, state.name)
       if (formatted !== state.value) {
         state.change(formatted)
@@ -112,7 +112,7 @@ const useField = (
     onBlur: React.useCallback(
       (event: ?SyntheticFocusEvent<*>) => {
         state.blur()
-        if (format && formatOnBlur) {
+        if (formatOnBlur) {
           state.change(format(state.value, state.name))
         }
       },
@@ -133,7 +133,7 @@ const useField = (
 
           if (unknown) {
             console.error(
-              `Warning: You must pass \`type="${
+              `You must pass \`type="${
                 targetType === 'select-multiple' ? 'select' : targetType
               }"\` prop to your Field(${name}) component.\n` +
                 `Without it we don't know how to unpack your \`value\` prop - ${
@@ -147,7 +147,7 @@ const useField = (
           event && event.target
             ? getValue(event, state.value, _value, isReactNative)
             : event
-        state.change(parse ? parse(value, name) : value)
+        state.change(parse(value, name))
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [_value, name, parse, state.change, state.value, type]
@@ -180,8 +180,10 @@ const useField = (
     visited: otherState.visited
   }
   if (formatOnBlur) {
-    value = defaultFormat(value, name)
-  } else if (format) {
+    if (component === 'input') {
+      value = defaultFormat(value, name)
+    }
+  } else {
     value = format(value, name)
   }
   if (value === null && !allowNull) {

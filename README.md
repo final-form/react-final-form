@@ -15,7 +15,7 @@
 
 ✅ Opt-in subscriptions - only update on the state you need!
 
-✅ 💥 [**2.8k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
+✅ 💥 [**3.0k gzipped**](https://bundlephobia.com/result?p=react-final-form) 💥
 
 ---
 
@@ -532,11 +532,11 @@ well as any non-API props passed into the `<Field/>` component.
 
 _**Before using this prop, read and understand the 🏁 Final Form documentation on [`initialValue`](https://github.com/final-form/final-form#initialvalue-any) and [`defaultValue`](https://github.com/final-form/final-form#defaultvalue-any)!**_
 
-#### `format?: ((value: any, name: string) => any) | null`
+#### `format?: ((value: any, name: string) => any)`
 
 A function that takes the value from the form values and the name of the field and formats the value to give to the input. Common use cases include converting javascript `Date` values into a localized date string. Almost always used in conjunction with `parse`.
 
-**Note: If you pass `null` to `format`, it will override the default behavior of converting `undefined` into `''`. If you do this, making sure your inputs are "controlled" is up to you.**
+**Note: If you would like to disable the default behavior of converting `undefined` to `''`, you can pass an [identity function](https://en.wikipedia.org/wiki/Identity_function), `v => v`, to `format`. If you do this, making sure your inputs are "controlled" is up to you.**
 
 #### `formatOnBlur?: boolean`
 
@@ -554,11 +554,11 @@ If `true`, the `format` function will only be called when the field is blurred. 
 
 The name of your field. Field values may be deeply nested using dot-and-bracket syntax. [Learn more about Field Names](https://github.com/final-form/final-form#field-names).
 
-#### `parse?: ((value: any, name: string) => any) | null`
+#### `parse?: ((value: any, name: string) => any)`
 
 A function that takes the value from the input and name of the field and converts the value into the value you want stored as this field's value in the form. Common usecases include converting strings into `Number`s or parsing localized dates into actual javascript `Date` objects. Almost always used in conjuction with `format`.
 
-**Note: If you pass `null` to `parse`, it will override the default behavior of converting `''` into `undefined`, thus allowing you to have form values of `''`.**
+**Note: If would like to override the default behavior of converting `''` to `undefined`, you can pass an [identity function](https://en.wikipedia.org/wiki/Identity_function), `v => v`, to `parse`, thus allowing you to have form values of `''`.**
 
 #### `render?: (props: FieldRenderProps) => React.Node`
 

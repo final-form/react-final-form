@@ -30,13 +30,19 @@ describe('ReactFinalForm', () => {
   })
 
   it('should print a warning with no render or children specified', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-    render(<Form onSubmit={onSubmitMock} />)
-    expect(errorSpy).toHaveBeenCalled()
-    expect(errorSpy).toHaveBeenCalledWith(
-      'Warning: Must specify either a render prop, a render function as children, or a component prop to ReactFinalForm'
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+    const errorSpy = jest.fn()
+    render(
+      <ErrorBoundary spy={errorSpy}>
+        <Form onSubmit={onSubmitMock} />
+      </ErrorBoundary>
     )
-    errorSpy.mockRestore()
+    expect(errorSpy).toHaveBeenCalled()
+    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy.mock.calls[0][0].message).toBe(
+      'Must specify either a render prop, a render function as children, or a component prop to ReactFinalForm'
+    )
+    console.error.mockRestore()
   })
 
   it('should print a warning with no onSubmit specified', () => {
@@ -484,7 +490,7 @@ describe('ReactFinalForm', () => {
     fireEvent.click(getByText('Toggle'))
     expect(errorSpy).toHaveBeenCalled()
     expect(errorSpy).toHaveBeenCalledWith(
-      'Warning: Form decorators should not change from one render to the next as new values will be ignored'
+      'Form decorators should not change from one render to the next as new values will be ignored'
     )
     errorSpy.mockRestore()
   })

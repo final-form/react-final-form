@@ -117,7 +117,7 @@ const ReactFinalForm = ({
       decorators,
       () => {
         console.error(
-          'Warning: Form decorators should not change from one render to the next as new values will be ignored'
+          'Form decorators should not change from one render to the next as new values will be ignored'
         )
       },
       shallowEqual
