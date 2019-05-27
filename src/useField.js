@@ -108,7 +108,10 @@ const useField = (
       (event: ?SyntheticFocusEvent<*>) => {
         state.blur()
         if (formatOnBlur) {
-          state.change(format(state.value, state.name))
+          const fieldState = form.getFieldState(state.name)
+          state.change(
+            format(fieldState ? fieldState.value : state.value, state.name)
+          )
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
