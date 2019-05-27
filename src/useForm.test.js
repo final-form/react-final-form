@@ -25,7 +25,7 @@ describe('useForm', () => {
     expect(errorSpy).toHaveBeenCalled()
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(errorSpy.mock.calls[0][0].message).toBe(
-      'Warning: useForm must be used inside of a <Form> component'
+      'useForm must be used inside of a <Form> component'
     )
     console.error.mockRestore()
   })
@@ -45,7 +45,7 @@ describe('useForm', () => {
     expect(errorSpy).toHaveBeenCalled()
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(errorSpy.mock.calls[0][0].message).toBe(
-      'Warning: MyFormConsumer must be used inside of a <Form> component'
+      'MyFormConsumer must be used inside of a <Form> component'
     )
     console.error.mockRestore()
   })

@@ -66,12 +66,12 @@ export interface UseFieldConfig {
   allowNull?: boolean;
   beforeSubmit?: () => void | boolean;
   defaultValue?: any;
-  format?: ((value: any, name: string) => any) | null;
+  format?: (value: any, name: string) => any;
   formatOnBlur?: boolean;
   initialValue?: any;
   isEqual?: (a: any, b: any) => boolean;
   multiple?: boolean;
-  parse?: ((value: any, name: string) => any) | null;
+  parse?: (value: any, name: string) => any;
   subscription?: FieldSubscription;
   type?: string;
   validate?: FieldValidator;

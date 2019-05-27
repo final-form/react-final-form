@@ -31,7 +31,7 @@ describe('FormSpy', () => {
     expect(errorSpy).toHaveBeenCalled()
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(errorSpy.mock.calls[0][0].message).toBe(
-      'Warning: FormSpy must be used inside of a ReactFinalForm component'
+      'FormSpy must be used inside of a ReactFinalForm component'
     )
     console.error.mockRestore()
   })
