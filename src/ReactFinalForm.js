@@ -78,12 +78,17 @@ const ReactFinalForm = ({
     }
   )
 
+  // save a copy of state that can break through the closure
+  // on the shallowEqual() line below.
+  const stateRef = React.useRef<FormState>(state)
+  stateRef.current = state
+
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation
     form.isValidationPaused() && form.resumeValidation()
     const unsubscriptions: Unsubscribe[] = [
       form.subscribe(s => {
-        if (!shallowEqual(s, state)) {
+        if (!shallowEqual(s, stateRef.current)) {
           setState(s)
         }
       }, subscription),
