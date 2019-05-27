@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, cleanup, act } from 'react-testing-library'
+import { render, fireEvent, cleanup } from 'react-testing-library'
 import 'jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
@@ -856,5 +856,55 @@ describe('ReactFinalForm', () => {
     expect(onSubmitMock).toHaveBeenCalled()
     expect(onSubmitMock).toHaveBeenCalledTimes(1)
     expect(onSubmitMock.mock.calls[0][0]).toEqual({ name: 'erikras' })
+  })
+
+  it('should set submitting back to false after submit', async () => {
+    /**
+     * This test causes a warning:
+     *
+     * Warning: An update to ReactFinalForm inside a test was not wrapped in act(...).
+     *
+     * ...but it's working as expected:
+     * 1) We click "Submit"
+     * 2) Submission is async and takes 1ms
+     * 3) The form's state has to go to `submitting = true` and then back to `submitting = false`
+     *
+     * That state change when the submission completes is not an "act" from the
+     * user, but an internal state change. If you have an idea of how to fix this,
+     * please submit a PR. Thanks. -@erikras
+     */
+    const onSubmit = jest.fn(async () => {
+      sleep(1)
+    })
+    const recordSubmitting = jest.fn()
+    const { getByText } = render(
+      <Form onSubmit={onSubmit} subscription={{ submitting: true }}>
+        {({ handleSubmit, submitting }) => {
+          recordSubmitting(submitting)
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="name" component="input" />
+              <button type="submit">Submit</button>
+            </form>
+          )
+        }}
+      </Form>
+    )
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(recordSubmitting).toHaveBeenCalled()
+    expect(recordSubmitting).toHaveBeenCalledTimes(1)
+    expect(recordSubmitting.mock.calls[0][0]).toBe(false)
+
+    fireEvent.click(getByText('Submit'))
+
+    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(recordSubmitting).toHaveBeenCalledTimes(2)
+    expect(recordSubmitting.mock.calls[1][0]).toBe(true)
+
+    await sleep(5)
+
+    expect(recordSubmitting).toHaveBeenCalledTimes(3)
+    expect(recordSubmitting.mock.calls[2][0]).toBe(false)
   })
 })
