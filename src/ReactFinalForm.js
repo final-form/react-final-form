@@ -19,7 +19,6 @@ import useConstant from './useConstant'
 import shallowEqual from './shallowEqual'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
-import flattenSubscription from './flattenSubscription'
 import ReactFinalFormContext from './context'
 
 export const version = '5.1.0'
@@ -79,8 +78,6 @@ const ReactFinalForm = ({
     }
   )
 
-  // In the future, changing subscriptions on the fly should be banned. ⚠️
-  const flattenedSubscription = flattenSubscription(subscription)
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation
     form.isValidationPaused() && form.resumeValidation()
@@ -103,7 +100,7 @@ const ReactFinalForm = ({
       unsubscriptions.forEach(unsubscribe => unsubscribe())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [decorators, flattenedSubscription, state])
+  }, [decorators])
 
   // warn about decorator changes
   // istanbul ignore next

@@ -97,7 +97,7 @@ describe('FormSpy', () => {
     expect(spy.mock.calls[2][0].values).toEqual({ name: 'erikras' })
   })
 
-  it('should resubscribe if subscription changes', () => {
+  it('should NOT resubscribe if subscription changes', () => {
     const firstSubscription = { values: true, pristine: true }
     const secondSubscription = { dirty: true, submitting: true }
     const spy = jest.fn()
@@ -165,19 +165,8 @@ describe('FormSpy', () => {
 
     fireEvent.click(getByText('Toggle'))
 
-    // one for new prop, and again after reregistering
-    expect(spy).toHaveBeenCalledTimes(4)
-    hasFormApi(spy.mock.calls[3][0])
-    expect(spy.mock.calls[3][0].dirty).toBe(false)
-    expect(spy.mock.calls[3][0].errors).toBeUndefined()
-    expect(spy.mock.calls[3][0].invalid).toBeUndefined()
-    expect(spy.mock.calls[3][0].pristine).toBeUndefined()
-    expect(spy.mock.calls[3][0].submitFailed).toBeUndefined()
-    expect(spy.mock.calls[3][0].submitSucceeded).toBeUndefined()
-    expect(spy.mock.calls[3][0].submitting).toBe(false)
-    expect(spy.mock.calls[3][0].valid).toBeUndefined()
-    expect(spy.mock.calls[3][0].validating).toBeUndefined()
-    expect(spy.mock.calls[3][0].values).toBeUndefined()
+    // one for new prop, and NOT again because no reregistering since v6
+    expect(spy).toHaveBeenCalledTimes(3)
   })
 
   it('should hear changes', () => {
