@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import { fieldSubscriptionItems } from 'final-form'
-import flattenSubscription from './flattenSubscription'
 import type { FieldSubscription, FieldState, FormApi } from 'final-form'
 import type { UseFieldConfig, FieldInputProps, FieldRenderProps } from './types'
 import isReactNative from './isReactNative'
@@ -82,8 +81,6 @@ const useField = (
     return beforeSubmit && beforeSubmit()
   }
 
-  // In the future, changing subscriptions on the fly should be banned. ⚠️
-  const flattenedSubscription = flattenSubscription(subscription)
   React.useEffect(
     () =>
       register(state => {
@@ -102,9 +99,7 @@ const useField = (
       // validate,
       initialValue,
       isEqual,
-      validateFields,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      flattenedSubscription
+      validateFields
     ]
   )
 
