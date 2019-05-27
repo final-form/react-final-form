@@ -103,7 +103,7 @@ const ReactFinalForm = ({
       unsubscriptions.forEach(unsubscribe => unsubscribe())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [decorators, flattenedSubscription])
+  }, [decorators, flattenedSubscription, state])
 
   // warn about decorator changes
   // istanbul ignore next
