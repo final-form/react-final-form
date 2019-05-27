@@ -102,7 +102,7 @@ export const Form: React.FC<FormProps<object>>;
 export const FormSpy: React.FC<FormSpyProps>;
 export function useField<T extends HTMLElement>(
   name: string,
-  config: UseFieldConfig
+  config?: UseFieldConfig
 ): FieldRenderProps<T>;
 export function useForm(componentName?: string): FormApi;
 export function useFormState(params?: UseFormStateParams): FormState;
