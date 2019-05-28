@@ -75,7 +75,8 @@ export type UseFieldConfig = {
   afterSubmit?: () => void,
   allowNull?: boolean,
   beforeSubmit?: () => void | false,
-  component?: SupportedInputs,
+  children?: $PropertyType<RenderableProps<*>, 'children'>,
+  component?: $PropertyType<RenderableProps<*>, 'component'>,
   defaultValue?: any,
   format?: (value: any, name: string) => any,
   formatOnBlur?: boolean,
@@ -92,9 +93,7 @@ export type UseFieldConfig = {
 
 export type FieldProps = UseFieldConfig & {
   name: string
-} & RenderableProps<FieldRenderProps> & {
-    component?: React.ComponentType<*> | SupportedInputs
-  }
+} & RenderableProps<FieldRenderProps>
 
 export type UseFormStateParams = {
   onChange?: (formState: FormState) => void,
