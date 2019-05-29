@@ -21,7 +21,7 @@ import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
 import ReactFinalFormContext from './context'
 
-export const version = '5.1.0'
+export const version = '6.0.1'
 
 const versions = {
   'final-form': ffVersion,
