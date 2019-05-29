@@ -501,6 +501,31 @@ describe('Field', () => {
     expect(getByTestId('error')).toHaveTextContent('')
   })
 
+  it('should not rerender if validateFields is !== every time', () => {
+    // https://github.com/final-form/react-final-form/issues/502
+    const required = value => (value ? undefined : 'Required')
+    const spy = jest.fn()
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmitMock}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="name" validate={required} validateFields={[]}>
+              {wrapWith(spy, ({ input, meta }) => (
+                <div>
+                  <input {...input} data-testid="name" />
+                  <div data-testid="error">{meta.error}</div>
+                </div>
+              ))}
+            </Field>
+          </form>
+        )}
+      </Form>
+    )
+    // first render registered validation, second contains error
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(getByTestId('error')).toHaveTextContent('Required')
+  })
+
   it('should pass along type prop', () => {
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock}>
