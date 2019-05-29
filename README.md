@@ -585,6 +585,8 @@ returns an error if the value is invalid, or `undefined` if the value is valid.
 
 [See the 🏁 Final Form docs on `validateFields`](https://github.com/final-form/final-form#validatefields-string).
 
+⚠️ IMPORTANT ⚠️ – By default, in order to allow inline `[]` syntax, the field will not rerender if you change your `validateFields` prop changes. If you need your field to rerender with a new `validateFields` setting, you will need to update another prop on the `Field`, such as `key`.
+
 #### `value?: any`
 
 **This is only used for checkboxes and radio buttons!**

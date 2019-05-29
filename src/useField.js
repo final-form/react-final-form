@@ -98,8 +98,11 @@ const useField = (
       // cannot reregister field every time validate function !==.
       // validate,
       initialValue,
-      isEqual,
-      validateFields
+      isEqual
+      // The validateFields array is often passed as validateFields={[]}, creating
+      // a !== new array every time. If it needs to be changed, a rerender/reregister
+      // can be forced by changing the key prop
+      // validateFields
     ]
   )
 
