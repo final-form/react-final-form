@@ -505,7 +505,7 @@ describe('Field', () => {
     // https://github.com/final-form/react-final-form/issues/502
     const required = value => (value ? undefined : 'Required')
     const spy = jest.fn()
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <Form onSubmit={onSubmitMock}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
