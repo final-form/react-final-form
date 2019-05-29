@@ -10,6 +10,15 @@ import type {
   UseFormStateParams
 } from './types'
 
+export type {
+  FieldProps,
+  FieldRenderProps,
+  FormProps,
+  FormRenderProps,
+  FormSpyProps,
+  FormSpyRenderProps
+} from './types'
+
 declare export var Field: React.ComponentType<FieldProps>
 declare export var Form: React.ComponentType<FormProps>
 declare export var FormSpy: React.ComponentType<FormSpyProps>
