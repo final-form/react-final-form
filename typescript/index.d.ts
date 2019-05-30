@@ -107,3 +107,4 @@ export function useField<T extends HTMLElement>(
 export function useForm(componentName?: string): FormApi;
 export function useFormState(params?: UseFormStateParams): FormState;
 export const version: string;
+export const ReactFinalFormContext: React.Context<FormApi | undefined>;
