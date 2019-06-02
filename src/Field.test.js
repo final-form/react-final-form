@@ -278,6 +278,43 @@ describe('Field', () => {
     expect(getByTestId('name').value).toBe('ERIKRAS')
   })
 
+  it('should `formatOnBlur` most updated value', () => {
+    const format = jest.fn(value => (value ? value.trim() : ''))
+    const handleBlur = event => {
+      fireEvent.change(getByTestId('name'), {
+        target: { value: event.target.value.toUpperCase() }
+      })
+    }
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+        {() => (
+          <form>
+            <Field name="name" format={format} formatOnBlur>
+              {({ input }) => (
+                <input
+                  {...input}
+                  data-testid="name"
+                  onBlur={e => {
+                    handleBlur(e)
+                    input.onBlur(e)
+                  }}
+                />
+              )}
+            </Field>
+          </form>
+        )}
+      </Form>
+    )
+    const inputText = '   erikras'
+    fireEvent.focus(getByTestId('name'))
+    expect(getByTestId('name').value).toBe('')
+    fireEvent.change(getByTestId('name'), { target: { value: inputText } })
+    expect(getByTestId('name').value).toBe(inputText)
+    fireEvent.blur(getByTestId('name'))
+    expect(format.mock.calls[0][0]).toBe(inputText.toUpperCase())
+    expect(getByTestId('name').value).toBe(inputText.trim().toUpperCase())
+  })
+
   it('should not format value at all when formatOnBlur and render prop', () => {
     const format = jest.fn(value => (value ? value.toUpperCase() : ''))
     render(
