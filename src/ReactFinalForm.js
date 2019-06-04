@@ -20,6 +20,7 @@ import shallowEqual from './shallowEqual'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
 import ReactFinalFormContext from './context'
+import useLatest from './useLatest'
 
 export const version = '6.0.1'
 
@@ -80,8 +81,7 @@ const ReactFinalForm = ({
 
   // save a copy of state that can break through the closure
   // on the shallowEqual() line below.
-  const stateRef = React.useRef<FormState>(state)
-  stateRef.current = state
+  const stateRef = useLatest<FormState>(state)
 
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation

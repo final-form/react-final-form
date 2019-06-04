@@ -6,6 +6,7 @@ import type { UseFieldConfig, FieldInputProps, FieldRenderProps } from './types'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
 import useForm from './useForm'
+import useLatest from './useLatest'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   result[key] = true
@@ -40,17 +41,22 @@ const useField = (
 ): FieldRenderProps => {
   const form: FormApi = useForm('useField')
 
-  // keep ref to most recent copy of validate function
-  const validateRef = React.useRef(validate)
-  React.useEffect(() => {
-    validateRef.current = validate
+  const validateRef = useLatest(validate)
+
+  const beforeSubmitRef = useLatest(() => {
+    if (formatOnBlur) {
+      const formatted = format(state.value, state.name)
+      if (formatted !== state.value) {
+        state.change(formatted)
+      }
+    }
+    return beforeSubmit && beforeSubmit()
   })
 
-  const beforeSubmitRef = React.useRef()
   const register = (callback: FieldState => void) =>
     form.registerField(name, callback, subscription, {
       afterSubmit,
-      beforeSubmit: () => beforeSubmitRef.current && beforeSubmitRef.current(),
+      beforeSubmit: () => beforeSubmitRef.current(),
       defaultValue,
       getValidator: () => validateRef.current,
       initialValue,
@@ -70,16 +76,6 @@ const useField = (
       return initialState
     }
   )
-
-  beforeSubmitRef.current = () => {
-    if (formatOnBlur) {
-      const formatted = format(state.value, state.name)
-      if (formatted !== state.value) {
-        state.change(formatted)
-      }
-    }
-    return beforeSubmit && beforeSubmit()
-  }
 
   React.useEffect(
     () =>
