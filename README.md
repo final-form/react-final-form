@@ -174,12 +174,12 @@ const MyForm = () => (
     - [`children?: ((props: FieldRenderProps) => React.Node) | React.Node`](#children-props-fieldrenderprops--reactnode--reactnode)
     - [`component?: React.ComponentType<FieldRenderProps> | string`](#component-reactcomponenttypefieldrenderprops--string)
     - [`defaultValue?: any`](#defaultvalue-any)
-    - [`format?: ((value: any, name: string) => any) | null`](#format-value-any-name-string--any--null)
+    - [`format?: (value: any, name: string) => any`](#format-value-any-name-string--any)
     - [`formatOnBlur?: boolean`](#formatonblur-boolean)
     - [`initialValue?: any`](#initialvalue-any)
     - [`isEqual?: (a: any, b: any) => boolean`](#isequal-a-any-b-any--boolean)
     - [`name: string`](#name-string)
-    - [`parse?: ((value: any, name: string) => any) | null`](#parse-value-any-name-string--any--null)
+    - [`parse?: (value: any, name: string) => any`](#parse-value-any-name-string--any)
     - [`render?: (props: FieldRenderProps) => React.Node`](#render-props-fieldrenderprops--reactnode)
     - [`subscription?: FieldSubscription`](#subscription-fieldsubscription)
     - [`validate?: (value: ?any, allValues: Object, meta: ?FieldState) => ?any`](#validate-value-any-allvalues-object-meta-fieldstate--any)
@@ -549,7 +549,7 @@ If `true`, the `format` function will only be called when the field is blurred. 
 
 #### `initialValue?: any`
 
-[See the 🏁 Final Form docs on `initialValue`](https://github.com/final-form/final-form# #initialvalue-any)
+[See the 🏁 Final Form docs on `initialValue`](https://github.com/final-form/final-form#initialvalue-any)
 
 #### `isEqual?: (a: any, b: any) => boolean`
 
