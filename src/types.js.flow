@@ -6,14 +6,15 @@ import type {
   Decorator,
   FormState,
   FormSubscription,
+  FormValuesShape,
   FieldSubscription,
   FieldValidator
 } from 'final-form'
 
 type SupportedInputs = 'input' | 'select' | 'textarea'
 
-export type ReactContext = {
-  reactFinalForm: FormApi
+export type ReactContext<FormValues: FormValuesShape> = {
+  reactFinalForm: FormApi<FormValues>
 }
 
 export type FieldInputProps = {
@@ -49,14 +50,14 @@ export type FieldRenderProps = {
   }
 }
 
-export type FormRenderProps = {
+export type FormRenderProps<FormValues: FormValuesShape> = {
   handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
-  form: FormApi
-} & FormState
+  form: FormApi<FormValues>
+} & FormState<FormValues>
 
-export type FormSpyRenderProps = {
-  form: FormApi
-} & FormState
+export type FormSpyRenderProps<FormValues: FormValuesShape> = {
+  form: FormApi<FormValues>
+} & FormState<FormValues>
 
 export type RenderableProps<T> = {
   component?: React.ComponentType<*> | SupportedInputs,
@@ -64,12 +65,12 @@ export type RenderableProps<T> = {
   render?: (props: T) => React.Node
 }
 
-export type FormProps = {
+export type FormProps<FormValues: FormValuesShape> = {
   subscription?: FormSubscription,
-  decorators?: Decorator[],
+  decorators?: Decorator<FormValues>[],
   initialValuesEqual?: (?Object, ?Object) => boolean
-} & Config &
-  RenderableProps<FormRenderProps>
+} & Config<FormValues> &
+  RenderableProps<FormRenderProps<FormValues>>
 
 export type UseFieldConfig = {
   afterSubmit?: () => void,
@@ -95,14 +96,16 @@ export type FieldProps = UseFieldConfig & {
   name: string
 } & RenderableProps<FieldRenderProps>
 
-export type UseFormStateParams = {
-  onChange?: (formState: FormState) => void,
+export type UseFormStateParams<FormValues: FormValuesShape> = {
+  onChange?: (formState: FormState<FormValues>) => void,
   subscription?: FormSubscription
 }
 
-export type FormSpyProps = UseFormStateParams &
-  RenderableProps<FormSpyRenderProps>
+export type FormSpyProps<
+  FormValues: FormValuesShape
+> = UseFormStateParams<FormValues> &
+  RenderableProps<FormSpyRenderProps<FormValues>>
 
-export type FormSpyPropsWithForm = {
-  reactFinalForm: FormApi
-} & FormSpyProps
+export type FormSpyPropsWithForm<FormValues: FormValuesShape> = {
+  reactFinalForm: FormApi<FormValues>
+} & FormSpyProps<FormValues>

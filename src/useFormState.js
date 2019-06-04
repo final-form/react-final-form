@@ -1,21 +1,21 @@
 // @flow
 import * as React from 'react'
 import type { UseFormStateParams } from './types'
-import type { FormState, FormApi } from 'final-form'
+import type { FormState, FormApi, FormValuesShape } from 'final-form'
 import { all } from './ReactFinalForm'
 import useForm from './useForm'
 
-const useFormState = ({
+function useFormState<FormValues: FormValuesShape>({
   onChange,
   subscription = all
-}: UseFormStateParams = {}): FormState => {
-  const form: FormApi = useForm('useFormState')
+}: UseFormStateParams<FormValues> = {}): FormState<FormValues> {
+  const form: FormApi<FormValues> = useForm<FormValues>('useFormState')
   const firstRender = React.useRef(true)
 
   // synchronously register and unregister to query field state for our subscription on first render
-  const [state, setState] = React.useState<FormState>(
-    (): FormState => {
-      let initialState: FormState = {}
+  const [state, setState] = React.useState<FormState<FormValues>>(
+    (): FormState<FormValues> => {
+      let initialState: FormState<FormValues> = {}
       form.subscribe(state => {
         initialState = state
       }, subscription)()
