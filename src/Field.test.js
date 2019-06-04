@@ -195,7 +195,7 @@ describe('Field', () => {
     expect(spy.mock.calls[2][0].values).toEqual({})
   })
 
-  it('should accept a null parse prop to preserve empty strings', () => {
+  it('should accept an identity parse prop to preserve empty strings', () => {
     const spy = jest.fn()
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
@@ -297,7 +297,7 @@ describe('Field', () => {
     )
   })
 
-  it('should accept a null format prop to preserve undefined values', () => {
+  it('should accept an identity format prop to preserve undefined values', () => {
     const spy = jest.fn()
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
