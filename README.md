@@ -316,9 +316,14 @@ Yet, if some part of form state is needed inside of it, the
 [`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
 attain it.
 
-### [Independent Error Component](https://codesandbox.io/s/xoo3xq654p)
+### [Independent Error Component (with Render Props)](https://codesandbox.io/s/xoo3xq654p)
 
 Demonstrates how to make an independent Error component to subscribe to and
+display the error for any form field.
+
+### [Independent Error Component (with Hooks)](https://codesandbox.io/s/react-final-form-independent-error-component-with-hooks-y1grn)
+
+Demonstrates how to make an independent Error component, using Hooks, to subscribe to and
 display the error for any form field.
 
 ### [Loading and Initializing Values](https://codesandbox.io/s/91w9ro3x9o)
