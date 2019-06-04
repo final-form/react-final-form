@@ -544,7 +544,7 @@ If `true`, the `format` function will only be called when the field is blurred. 
 
 #### `initialValue?: any`
 
-[See the 🏁 Final Form docs on `initialValue`](https://github.com/final-form/final-form# #initialvalue-any)
+[See the 🏁 Final Form docs on `initialValue`](https://github.com/final-form/final-form#initialvalue-any)
 
 #### `isEqual?: (a: any, b: any) => boolean`
 
