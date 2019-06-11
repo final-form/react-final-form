@@ -1,7 +1,12 @@
 // @flow
 import * as React from 'react'
 import { fieldSubscriptionItems } from 'final-form'
-import type { FieldSubscription, FieldState, FormApi } from 'final-form'
+import type {
+  FieldSubscription,
+  FieldState,
+  FormApi,
+  FormValuesShape
+} from 'final-form'
 import type { UseFieldConfig, FieldInputProps, FieldRenderProps } from './types'
 import isReactNative from './isReactNative'
 import getValue from './getValue'
@@ -18,7 +23,7 @@ const defaultFormat = (value: ?any, name: string) =>
 const defaultParse = (value: ?any, name: string) =>
   value === '' ? undefined : value
 
-const useField = (
+function useField<FormValues: FormValuesShape>(
   name: string,
   {
     afterSubmit,
@@ -38,8 +43,8 @@ const useField = (
     validateFields,
     value: _value
   }: UseFieldConfig = {}
-): FieldRenderProps => {
-  const form: FormApi = useForm('useField')
+): FieldRenderProps {
+  const form: FormApi<FormValues> = useForm<FormValues>('useField')
 
   const validateRef = useLatest(validate)
 

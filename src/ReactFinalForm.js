@@ -10,6 +10,7 @@ import type {
   Config,
   FormSubscription,
   FormState,
+  FormValuesShape,
   Unsubscribe
 } from 'final-form'
 import type { FormProps as Props } from './types'
@@ -19,10 +20,10 @@ import useConstant from './useConstant'
 import shallowEqual from './shallowEqual'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
-import ReactFinalFormContext from './context'
+import getContext from './getContext'
 import useLatest from './useLatest'
 
-export const version = '6.0.1'
+export const version = '6.1.0'
 
 const versions = {
   'final-form': ffVersion,
@@ -37,7 +38,7 @@ export const all: FormSubscription = formSubscriptionItems.reduce(
   {}
 )
 
-const ReactFinalForm = ({
+function ReactFinalForm<FormValues: FormValuesShape>({
   debug,
   decorators,
   destroyOnUnregister,
@@ -50,8 +51,9 @@ const ReactFinalForm = ({
   validate,
   validateOnBlur,
   ...rest
-}: Props) => {
-  const config: Config = {
+}: Props<FormValues>) {
+  const ReactFinalFormContext = getContext<FormValues>()
+  const config: Config<FormValues> = {
     debug,
     destroyOnUnregister,
     initialValues,
@@ -62,16 +64,16 @@ const ReactFinalForm = ({
     validateOnBlur
   }
 
-  const form: FormApi = useConstant(() => {
-    const f = createForm(config)
+  const form: FormApi<FormValues> = useConstant(() => {
+    const f = createForm<FormValues>(config)
     f.pauseValidation()
     return f
   })
 
   // synchronously register and unregister to query form state for our subscription on first render
-  const [state, setState] = React.useState<FormState>(
-    (): FormState => {
-      let initialState: FormState = {}
+  const [state, setState] = React.useState<FormState<FormValues>>(
+    (): FormState<FormValues> => {
+      let initialState: FormState<FormValues> = {}
       form.subscribe(state => {
         initialState = state
       }, subscription)()
@@ -81,7 +83,7 @@ const ReactFinalForm = ({
 
   // save a copy of state that can break through the closure
   // on the shallowEqual() line below.
-  const stateRef = useLatest<FormState>(state)
+  const stateRef = useLatest<FormState<FormValues>>(state)
 
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation
@@ -170,7 +172,7 @@ const ReactFinalForm = ({
     return form.submit()
   }
 
-  const renderProps: FormRenderProps = {
+  const renderProps: FormRenderProps<FormValues> = {
     // assign to force Flow check
     ...state,
     form: {
