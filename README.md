@@ -167,6 +167,7 @@ const MyForm = () => (
   - [`useField`](#usefield)
   - [`useFormState`](#useformstate)
   - [`version: string`](#version-string)
+  - [`withTypes<T>: () => { Form<T>, FormSpy<T> }`](#withtypest----formt-formspyt-)
 - [Types](#types)
   - [`FieldProps`](#fieldprops)
     - [`afterSubmit?: () => void`](#aftersubmit---void)
@@ -495,6 +496,10 @@ The `useFormState` hook takes one optional parameter, which matches the exact sh
 ### `version: string`
 
 The current used version of 🏁 React Final Form.
+
+### `withTypes<T>: () => { Form<T>, FormSpy<T> }`
+
+Provides versions of `Form` and `FormSpy` that will have strongly typed `values`.
 
 ---
 
