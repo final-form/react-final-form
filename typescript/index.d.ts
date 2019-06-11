@@ -74,7 +74,7 @@ export interface UseFieldConfig<FieldValue> {
   initialValue?: FieldValue;
   isEqual?: (a: any, b: any) => boolean;
   multiple?: boolean;
-  parse?: (value: FieldValue, name: string) => FieldValue;
+  parse?: (value: any, name: string) => FieldValue;
   subscription?: FieldSubscription;
   type?: string;
   validate?: FieldValidator;
