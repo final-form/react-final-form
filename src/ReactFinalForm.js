@@ -20,7 +20,7 @@ import useConstant from './useConstant'
 import shallowEqual from './shallowEqual'
 import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
-import getContext from './getContext'
+import ReactFinalFormContext from './context'
 import useLatest from './useLatest'
 
 export const version = '6.1.0'
@@ -53,7 +53,6 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   validateOnBlur,
   ...rest
 }: Props<FormValues>) {
-  const ReactFinalFormContext = getContext<FormValues>()
   const config: Config<FormValues> = {
     debug,
     destroyOnUnregister,
