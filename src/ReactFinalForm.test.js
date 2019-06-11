@@ -3,6 +3,7 @@ import { render, fireEvent, cleanup } from 'react-testing-library'
 import 'jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
+import { createForm } from 'final-form'
 import Form from './ReactFinalForm'
 import Field from './Field'
 
@@ -906,5 +907,28 @@ describe('ReactFinalForm', () => {
 
     expect(recordSubmitting).toHaveBeenCalledTimes(3)
     expect(recordSubmitting.mock.calls[2][0]).toBe(false)
+  })
+
+  it('should allow an alternative form api to be passed in', () => {
+    const onSubmit = jest.fn()
+    const form = createForm({ onSubmit: onSubmit })
+    const formMock = jest.spyOn(form, 'registerField')
+    render(
+      <Form form={form}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="name" component="input" />
+          </form>
+        )}
+      </Form>
+    )
+    expect(formMock).toHaveBeenCalled()
+
+    // called once on first render to get initial state, and then again to subscribe
+    expect(formMock).toHaveBeenCalledTimes(2)
+    expect(formMock.mock.calls[0][0]).toBe('name')
+    expect(formMock.mock.calls[0][2].active).toBe(true) // default subscription
+    expect(formMock.mock.calls[1][0]).toBe('name')
+    expect(formMock.mock.calls[1][2].active).toBe(true) // default subscription
   })
 })

@@ -68,6 +68,7 @@ export type RenderableProps<T> = {
 export type FormProps<FormValues: FormValuesShape> = {
   subscription?: FormSubscription,
   decorators?: Decorator<FormValues>[],
+  form?: FormApi<FormValues>,
   initialValuesEqual?: (?Object, ?Object) => boolean
 } & Config<FormValues> &
   RenderableProps<FormRenderProps<FormValues>>
