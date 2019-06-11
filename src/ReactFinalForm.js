@@ -42,6 +42,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   debug,
   decorators,
   destroyOnUnregister,
+  form: alternateFormApi,
   initialValues,
   initialValuesEqual,
   keepDirtyOnReinitialize,
@@ -65,7 +66,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   }
 
   const form: FormApi<FormValues> = useConstant(() => {
-    const f = createForm<FormValues>(config)
+    const f = alternateFormApi || createForm<FormValues>(config)
     f.pauseValidation()
     return f
   })

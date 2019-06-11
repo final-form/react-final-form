@@ -60,6 +60,7 @@ export interface FormProps<FormValues = object>
     RenderableProps<FormRenderProps<FormValues>> {
   subscription?: FormSubscription;
   decorators?: Decorator[];
+  form?: FormApi<FormValues>;
   initialValuesEqual?: (a?: object, b?: object) => boolean;
 }
 
