@@ -129,6 +129,7 @@ const MyForm = () => (
   - [Third Party Components](#third-party-components)
   - [Material-UI 3.0](#material-ui-30)
   - [💥 Performance Optimization Through Subscriptions 💥](#-performance-optimization-through-subscriptions-)
+  - [Strongly Typed Form and Field Values with TypeScript](#strongly-typed-form-and-field-values-with-typescript)
   - [Independent Error Component (with Render Props)](#independent-error-component-with-render-props)
   - [Independent Error Component (with Hooks)](#independent-error-component-with-hooks)
   - [Loading and Initializing Values](#loading-and-initializing-values)
@@ -317,6 +318,10 @@ needs to render, it reduces the number of times the whole form has to rerender.
 Yet, if some part of form state is needed inside of it, the
 [`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
 attain it.
+
+### [Strongly Typed Form and Field Values with TypeScript](https://codesandbox.io/s/strongly-typed-form-values-with-react-final-form-26jkd)
+
+Demonstrates how to use JSX generics to strongly type fields, forcing only a component that can accept the type for that field.
 
 ### [Independent Error Component (with Render Props)](https://codesandbox.io/s/xoo3xq654p)
 

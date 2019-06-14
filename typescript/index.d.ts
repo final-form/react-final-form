@@ -17,8 +17,8 @@ export interface ReactContext<FormValues> {
   reactFinalForm: FormApi<FormValues>;
 }
 
-export type FieldMetaState = Omit<
-  FieldState,
+export type FieldMetaState<FieldValue> = Omit<
+  FieldState<FieldValue>,
   'blur' | 'change' | 'focus' | 'name' | 'value'
 >;
 
@@ -39,7 +39,7 @@ interface AnyObject {
 
 export interface FieldRenderProps<FieldValue, T extends HTMLElement> {
   input: FieldInputProps<FieldValue, T>;
-  meta: FieldMetaState;
+  meta: FieldMetaState<FieldValue>;
 }
 
 export interface FormRenderProps<FormValues = AnyObject>
@@ -83,7 +83,7 @@ export interface UseFieldConfig<FieldValue> {
   parse?: (value: any, name: string) => FieldValue;
   subscription?: FieldSubscription;
   type?: string;
-  validate?: FieldValidator;
+  validate?: FieldValidator<FieldValue>;
   validateFields?: string[];
   value?: FieldValue;
 }
