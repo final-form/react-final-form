@@ -4,21 +4,15 @@ import renderComponent from './renderComponent'
 import type { FormSpyPropsWithForm as Props, FormSpyRenderProps } from './types'
 import type { FormApi, FormValuesShape } from 'final-form'
 import isSyntheticEvent from './isSyntheticEvent'
+import useForm from './useForm'
 import useFormState from './useFormState'
-import getContext from './getContext'
 
 function FormSpy<FormValues: FormValuesShape>({
   onChange,
   subscription,
   ...rest
 }: Props<FormValues>) {
-  const ReactFinalFormContext = getContext<FormValues>()
-  const reactFinalForm: ?FormApi<FormValues> = React.useContext(
-    ReactFinalFormContext
-  )
-  if (!reactFinalForm) {
-    throw new Error('FormSpy must be used inside of a ReactFinalForm component')
-  }
+  const reactFinalForm = useForm<FormValues>('FormSpy')
   const state = useFormState({ onChange, subscription })
   if (onChange) {
     return null
