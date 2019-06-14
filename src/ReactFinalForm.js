@@ -23,7 +23,7 @@ import type { FormRenderProps } from './types.js.flow'
 import ReactFinalFormContext from './context'
 import useLatest from './useLatest'
 
-export const version = '6.1.0'
+export const version = '6.2.0'
 
 const versions = {
   'final-form': ffVersion,
