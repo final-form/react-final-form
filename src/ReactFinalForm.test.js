@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, cleanup } from 'react-testing-library'
+import { render, fireEvent, cleanup } from '@testing-library/react'
 import 'jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
