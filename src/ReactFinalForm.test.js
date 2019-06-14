@@ -4,14 +4,23 @@ import 'jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import { createForm } from 'final-form'
-import Form from './ReactFinalForm'
-import Field from './Field'
+import { Form, Field, version, withTypes } from '.'
 
 const onSubmitMock = values => {}
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 describe('ReactFinalForm', () => {
   afterEach(cleanup)
+
+  it('should export version', () => {
+    expect(version).toBeDefined()
+  })
+
+  it('should export withTypes', () => {
+    // mostly for code coverage
+    expect(withTypes).toBeDefined()
+    expect(withTypes()).toBeDefined()
+  })
 
   it('should render with render function', () => {
     const { getByTestId } = render(

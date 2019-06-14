@@ -24,7 +24,7 @@ import ReactFinalFormContext from './context'
 import useLatest from './useLatest'
 import { version } from '../package.json'
 
-export const version
+export { version }
 
 const versions = {
   'final-form': ffVersion,
