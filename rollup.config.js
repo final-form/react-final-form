@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import json from 'rollup-plugin-json'
 import { uglify } from 'rollup-plugin-uglify'
 import replace from 'rollup-plugin-replace'
 import pkg from './package.json'
@@ -63,6 +64,7 @@ export default {
   ),
   plugins: [
     resolve({ mainFields: ['jsnext:main'] }),
+    json(),
     commonjs({ include: 'node_modules/**' }),
     babel({
       exclude: 'node_modules/**',
