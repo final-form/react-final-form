@@ -70,26 +70,26 @@ export interface FormProps<FormValues = AnyObject>
   initialValuesEqual?: (a?: AnyObject, b?: AnyObject) => boolean;
 }
 
-export interface UseFieldConfig {
+export interface UseFieldConfig<FieldValue> {
   afterSubmit?: () => void;
   allowNull?: boolean;
   beforeSubmit?: () => void | boolean;
-  defaultValue?: any;
-  format?: (value: any, name: string) => any;
+  defaultValue?: FieldValue;
+  format?: (value: FieldValue, name: string) => any;
   formatOnBlur?: boolean;
-  initialValue?: any;
+  initialValue?: FieldValue;
   isEqual?: (a: any, b: any) => boolean;
   multiple?: boolean;
-  parse?: (value: any, name: string) => any;
+  parse?: (value: any, name: string) => FieldValue;
   subscription?: FieldSubscription;
   type?: string;
   validate?: FieldValidator;
   validateFields?: string[];
-  value?: any;
+  value?: FieldValue;
 }
 
-export interface FieldProps<T extends HTMLElement>
-  extends UseFieldConfig,
+export interface FieldProps<FieldValue, T extends HTMLElement>
+  extends UseFieldConfig<FieldValue>,
     RenderableProps<FieldRenderProps<T>> {
   name: string;
   [otherProp: string]: any;
@@ -104,12 +104,18 @@ export interface FormSpyProps<FormValues = AnyObject>
   extends UseFormStateParams<FormValues>,
     RenderableProps<FormSpyRenderProps<FormValues>> {}
 
-export const Field: React.FC<FieldProps<any>>;
-export const Form: React.FC<FormProps<AnyObject>>;
-export const FormSpy: React.FC<FormSpyProps<AnyObject>>;
-export function useField<T extends HTMLElement>(
+export const Field: <FieldValue = any, T extends HTMLElement = HTMLElement>(
+  props: FieldProps<FieldValue, T>
+) => React.ReactElement;
+export const Form: <FormValues = AnyObject>(
+  props: FormProps<FormValues>
+) => React.ReactElement;
+export const FormSpy: <FormValues = AnyObject>(
+  props: FormSpyProps<FormValues>
+) => React.ReactElement;
+export function useField<FieldValue = any, T extends HTMLElement = HTMLElement>(
   name: string,
-  config?: UseFieldConfig
+  config?: UseFieldConfig<FieldValue>
 ): FieldRenderProps<T>;
 export function useForm<FormValues = AnyObject>(
   componentName?: string

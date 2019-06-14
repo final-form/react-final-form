@@ -130,3 +130,30 @@ function mutated() {
     </Form>
   );
 }
+
+const typedOnSubmit = (values: { firstName: string }) => {
+  // tslint:disable-next-line no-console
+  console.log(values);
+};
+
+// with typed form data and field
+function withTypedFormData() {
+  return (
+    <Form<{ firstName: string }> onSubmit={typedOnSubmit}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>First Name</label>
+            <Field<string>
+              name="firstName"
+              component="input"
+              type="text"
+              placeholder="First Name"
+              initialValue=""
+            />
+          </div>
+        </form>
+      )}
+    </Form>
+  );
+}
