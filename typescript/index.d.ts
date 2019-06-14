@@ -22,13 +22,13 @@ export type FieldMetaState = Omit<
   'blur' | 'change' | 'focus' | 'name' | 'value'
 >;
 
-interface FieldInputProps<T extends HTMLElement> {
+interface FieldInputProps<FieldValue, T extends HTMLElement> {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
   onChange: (event: React.ChangeEvent<T> | any) => void;
   onFocus: (event?: React.FocusEvent<T>) => void;
   type?: string;
-  value: any;
+  value: FieldValue;
   checked?: boolean;
   multiple?: boolean;
 }
@@ -37,8 +37,8 @@ interface AnyObject {
   [key: string]: any;
 }
 
-export interface FieldRenderProps<T extends HTMLElement> {
-  input: FieldInputProps<T>;
+export interface FieldRenderProps<FieldValue, T extends HTMLElement> {
+  input: FieldInputProps<FieldValue, T>;
   meta: FieldMetaState;
 }
 
@@ -90,7 +90,7 @@ export interface UseFieldConfig<FieldValue> {
 
 export interface FieldProps<FieldValue, T extends HTMLElement>
   extends UseFieldConfig<FieldValue>,
-    RenderableProps<FieldRenderProps<T>> {
+    RenderableProps<FieldRenderProps<FieldValue, T>> {
   name: string;
   [otherProp: string]: any;
 }
@@ -116,7 +116,7 @@ export const FormSpy: <FormValues = AnyObject>(
 export function useField<FieldValue = any, T extends HTMLElement = HTMLElement>(
   name: string,
   config?: UseFieldConfig<FieldValue>
-): FieldRenderProps<T>;
+): FieldRenderProps<FieldValue, T>;
 export function useForm<FormValues = AnyObject>(
   componentName?: string
 ): FormApi<FormValues>;
