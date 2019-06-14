@@ -22,9 +22,7 @@ import isSyntheticEvent from './isSyntheticEvent'
 import type { FormRenderProps } from './types.js.flow'
 import ReactFinalFormContext from './context'
 import useLatest from './useLatest'
-import { version } from '../package.json'
-
-export { version }
+export { version } from '../package.json'
 
 const versions = {
   'final-form': ffVersion,
