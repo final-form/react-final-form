@@ -42,7 +42,7 @@ export interface FieldRenderProps<T extends HTMLElement> {
   meta: FieldMetaState;
 }
 
-export interface FormRenderProps<FormValues = object>
+export interface FormRenderProps<FormValues = AnyObject>
   extends FormState<FormValues> {
   form: FormApi<FormValues>;
   handleSubmit: (
@@ -50,7 +50,7 @@ export interface FormRenderProps<FormValues = object>
   ) => Promise<AnyObject | undefined> | undefined;
 }
 
-export interface FormSpyRenderProps<FormValues = object>
+export interface FormSpyRenderProps<FormValues = AnyObject>
   extends FormState<FormValues> {
   form: FormApi<FormValues>;
 }
@@ -100,7 +100,7 @@ export interface UseFormStateParams<FormValues = AnyObject> {
   subscription?: FormSubscription;
 }
 
-export interface FormSpyProps<FormValues = object>
+export interface FormSpyProps<FormValues = AnyObject>
   extends UseFormStateParams<FormValues>,
     RenderableProps<FormSpyRenderProps<FormValues>> {}
 
