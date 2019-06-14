@@ -33,19 +33,25 @@ interface FieldInputProps<T extends HTMLElement> {
   multiple?: boolean;
 }
 
+interface AnyObject {
+  [key: string]: any;
+}
+
 export interface FieldRenderProps<T extends HTMLElement> {
   input: FieldInputProps<T>;
   meta: FieldMetaState;
 }
 
-export interface FormRenderProps<FormValues> extends FormState<FormValues> {
+export interface FormRenderProps<FormValues = AnyObject>
+  extends FormState<FormValues> {
   form: FormApi<FormValues>;
   handleSubmit: (
     event?: React.SyntheticEvent<HTMLFormElement>
-  ) => Promise<object | undefined> | undefined;
+  ) => Promise<AnyObject | undefined> | undefined;
 }
 
-export interface FormSpyRenderProps<FormValues> extends FormState<FormValues> {
+export interface FormSpyRenderProps<FormValues = AnyObject>
+  extends FormState<FormValues> {
   form: FormApi<FormValues>;
 }
 
@@ -55,13 +61,13 @@ export interface RenderableProps<T> {
   render?: (props: T) => React.ReactNode;
 }
 
-export interface FormProps<FormValues = object>
+export interface FormProps<FormValues = AnyObject>
   extends Config<FormValues>,
     RenderableProps<FormRenderProps<FormValues>> {
   subscription?: FormSubscription;
   decorators?: Decorator[];
   form?: FormApi<FormValues>;
-  initialValuesEqual?: (a?: object, b?: object) => boolean;
+  initialValuesEqual?: (a?: AnyObject, b?: AnyObject) => boolean;
 }
 
 export interface UseFieldConfig<FieldValue> {
@@ -89,32 +95,32 @@ export interface FieldProps<FieldValue, T extends HTMLElement>
   [otherProp: string]: any;
 }
 
-export interface UseFormStateParams<FormValues = object> {
+export interface UseFormStateParams<FormValues = AnyObject> {
   onChange?: (formState: FormState<FormValues>) => void;
   subscription?: FormSubscription;
 }
 
-export interface FormSpyProps<FormValues>
+export interface FormSpyProps<FormValues = AnyObject>
   extends UseFormStateParams<FormValues>,
     RenderableProps<FormSpyRenderProps<FormValues>> {}
 
 export const Field: <FieldValue = any, T extends HTMLElement = HTMLElement>(
   props: FieldProps<FieldValue, T>
 ) => React.ReactElement;
-export const Form: <FormValues = object>(
+export const Form: <FormValues = AnyObject>(
   props: FormProps<FormValues>
 ) => React.ReactElement;
-export const FormSpy: <FormValues = object>(
+export const FormSpy: <FormValues = AnyObject>(
   props: FormSpyProps<FormValues>
 ) => React.ReactElement;
 export function useField<FieldValue = any, T extends HTMLElement = HTMLElement>(
   name: string,
   config?: UseFieldConfig<FieldValue>
 ): FieldRenderProps<T>;
-export function useForm<FormValues = object>(
+export function useForm<FormValues = AnyObject>(
   componentName?: string
 ): FormApi<FormValues>;
-export function useFormState<FormValues = object>(
+export function useFormState<FormValues = AnyObject>(
   params?: UseFormStateParams
 ): FormState<FormValues>;
 export function withTypes<FormValues>(): {
