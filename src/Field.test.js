@@ -280,11 +280,6 @@ describe('Field', () => {
 
   it('should `formatOnBlur` most updated value', () => {
     const format = jest.fn(value => (value ? value.trim() : ''))
-    const handleBlur = event => {
-      fireEvent.change(getByTestId('name'), {
-        target: { value: event.target.value.toUpperCase() }
-      })
-    }
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
@@ -295,7 +290,7 @@ describe('Field', () => {
                   {...input}
                   data-testid="name"
                   onBlur={e => {
-                    handleBlur(e)
+                    input.onChange(e.target.value && e.target.value.toUpperCase())
                     input.onBlur(e)
                   }}
                 />
