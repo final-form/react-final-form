@@ -792,7 +792,7 @@ as well as:
 
 The 🏁 Final Form [`FormApi`](https://github.com/final-form/final-form#formapi).
 
-#### `handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`
+#### `handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>`
 
 A function intended for you to give directly to the `<form>` tag: `<form onSubmit={handleSubmit}/>`.
 
