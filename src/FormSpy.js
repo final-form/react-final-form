@@ -1,8 +1,7 @@
 // @flow
-import * as React from 'react'
 import renderComponent from './renderComponent'
 import type { FormSpyPropsWithForm as Props, FormSpyRenderProps } from './types'
-import type { FormApi, FormValuesShape } from 'final-form'
+import type { FormValuesShape } from 'final-form'
 import isSyntheticEvent from './isSyntheticEvent'
 import useForm from './useForm'
 import useFormState from './useFormState'
