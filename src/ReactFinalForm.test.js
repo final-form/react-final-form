@@ -940,4 +940,26 @@ describe('ReactFinalForm', () => {
     expect(formMock.mock.calls[1][0]).toBe('name')
     expect(formMock.mock.calls[1][2].active).toBe(true) // default subscription
   })
+
+  it('should not destroy on unregister on initial unregister', () => {
+    // https://github.com/final-form/react-final-form/issues/523
+    const { getByTestId } = render(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ name: 'erikras' }}
+        destroyOnUnregister
+      >
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="name" component="input" data-testid="name" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(getByTestId('name')).toBeDefined()
+    expect(getByTestId('name').value).toBe('erikras')
+    fireEvent.focus(getByTestId('name'))
+    expect(getByTestId('name').value).toBe('erikras')
+  })
 })

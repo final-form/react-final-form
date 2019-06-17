@@ -56,7 +56,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
 }: Props<FormValues>) {
   const config: Config<FormValues> = {
     debug,
-    destroyOnUnregister,
+    destroyOnUnregister: false, // lie on first render because fields need to register twice
     initialValues,
     keepDirtyOnReinitialize,
     mutators,
@@ -89,6 +89,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   React.useEffect(() => {
     // We have rendered, so all fields are no registered, so we can unpause validation
     form.isValidationPaused() && form.resumeValidation()
+    form.setConfig('destroyOnUnregister', destroyOnUnregister) // set the true value
     const unsubscriptions: Unsubscribe[] = [
       form.subscribe(s => {
         if (!shallowEqual(s, stateRef.current)) {

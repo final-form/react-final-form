@@ -72,15 +72,13 @@ function useField<FormValues: FormValuesShape>(
   const firstRender = React.useRef(true)
 
   // synchronously register and unregister to query field state for our subscription on first render
-  const [state, setState] = React.useState<FieldState>(
-    (): FieldState => {
-      let initialState: FieldState = {}
-      register(state => {
-        initialState = state
-      })()
-      return initialState
-    }
-  )
+  const [state, setState] = React.useState<FieldState>((): FieldState => {
+    let initialState: FieldState = {}
+    register(state => {
+      initialState = state
+    })()
+    return initialState
+  })
 
   React.useEffect(
     () =>
