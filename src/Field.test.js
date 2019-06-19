@@ -6,6 +6,7 @@ import Form from './ReactFinalForm'
 import Field from './Field'
 
 const onSubmitMock = values => {}
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 describe('Field', () => {
   afterEach(cleanup)
@@ -950,5 +951,54 @@ describe('Field', () => {
     fireEvent.click(getByText('Submit'))
     expect(onSubmit).not.toHaveBeenCalled()
     expect(beforeSubmit).toHaveBeenCalled()
+  })
+
+  it('update validating flag on async field-level validation', async () => {
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmitMock}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="name"
+              component="input"
+              validate={async value => {
+                await sleep(5)
+                return value === 'erikras' ? 'Username taken' : undefined
+              }}
+              data-testid="name"
+            />
+            <Field name="name" subscription={{ validating: true }}>
+              {({ meta: { validating } }) => (
+                <div data-testid="validating">
+                  {validating === true ? 'Spinner' : 'Not Validating'}
+                </div>
+              )}
+            </Field>
+            <button type="submit">Submit</button>
+          </form>
+        )}
+      </Form>
+    )
+    expect(getByTestId('validating')).toHaveTextContent('Spinner')
+
+    await sleep(6)
+
+    expect(getByTestId('name').value).toBe('')
+    fireEvent.focus(getByTestId('name'))
+    expect(getByTestId('validating')).toHaveTextContent('Not Validating')
+
+    fireEvent.change(getByTestId('name'), { target: { value: 'erik' } })
+    expect(getByTestId('validating')).toHaveTextContent('Spinner')
+
+    await sleep(6)
+
+    expect(getByTestId('validating')).toHaveTextContent('Not Validating')
+
+    fireEvent.change(getByTestId('name'), { target: { value: 'erikras' } })
+    expect(getByTestId('validating')).toHaveTextContent('Spinner')
+
+    await sleep(6)
+
+    expect(getByTestId('validating')).toHaveTextContent('Not Validating')
   })
 })

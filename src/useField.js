@@ -195,6 +195,7 @@ function useField<FormValues: FormValuesShape>(
     submitting: otherState.submitting,
     touched: otherState.touched,
     valid: otherState.valid,
+    validating: otherState.validating,
     visited: otherState.visited
   }
   if (formatOnBlur) {
