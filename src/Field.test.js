@@ -290,7 +290,9 @@ describe('Field', () => {
                   {...input}
                   data-testid="name"
                   onBlur={e => {
-                    input.onChange(e.target.value && e.target.value.toUpperCase())
+                    input.onChange(
+                      e.target.value && e.target.value.toUpperCase()
+                    )
                     input.onBlur(e)
                   }}
                 />

@@ -119,7 +119,16 @@ function useField<FormValues: FormValuesShape>(
       (event: ?SyntheticFocusEvent<*>) => {
         state.blur()
         if (formatOnBlur) {
+          /**
+           * Here we must fetch the value directly from Final Form because we cannot
+           * trust that our `state` closure has the most recent value. This is a problem
+           * if-and-only-if the library consumer has called `onChange()` immediately
+           * before calling `onBlur()`, but before the field has had a chance to receive
+           * the value update from Final Form.
+           */
           const fieldState = form.getFieldState(state.name)
+          // this ternary is primarily to appease the Flow gods
+          // istanbul ignore next
           state.change(
             format(fieldState ? fieldState.value : state.value, state.name)
           )
