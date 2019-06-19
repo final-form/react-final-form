@@ -705,6 +705,10 @@ The current value of the field.
 
 [See the 🏁 Final Form docs on `valid`](https://github.com/final-form/final-form#valid-boolean).
 
+#### `meta.validating?: boolean`
+
+[See the 🏁 Final Form docs on `validating`](https://github.com/final-form/final-form#validating-boolean).
+
 #### `meta.visited?: boolean`
 
 [See the 🏁 Final Form docs on `visited`](https://github.com/final-form/final-form#visited-boolean).
