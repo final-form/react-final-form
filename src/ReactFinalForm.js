@@ -134,7 +134,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     form.setConfig('debug', debug)
   })
   useWhenValueChanges(destroyOnUnregister, () => {
-    form.setConfig('destroyOnUnregister', destroyOnUnregister)
+    form.destroyOnUnregister = !!destroyOnUnregister
   })
   useWhenValueChanges(
     initialValues,
