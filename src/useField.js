@@ -74,9 +74,18 @@ function useField<FormValues: FormValuesShape>(
   // synchronously register and unregister to query field state for our subscription on first render
   const [state, setState] = React.useState<FieldState>((): FieldState => {
     let initialState: FieldState = {}
+
+    // temporarily disable destroyOnUnregister
+    const destroyOnUnregister = form.destroyOnUnregister
+    form.destroyOnUnregister = false
+
     register(state => {
       initialState = state
     })()
+
+    // return destroyOnUnregister to its original value
+    form.destroyOnUnregister = destroyOnUnregister
+
     return initialState
   })
 

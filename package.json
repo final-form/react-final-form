@@ -62,7 +62,7 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-react-hooks": "^1.6.0",
     "fast-deep-equal": "^2.0.1",
-    "final-form": "^4.15.0",
+    "final-form": "^4.16.0",
     "flow-bin": "^0.98.1",
     "glow": "^1.2.2",
     "husky": "^2.4.1",
@@ -89,7 +89,7 @@
     "typescript": "^3.5.2"
   },
   "peerDependencies": {
-    "final-form": "^4.15.0",
+    "final-form": "^4.16.0",
     "react": "^16.8.0"
   },
   "lint-staged": {

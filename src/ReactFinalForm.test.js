@@ -962,4 +962,43 @@ describe('ReactFinalForm', () => {
     fireEvent.focus(getByTestId('name'))
     expect(getByTestId('name').value).toBe('erikras')
   })
+
+  it('should not destroy on unregister on initial register/unregister of new field', () => {
+    // https://github.com/final-form/react-final-form/issues/523
+    const { getByTestId, queryByTestId, getByText } = render(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ name: 'erikras', password: 'f1nal-f0rm-RULEZ' }}
+        destroyOnUnregister
+      >
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="name" component="input" data-testid="name" />
+            <Toggle>
+              {showPassword =>
+                showPassword && (
+                  <Field
+                    name="password"
+                    component="input"
+                    type="password"
+                    data-testid="password"
+                  />
+                )
+              }
+            </Toggle>
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(getByTestId('name')).toBeDefined()
+    expect(getByTestId('name').value).toBe('erikras')
+    fireEvent.focus(getByTestId('name'))
+    expect(getByTestId('name').value).toBe('erikras')
+    expect(queryByTestId('password')).toBe(null)
+    fireEvent.click(getByText('Toggle'))
+    expect(getByTestId('password').value).toBe('f1nal-f0rm-RULEZ')
+    fireEvent.focus(getByTestId('password'))
+    expect(getByTestId('password').value).toBe('f1nal-f0rm-RULEZ')
+  })
 })
