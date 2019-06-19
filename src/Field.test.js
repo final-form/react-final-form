@@ -954,7 +954,7 @@ describe('Field', () => {
   })
 
   it('update validating flag on async field-level validation', async () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <Form onSubmit={onSubmitMock}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
