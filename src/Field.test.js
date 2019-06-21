@@ -380,7 +380,7 @@ describe('Field', () => {
 
   it('should pass multiple through to custom components', () => {
     const CustomSelect = jest.fn(({ input }) => <select {...input} />)
-    const { getByTestId } = render(
+    render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
           <form>
