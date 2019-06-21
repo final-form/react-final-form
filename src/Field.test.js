@@ -378,6 +378,23 @@ describe('Field', () => {
     expect(getByTestId('name').value).toBe('')
   })
 
+  it('should pass multiple through to custom components', () => {
+    const CustomSelect = jest.fn(({ input }) => <select {...input} />)
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+        {() => (
+          <form>
+            <Field name="name" component={CustomSelect} multiple />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(CustomSelect).toHaveBeenCalled()
+    expect(CustomSelect).toHaveBeenCalledTimes(1)
+    expect(CustomSelect.mock.calls[0][0].input.multiple).toBe(true)
+  })
+
   it('should optionally allow null values', () => {
     const spy = jest.fn()
     const { getByTestId } = render(
