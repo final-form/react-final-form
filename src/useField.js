@@ -221,7 +221,9 @@ function useField<FormValues: FormValuesShape>(
     input.value = _value
   } else if (component === 'select' && multiple) {
     input.value = input.value || []
-    input.multiple = true
+  }
+  if (multiple) {
+    input.multiple = multiple
   }
 
   const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
