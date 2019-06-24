@@ -395,6 +395,23 @@ describe('Field', () => {
     expect(CustomSelect.mock.calls[0][0].input.multiple).toBe(true)
   })
 
+  it('should not pass an undefined type through to the input', () => {
+    const MyInput = jest.fn(({ input }) => <input {...input} />)
+    render(
+      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+        {() => (
+          <form>
+            <Field name="name" component={MyInput} multiple />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(MyInput).toHaveBeenCalled()
+    expect(MyInput).toHaveBeenCalledTimes(1)
+    expect(MyInput.mock.calls[0][0].input).not.toHaveProperty('type')
+  })
+
   it('should optionally allow null values', () => {
     const spy = jest.fn()
     const { getByTestId } = render(
