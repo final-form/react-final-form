@@ -197,6 +197,7 @@ const MyForm = () => (
     - [`meta.active?: boolean`](#metaactive-boolean)
     - [`meta.data?: Object`](#metadata-object)
     - [`meta.dirty?: boolean`](#metadirty-boolean)
+    - [`meta.dirtySinceLastSubmit?: boolean`](#metadirtysincelastsubmit-boolean)
     - [`meta.error?: any`](#metaerror-any)
     - [`meta.initial?: any`](#metainitial-any)
     - [`meta.invalid?: boolean`](#metainvalid-boolean)
@@ -208,6 +209,7 @@ const MyForm = () => (
     - [`meta.submitting?: boolean`](#metasubmitting-boolean)
     - [`meta.touched?: boolean`](#metatouched-boolean)
     - [`meta.valid?: boolean`](#metavalid-boolean)
+    - [`meta.validating?: boolean`](#metavalidating-boolean)
     - [`meta.visited?: boolean`](#metavisited-boolean)
   - [`FormProps`](#formprops)
     - [`children?: ((props: FormRenderProps) => React.Node) | React.Node`](#children-props-formrenderprops--reactnode--reactnode)
@@ -225,7 +227,7 @@ const MyForm = () => (
     - [`validateOnBlur?: boolean`](#validateonblur-boolean)
   - [`FormRenderProps`](#formrenderprops)
     - [`form: FormApi`](#form-formapi)
-    - [`handleSubmit: (?SyntheticEvent<HTMLFormElement>) => void`](#handlesubmit-syntheticeventhtmlformelement--void)
+    - [`handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>`](#handlesubmit-syntheticeventhtmlformelement--promiseobject)
   - [`FormSpyProps`](#formspyprops)
     - [`children?: ((props: FormSpyRenderProps) => React.Node) | React.Node`](#children-props-formspyrenderprops--reactnode--reactnode)
     - [`component?: React.ComponentType<FormSpyRenderProps>`](#component-reactcomponenttypeformspyrenderprops)
@@ -660,6 +662,10 @@ The current value of the field.
 #### `meta.dirty?: boolean`
 
 [See the 🏁 Final Form docs on `dirty`](https://github.com/final-form/final-form#dirty-boolean).
+
+#### `meta.dirtySinceLastSubmit?: boolean`
+
+[See the 🏁 Final Form docs on `dirty`](https://github.com/final-form/final-form#dirtySinceLastSubmit-boolean).
 
 #### `meta.error?: any`
 
