@@ -138,6 +138,7 @@ const MyForm = () => (
   - [Calculated Fields](#calculated-fields)
   - [Field Warnings](#field-warnings)
   - [Reusable Field Groups](#reusable-field-groups)
+  - [Prefixed Fields](#prefixed-fields)
   - [External Submit](#external-submit)
   - [Wizard Form](#wizard-form)
   - [Parse and Format (and Normalize)](#parse-and-format-and-normalize)
@@ -368,6 +369,14 @@ error (thus it does _not_ prevent form submission).
 ### [Reusable Field Groups](https://codesandbox.io/s/8z5jm6x80)
 
 Demonstrates how fields can be grouped into reusable components.
+
+### [Prefixed Fields](https://codesandbox.io/s/react-final-form-prefixed-fields-seiy8)
+
+Demonstrates how the React context API can be used to provide a "prefix wrapper"
+around fields to add structure to your form date. It's similar to how Redux Form's
+[`FormSection`](https://redux-form.com/8.2.2/docs/api/formsection.md/) component works.
+Between this and the [Reusable Field Groups](#reusable-field-groups) example, your
+use case, if migrating from `FormSection` should be handled.
 
 ### [External Submit](https://codesandbox.io/s/1y7noyrlmq)
 
