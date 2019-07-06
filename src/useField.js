@@ -127,8 +127,6 @@ function useField<FormValues: FormValuesShape>(
            * the value update from Final Form.
            */
           const fieldState: any = form.getFieldState(state.name)
-          // this ternary is primarily to appease the Flow gods
-          // istanbul ignore next
           state.change(format(fieldState.value, state.name))
         }
       },
