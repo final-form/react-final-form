@@ -126,16 +126,12 @@ function useField<FormValues: FormValuesShape>(
            * before calling `onBlur()`, but before the field has had a chance to receive
            * the value update from Final Form.
            */
-          const fieldState = form.getFieldState(state.name)
-          // this ternary is primarily to appease the Flow gods
-          // istanbul ignore next
-          state.change(
-            format(fieldState ? fieldState.value : state.value, state.name)
-          )
+          const fieldState: any = form.getFieldState(state.name)
+          state.change(format(fieldState.value, state.name))
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [state.name, state.value, format, formatOnBlur]
+      [state.name, format, formatOnBlur]
     ),
     onChange: React.useCallback(
       (event: SyntheticInputEvent<*> | any) => {
