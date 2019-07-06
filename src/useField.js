@@ -208,7 +208,7 @@ function useField<FormValues: FormValuesShape>(
   if (value === null && !allowNull) {
     value = ''
   }
-  const input: FieldInputProps = { name, value, type, ...handlers }
+  const input: FieldInputProps = { name, value, ...handlers }
   if (type === 'checkbox') {
     if (_value === undefined) {
       input.checked = !!value
@@ -224,6 +224,9 @@ function useField<FormValues: FormValuesShape>(
   }
   if (multiple) {
     input.multiple = multiple
+  }
+  if (type !== undefined) {
+    input.type = type
   }
 
   const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
