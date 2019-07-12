@@ -753,6 +753,10 @@ well as any non-API props passed into the `<Form/>` component.
 [`Decorator`](https://github.com/final-form/final-form#decorator-form-formapi--unsubscribe)s
 to apply to the form.
 
+#### `form?: FormApi`
+
+If you'd like to construct your own 🏁Final Form form instance using [`createForm()`](https://github.com/final-form/final-form#createform-config-config--formapi), you may do so and pass it into `Form` as a prop. Doing so will ignore all the other config props.
+
 #### `initialValues?: Object`
 
 [See the 🏁 Final Form docs on `initialValues`](https://github.com/final-form/final-form#initialvalues-object).
