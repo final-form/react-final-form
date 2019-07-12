@@ -217,6 +217,7 @@ const MyForm = () => (
     - [`component?: React.ComponentType<FormRenderProps>`](#component-reactcomponenttypeformrenderprops)
     - [`debug?: DebugFunction`](#debug-debugfunction)
     - [`decorators?: Decorator[]`](#decorators-decorator)
+    - [`form?: FormApi`](#form-formapi)
     - [`initialValues?: Object`](#initialvalues-object)
     - [`initialValuesEqual?: (?Object, ?Object) => boolean`](#initialvaluesequal-object-object--boolean)
     - [`keepDirtyOnReinitialize?: boolean`](#keepdirtyonreinitialize-boolean)
