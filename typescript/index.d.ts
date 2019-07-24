@@ -89,9 +89,11 @@ export interface UseFieldConfig<FieldValue> {
   value?: FieldValue;
 }
 
-export interface FieldProps<FieldValue, T extends HTMLElement>
-  extends UseFieldConfig<FieldValue>,
-    RenderableProps<FieldRenderProps<FieldValue, T>> {
+export interface FieldProps<
+  FieldValue,
+  RP extends FieldRenderProps<FieldValue, T>,
+  T extends HTMLElement
+> extends UseFieldConfig<FieldValue>, RenderableProps<RP> {
   name: string;
   [otherProp: string]: any;
 }
@@ -105,8 +107,15 @@ export interface FormSpyProps<FormValues = AnyObject>
   extends UseFormStateParams<FormValues>,
     RenderableProps<FormSpyRenderProps<FormValues>> {}
 
-export const Field: <FieldValue = any, T extends HTMLElement = HTMLElement>(
-  props: FieldProps<FieldValue, T>
+export const Field: <
+  FieldValue = any,
+  RP extends FieldRenderProps<FieldValue, T> = FieldRenderProps<
+    any,
+    HTMLElement
+  >,
+  T extends HTMLElement = HTMLElement
+>(
+  props: FieldProps<FieldValue, RP, T>
 ) => React.ReactElement;
 export const Form: <FormValues = AnyObject>(
   props: FormProps<FormValues>
