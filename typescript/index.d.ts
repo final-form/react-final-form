@@ -31,6 +31,7 @@ interface FieldInputProps<FieldValue, T extends HTMLElement> {
   value: FieldValue;
   checked?: boolean;
   multiple?: boolean;
+  [key: string]: any;
 }
 
 interface AnyObject {
