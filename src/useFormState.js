@@ -11,6 +11,8 @@ function useFormState<FormValues: FormValuesShape>({
 }: UseFormStateParams<FormValues> = {}): FormState<FormValues> {
   const form: FormApi<FormValues> = useForm<FormValues>('useFormState')
   const firstRender = React.useRef(true)
+  const onChangeRef = React.useRef(onChange)
+  onChangeRef.current = onChange
 
   // synchronously register and unregister to query field state for our subscription on first render
   const [state, setState] = React.useState<FormState<FormValues>>(
@@ -33,8 +35,8 @@ function useFormState<FormValues: FormValuesShape>({
           firstRender.current = false
         } else {
           setState(newState)
-          if (onChange) {
-            onChange(newState)
+          if (onChangeRef.current) {
+            onChangeRef.current(newState)
           }
         }
       }, subscription),
