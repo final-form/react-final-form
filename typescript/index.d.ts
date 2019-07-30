@@ -44,7 +44,7 @@ export interface FieldRenderProps<FieldValue, T extends HTMLElement> {
 }
 
 export interface FormRenderProps<FormValues = AnyObject>
-  extends FormState<FormValues> {
+  extends FormState<FormValues>, RenderableProps<FormRenderProps<FormValues>> {
   form: FormApi<FormValues>;
   handleSubmit: (
     event?: React.SyntheticEvent<HTMLFormElement>
