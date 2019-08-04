@@ -1,3 +1,5 @@
+# This documentation is meant to be read on [final-form.org](https://final-form.org/docs/react-final-form/getting-started). Links may not work on Github.com.
+
 # Getting Started
 
 🏁 React Final Form is a thin React wrapper for 🏁 Final Form, which is a
