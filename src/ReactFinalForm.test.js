@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, cleanup } from '@testing-library/react'
+import { render, fireEvent, cleanup, act } from '@testing-library/react'
 import 'jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
@@ -912,7 +912,9 @@ describe('ReactFinalForm', () => {
     expect(recordSubmitting).toHaveBeenCalledTimes(2)
     expect(recordSubmitting.mock.calls[1][0]).toBe(true)
 
-    await sleep(5)
+    await act(async () => {
+      await sleep(5)
+    })
 
     expect(recordSubmitting).toHaveBeenCalledTimes(3)
     expect(recordSubmitting.mock.calls[2][0]).toBe(false)
