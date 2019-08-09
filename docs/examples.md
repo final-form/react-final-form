@@ -12,8 +12,7 @@ Introduces a whole-record validation function and demonstrates how to display er
 
 ### [Synchronous Field-Level Validation](examples/synchronous-field-level-validation)
 
-Introduces field-level validation functions and demonstrates how to display
-errors next to fields using child render functions.
+Introduces field-level validation functions and demonstrates how to display errors next to fields using child render functions.
 
 ### [Synchronous Record-Level Validation (with delayed error render)](https://codesandbox.io/s/z2zqr008pm)
 
@@ -47,11 +46,7 @@ Demonstrates how to use Material-UI 3.0 input components.
 
 ### 💥 [Performance Optimization Through Subscriptions](examples/subscriptions) 💥
 
-Demonstrates how, by restricting which parts of form state the form component
-needs to render, it reduces the number of times the whole form has to rerender.
-Yet, if some part of form state is needed inside of it, the
-[`FormSpy`](#formspy--reactcomponenttypeformspyprops) component can be used to
-attain it.
+Demonstrates how, by restricting which parts of form state the form component needs to render, it reduces the number of times the whole form has to rerender. Yet, if some part of form state is needed inside of it, the [`<FormSpy/>`](api/FormSpy) component can be used to attain it.
 
 ### [Strongly Typed Form and Field Values with TypeScript](https://codesandbox.io/s/strongly-typed-form-values-with-react-final-form-26jkd)
 
@@ -117,8 +112,7 @@ a submit from outside of the form. For more information, see
 
 ### [Wizard Form](examples/wizard)
 
-Demonstrates how to use 🏁 React Final Form to create a multi-page "wizard"
-form, with validation on each page.
+Demonstrates how to use React Final Form to create a multi-page "wizard" form, with validation on each page.
 
 ### [Parse and Format (and Normalize)](https://codesandbox.io/s/10rzowm323)
 

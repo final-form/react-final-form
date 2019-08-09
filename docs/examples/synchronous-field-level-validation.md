@@ -1,7 +1,7 @@
-# This documentation is meant to be read on [final-form.org](https://final-form.org/docs/react-final-form/examples/simple). Links may not work on Github.com.
+# This documentation is meant to be read on [final-form.org](https://final-form.org/docs/react-final-form/examples/synchronous-field-level-validation). Links may not work on Github.com.
 
-# Simple Example
+# Synchronous Field Level Validation Example
 
-Uses the built-in React inputs: input, select, and textarea to build a form with no validation.
+Introduces field-level validation functions and demonstrates how to display errors next to fields using child render functions.
 
-[![Edit react-final-form-simple-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/simple)
+[![Edit react-final-form-synchronous-field-level-validation-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/synchronous-field-level-validation)

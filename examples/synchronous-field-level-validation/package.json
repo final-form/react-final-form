@@ -1,7 +1,7 @@
 {
-  "name": "react-final-form-simple-example",
+  "name": "react-final-form-synchronous-field-level-validation-example",
   "version": "1.0.0",
-  "description": "An example of a simple form created with React Final Form",
+  "description": "An example of a form with synchronous field-level validation created with React Final Form",
   "keywords": [
     "state management",
     "react-final-form",

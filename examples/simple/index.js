@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
@@ -47,65 +48,20 @@ const App = () => (
             <label>Favorite Color</label>
             <Field name="favoriteColor" component="select">
               <option />
-              <option value="#ff0000">
-                <span role="img" aria-label="Red Heart">
-                  ❤️
-                </span>{' '}
-                Red
-              </option>
-              <option value="#00ff00">
-                <span role="img" aria-label="Green Heart">
-                  💚
-                </span>{' '}
-                Green
-              </option>
-              <option value="#0000ff">
-                <span role="img" aria-label="Blue Heart">
-                  💙
-                </span>{' '}
-                Blue
-              </option>
+              <option value="#ff0000">❤️ Red</option>
+              <option value="#00ff00">💚 Green</option>
+              <option value="#0000ff">💙 Blue</option>
             </Field>
           </div>
           <div>
             <label>Toppings</label>
             <Field name="toppings" component="select" multiple>
-              <option value="chicken">
-                <span role="img" aria-label="Chicken">
-                  🐓
-                </span>{' '}
-                Chicken
-              </option>
-              <option value="ham">
-                <span role="img" aria-label="Pig">
-                  🐷
-                </span>{' '}
-                Ham
-              </option>
-              <option value="mushrooms">
-                <span role="img" aria-label="Mushroom">
-                  🍄
-                </span>{' '}
-                Mushrooms
-              </option>
-              <option value="cheese">
-                <span role="img" aria-label="Cheese">
-                  🧀
-                </span>{' '}
-                Cheese
-              </option>
-              <option value="tuna">
-                <span role="img" aria-label="Fish">
-                  🐟
-                </span>{' '}
-                Tuna
-              </option>
-              <option value="pineapple">
-                <span role="img" aria-label="Pineapple">
-                  🍍
-                </span>{' '}
-                Pineapple
-              </option>
+              <option value="chicken">🐓 Chicken</option>
+              <option value="ham">🐷 Ham</option>
+              <option value="mushrooms">🍄 Mushrooms</option>
+              <option value="cheese">🧀 Cheese</option>
+              <option value="tuna">🐟 Tuna</option>
+              <option value="pineapple">🍍 Pineapple</option>
             </Field>
           </div>
           <div>

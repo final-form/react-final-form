@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
@@ -25,7 +26,7 @@ const required = value => (value ? undefined : 'Required')
 
 const App = () => (
   <Styles>
-    <h1>🏁 React Final Form Example</h1>
+    <h1>React Final Form Example</h1>
     <h2>Wizard Form</h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs

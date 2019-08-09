@@ -1,7 +1,7 @@
 {
-  "name": "react-final-form-simple-example",
+  "name": "react-final-form-subscriptions-example",
   "version": "1.0.0",
-  "description": "An example of a simple form created with React Final Form",
+  "description": "An example of controlling rerenders using subscriptions",
   "keywords": [
     "state management",
     "react-final-form",

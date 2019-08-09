@@ -1,4 +1,4 @@
-# This documentation is meant to be read on [final-form.org](https://final-form.org/docs/react-final-form/examples/simple). Links may not work on Github.com.
+# This documentation is meant to be read on [final-form.org](https://final-form.org/docs/react-final-form/examples/synchronouse-record-level-validation). Links may not work on Github.com.
 
 # Synchronous Record-Level Example
 
