@@ -19,7 +19,7 @@ const composeValidators = (...validators) => value =>
 
 const App = () => (
   <Styles>
-    <h1>🏁 React Final Form Example</h1>
+    <h1>React Final Form Example</h1>
     <h2>Synchronous Field-Level Validation</h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs

@@ -14,7 +14,7 @@ const required = value => (value ? undefined : 'Required')
 
 const App = () => (
   <Styles>
-    <h1>🏁 React Final Form Example</h1>
+    <h1>React Final Form Example</h1>
     <h2>Performance Optimization Through Subscriptions</h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs

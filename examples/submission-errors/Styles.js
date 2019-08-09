@@ -41,6 +41,11 @@ export default styled.div`
     color: #222;
   }
 
+  h2 {
+    text-align: center;
+    color: #222;
+  }
+
   & > div {
     text-align: center;
   }
@@ -49,6 +54,7 @@ export default styled.div`
     display: block;
     text-align: center;
     color: #222;
+    margin-bottom: 10px;
   }
 
   form {
@@ -58,6 +64,7 @@ export default styled.div`
     padding: 20px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 3px;
+    position: relative;
 
     & > div {
       display: flex;
@@ -92,6 +99,12 @@ export default styled.div`
           }
         }
       }
+      & > span {
+        line-height: 32px;
+        margin-left: 10px;
+        color: #800;
+        font-weight: bold;
+      }
     }
     & > .buttons {
       display: flex;
@@ -107,6 +120,13 @@ export default styled.div`
       &[type='button'] {
         ${btnDefault};
       }
+    }
+    .error {
+      display: flex;
+      font-weight: bold;
+      color: #800;
+      flex-flow: row nowrap;
+      justify-content: center;
     }
     pre {
       border: 1px solid #ccc;

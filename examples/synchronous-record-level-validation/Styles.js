@@ -41,6 +41,11 @@ export default styled.div`
     color: #222;
   }
 
+  h2 {
+    text-align: center;
+    color: #222;
+  }
+
   & > div {
     text-align: center;
   }
@@ -91,6 +96,12 @@ export default styled.div`
             margin-right: 3px;
           }
         }
+      }
+      & > span {
+        line-height: 32px;
+        margin-left: 10px;
+        color: #800;
+        font-weight: bold;
       }
     }
     & > .buttons {
