@@ -1,31 +1,18 @@
+# This documentation is meant to be read on [final-form.org](https://final-form.org/docs/react-final-form/faq). Links may not work on Github.com.
+
 # FAQ
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [Why not Redux-Form or Formik?](#why-not-redux-form-or-formik)
-- [Why no HOC?](#why-no-hoc)
-- [How can I trigger a submit from outside my form?](#how-can-i-trigger-a-submit-from-outside-my-form)
-  - [Via `document.getElementById()`](#via-documentgetelementbyid)
-  - [Via Closure](#via-closure)
-  - [Via Redux Dead Drop](#via-redux-dead-drop)
-- [Why can't I have numeric keys in an object?](#why-cant-i-have-numeric-keys-in-an-object)
-- [I'm changing form state on first render, e.g. with FormSpy, why are my changes not reflected?](#im-changing-form-state-on-first-render-eg-with-formspy-why-are-my-changes-not-reflected)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+Below are some frequently asked questions.
 
 ## Why not Redux-Form or Formik?
 
-Those are both excellent form libraries. Like all engineering decisions, it
-depends on your requirements and what trade-offs you wish to make.
+Those are both excellent form libraries. Like all engineering decisions, it depends on your requirements and what trade-offs you wish to make. Both Redux-Form and Formik have considerably larger bundle sizes. Compare [Formik](https://bundlephobia.com/result?p=formik) and [Redux Form](https://bundlephobia.com/result?p=redux-form) to [Final Form](https://bundlephobia.com/result?p=final-form) + [React Final Form](https://bundlephobia.com/result?p=react-final-form).
+
+Redux-Form and React Final Form were both written by [@erikras](https://twitter.com/erikras), who recommends that, unless you _really_ need your form data intimately tied to Redux, you should start any new projects with React Final Form, and try to migrate any older Redux Form projects to it as well.
 
 ## Why no HOC?
 
-The only benefit that higher order components provide over render props is
-access to the injected props from within component lifecycle methods. Plus, it
-only takes a single line of code to transform a component with a `render` (or
-`component`) prop into a HOC. If you really want a HOC, you can write your own:
+The only benefit that higher order components provide over render props is access to the injected props from within component lifecycle methods. Plus, it only takes a single line of code to transform a component with a `render` (or `component`) prop into a HOC. If you really want a HOC, you can write your own:
 
 ```jsx
 import { Form, Field } from 'react-final-form'
@@ -67,7 +54,8 @@ trigger React's event handlers.
 }}>Submit</button>
 
 <button onClick={() => {
-  document.getElementById('myForm').dispatchEvent(new Event('submit', { cancelable: true })) // ✅
+  document.getElementById('myForm')
+  .dispatchEvent(new Event('submit', { cancelable: true })) // ✅
 }}>Submit</button>
 
 <form id="myForm" onSubmit={handleSubmit}>

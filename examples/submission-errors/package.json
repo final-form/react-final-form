@@ -1,0 +1,20 @@
+{
+  "name": "react-final-form-submission-errors-example",
+  "version": "1.0.0",
+  "description": "An example of a form with submission errors created with React Final Form",
+  "keywords": [
+    "state management",
+    "react-final-form",
+    "form",
+    "final-form",
+    "react"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "styled-components": "latest",
+    "react-final-form": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "final-form": "latest"
+  }
+}

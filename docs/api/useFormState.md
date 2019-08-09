@@ -2,4 +2,10 @@
 
 # `useFormState`
 
-The `useFormState` hook
+```ts
+import { useFormState } from 'react-final-form'
+```
+
+The `useFormState()` hook takes one optional parameter, which matches the exact shape of [`FormSpyProps`](../types/FormSpyProps) (except without the render props). It returns a [`FormSpyRenderProps`](../types/FormSpyRenderProps).
+
+`useFormState()` is used internally inside [`<FormSpy/>`](FormSpy).
