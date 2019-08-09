@@ -1,7 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import {
+  Form,
+  Field
+} from '../record-level-validation/node_modules/react-final-form'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
