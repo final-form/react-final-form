@@ -2,7 +2,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
-import { Field } from '../record-level-validation/node_modules/react-final-form'
+import { Field } from 'react-final-form'
 import Wizard from './Wizard'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
