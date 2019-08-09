@@ -5,7 +5,7 @@ import {
   Form,
   Field,
   FormSpy
-} from '../record-level-validation/node_modules/react-final-form'
+} from 'react-final-form'
 import RenderCount from './RenderCount'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
