@@ -34,7 +34,7 @@ const App = () => (
         }
         return errors
       }}
-      render={({ handleSubmit, reset, submitting, pristine, values }) => (
+      render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <Field name="username">
             {({ input, meta }) => (
@@ -69,7 +69,7 @@ const App = () => (
             </button>
             <button
               type="button"
-              onClick={reset}
+              onClick={form.reset}
               disabled={submitting || pristine}
             >
               Reset
