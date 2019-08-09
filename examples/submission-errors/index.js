@@ -22,7 +22,7 @@ const onSubmit = async values => {
 
 const App = () => (
   <Styles>
-    <h1>🏁 React Final Form Example</h1>
+    <h1>React Final Form Example</h1>
     <h2>Submission Errors</h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs
