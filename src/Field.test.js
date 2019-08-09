@@ -285,21 +285,13 @@ describe('Field', () => {
     expect(getByTestId('name').value).toBe('ERIKRAS')
   })
 
-  // Warning: A component is changing an uncontrolled input of type undefined to be controlled.
-  // Input elements should not switch from uncontrolled to controlled (or vice versa).
-  // Decide between using a controlled or uncontrolled input element for the lifetime of the component.
-  // More info: https://fb.me/react-controlled-components
-  //      in input (at Field.test.js:296)
-  //      in Field (at Field.test.js:294)
-  //      in form (at Field.test.js:293)
-  //      in ReactFinalForm (at Field.test.js:291)
-  it.skip('should `formatOnBlur` most updated value', () => {
+  it('should `formatOnBlur` most updated value', () => {
     const format = jest.fn(value => (value ? value.trim() : ''))
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
           <form>
-            <Field name="name" format={format} formatOnBlur>
+            <Field name="name" format={format} formatOnBlur initialValue="">
               {({ input }) => (
                 <input
                   {...input}
@@ -392,17 +384,14 @@ describe('Field', () => {
     expect(getByTestId('name').value).toBe('')
   })
 
-  //  Warning: The `value` prop supplied to <select> must be an array if `multiple` is true.
-  // Check the render method of `mockConstructor`.
-  //     in select (at Field.test.js:388)
-  //     in mockConstructor (created by Field)
-  //     in Field (at Field.test.js:393)
-  //     in form (at Field.test.js:392)
-  //     in ReactFinalForm (at Field.test.js:390)
-  it.skip('should pass multiple through to custom components', () => {
+  it('should pass multiple through to custom components', () => {
     const CustomSelect = jest.fn(({ input }) => <select {...input} />)
     render(
-      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ name: [] }}
+        subscription={{ values: true }}
+      >
         {() => (
           <form>
             <Field name="name" component={CustomSelect} multiple />
@@ -830,21 +819,13 @@ describe('Field', () => {
     expect(blue.mock.calls[1][0].input.checked).toBe(false)
   })
 
-  // Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
-  //      in Field (at Field.test.js:838)
-  //      in form (at Field.test.js:837)
-  //      in ReactFinalForm (at Field.test.js:835)
-  it.skip('should use isEqual to calculate dirty/pristine', () => {
+  it('should use isEqual to calculate dirty/pristine', () => {
+    const isEqual = (a, b) => (a && a.toUpperCase()) === (b && b.toUpperCase())
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} initialValues={{ name: 'bob' }}>
         {() => (
           <form>
-            <Field
-              name="name"
-              isEqual={(a, b) =>
-                (a && a.toUpperCase()) === (b && b.toUpperCase())
-              }
-            >
+            <Field name="name" isEqual={isEqual}>
               {({ input, meta }) => (
                 <div>
                   <div data-testid="dirty">
