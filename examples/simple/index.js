@@ -17,7 +17,9 @@ const onSubmit = async values => {
 const App = () => (
   <Styles>
     <h1>React Final Form - Simple Example</h1>
-    <a href="https://final-form.org/react">Read Docs</a>
+    <a href="https://final-form.org/react" target="_blank">
+      Read Docs
+    </a>
     <Form
       onSubmit={onSubmit}
       initialValues={{ stooge: 'larry', employed: false }}
