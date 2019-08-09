@@ -28,9 +28,7 @@ const App = () => (
   <Styles>
     <h1>React Final Form Example</h1>
     <h2>Wizard Form</h2>
-    <a href="https://github.com/erikras/react-final-form#-react-final-form">
-      Read Docs
-    </a>
+    <a href="https://final-form.org/react">Read Docs</a>
     <p>
       Notice the mixture of field-level and record-level (or <em>page-level</em>{' '}
       in this case) validation.

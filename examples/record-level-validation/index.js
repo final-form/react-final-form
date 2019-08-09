@@ -14,9 +14,7 @@ const App = () => (
   <Styles>
     <h1>React Final Form Example</h1>
     <h2>Password / Confirm Validation</h2>
-    <a href="https://github.com/erikras/react-final-form#-react-final-form">
-      Read Docs
-    </a>
+    <a href="https://final-form.org/react">Read Docs</a>
     <Form
       onSubmit={onSubmit}
       validate={values => {
