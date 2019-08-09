@@ -2,16 +2,27 @@
 
 # Getting Started
 
-🏁 React Final Form is a thin React wrapper for 🏁 Final Form, which is a
-subscriptions-based form state management library that uses the
-[Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern), so only the
-components that need updating are re-rendered as the form's state changes. By
-default, 🏁 React Final Form subscribes to _all_ changes, but if you want to
-fine tune your form to optimized blazing-fast perfection, you may specify only
-the form state that you care about for rendering your gorgeous UI.
+Before we jump right into code, you might want to learn a little bit about the [philosophy](philosophy) and origin story of React Final Form.
 
-You can think of it a little like GraphQL's feature of only fetching the data
-your component needs to render, and nothing else.
+## Installation
+
+```bash
+npm install --save final-form react-final-form
+```
+
+or
+
+```bash
+yarn add final-form react-final-form
+```
+
+## Architecture
+
+React Final Form is a thin React wrapper for [Final Form](/), which is a subscriptions-based form state management library that uses the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern), so only the components that need updating are re-rendered as the form's state changes.
+
+By default, **React Final Form subscribes to _all_ changes**, but if you want to fine tune your form to optimized blazing-fast perfection, you may specify only the form state that you care about for rendering your gorgeous UI. You can think of it a little like GraphQL's feature of only fetching the data your component needs to render, and nothing else.
+
+## Code
 
 Here's what it looks like in your code:
 
@@ -22,7 +33,7 @@ const MyForm = () => (
   <Form
     onSubmit={onSubmit}
     validate={validate}
-    render={({ handleSubmit, pristine, invalid }) => (
+    render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
         <h2>Simple Default Input</h2>
         <div>
@@ -59,11 +70,11 @@ const MyForm = () => (
           )}
         </Field>
 
-        <button type="submit" disabled={pristine || invalid}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
     )}
   />
 )
 ```
+
+[Let's explore the API...](api)
