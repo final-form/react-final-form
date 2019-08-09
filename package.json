@@ -123,7 +123,6 @@
     "url": "https://opencollective.com/final-form"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.5",
-    "ts-essentials": "^2.0.8"
+    "@babel/runtime": "^7.4.5"
   }
 }
