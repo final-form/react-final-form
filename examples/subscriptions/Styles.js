@@ -36,7 +36,8 @@ const btnPrimary = btn('#4f93ce', '#285f8f')
 export default styled.div`
   font-family: sans-serif;
 
-  h1 {
+  h1,
+  h2 {
     text-align: center;
     color: #222;
   }
