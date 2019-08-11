@@ -1,0 +1,28 @@
+{
+  "name": "react-final-form-synchronous-errors-debounced",
+  "version": "1.0.0",
+  "description": "A DelayedRender component is provided to not show the error immediately.",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "react-scripts": "2.0.3",
+    "styled-components": "4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
