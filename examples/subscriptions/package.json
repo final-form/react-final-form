@@ -1,5 +1,5 @@
 {
-  "name": "react-final-form-subscriptions-example",
+  "name": "React Final Form - Subscriptions Example",
   "version": "1.0.0",
   "description": "An example of controlling rerenders using subscriptions",
   "keywords": [

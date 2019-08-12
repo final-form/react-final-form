@@ -2,6 +2,12 @@
 
 # Examples
 
+---
+
+Wanna help? We need to migrate all of these examples from CodeSandbox to [here](https://github.com/final-form/react-final-form/tree/master/examples). PRs to help with that process would be greatly appreciated. 🙏
+
+---
+
 ### [Simple Example](examples/simple)
 
 Uses the built-in React inputs: `input`, `select`, and `textarea` to build a form with no validation.

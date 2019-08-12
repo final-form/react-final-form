@@ -2,7 +2,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
-import { Field } from '../record-level-validation/node_modules/react-final-form'
+import { Field } from 'react-final-form'
 import Wizard from './Wizard'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -28,7 +28,7 @@ const App = () => (
   <Styles>
     <h1>React Final Form Example</h1>
     <h2>Wizard Form</h2>
-    <a href="https://github.com/erikras/react-final-form#-react-final-form">
+    <a href="https://final-form.org/react" target="_blank">
       Read Docs
     </a>
     <p>

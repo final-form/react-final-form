@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form } from '../record-level-validation/node_modules/react-final-form'
+import { Form } from 'react-final-form'
 
 export default class Wizard extends React.Component {
   static propTypes = {

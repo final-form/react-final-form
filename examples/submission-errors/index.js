@@ -1,10 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
-import {
-  Form,
-  Field
-} from '../record-level-validation/node_modules/react-final-form'
+import { Form, Field } from 'react-final-form'
 import { FORM_ERROR } from 'final-form'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -22,9 +19,9 @@ const onSubmit = async values => {
 
 const App = () => (
   <Styles>
-    <h1>🏁 React Final Form Example</h1>
+    <h1>React Final Form Example</h1>
     <h2>Submission Errors</h2>
-    <a href="https://github.com/erikras/react-final-form#-react-final-form">
+    <a href="https://final-form.org/react" target="_blank">
       Read Docs
     </a>
     <div>
