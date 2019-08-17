@@ -67,6 +67,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
 
   const form: FormApi<FormValues> = useConstant(() => {
     const f = alternateFormApi || createForm<FormValues>(config)
+    // pause validation until children register all fields on first render (unpaused in useEffect() below)
     f.pauseValidation()
     return f
   })
@@ -87,7 +88,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   const stateRef = useLatest<FormState<FormValues>>(state)
 
   React.useEffect(() => {
-    // We have rendered, so all fields are no registered, so we can unpause validation
+    // We have rendered, so all fields are now registered, so we can unpause validation
     form.isValidationPaused() && form.resumeValidation()
     const unsubscriptions: Unsubscribe[] = [
       form.subscribe(s => {
