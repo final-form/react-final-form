@@ -106,7 +106,9 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     ]
 
     return () => {
+      form.pauseValidation() // pause validation so we don't revalidate on every field deregistration
       unsubscriptions.forEach(unsubscribe => unsubscribe())
+      // don't need to resume validation here; either unmounting, or will re-run this hook with new deps
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [decorators])
