@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, cleanup, act } from '@testing-library/react'
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'
@@ -1088,5 +1088,38 @@ describe('Field', () => {
     await sleep(6)
 
     expect(getByTestId('validating')).toHaveTextContent('Not Validating')
+  })
+
+  it('not call record-level validation on Field mount', () => {
+    const validate = jest.fn()
+    const { getByText } = render(
+      <Toggle>
+        {showOtherFields => (
+          <Form onSubmit={onSubmitMock} validate={validate}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <Field name="firstName" component="input" />
+                <Field name="lastName" component="input" />
+                <Field name="email" component="input" />
+                <Field name="street" component="input" />
+                <Field name="city" component="input" />
+                {showOtherFields && (
+                  <React.Fragment>
+                    <Field name="friend.firstName" component="input" />
+                    <Field name="friend.lastName" component="input" />
+                    <Field name="friend.email" component="input" />
+                    <Field name="friend.street" component="input" />
+                    <Field name="friend.city" component="input" />
+                  </React.Fragment>
+                )}
+              </form>
+            )}
+          </Form>
+        )}
+      </Toggle>
+    )
+    expect(validate).toHaveBeenCalledTimes(1)
+    fireEvent.click(getByText('Toggle'))
+    expect(validate).toHaveBeenCalledTimes(1)
   })
 })

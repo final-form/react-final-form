@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, cleanup } from '@testing-library/react'
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'

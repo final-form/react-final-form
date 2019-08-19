@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, cleanup, act } from '@testing-library/react'
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import deepEqual from 'fast-deep-equal'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import { createForm } from 'final-form'
