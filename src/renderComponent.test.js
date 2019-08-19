@@ -10,7 +10,7 @@ describe('renderComponent', () => {
       render
     }
     const name = 'TestComponent'
-    const result = renderComponent(props, name)
+    const result = renderComponent(props, {}, name)
     expect(result.props).toEqual({ children, render })
   })
 
@@ -22,7 +22,7 @@ describe('renderComponent', () => {
       render
     }
     const name = 'TestComponent'
-    renderComponent(props, name)
+    renderComponent(props, {}, name)
     expect(render).toHaveBeenCalled()
     expect(render).toHaveBeenCalledTimes(1)
     expect(render.mock.calls[0][0].children).toBe(children)
@@ -34,8 +34,39 @@ describe('renderComponent', () => {
       children
     }
     const name = 'TestComponent'
-    expect(() => renderComponent(props, name)).toThrow(
+    expect(() => renderComponent(props, {}, name)).toThrow(
       `Must specify either a render prop, a render function as children, or a component prop to ${name}`
     )
+  })
+
+  it('should not evaluate any of the keys given in the second argument', () => {
+    const children = 'some children'
+    const render = jest.fn()
+    const props = {
+      children,
+      render
+    }
+    const getA = jest.fn()
+    const getB = jest.fn()
+    const name = 'TestComponent'
+    renderComponent(
+      props,
+      {
+        get a() {
+          getA()
+          return 1
+        },
+        get b() {
+          getB()
+          return 2
+        }
+      },
+      name
+    )
+    expect(render).toHaveBeenCalled()
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(render.mock.calls[0][0].children).toBe(children)
+    expect(getA).not.toHaveBeenCalled()
+    expect(getB).not.toHaveBeenCalled()
   })
 })

@@ -4,6 +4,7 @@ import type { UseFormStateParams } from './types'
 import type { FormState, FormApi, FormValuesShape } from 'final-form'
 import { all } from './ReactFinalForm'
 import useForm from './useForm'
+import { addLazyFormState } from './getters'
 
 function useFormState<FormValues: FormValuesShape>({
   onChange,
@@ -43,7 +44,9 @@ function useFormState<FormValues: FormValuesShape>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-  return state
+  const lazyState = {}
+  addLazyFormState(lazyState, state)
+  return lazyState
 }
 
 export default useFormState

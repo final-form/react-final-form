@@ -46,6 +46,7 @@ export type FieldRenderProps = {
     submitting?: boolean,
     touched?: boolean,
     valid?: boolean,
+    validating?: boolean,
     visited?: boolean
   }
 }
@@ -73,7 +74,7 @@ export type FormProps<FormValues: FormValuesShape> = {
 } & Config<FormValues> &
   RenderableProps<FormRenderProps<FormValues>>
 
-export type UseFieldConfig = {
+export type UseFieldAutoConfig = {
   afterSubmit?: () => void,
   allowNull?: boolean,
   beforeSubmit?: () => void | false,
@@ -86,12 +87,15 @@ export type UseFieldConfig = {
   isEqual?: (a: any, b: any) => boolean,
   multiple?: boolean,
   parse?: (value: any, name: string) => any,
-  subscription?: FieldSubscription,
   type?: string,
   validate?: FieldValidator,
   validateFields?: string[],
   value?: any
 }
+
+export type UseFieldConfig = {
+  subscription?: FieldSubscription
+} & UseFieldAutoConfig
 
 export type FieldProps = UseFieldConfig & {
   name: string

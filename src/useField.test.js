@@ -34,6 +34,42 @@ describe('useField', () => {
     console.error.mockRestore()
   })
 
+  it('should subscribe to all by default', () => {
+    const MyFieldListener = () => {
+      const { input, meta } = useField('name')
+      expect(meta.active).toBe(false)
+      expect(meta.data).toEqual({})
+      expect(meta.dirty).toBe(false)
+      expect(meta.dirtySinceLastSubmit).toBe(false)
+      expect(meta.error).toBeUndefined()
+      expect(meta.initial).toBeUndefined()
+      expect(meta.invalid).toBe(false)
+      expect(meta.length).toBeUndefined()
+      expect(meta.modified).toBe(false)
+      expect(meta.pristine).toBe(true)
+      expect(meta.submitError).toBeUndefined()
+      expect(meta.submitFailed).toBe(false)
+      expect(meta.submitSucceeded).toBe(false)
+      expect(meta.submitting).toBe(false)
+      expect(meta.touched).toBe(false)
+      expect(meta.valid).toBe(true)
+      expect(meta.validating).toBe(false)
+      expect(meta.visited).toBe(false)
+      expect(input.value).toBe('')
+      return null
+    }
+    render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <Field name="name" component="input" data-testid="name" />
+            <MyFieldListener />
+          </form>
+        )}
+      </Form>
+    )
+  })
+
   it('should track field state', () => {
     const spy = jest.fn()
     const MyFieldListener = () => {

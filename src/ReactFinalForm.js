@@ -23,6 +23,7 @@ import type { FormRenderProps } from './types.js.flow'
 import ReactFinalFormContext from './context'
 import useLatest from './useLatest'
 import { version } from '../package.json'
+import { addLazyFormState } from './getters'
 
 export { version }
 
@@ -177,8 +178,6 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   }
 
   const renderProps: FormRenderProps<FormValues> = {
-    // assign to force Flow check
-    ...state,
     form: {
       ...form,
       reset: eventOrValues => {
@@ -192,15 +191,16 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     },
     handleSubmit
   }
+  addLazyFormState(renderProps, state)
   return React.createElement(
     ReactFinalFormContext.Provider,
     { value: form },
     renderComponent(
       {
         ...rest,
-        ...renderProps,
         __versions: versions
       },
+      renderProps,
       'ReactFinalForm'
     )
   )
