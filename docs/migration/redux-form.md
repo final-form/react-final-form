@@ -89,22 +89,22 @@ Good news! React Final Form was written by the same guy ([@erikras](https://twit
 -  const { handleSubmit, pristine, reset, submitting } = props
    return (
      <Form
-      initialValues={{
-        firstName: 'Dan'
-      }}
-      onSubmit={values => {
-        // send values to the cloud
-      }}
-      validate={values => {
-        // do validation here, and return errors object
-      }}
+       initialValues={{
+         firstName: 'Dan'
+       }}
+       onSubmit={values => {
+         // send values to the cloud
+       }}
+       validate={values => {
+         // do validation here, and return errors object
+       }}
      >
-+     {({ handleSubmit, pristine, reset, submitting }) => (
-        <form onSubmit={handleSubmit}>
++      {({ handleSubmit, pristine, reset, submitting }) => (
+         <form onSubmit={handleSubmit}>
 
-          ...fields here...
+           ...fields here...
 
-        </form>
+         </form>
        )}
      </Form>
    )
@@ -286,6 +286,95 @@ It's a little easier to read, but it's less reusable. Large projects are going t
 -})(MyForm)
 +export default MyForm
 ```
+
+### `<Fields/>`
+
+If you're accustomed to being able to get the state of many fields at once using Redux Form's `<Fields/>`, you may be wondering why this library does not include it. The answer is that _most_ people don't need it, but if you do, you can write it yourself recursively, like this:
+
+```tsx
+const Fields = ({
+  names,
+  subscription,
+  fieldsState = {},
+  children,
+  originalRender
+}) => {
+  if (!names.length) {
+    return (originalRender || children)(fieldsState)
+  }
+  const [name, ...rest] = names
+  return (
+    <Field name={name} subscription={subscription}>
+      {fieldState => (
+        <Fields
+          names={rest}
+          subscription={subscription}
+          originalRender={originalRender || children}
+          fieldsState={{ ...fieldsState, [name]: fieldState }}
+        />
+      )}
+    </Field>
+  )
+}
+```
+
+Here's a sandbox demonstrating its usage:
+
+[![Edit 🏁React Final Form: Fields Component](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/pyrwplknom?fontsize=14)
+
+### `<FieldArray/>`
+
+React Final Form does not come with field arrays right out of the box. This is because many projects do not need them, and the [philosophy](../philosophy#modularity) of React Final Form is to keep bundle size small, but provide ways to add additional functionality when you need it.
+
+You will need to install two additional packages, `final-form-arrays`, which provides array functionality to the core Final Form instance, and `react-final-form-arrays`, which contains the `<FieldArray/>` component. If you are accustomed to using Redux Form's `<FieldArray/>` component, you already know the API for React Final Form's `<FieldArray/>` component. It injects an "array-like" object called `fields`, which you can `map()` over to get the `string` names for each of the fields in the array. You pass these field names to the `<Field/>` component to render one of the fields in your array. It works just like in Redux Form.
+
+```tsx
+import arrayMutators from 'final-form-arrays'
+import { FieldArray } from 'react-final-form-arrays'
+
+const MyForm = () => (
+  <Form
+    onSubmit={onSubmit}
+    mutators={{ ...arrayMutators }}
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ IMPORTANT!
+  >
+    {({
+      handleSubmit,
+      form: {
+        mutators: { push, pop } // injected from final-form-arrays above
+      }
+    }) => (
+      <form onSubmit={handleSubmit}>
+        ... other fields here maybe ...
+        <button type="button" onClick={() => push('customers', undefined)}>
+          Add Customer
+        </button>
+        <button type="button" onClick={() => pop('customers')}>
+          Remove Customer
+        </button>
+        <FieldArray name="customers">
+          {({ fields }) =>
+            fields.map((name, index) => (
+              <div key={name}>
+                <label>Cust. #{index + 1}</label>
+                <Field
+                  name={`${name}.firstName`}
+                  component="input"
+                  placeholder="First Name"
+                />
+              </div>
+            ))
+          }
+        </FieldArray>
+      </form>
+    )}
+  </Form>
+)
+```
+
+Here's a sandbox to demonstrate:
+
+[![Edit 🏁 React Final Form - Field Arrays](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/distracted-bhaskara-kx8qv67nk5?fontsize=14)
 
 ### Cheat Code: The Lazy Way
 
