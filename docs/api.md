@@ -2,7 +2,7 @@
 
 # API
 
-The API for 🏁 React Final Form consists of three components and three hooks:
+The API for React Final Form consists of three components and three hooks:
 
 ## Components
 
