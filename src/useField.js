@@ -12,6 +12,7 @@ import isReactNative from './isReactNative'
 import getValue from './getValue'
 import useForm from './useForm'
 import useLatest from './useLatest'
+import { addLazyFieldMetaState } from './getters'
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce((result, key) => {
   result[key] = true
@@ -172,52 +173,44 @@ function useField<FormValues: FormValuesShape>(
     }, [])
   }
 
-  let { blur, change, focus, value, name: ignoreName, ...otherState } = state
-  const meta = {
-    // this is to appease the Flow gods
-    active: otherState.active,
-    data: otherState.data,
-    dirty: otherState.dirty,
-    dirtySinceLastSubmit: otherState.dirtySinceLastSubmit,
-    error: otherState.error,
-    initial: otherState.initial,
-    invalid: otherState.invalid,
-    length: otherState.length,
-    modified: otherState.modified,
-    pristine: otherState.pristine,
-    submitError: otherState.submitError,
-    submitFailed: otherState.submitFailed,
-    submitSucceeded: otherState.submitSucceeded,
-    submitting: otherState.submitting,
-    touched: otherState.touched,
-    valid: otherState.valid,
-    validating: otherState.validating,
-    visited: otherState.visited
+  const meta = {}
+  addLazyFieldMetaState(meta, state)
+  const input: FieldInputProps = {
+    name,
+    get value() {
+      let value = state.value
+      if (formatOnBlur) {
+        if (component === 'input') {
+          value = defaultFormat(value, name)
+        }
+      } else {
+        value = format(value, name)
+      }
+      if (value === null && !allowNull) {
+        value = ''
+      }
+      if (type === 'checkbox' || type === 'radio') {
+        return _value
+      } else if (component === 'select' && multiple) {
+        return value || []
+      }
+      return value
+    },
+    get checked() {
+      if (type === 'checkbox') {
+        if (_value === undefined) {
+          return !!state.value
+        } else {
+          return !!(Array.isArray(state.value) && ~state.value.indexOf(_value))
+        }
+      } else if (type === 'radio') {
+        return state.value === _value
+      }
+      return undefined
+    },
+    ...handlers
   }
-  if (formatOnBlur) {
-    if (component === 'input') {
-      value = defaultFormat(value, name)
-    }
-  } else {
-    value = format(value, name)
-  }
-  if (value === null && !allowNull) {
-    value = ''
-  }
-  const input: FieldInputProps = { name, value, ...handlers }
-  if (type === 'checkbox') {
-    if (_value === undefined) {
-      input.checked = !!value
-    } else {
-      input.checked = !!(Array.isArray(value) && ~value.indexOf(_value))
-      input.value = _value
-    }
-  } else if (type === 'radio') {
-    input.checked = value === _value
-    input.value = _value
-  } else if (component === 'select' && multiple) {
-    input.value = input.value || []
-  }
+
   if (multiple) {
     input.multiple = multiple
   }

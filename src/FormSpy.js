@@ -33,9 +33,9 @@ function FormSpy<FormValues: FormValuesShape>({
   return renderComponent(
     {
       ...rest,
-      ...state,
       ...renderProps
     },
+    state,
     'FormSpy'
   )
 }
