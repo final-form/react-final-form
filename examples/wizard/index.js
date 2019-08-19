@@ -28,7 +28,11 @@ const App = () => (
   <Styles>
     <h1>React Final Form Example</h1>
     <h2>Wizard Form</h2>
-    <a href="https://final-form.org/react" target="_blank">
+    <a
+      href="https://final-form.org/react"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Read Docs
     </a>
     <p>
