@@ -6,7 +6,13 @@ import Form from './ReactFinalForm'
 import Field from './Field'
 
 const onSubmitMock = values => {}
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const timeout = ms => new Promise(resolve => setTimeout(resolve, ms))
+async function sleep(ms) {
+  await act(async () => {
+    await timeout(ms)
+  })
+}
 
 describe('Field', () => {
   afterEach(cleanup)
@@ -285,7 +291,7 @@ describe('Field', () => {
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
           <form>
-            <Field name="name" format={format} formatOnBlur>
+            <Field name="name" format={format} formatOnBlur initialValue="">
               {({ input }) => (
                 <input
                   {...input}
@@ -381,7 +387,11 @@ describe('Field', () => {
   it('should pass multiple through to custom components', () => {
     const CustomSelect = jest.fn(({ input }) => <select {...input} />)
     render(
-      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ name: [] }}
+        subscription={{ values: true }}
+      >
         {() => (
           <form>
             <Field name="name" component={CustomSelect} multiple />
@@ -858,16 +868,12 @@ describe('Field', () => {
   })
 
   it('should use isEqual to calculate dirty/pristine', () => {
+    const isEqual = (a, b) => (a && a.toUpperCase()) === (b && b.toUpperCase())
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} initialValues={{ name: 'bob' }}>
         {() => (
           <form>
-            <Field
-              name="name"
-              isEqual={(a, b) =>
-                (a && a.toUpperCase()) === (b && b.toUpperCase())
-              }
-            >
+            <Field name="name" isEqual={isEqual}>
               {({ input, meta }) => (
                 <div>
                   <div data-testid="dirty">
@@ -1044,7 +1050,7 @@ describe('Field', () => {
               name="name"
               component="input"
               validate={async value => {
-                await sleep(5)
+                await timeout(5)
                 return value === 'erikras' ? 'Username taken' : undefined
               }}
               data-testid="name"
