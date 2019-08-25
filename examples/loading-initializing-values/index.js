@@ -29,7 +29,12 @@ class App extends React.Component {
   render() {
     return (
       <Styles>
-        <h1>🏁 React Final Form - Loading and Initializing Values</h1>
+        <h1>
+          <span role="img" aria-label="final form flag">
+            🏁
+          </span>{' '}
+          React Final Form - Loading and Initializing Values
+        </h1>
         <a href="https://github.com/erikras/react-final-form#-react-final-form">
           Read Docs
         </a>
