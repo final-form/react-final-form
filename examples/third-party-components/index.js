@@ -42,7 +42,12 @@ const required = value => (value ? undefined : 'Required')
 const App = () => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <Styles>
-      <h1>🏁 React Final Form Example</h1>
+      <h1>
+        <span role="img" aria-label="final form flag">
+          🏁
+        </span>{' '}
+        React Final Form Example
+      </h1>
       <h2>Third Party Components</h2>
       <a href="https://github.com/erikras/react-final-form#-react-final-form">
         Read Docs

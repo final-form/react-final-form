@@ -94,7 +94,10 @@ function App() {
     <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
       <CssBaseline />
       <Typography variant="h4" align="center" component="h1" gutterBottom>
-        🏁 React Final Form
+        <span role="img" aria-label="final form flag">
+          🏁
+        </span>{' '}
+        React Final Form
       </Typography>
       <Typography variant="h5" align="center" component="h2" gutterBottom>
         Material-UI Example
