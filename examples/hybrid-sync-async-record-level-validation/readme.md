@@ -1,3 +1,3 @@
 # Hybrid Synchronous/Asynchronous Record-level Validation
 
-[![Edit react-final-form-async-field-level-validation-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/kl9n295n5)
+[![Edit react-final-form-hybrid-sync-async-record-validation-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/kl9n295n5)
