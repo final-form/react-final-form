@@ -1,0 +1,16 @@
+{
+  "name": "react-final-form-fields-component",
+  "version": "1.0.0",
+  "description": "One common question from people migrating from Redux-Form is: Where's the Fields component?\n\nThe answer is that it's so easy to write one that one needn't ship with the library itself.",
+  "keywords": [],
+  "homepage": "https://codesandbox.io/s/ww40y2m595",
+  "main": "index.js",
+  "dependencies": {
+    "styled-components": "latest",
+    "react-fontawesome": "latest",
+    "react-final-form": "latest",
+    "react-dom": "latest",
+    "react": "latest",
+    "final-form": "latest"
+  }
+}
