@@ -75,9 +75,24 @@ const App = () => {
                 <label>Favorite Color</label>
                 <Field name="favoriteColor" component="select">
                   <option />
-                  <option value="#ff0000">❤️ Red</option>
-                  <option value="#00ff00">💚 Green</option>
-                  <option value="#0000ff">💙 Blue</option>
+                  <option value="#ff0000">
+                    <span role="img" aria-label="red heart">
+                      ❤️
+                    </span>{' '}
+                    Red
+                  </option>
+                  <option value="#00ff00">
+                    <span role="img" aria-label="green heart">
+                      💚
+                    </span>{' '}
+                    Green
+                  </option>
+                  <option value="#0000ff">
+                    <span role="img" aria-label="blue heart">
+                      💙
+                    </span>{' '}
+                    Blue
+                  </option>
                 </Field>
               </div>
               <div className="buttons">

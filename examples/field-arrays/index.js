@@ -73,6 +73,8 @@ const App = () => (
                     <span
                       onClick={() => fields.remove(index)}
                       style={{ cursor: 'pointer' }}
+                      role="img"
+                      aria-label="remove customer icon"
                     >
                       ❌
                     </span>

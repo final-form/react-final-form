@@ -33,7 +33,15 @@ const App = () => (
       </span>{' '}
       React Final Form Example
     </h1>
-    <h2>⚠️ Warnings ⚠️</h2>
+    <h2>
+      <span role="img" aria-label="warning icon">
+        ⚠️
+      </span>{' '}
+      Warnings{' '}
+      <span role="img" aria-label="warning icon">
+        ⚠️
+      </span>
+    </h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs
     </a>

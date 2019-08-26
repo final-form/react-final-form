@@ -43,6 +43,7 @@ const App = () => (
       <a
         href="https://redux-form.com/8.2.2/docs/api/formsection.md/"
         target="_blank"
+        rel="noopener noreferrer"
       >
         <code>FormSection</code>
       </a>{' '}
