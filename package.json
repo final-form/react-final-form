@@ -17,7 +17,8 @@
     "doctoc": "doctoc README.md && doctoc docs/faq.md && prettier --write README.md && prettier --write docs/faq.md",
     "precommit": "lint-staged && npm start validate",
     "prepublish": "npm start validate",
-    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mUsing react-final-form at work? You can now donate to our open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[34mhttps://opencollective.com/final-form/donate\\u001b[0m')\""
+    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mUsing react-final-form at work? You can now donate to our open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[34mhttps://opencollective.com/final-form/donate\\u001b[0m')\"",
+    "prepare": "nps build"
   },
   "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
   "license": "MIT",
