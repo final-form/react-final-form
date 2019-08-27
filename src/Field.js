@@ -4,27 +4,30 @@ import type { FieldProps as Props, FieldRenderProps } from './types'
 import renderComponent from './renderComponent'
 import useField from './useField'
 
-const Field = ({
-  afterSubmit,
-  allowNull,
-  beforeSubmit,
-  children,
-  component,
-  defaultValue,
-  format,
-  formatOnBlur,
-  initialValue,
-  isEqual,
-  multiple,
-  name,
-  parse,
-  subscription,
-  type,
-  validate,
-  validateFields,
-  value,
-  ...rest
-}: Props) => {
+const Field = React.forwardRef(function Field(
+  {
+    afterSubmit,
+    allowNull,
+    beforeSubmit,
+    children,
+    component,
+    defaultValue,
+    format,
+    formatOnBlur,
+    initialValue,
+    isEqual,
+    multiple,
+    name,
+    parse,
+    subscription,
+    type,
+    validate,
+    validateFields,
+    value,
+    ...rest
+  }: Props,
+  ref
+) {
   const field: FieldRenderProps = useField(name, {
     afterSubmit,
     allowNull,
@@ -51,13 +54,18 @@ const Field = ({
 
   if (typeof component === 'string') {
     // ignore meta, combine input with any other props
-    return React.createElement(component, { ...field.input, children, ...rest })
+    return React.createElement(component, {
+      ...field.input,
+      children,
+      ref,
+      ...rest
+    })
   }
   return renderComponent(
-    { children, component, ...rest },
+    { children, component, ref, ...rest },
     field,
     `Field(${name})`
   )
-}
+})
 
 export default Field
