@@ -1,0 +1,21 @@
+{
+  "name": "react-final-form-auto-save-with-debounce",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use a FormSpy component to auto-save your form values with a debounce.",
+  "keywords": [
+    "final-form",
+    "autosave",
+    "form",
+    "debounce",
+    "react-final-form"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "object-diff": "0.0.4",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "styled-components": "4.2.0"
+  }
+}
