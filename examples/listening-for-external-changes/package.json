@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-listening-for-external-changes",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use a stateful component wrapped in a Field to listen for external changes to that field.",
+  "keywords": [
+    "react",
+    "final-form",
+    "react-final-form",
+    "form",
+    "listener"
+  ],
+  "homepage": "https://codesandbox.io/s/new",
+  "main": "src/index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "final-form-calculate": "1.3.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "react-scripts": "3.0.1",
+    "styled-components": "4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
