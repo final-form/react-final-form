@@ -1,0 +1,21 @@
+{
+  "name": "react-final-form-example-load-save-and-reinitialize",
+  "version": "1.0.0",
+  "description": "Demonstrates how to make a wrapper component to handle, loading, normalization of data, saving, and reinitializing of the form.",
+  "keywords": [
+    "react-final-form",
+    "final-form",
+    "loading",
+    "initialization",
+    "asynchronous"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "react-fontawesome": "1.6.1",
+    "styled-components": "4.2.0"
+  }
+}
