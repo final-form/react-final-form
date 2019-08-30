@@ -1,0 +1,15 @@
+{
+  "name": "format-string-by-pattern-with-react-final-form",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use the parse  prop to format the inputs using format-string-by-pattern.",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "latest",
+    "format-string-by-pattern": "1.1.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "latest",
+    "styled-components": "latest"
+  }
+}
