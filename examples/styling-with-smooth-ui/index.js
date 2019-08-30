@@ -73,7 +73,11 @@ const App = () => (
       </Typography>
       <p>
         This example demonstrates how to use{' '}
-        <a href="https://smooth-ui.smooth-code.com" target="_blank">
+        <a
+          href="https://smooth-ui.smooth-code.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <span role="img" aria-label="lollipop">
             🍭
           </span>{' '}

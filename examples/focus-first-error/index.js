@@ -34,7 +34,11 @@ const App = () => (
     </a>
     <p>
       Demonstrates how to use the{' '}
-      <a href="" target="_blank">
+      <a
+        href="https://github.com/final-form/final-form-focus"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span role="img" aria-label="final form flag">
           🏁
         </span>{' '}

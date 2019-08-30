@@ -33,6 +33,7 @@ const App = () => (
       <a
         href="https://github.com/amarofashion/react-credit-cards"
         target="_blank"
+        rel="noopener noreferrer"
       >
         React Credit Cards
       </a>{' '}

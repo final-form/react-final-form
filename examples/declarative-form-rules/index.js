@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
-import { Form, Field, FormSpy } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
 import { OnChange } from 'react-final-form-listeners'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -45,6 +45,7 @@ const App = () => (
       <a
         href="https://github.com/final-form/react-final-form-listeners#-react-final-form-listeners"
         target="_blank"
+        rel="noopener noreferrer"
       >
         <span role="img" aria-label="final form flag">
           🏁

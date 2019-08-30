@@ -45,6 +45,7 @@ const App = () => (
         <a
           href="https://github.com/erikras/redux-promise-listener"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <code>redux-promise-listener</code>
         </a>{' '}
@@ -52,6 +53,7 @@ const App = () => (
         <a
           href="https://github.com/erikras/react-redux-promise-listener"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <code>react-redux-promise-listener</code>
         </a>{' '}
