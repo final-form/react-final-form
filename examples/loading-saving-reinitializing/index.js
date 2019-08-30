@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import Styles from './Styles'
 import { Field } from 'react-final-form'
-import Icon from 'react-fontawesome'
 import LoadSaveReinitializeForm from './LoadSaveReinitializeForm'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
