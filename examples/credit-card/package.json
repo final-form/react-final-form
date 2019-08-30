@@ -1,0 +1,30 @@
+{
+  "name": "react-final-form-credit-card-example",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use 🏁 React Final Form with the React Credit Cards library.",
+  "keywords": [
+    "final-form",
+    "react-final-form",
+    "react-credit-cards",
+    "payment",
+    "credit cards"
+  ],
+  "homepage": "https://codesandbox.io/s/new",
+  "main": "src/index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "react": "16.8.6",
+    "react-credit-cards": "0.7.0",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "react-scripts": "3.0.1",
+    "styled-components": "4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
