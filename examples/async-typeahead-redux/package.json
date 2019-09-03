@@ -1,0 +1,21 @@
+{
+  "name": "react-final-form-github-user-asynctypeahead",
+  "version": "1.0.0",
+  "description": "Demonstrates how extensible 🏁 React Final Form can be with the combination of FormSpy and setFieldData by creating a totally separate validation engine that runs when a field is blurred.",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "arrify": "2.0.1",
+    "final-form": "4.18.5",
+    "final-form-set-field-data": "1.0.2",
+    "ramda": "0.25.0",
+    "react": "16.9.0",
+    "react-bootstrap-typeahead": "3.1.4",
+    "react-dom": "16.9.0",
+    "react-final-form": "6.3.0",
+    "react-redux": "7.1.0",
+    "redux": "4.0.4",
+    "redux-thunk": "2.3.0",
+    "styled-components": "2.4.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "react-final-form-reusable-field-groups",
+  "version": "1.0.0",
+  "description": "Demonstrates how fields can be grouped into a reusable component.",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "styled-components": "4.2.0"
+  }
+}

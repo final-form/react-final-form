@@ -1,0 +1,24 @@
+{
+  "name": "react-final-form-focus-on-first-error",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use the 🏁 Final Form Focus 🧐 decorator to focus on the first input with an error upon submission.",
+  "keywords": [],
+  "homepage": "https://codesandbox.io/s/new",
+  "main": "src/index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "final-form-focus": "1.1.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "react-scripts": "3.0.1",
+    "styled-components": "4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

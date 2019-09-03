@@ -1,0 +1,14 @@
+{
+  "name": "react-final-form-independent-error-component",
+  "version": "1.0.0",
+  "description": "This example demonstrates how to make a special Error component to display the error for any form field.",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.13.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "6.0.1",
+    "styled-components": "4.2.1"
+  }
+}

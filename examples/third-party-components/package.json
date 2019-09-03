@@ -1,0 +1,23 @@
+{
+  "name": "react-final-form-third-party-components-example",
+  "version": "1.0.0",
+  "description": "This example demonstrates how easy it is to use third party input components. All the third party component really needs is value and onChange, but more complex components can accept things like errors.",
+  "keywords": [
+    "react",
+    "inputs",
+    "react-final-form",
+    "material-ui",
+    "final-form"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "material-ui": "0.20.2",
+    "react": "16.8.6",
+    "react-addons-shallow-compare": "15.6.2",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "react-select": "2.4.3",
+    "styled-components": "4.2.0"
+  }
+}

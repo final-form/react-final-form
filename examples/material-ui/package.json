@@ -1,0 +1,27 @@
+{
+  "name": "react-final-form-material-ui-example",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use Material-UI form controls.",
+  "keywords": ["material-ui"],
+  "homepage": "https://codesandbox.io/s/new",
+  "main": "src/index.js",
+  "dependencies": {
+    "@date-io/date-fns": "latest",
+    "@material-ui/core": "latest",
+    "date-fns": "next",
+    "final-form": "latest",
+    "final-form-material-ui": "latest",
+    "material-ui-pickers": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-final-form": "latest",
+    "react-scripts": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
