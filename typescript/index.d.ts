@@ -24,7 +24,7 @@ export type FieldMetaState<FieldValue> = Pick<
   >
 >;
 
-interface FieldInputProps<FieldValue, T extends HTMLElement> {
+interface FieldInputProps<FieldValue, T extends HTMLElement> extends AnyObject {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
   onChange: (event: React.ChangeEvent<T> | any) => void;
@@ -33,7 +33,6 @@ interface FieldInputProps<FieldValue, T extends HTMLElement> {
   value: FieldValue;
   checked?: boolean;
   multiple?: boolean;
-  [key: string]: any;
 }
 
 interface AnyObject {
