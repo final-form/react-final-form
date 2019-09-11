@@ -64,7 +64,7 @@ function useField<FormValues: FormValuesShape>(
       afterSubmit,
       beforeSubmit: () => beforeSubmitRef.current(),
       defaultValue,
-      getValidator: () => validateRef.current,
+      getValidator: validateRef.current && (() => validateRef.current),
       initialValue,
       isEqual,
       validateFields
