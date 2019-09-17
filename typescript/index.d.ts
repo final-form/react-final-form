@@ -67,7 +67,7 @@ export interface FormProps<FormValues = AnyObject>
   extends Config<FormValues>,
     RenderableProps<FormRenderProps<FormValues>> {
   subscription?: FormSubscription;
-  decorators?: Decorator[];
+  decorators?: Array<Decorator<FormValues>>;
   form?: FormApi<FormValues>;
   initialValuesEqual?: (a?: AnyObject, b?: AnyObject) => boolean;
 }
