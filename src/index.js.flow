@@ -30,7 +30,7 @@ declare export function useFormState<FormValues>(
 ): FormState<FormValues>
 declare export var useField: (
   name: string,
-  config: UseFieldConfig
+  config?: UseFieldConfig
 ) => FieldRenderProps
 declare export function withTypes<FormValues: FormValuesShape>(): {
   Form: React.ComponentType<FormProps<FormValues>>,

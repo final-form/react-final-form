@@ -1,7 +1,9 @@
+// @flow
+
 import React from 'react'
 import { render, cleanup } from '@testing-library/react'
 import { ErrorBoundary } from './testUtils'
-import useFormState from './useFormState'
+import { useFormState } from './index'
 
 describe('useField', () => {
   afterEach(cleanup)
