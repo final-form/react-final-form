@@ -26,8 +26,8 @@ declare export function useForm<FormValues: FormValuesShape>(
   componentName?: string
 ): FormApi<FormValues>
 declare export function useFormState<FormValues>(
-  params: UseFormStateParams<FormValues>
-): ?FormState<FormValues>
+  params?: UseFormStateParams<FormValues>
+): FormState<FormValues>
 declare export var useField: (
   name: string,
   config: UseFieldConfig
