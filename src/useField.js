@@ -66,6 +66,7 @@ function useField<FormValues: FormValuesShape>(
       defaultValue,
       getValidator: () => validateRef.current,
       initialValue,
+      value: _value !== undefined ? _value : initialValue,
       isEqual,
       validateFields
     })
