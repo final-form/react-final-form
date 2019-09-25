@@ -59,13 +59,13 @@ function useField<FormValues: FormValuesShape>(
     return beforeSubmit && beforeSubmit()
   })
 
-  const register = (callback: FieldState => void) =>
+  const register = (callback: FieldState => void, omitInitialValue: ?boolean) =>
     form.registerField(name, callback, subscription, {
       afterSubmit,
       beforeSubmit: () => beforeSubmitRef.current(),
       defaultValue,
       getValidator: () => validateRef.current,
-      initialValue,
+      initialValue: omitInitialValue ? undefined : initialValue,
       isEqual,
       validateFields
     })
@@ -80,9 +80,16 @@ function useField<FormValues: FormValuesShape>(
     const destroyOnUnregister = form.destroyOnUnregister
     form.destroyOnUnregister = false
 
+    // Avoid passing initialValue if the field value is present in form already
+    // as initialValue will overwrite value if a field is re-mounted
+    let formState = form.getState()
+    const _initialValue =
+      formState && formState.values && formState.values[name]
+    const omitInitialValue = _initialValue !== undefined
+
     register(state => {
       initialState = state
-    })()
+    }, omitInitialValue)()
 
     // return destroyOnUnregister to its original value
     form.destroyOnUnregister = destroyOnUnregister
