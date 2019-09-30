@@ -121,63 +121,61 @@ function useField<FormValues: FormValuesShape>(
     ]
   )
 
-  const handlers = {
-    onBlur: React.useCallback(
-      (event: ?SyntheticFocusEvent<*>) => {
-        state.blur()
-        if (formatOnBlur) {
-          /**
-           * Here we must fetch the value directly from Final Form because we cannot
-           * trust that our `state` closure has the most recent value. This is a problem
-           * if-and-only-if the library consumer has called `onChange()` immediately
-           * before calling `onBlur()`, but before the field has had a chance to receive
-           * the value update from Final Form.
-           */
-          const fieldState: any = form.getFieldState(state.name)
-          state.change(format(fieldState.value, state.name))
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [state.name, format, formatOnBlur]
-    ),
-    onChange: React.useCallback(
-      (event: SyntheticInputEvent<*> | any) => {
-        // istanbul ignore next
-        if (process.env.NODE_ENV !== 'production' && event && event.target) {
-          const targetType = event.target.type
-          const unknown =
-            ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
-            !type
-
-          const value: any =
-            targetType === 'select-multiple' ? state.value : _value
-
-          if (unknown) {
-            console.error(
-              `You must pass \`type="${
-                targetType === 'select-multiple' ? 'select' : targetType
-              }"\` prop to your Field(${name}) component.\n` +
-                `Without it we don't know how to unpack your \`value\` prop - ${
-                  Array.isArray(value) ? `[${value}]` : `"${value}"`
-                }.`
-            )
-          }
-        }
+  const onBlur = React.useCallback(
+    (event: ?SyntheticFocusEvent<*>) => {
+      state.blur()
+      if (formatOnBlur) {
+        /**
+         * Here we must fetch the value directly from Final Form because we cannot
+         * trust that our `state` closure has the most recent value. This is a problem
+         * if-and-only-if the library consumer has called `onChange()` immediately
+         * before calling `onBlur()`, but before the field has had a chance to receive
+         * the value update from Final Form.
+         */
+        const fieldState: any = form.getFieldState(state.name)
+        state.change(format(fieldState.value, state.name))
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.name, format, formatOnBlur]
+  )
+  const onChange = React.useCallback(
+    (event: SyntheticInputEvent<*> | any) => {
+      // istanbul ignore next
+      if (process.env.NODE_ENV !== 'production' && event && event.target) {
+        const targetType = event.target.type
+        const unknown =
+          ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
+          !type
 
         const value: any =
-          event && event.target
-            ? getValue(event, state.value, _value, isReactNative)
-            : event
-        state.change(parse(value, name))
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [_value, name, parse, state.change, state.value, type]
-    ),
-    onFocus: React.useCallback((event: ?SyntheticFocusEvent<*>) => {
-      state.focus()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-  }
+          targetType === 'select-multiple' ? state.value : _value
+
+        if (unknown) {
+          console.error(
+            `You must pass \`type="${
+              targetType === 'select-multiple' ? 'select' : targetType
+            }"\` prop to your Field(${name}) component.\n` +
+            `Without it we don't know how to unpack your \`value\` prop - ${
+              Array.isArray(value) ? `[${value}]` : `"${value}"`
+            }.`
+          )
+        }
+      }
+
+      const value: any =
+        event && event.target
+          ? getValue(event, state.value, _value, isReactNative)
+          : event
+      state.change(parse(value, name))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [_value, name, parse, state.change, state.value, type]
+  )
+  const onFocus = React.useCallback((event: ?SyntheticFocusEvent<*>) => {
+    state.focus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const meta = {}
   addLazyFieldMetaState(meta, state)
@@ -214,7 +212,9 @@ function useField<FormValues: FormValuesShape>(
       }
       return undefined
     },
-    ...handlers
+    onChange,
+    onBlur,
+    onFocus,
   }
 
   if (multiple) {
