@@ -177,52 +177,74 @@ function useField<FormValues: FormValuesShape>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const meta = {}
-  addLazyFieldMetaState(meta, state)
-  const input: FieldInputProps = {
-    name,
-    get value() {
-      let value = state.value
-      if (formatOnBlur) {
-        if (component === 'input') {
-          value = defaultFormat(value, name)
-        }
-      } else {
-        value = format(value, name)
-      }
-      if (value === null && !allowNull) {
-        value = ''
-      }
-      if (type === 'checkbox' || type === 'radio') {
-        return _value
-      } else if (component === 'select' && multiple) {
-        return value || []
-      }
-      return value
-    },
-    get checked() {
-      if (type === 'checkbox') {
-        if (_value === undefined) {
-          return !!state.value
+  const meta = React.useMemo(() => {
+    const lazyObj = {}
+    addLazyFieldMetaState(lazyObj, state)
+    return lazyObj
+  }, [state])
+
+  const input = React.useMemo(() => {
+    const memoizedInput: FieldInputProps = {
+      name,
+      get value() {
+        let value = state.value
+        if (formatOnBlur) {
+          if (component === 'input') {
+            value = defaultFormat(value, name)
+          }
         } else {
-          return !!(Array.isArray(state.value) && ~state.value.indexOf(_value))
+          value = format(value, name)
         }
-      } else if (type === 'radio') {
-        return state.value === _value
-      }
-      return undefined
-    },
+        if (value === null && !allowNull) {
+          value = ''
+        }
+        if (type === 'checkbox' || type === 'radio') {
+          return _value
+        } else if (component === 'select' && multiple) {
+          return value || []
+        }
+        return value
+      },
+      get checked() {
+        if (type === 'checkbox') {
+          if (_value === undefined) {
+            return !!state.value
+          } else {
+            return !!(
+              Array.isArray(state.value) && ~state.value.indexOf(_value)
+            )
+          }
+        } else if (type === 'radio') {
+          return state.value === _value
+        }
+        return undefined
+      },
+      onChange,
+      onBlur,
+      onFocus
+    }
+
+    if (multiple) {
+      memoizedInput.multiple = multiple
+    }
+    if (type !== undefined) {
+      memoizedInput.type = type
+    }
+    return memoizedInput
+  }, [
+    name,
+    type,
+    multiple,
+    component,
+    allowNull,
+    format,
+    formatOnBlur,
+    _value,
+    state.value,
     onChange,
     onBlur,
-    onFocus,
-  }
-
-  if (multiple) {
-    input.multiple = multiple
-  }
-  if (type !== undefined) {
-    input.type = type
-  }
+    onFocus
+  ])
 
   const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
   return renderProps
