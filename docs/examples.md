@@ -12,11 +12,11 @@ Wanna help? We need to migrate all of these examples from CodeSandbox to [here](
 
 Uses the built-in React inputs: `input`, `select`, and `textarea` to build a form with no validation.
 
-### [Synchronous Record-Level Validation](examples/synchronous-record-level-validation)
+### [Synchronous Record-Level Validation](examples/record-level-validation)
 
 Introduces a whole-record validation function and demonstrates how to display errors next to fields using child render functions.
 
-### [Synchronous Field-Level Validation](examples/synchronous-field-level-validation)
+### [Synchronous Field-Level Validation](examples/field-level-validation)
 
 Introduces field-level validation functions and demonstrates how to display errors next to fields using child render functions.
 
