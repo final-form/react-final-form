@@ -24,49 +24,56 @@ const defaultFormat = (value: ?any, name: string) =>
 const defaultParse = (value: ?any, name: string) =>
   value === '' ? undefined : value
 
+const defaultIsEqual = (a: any, b: any): boolean => a === b
+
 function useField<FormValues: FormValuesShape>(
   name: string,
-  {
+  config: UseFieldConfig = {}
+): FieldRenderProps {
+  const {
     afterSubmit,
     allowNull,
-    beforeSubmit,
     component,
     defaultValue,
     format = defaultFormat,
     formatOnBlur,
     initialValue,
-    isEqual,
     multiple,
     parse = defaultParse,
     subscription = all,
     type,
-    validate,
     validateFields,
     value: _value
-  }: UseFieldConfig = {}
-): FieldRenderProps {
+  } = config
   const form: FormApi<FormValues> = useForm<FormValues>('useField')
 
-  const validateRef = useLatest(validate)
-
-  const beforeSubmitRef = useLatest(() => {
-    if (formatOnBlur) {
-      const formatted = format(state.value, state.name)
-      if (formatted !== state.value) {
-        state.change(formatted)
-      }
-    }
-    return beforeSubmit && beforeSubmit()
-  })
+  const configRef = useLatest(config)
 
   const register = (callback: FieldState => void, omitInitialValue: ?boolean) =>
     form.registerField(name, callback, subscription, {
       afterSubmit,
-      beforeSubmit: () => beforeSubmitRef.current(),
+      beforeSubmit: () => {
+        const {
+          beforeSubmit,
+          formatOnBlur,
+          format = defaultFormat
+        } = configRef.current
+
+        if (formatOnBlur) {
+          const { value } = ((form.getFieldState(state.name): any): FieldState)
+          const formatted = format(value, state.name)
+
+          if (formatted !== value) {
+            state.change(formatted)
+          }
+        }
+
+        return beforeSubmit && beforeSubmit()
+      },
       defaultValue,
-      getValidator: () => validateRef.current,
+      getValidator: () => configRef.current.validate,
       initialValue: omitInitialValue ? undefined : initialValue,
-      isEqual,
+      isEqual: (a, b) => (configRef.current.isEqual || defaultIsEqual)(a, b),
       validateFields
     })
 
@@ -113,8 +120,7 @@ function useField<FormValues: FormValuesShape>(
       // If we want to allow inline fat-arrow field-level validation functions, we
       // cannot reregister field every time validate function !==.
       // validate,
-      initialValue,
-      isEqual
+      initialValue
       // The validateFields array is often passed as validateFields={[]}, creating
       // a !== new array every time. If it needs to be changed, a rerender/reregister
       // can be forced by changing the key prop

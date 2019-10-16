@@ -45,7 +45,7 @@ The only important distinction is that if you pass a `component` prop, it will b
   {props => (
     <button
       type="button"
-      disabled={pristine}
+      disabled={props.pristine}
       onClick={() => props.form.reset()}
     >
       Reset

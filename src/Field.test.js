@@ -895,6 +895,38 @@ describe('Field', () => {
     expect(getByTestId('dirty')).toHaveTextContent('Pristine')
   })
 
+  it('should be able to use inline isEqual to calculate dirty/pristine without falling into infinite rerender loop', () => {
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ name: 'bob' }}>
+        {() => (
+          <form>
+            <Field
+              name="name"
+              isEqual={(a, b) =>
+                (a && a.toUpperCase()) === (b && b.toUpperCase())
+              }
+            >
+              {({ input, meta }) => (
+                <div>
+                  <div data-testid="dirty">
+                    {meta.dirty ? 'Dirty' : 'Pristine'}
+                  </div>
+                  <input {...input} data-testid="input" />
+                </div>
+              )}
+            </Field>
+          </form>
+        )}
+      </Form>
+    )
+    expect(getByTestId('input').value).toBe('bob')
+    expect(getByTestId('dirty')).toHaveTextContent('Pristine')
+    fireEvent.change(getByTestId('input'), { target: { value: 'bobby' } })
+    expect(getByTestId('dirty')).toHaveTextContent('Dirty')
+    fireEvent.change(getByTestId('input'), { target: { value: 'BOB' } })
+    expect(getByTestId('dirty')).toHaveTextContent('Pristine')
+  })
+
   it('should only call each field-level validation once upon initial mount', () => {
     const fooValidate = jest.fn()
     const barValidate = jest.fn()
