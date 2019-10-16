@@ -24,7 +24,7 @@ export type FieldMetaState<FieldValue> = Pick<
   >
 >;
 
-interface FieldInputProps<FieldValue, T extends HTMLElement> extends AnyObject {
+interface FieldInputProps<FieldValue, T extends HTMLElement = HTMLElement> extends AnyObject {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
   onChange: (event: React.ChangeEvent<T> | any) => void;
@@ -39,7 +39,7 @@ interface AnyObject {
   [key: string]: any;
 }
 
-export interface FieldRenderProps<FieldValue, T extends HTMLElement> {
+export interface FieldRenderProps<FieldValue, T extends HTMLElement = HTMLElement> {
   input: FieldInputProps<FieldValue, T>;
   meta: FieldMetaState<FieldValue>;
 }
@@ -93,7 +93,7 @@ export interface UseFieldConfig<FieldValue> {
 export interface FieldProps<
   FieldValue,
   RP extends FieldRenderProps<FieldValue, T>,
-  T extends HTMLElement
+  T extends HTMLElement = HTMLElement
 > extends UseFieldConfig<FieldValue>, RenderableProps<RP> {
   name: string;
   [otherProp: string]: any;
