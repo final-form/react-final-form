@@ -46,9 +46,10 @@ Demonstrates how easy it is to use third party input components. All the third
 party component really needs is `value` and `onChange`, but more complex
 components can accept things like errors.
 
-### [Material-UI](https://codesandbox.io/s/9ywq085k9w)
+### Material-UI
 
-Demonstrates how to use Material-UI input components.
+* [Demonstrates](https://codesandbox.io/s/9ywq085k9w) how to use Material-UI input components.
+* [Modern, reusable, tested, thin wrapper components](https://github.com/lookfirst/mui-rff)
 
 ### 💥 [Performance Optimization Through Subscriptions](examples/subscriptions) 💥
 
