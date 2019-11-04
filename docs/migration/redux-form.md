@@ -8,15 +8,15 @@ Good news! React Final Form was written by the same guy ([@erikras](https://twit
 
 ```diff
  import React from 'react'
--import { reduxForm, Field } from 'redux-form',
-+import { Form, Field } from 'react-final-form',
+-import { reduxForm, Field } from 'redux-form'
++import { Form, Field } from 'react-final-form'
 ```
 
 ### Step 2: Surround your `<form/>` with a `<Form/>`
 
 ```diff
  import React from 'react'
- import { Form, Field } from 'react-final-form',
+ import { Form, Field } from 'react-final-form'
 
  const MyForm = props => {
    const { handleSubmit, pristine, reset, submitting } = props
