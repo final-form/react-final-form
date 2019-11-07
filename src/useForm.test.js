@@ -1,9 +1,11 @@
+// @flow
+
 import React from 'react'
 import { render, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { ErrorBoundary } from './testUtils'
 import Form from './ReactFinalForm'
-import useForm from './useForm'
+import { useForm } from './index'
 
 const onSubmitMock = values => {}
 
