@@ -77,12 +77,12 @@ export interface UseFieldConfig<FieldValue> {
   allowNull?: boolean;
   beforeSubmit?: () => void | boolean;
   defaultValue?: FieldValue;
-  format?: (value: FieldValue, name: string) => any;
+  format?: (value: any, name: string) => any;
   formatOnBlur?: boolean;
   initialValue?: FieldValue;
   isEqual?: (a: any, b: any) => boolean;
   multiple?: boolean;
-  parse?: (value: any, name: string) => FieldValue;
+  parse?: (value: FieldValue, name: string) => FieldValue;
   subscription?: FieldSubscription;
   type?: string;
   validate?: FieldValidator<FieldValue>;
