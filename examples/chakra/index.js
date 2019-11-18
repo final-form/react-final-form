@@ -20,7 +20,6 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  CheckboxGroup,
   Textarea
 } from '@chakra-ui/core'
 import { Form, Field, useField, useForm } from 'react-final-form'
@@ -186,36 +185,6 @@ const CheckboxArrayControl = ({ name, value, children }) => {
     </Checkbox>
   )
 }
-
-const AdaptedCheckboxGroup = ({ input, meta, label, children }) => (
-  <FormControl isInvalid={meta.touched && meta.invalid} my={4}>
-    <FormLabel htmlFor={input.name}>{label}</FormLabel>
-    <CheckboxGroup
-      {...input}
-      onChange={values => {
-        input.onChange(values)
-      }}
-      isInvalid={meta.touched && meta.invalid}
-      my={4}
-    >
-      {children}
-    </CheckboxGroup>
-    <FormErrorMessage>{meta.error}</FormErrorMessage>
-  </FormControl>
-)
-
-const AdaptedBooleanCheckbox = ({ input, meta, label }) => (
-  <FormControl isInvalid={meta.touched && meta.invalid} my={4}>
-    <Checkbox
-      {...input}
-      isChecked={input.checked}
-      isInvalid={meta.touched && meta.invalid}
-    >
-      {label}
-    </Checkbox>
-    <FormErrorMessage>{meta.error}</FormErrorMessage>
-  </FormControl>
-)
 
 const AdaptedRadioGroup = ({ input, meta, label, children }) => (
   <FormControl isInvalid={meta.touched && meta.invalid} my={4}>
