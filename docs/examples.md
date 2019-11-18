@@ -48,8 +48,8 @@ components can accept things like errors.
 
 ### Material-UI
 
-* [Wrapper components](https://github.com/Deadly0/final-form-material-ui) / [Codesandbox demo](https://codesandbox.io/s/9ywq085k9w)
-* [Wrapper components](https://github.com/lookfirst/mui-rff) / [Codesandbox demo](https://codesandbox.io/s/react-final-form-material-ui-example-tqv09)
+- [Wrapper components](https://github.com/Deadly0/final-form-material-ui) / [Codesandbox demo](https://codesandbox.io/s/9ywq085k9w)
+- [Wrapper components](https://github.com/lookfirst/mui-rff) / [Codesandbox demo](https://codesandbox.io/s/react-final-form-material-ui-example-tqv09)
 
 ### 💥 [Performance Optimization Through Subscriptions](examples/subscriptions) 💥
 
@@ -192,6 +192,10 @@ Demonstrates how to use the `formatOnBlur` prop to postpone the formatting of a 
 ### [Styling with 🍭 Smooth-UI](https://codesandbox.io/s/40o45po3l4)
 
 Demonstrates how to use the Smooth-UI styling library to make your forms look fabulous! All you really need is a higher order component that adapts The 🍭 Smooth-UI form controls to work with 🏁 React Final Form.
+
+### [Styling with Chakra-UI](examples/chakra)
+
+Demonstrates how to use the [Chakra UI](https://chakra-ui.com) styling library to make your forms look fabulous!
 
 ### [CLI Example](https://github.com/final-form/rff-cli-example) 🤯
 
