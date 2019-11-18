@@ -580,7 +580,20 @@ describe('Field', () => {
     expect(getByTestId('error')).toHaveTextContent('')
   })
 
-  it('should allow changing field-level validation function with a new function', () => {
+  /**
+   * Allow me to explain this. If we allow field level validation functions
+   * to be swapped, it means that we'd have to run _ALL_ the validation
+   * every time a new field was removed regardless of whether or
+   * not it was using field-level validation. To avoid this overhead, we must
+   * accept some inconsistency when swapping of field-level validation functions.
+   * In this test, swapping from no validation to "required" validation
+   * does work because the field-level validation function is called on mount,
+   * but the error does not clear when we switch back to no validation function
+   * because in order for Final Form to determine if the 'Required' error came
+   * from the newly unmounted Field, it would need to run validation on the entire
+   * form.
+   */
+  it('should ignore changes field-level validation function', () => {
     const createValidator = isRequired =>
       isRequired ? value => (value ? undefined : 'Required') : undefined
 
@@ -600,17 +613,14 @@ describe('Field', () => {
                   validate={createValidator(isRequired)}
                   key={isRequired ? 1 : 0}
                 >
-                  {({ input, meta }) => {
-                    console.info('rendering', isRequired, meta.error)
-                    return (
-                      <div>
-                        <input {...input} data-testid="name" />
-                        <div data-testid="error">{meta.error}</div>
-                      </div>
-                    )
-                  }}
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} data-testid="name" />
+                      <div data-testid="error">{meta.error}</div>
+                    </div>
+                  )}
                 </Field>
-                {/* <Error name="name" /> */}
+                <Error name="name" />
               </form>
             )}
           </Form>
@@ -618,17 +628,14 @@ describe('Field', () => {
       </Toggle>
     )
     expect(getByTestId('error')).toBeEmpty()
-    // expect(getByTestId('error2')).toHaveTextContent('WTF')
-    console.info('TOGGGLE')
+    expect(getByTestId('error2')).toBeEmpty()
     fireEvent.click(getByText('Toggle'))
     expect(getByTestId('error')).toHaveTextContent('Required')
-    // expect(getByTestId('error2')).toHaveTextContent('Required')
+    expect(getByTestId('error2')).toHaveTextContent('Required')
     fireEvent.click(getByText('Toggle'))
-    expect(getByTestId('error')).toBeEmpty()
-    // expect(getByTestId('error2')).toBeEmpty()
-    fireEvent.click(getByText('Toggle'))
+    // ERROR IS NOT CLEARED (see comment above)
     expect(getByTestId('error')).toHaveTextContent('Required')
-    // expect(getByTestId('error2')).toHaveTextContent('Required')
+    expect(getByTestId('error2')).toHaveTextContent('Required')
   })
 
   it('should not rerender if validateFields is !== every time', () => {
