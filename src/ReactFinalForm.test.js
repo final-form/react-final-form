@@ -912,7 +912,8 @@ describe('ReactFinalForm', () => {
   it('should allow an alternative form api to be passed in', () => {
     const onSubmit = jest.fn()
     const form = createForm({ onSubmit: onSubmit })
-    const formMock = jest.spyOn(form, 'registerField')
+    const registerFieldSpy = jest.spyOn(form, 'registerField')
+    const subscribeToFieldStateSpy = jest.spyOn(form, 'subscribeToFieldState')
     render(
       <Form form={form}>
         {({ handleSubmit }) => (
@@ -922,14 +923,200 @@ describe('ReactFinalForm', () => {
         )}
       </Form>
     )
-    expect(formMock).toHaveBeenCalled()
 
-    // called once on first render to get initial state, and then again to subscribe
-    expect(formMock).toHaveBeenCalledTimes(2)
-    expect(formMock.mock.calls[0][0]).toBe('name')
-    expect(formMock.mock.calls[0][2].active).toBe(true) // default subscription
-    expect(formMock.mock.calls[1][0]).toBe('name')
-    expect(formMock.mock.calls[1][2].active).toBe(true) // default subscription
+    // called once on first render to register only once
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(registerFieldSpy.mock.calls[0][0]).toBe('name')
+    expect(registerFieldSpy.mock.calls[0][1]).toBe(undefined) // no initial callback
+    expect(registerFieldSpy.mock.calls[0][2]).toBe(undefined) // no subscription
+
+    // subscribe to field state once
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy.mock.calls[0][0]).toBe('name')
+    expect(subscribeToFieldStateSpy.mock.calls[0][2].active).toBe(true) // default subscription
+  })
+
+  it('should keep field states when field is hidden with keepFieldStateOnUnmount option', () => {
+    const { getByTestId, getByText } = render(
+      <Toggle>
+        {hidden => (
+          <Form initialValues={{ name: 'erikras' }} onSubmit={onSubmitMock}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                {!hidden && (
+                  <Field
+                    keepFieldStateOnUnmount
+                    name="name"
+                    validate={v =>
+                      v.toLowerCase() !== v ? 'SHOULD BE LOWERCASE' : undefined
+                    }
+                  >
+                    {({ input, meta }) => (
+                      <>
+                        <input {...input} data-testid="name" />
+                        <span data-testid="error">{meta.error}</span>
+                      </>
+                    )}
+                  </Field>
+                )}
+              </form>
+            )}
+          </Form>
+        )}
+      </Toggle>
+    )
+
+    const nameField = getByTestId('name')
+    const errorElem = getByTestId('error')
+    expect(nameField).toHaveValue('erikras')
+    expect(errorElem).not.toHaveTextContent('SHOULD BE LOWERCASE')
+
+    fireEvent.change(nameField, { target: { value: 'ERIKRAS' } })
+
+    expect(nameField).toHaveValue('ERIKRAS')
+    expect(errorElem).toHaveTextContent('SHOULD BE LOWERCASE')
+
+    const toggleButton = getByText('Toggle')
+    // hide
+    fireEvent.click(toggleButton)
+    expect(nameField).not.toBeInTheDocument()
+
+    // show
+    fireEvent.click(toggleButton)
+    expect(nameField).toHaveValue('ERIKRAS')
+    expect(errorElem).toHaveTextContent('SHOULD BE LOWERCASE')
+  })
+
+  it('should not re-register when hidden field becomes visible again with keepFieldStateOnUnmount option', () => {
+    const onSubmit = jest.fn()
+    const form = createForm({ onSubmit: onSubmit })
+    const registerFieldSpy = jest.spyOn(form, 'registerField')
+    const subscribeToFieldStateSpy = jest.spyOn(form, 'subscribeToFieldState')
+
+    const { getByTestId, getByText } = render(
+      <Toggle>
+        {hidden => (
+          <Form form={form} onSubmit={onSubmitMock}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                {!hidden && (
+                  <Field
+                    component="input"
+                    data-testid="name"
+                    keepFieldStateOnUnmount
+                    name="name"
+                  />
+                )}
+              </form>
+            )}
+          </Form>
+        )}
+      </Toggle>
+    )
+
+    const nameField = getByTestId('name')
+    const toggleButton = getByText('Toggle')
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+
+    // hide
+    fireEvent.click(toggleButton)
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+
+    // show
+    fireEvent.click(toggleButton)
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('should re-register with the name prop change', () => {
+    const onSubmit = jest.fn()
+    const form = createForm({ onSubmit: onSubmit })
+    const registerFieldSpy = jest.spyOn(form, 'registerField')
+    const subscribeToFieldStateSpy = jest.spyOn(form, 'subscribeToFieldState')
+
+    const { getByTestId, getByText } = render(
+      <Toggle>
+        {isCat => (
+          <Form form={form} onSubmit={onSubmitMock}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <Field
+                  component="input"
+                  data-testid="name"
+                  name={isCat ? 'cat' : 'dog'}
+                />
+              </form>
+            )}
+          </Form>
+        )}
+      </Toggle>
+    )
+
+    const nameField = getByTestId('name')
+    const toggleButton = getByText('Toggle')
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+
+    // change to the input field shouldn't trigger re-register
+    fireEvent.change(nameField, { target: { value: 'Jon' } })
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(toggleButton)
+    expect(registerFieldSpy).toHaveBeenCalledTimes(2)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(2)
+
+    fireEvent.click(toggleButton)
+    expect(registerFieldSpy).toHaveBeenCalledTimes(3)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(3)
+  })
+
+  it('should re-register with the name prop change with keepFieldStateOnUnmount', () => {
+    const onSubmit = jest.fn()
+    const form = createForm({ onSubmit: onSubmit })
+    const registerFieldSpy = jest.spyOn(form, 'registerField')
+    const subscribeToFieldStateSpy = jest.spyOn(form, 'subscribeToFieldState')
+
+    const { getByTestId, getByText } = render(
+      <Toggle>
+        {isCat => (
+          <Form form={form} onSubmit={onSubmitMock}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <Field
+                  component="input"
+                  data-testid="name"
+                  name={isCat ? 'cat' : 'dog'}
+                  keepFieldStateOnUnmount
+                />
+              </form>
+            )}
+          </Form>
+        )}
+      </Toggle>
+    )
+
+    const nameField = getByTestId('name')
+    const toggleButton = getByText('Toggle')
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+
+    // change to the input field shouldn't trigger re-register
+    fireEvent.change(nameField, { target: { value: 'Jon' } })
+    expect(registerFieldSpy).toHaveBeenCalledTimes(1)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(toggleButton)
+    expect(registerFieldSpy).toHaveBeenCalledTimes(2)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(2)
+
+    // this should change the name back to cat (or dog, whatever toggle toggles the toggle)
+    // since the states weren't removed, registration should not happen again, but subscription to field will
+    fireEvent.click(toggleButton)
+    expect(registerFieldSpy).toHaveBeenCalledTimes(2)
+    expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(3)
   })
 
   it('should not destroy on unregister on initial unregister', () => {
