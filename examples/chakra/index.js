@@ -1,9 +1,30 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react'
 import { render } from 'react-dom'
-import Styles from './Styles'
-import { Field } from 'react-final-form'
-import Wizard from './Wizard'
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CSSReset,
+  Heading,
+  Icon,
+  Link,
+  ThemeProvider,
+  theme,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Checkbox,
+  Progress,
+  Radio,
+  RadioGroup,
+  Stack,
+  CheckboxGroup,
+  Textarea
+} from '@chakra-ui/core'
+import { Form, Field, useField, useForm } from 'react-final-form'
+import validate from './validate'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -12,165 +33,252 @@ const onSubmit = async values => {
   window.alert(JSON.stringify(values, 0, 2))
 }
 
-const Error = ({ name }) => (
-  <Field
-    name={name}
-    subscribe={{ touched: true, error: true }}
-    render={({ meta: { touched, error } }) =>
-      touched && error ? <span>{error}</span> : null
-    }
-  />
-)
-
-const required = value => (value ? undefined : 'Required')
-
 const App = () => (
-  <Styles>
-    <h1>React Final Form Example</h1>
-    <h2>Wizard Form</h2>
-    <a
-      href="https://final-form.org/react"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Read Docs
-    </a>
-    <p>
-      Notice the mixture of field-level and record-level (or <em>page-level</em>{' '}
-      in this case) validation.
-    </p>
-    <Wizard
-      initialValues={{ employed: true, stooge: 'larry' }}
-      onSubmit={onSubmit}
-    >
-      <Wizard.Page>
-        <div>
-          <label>First Name</label>
-          <Field
-            name="firstName"
-            component="input"
-            type="text"
-            placeholder="First Name"
-            validate={required}
-          />
-          <Error name="firstName" />
-        </div>
-        <div>
-          <label>Last Name</label>
-          <Field
-            name="lastName"
-            component="input"
-            type="text"
-            placeholder="Last Name"
-            validate={required}
-          />
-          <Error name="lastName" />
-        </div>
-      </Wizard.Page>
-      <Wizard.Page
-        validate={values => {
-          const errors = {}
-          if (!values.email) {
-            errors.email = 'Required'
-          }
-          if (!values.favoriteColor) {
-            errors.favoriteColor = 'Required'
-          }
-          return errors
-        }}
-      >
-        <div>
-          <label>Email</label>
-          <Field
-            name="email"
-            component="input"
-            type="email"
-            placeholder="Email"
-          />
-          <Error name="email" />
-        </div>
-        <div>
-          <label>Favorite Color</label>
-          <Field name="favoriteColor" component="select">
-            <option />
-            <option value="#ff0000">❤️ Red</option>
-            <option value="#00ff00">💚 Green</option>
-            <option value="#0000ff">💙 Blue</option>
-          </Field>
-          <Error name="favoriteColor" />
-        </div>
-      </Wizard.Page>
-      <Wizard.Page
-        validate={values => {
-          const errors = {}
-          if (!values.toppings) {
-            errors.toppings = 'Required'
-          } else if (values.toppings.length < 2) {
-            errors.toppings = 'Choose more'
-          }
-          return errors
-        }}
-      >
-        <div>
-          <label>Employed?</label>
-          <Field name="employed" component="input" type="checkbox" />
-        </div>
-        <div>
-          <label>Toppings</label>
-          <Field name="toppings" component="select" multiple>
-            <option value="ham">🐷 Ham</option>
-            <option value="mushrooms">🍄 Mushrooms</option>
-            <option value="cheese">🧀 Cheese</option>
-            <option value="chicken">🐓 Chicken</option>
-            <option value="pineapple">🍍 Pinapple</option>
-          </Field>
-          <Error name="toppings" />
-        </div>
-      </Wizard.Page>
-      <Wizard.Page
-        validate={values => {
-          const errors = {}
-          if (!values.notes) {
-            errors.notes = 'Required'
-          }
-          return errors
-        }}
-      >
-        <div>
-          <label>Best Stooge?</label>
-          <div>
-            <label>
-              <Field
-                name="stooge"
-                component="input"
-                type="radio"
-                value="larry"
-              />{' '}
-              Larry
-            </label>
-            <label>
-              <Field name="stooge" component="input" type="radio" value="moe" />{' '}
-              Moe
-            </label>
-            <label>
-              <Field
-                name="stooge"
-                component="input"
-                type="radio"
-                value="curly"
-              />{' '}
-              Curly
-            </label>
-          </div>
-        </div>
-        <div>
-          <label>Notes</label>
-          <Field name="notes" component="textarea" placeholder="Notes" />
-          <Error name="notes" />
-        </div>
-      </Wizard.Page>
-    </Wizard>
-  </Styles>
+  <ThemeProvider theme={theme}>
+    <CSSReset />
+    <Box w={500} p={4} m="20px auto">
+      <Heading as="h1" size="xl" textAlign="center">
+        React Final Form
+      </Heading>
+      <Heading as="h2" size="l" textAlign="center" m={5}>
+        Chakra Example
+      </Heading>
+      <Box as="p" textAlign="center">
+        Example using React Final Form and{' '}
+        <Link href="https://chakra-ui.com" isExternal>
+          Chakra <Icon name="external-link" mx="2px" />
+        </Link>
+        .
+      </Box>
+      <Box as="p" textAlign="center">
+        <Link href="https://final-form.org/react" isExternal>
+          Read Docs <Icon name="view" mx="2px" />
+        </Link>
+      </Box>
+      <Form
+        onSubmit={onSubmit}
+        validate={validate}
+        render={({
+          handleSubmit,
+          form,
+          errors,
+          submitting,
+          pristine,
+          values
+        }) => (
+          <Box
+            as="form"
+            p={4}
+            borderWidth="1px"
+            rounded="lg"
+            shadow="1px 1px 3px rgba(0,0,0,0.3)"
+            onSubmit={handleSubmit}
+          >
+            {/* 
+            This example uses a mixture of custom field components using useField() 
+            and components adapted to take the { input, meta } structure <Field/>
+            provides
+            */}
+            <InputControl name="firstName" label="First Name" />
+            <InputControl name="lastName" label="Last Name" />
+            <CheckboxControl name="employed">Employed</CheckboxControl>
+            <Field
+              name="favoriteColor"
+              component={AdaptedRadioGroup}
+              label="Favorite Color"
+            >
+              <Radio value="#ff0000" color="red">
+                Red
+              </Radio>
+              <Radio value="#00ff00" color="green">
+                Green
+              </Radio>
+              <Radio value="#0000ff" color="blue">
+                Blue
+              </Radio>
+            </Field>
+            <Control name="toppings" my={4}>
+              <FormLabel htmlFor="toppings">Toppings</FormLabel>
+              <Stack pl={6} mt={1} spacing={1}>
+                <CheckboxArrayControl name="toppings" value="chicken">
+                  🐓 Chicken
+                </CheckboxArrayControl>
+                <CheckboxArrayControl name="toppings" value="ham">
+                  🐷 Ham
+                </CheckboxArrayControl>
+                <CheckboxArrayControl name="toppings" value="mushrooms">
+                  🍄 Mushrooms
+                </CheckboxArrayControl>
+                <CheckboxArrayControl name="toppings" value="cheese">
+                  🧀 Cheese
+                </CheckboxArrayControl>
+                <CheckboxArrayControl name="toppings" value="tuna">
+                  🐟 Tuna
+                </CheckboxArrayControl>
+                <CheckboxArrayControl name="toppings" value="pineapple">
+                  🍍 Pineapple
+                </CheckboxArrayControl>
+              </Stack>
+              <Error name="toppings" />
+            </Control>
+            <TextareaControl name="notes" label="Notes" />
+            <PercentComplete size="sm" my={5} hasStripe isAnimated />
+            <ButtonGroup spacing={4}>
+              <Button
+                isLoading={submitting}
+                loadingText="Submitting"
+                variantColor="teal"
+                type="submit"
+              >
+                Submit
+              </Button>
+              <Button
+                variantColor="teal"
+                variant="solid"
+                variant="outline"
+                onClick={form.reset}
+                isDisabled={submitting || pristine}
+              >
+                Reset
+              </Button>
+            </ButtonGroup>
+            <Box as="pre" my={10}>
+              {JSON.stringify(values, 0, 2)}
+            </Box>
+          </Box>
+        )}
+      />
+    </Box>
+  </ThemeProvider>
 )
+
+const AdaptedTextarea = ({ input, meta, ...rest }) => (
+  <Textarea {...input} {...rest} isInvalid={meta.error && meta.touched} />
+)
+
+const CheckboxControl = ({ name, value, children }) => {
+  const {
+    input: { checked, ...input },
+    meta: { error, touched, invalid }
+  } = useField(name, {
+    type: 'checkbox' // important for RFF to manage the checked prop
+  })
+  return (
+    <FormControl isInvalid={touched && invalid} my={4}>
+      <Checkbox {...input} isInvalid={touched && invalid} my={4}>
+        {children}
+      </Checkbox>
+      <FormErrorMessage>{error}</FormErrorMessage>
+    </FormControl>
+  )
+}
+
+const CheckboxArrayControl = ({ name, value, children }) => {
+  const {
+    input: { checked, ...input },
+    meta: { error, touched }
+  } = useField(name, {
+    type: 'checkbox', // important for RFF to manage the checked prop
+    value // important for RFF to manage list of strings
+  })
+  return (
+    <Checkbox {...input} isChecked={checked} isInvalid={error && touched}>
+      {children}
+    </Checkbox>
+  )
+}
+
+const AdaptedCheckboxGroup = ({ input, meta, label, children }) => (
+  <FormControl isInvalid={meta.touched && meta.invalid} my={4}>
+    <FormLabel htmlFor={input.name}>{label}</FormLabel>
+    <CheckboxGroup
+      {...input}
+      onChange={values => {
+        input.onChange(values)
+      }}
+      isInvalid={meta.touched && meta.invalid}
+      my={4}
+    >
+      {children}
+    </CheckboxGroup>
+    <FormErrorMessage>{meta.error}</FormErrorMessage>
+  </FormControl>
+)
+
+const AdaptedBooleanCheckbox = ({ input, meta, label }) => (
+  <FormControl isInvalid={meta.touched && meta.invalid} my={4}>
+    <Checkbox
+      {...input}
+      isChecked={input.checked}
+      isInvalid={meta.touched && meta.invalid}
+    >
+      {label}
+    </Checkbox>
+    <FormErrorMessage>{meta.error}</FormErrorMessage>
+  </FormControl>
+)
+
+const AdaptedRadioGroup = ({ input, meta, label, children }) => (
+  <FormControl isInvalid={meta.touched && meta.invalid} my={4}>
+    <FormLabel htmlFor={input.name}>{label}</FormLabel>
+    <RadioGroup {...input}>{children}</RadioGroup>
+    <FormErrorMessage>{meta.error}</FormErrorMessage>
+  </FormControl>
+)
+
+const Control = ({ name, ...rest }) => {
+  const {
+    meta: { error, touched }
+  } = useField(name, { subscription: { touched: true, error: true } })
+  return <FormControl {...rest} isInvalid={error && touched} />
+}
+
+const Error = ({ name }) => {
+  const {
+    meta: { error }
+  } = useField(name, { subscription: { error: true } })
+  return <FormErrorMessage>{error}</FormErrorMessage>
+}
+
+const InputControl = ({ name, label }) => {
+  const { input, meta } = useField(name)
+  return (
+    <Control name={name} my={4}>
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Input
+        {...input}
+        isInvalid={meta.error && meta.touched}
+        id={name}
+        placeholder={label}
+      />
+      <Error name={name} />
+    </Control>
+  )
+}
+
+const TextareaControl = ({ name, label }) => (
+  <Control name={name} my={4}>
+    <FormLabel htmlFor={name}>{label}</FormLabel>
+    <Field
+      name={name}
+      component={AdaptedTextarea}
+      placeholder={label}
+      id={name}
+    />
+    <Error name={name} />
+  </Control>
+)
+
+const PercentComplete = props => {
+  const form = useForm()
+  const numFields = form.getRegisteredFields().length
+  const numErrors = Object.keys(form.getState().errors).length
+  return (
+    <Progress
+      value={numFields === 0 ? 0 : ((numFields - numErrors) / numFields) * 100}
+      {...props}
+    />
+  )
+}
 
 render(<App />, document.getElementById('root'))
