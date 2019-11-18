@@ -134,7 +134,6 @@ const App = () => (
               </Button>
               <Button
                 variantColor="teal"
-                variant="solid"
                 variant="outline"
                 onClick={form.reset}
                 isDisabled={submitting || pristine}

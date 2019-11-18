@@ -11,12 +11,15 @@
   ],
   "main": "index.js",
   "dependencies": {
+    "@chakra-ui/core": "^0.2.6",
+    "@emotion/core": "^10.0.17",
+    "@emotion/styled": "^10.0.17",
+    "emotion-theming": "^10.0.17",
     "final-form": "4.18.6",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-final-form": "latest",
-    "react-scripts": "3.2.0",
-    "styled-components": "4.4.1"
+    "react-scripts": "3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
