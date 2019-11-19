@@ -3,7 +3,7 @@
 import React from 'react'
 import { render, cleanup } from '@testing-library/react'
 import { ErrorBoundary } from './testUtils'
-import { useFormState } from './index'
+import { useFormState, Form } from './index'
 
 describe('useField', () => {
   afterEach(cleanup)
@@ -29,5 +29,22 @@ describe('useField', () => {
       'useFormState must be used inside of a <Form> component'
     )
     console.error.mockRestore()
+  })
+
+  it('state should be enumerable', () => {
+    const Test = () => {
+      const state = useFormState()
+      expect(Object.keys(state).length > 0).toBe(true)
+      return <div>It worked</div>
+    }
+    render(
+      <Form onSubmit={() => {}}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Test />
+          </form>
+        )}
+      </Form>
+    )
   })
 })

@@ -11,12 +11,13 @@ export default function renderComponent<T>(
 ): React.Node {
   const { render, children, component, ...rest } = props
   if (component) {
-    return React.createElement(component, {
-      ...rest,
-      ...lazyProps,
-      children,
-      render
-    })
+    return React.createElement(
+      component,
+      Object.assign(lazyProps, rest, {
+        children,
+        render
+      })
+    )
   }
   if (render) {
     return render(
