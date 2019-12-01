@@ -15,6 +15,7 @@ export const addLazyFormState = (dest: Object, state: FormState): void =>
     'dirty',
     'dirtyFields',
     'dirtySinceLastSubmit',
+    'dirtyFieldsSinceLastSubmit',
     'error',
     'errors',
     'hasSubmitErrors',
