@@ -29,6 +29,8 @@ A function intended for you to give directly to the `<form>` tag:
 </form>
 ```
 
+The function's return type depends on the way the [`onSubmit` function is written](../types/FormProps#onsubmit).
+
 Related:
 
 - [`SyntheticEvent`](https://reactjs.org/docs/events.html)
