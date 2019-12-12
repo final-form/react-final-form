@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { render, fireEvent, cleanup, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
@@ -1164,4 +1164,43 @@ describe('Field', () => {
     fireEvent.click(getByText('Toggle'))
     expect(validate).toHaveBeenCalledTimes(1)
   })
+
+  it('submit should not throw when field with enabled `formatOnBlur` changes name `prop`', () => {
+    const onSubmit = jest.fn()
+
+    const trim = value => value && value.trim()
+
+    const TestForm = () => {
+      const [fieldName, setFieldName] = useState('oldName')
+      const toggleFieldName = () => {
+        setFieldName(fieldName === 'oldName' ? 'newName' : 'oldName')
+      }
+
+      return (
+        <Form onSubmit={onSubmit}>
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <button data-testid="toggle" type="button" onClick={toggleFieldName} />
+              <Field
+                name={fieldName}
+                component="input"
+                formatOnBlur={true}
+                format={trim}
+                data-testid="field"
+              />
+              <button type="submit">Submit</button>
+            </form>
+          )}
+        </Form>
+      )
+    }
+
+    const { getByTestId, getByText } = render(<TestForm />)
+
+    fireEvent.click(getByTestId('toggle'))
+    fireEvent.change(getByTestId('field'), { target: { value: 'trailing space ' } })
+    fireEvent.click(getByText('Submit'))
+    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit.mock.calls[0][0]).toEqual({ newName: 'trailing space' })
+  });
 })
