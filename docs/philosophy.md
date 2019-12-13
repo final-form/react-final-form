@@ -2,7 +2,7 @@
 
 # Philosophy
 
-For several years, I ([@erikras](https://twitter.com/erikras)) actively maintained the first big form library in the React community, [Redux Form](https://redux-form.com). During those years, I learned many lessons, about open source and React, and saw hundreds of forms use cases from around the world. As Redux Form grew in popularity (and bundle size), I received a lot of feedback from the community. React Final Form is my answer the concerns of the community.
+For several years, I ([@erikras](https://twitter.com/erikras)) actively maintained the first big form library in the React community, [Redux Form](https://redux-form.com). During those years, I learned many lessons, about open source and React, and saw hundreds of forms use cases from around the world. As Redux Form grew in popularity (and bundle size), I received a lot of feedback from the community. React Final Form is my answer to the concerns of the community.
 
 ## Talk
 
