@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { render, fireEvent, cleanup, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
@@ -1170,37 +1170,33 @@ describe('Field', () => {
 
     const trim = value => value && value.trim()
 
-    const TestForm = () => {
-      const [fieldName, setFieldName] = useState('oldName')
-      const toggleFieldName = () => {
-        setFieldName(fieldName === 'oldName' ? 'newName' : 'oldName')
-      }
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <Toggle>
+            {newFieldName => (
+              <form onSubmit={handleSubmit}>
+                <Field
+                  name={newFieldName ? 'newName' : 'oldName'}
+                  component="input"
+                  formatOnBlur={true}
+                  format={trim}
+                  data-testid="field"
+                />
+                <button type="submit">Submit</button>
+              </form>
+            )}
+          </Toggle>
+        )}
+      </Form>
+    )
 
-      return (
-        <Form onSubmit={onSubmit}>
-          {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <button data-testid="toggle" type="button" onClick={toggleFieldName} />
-              <Field
-                name={fieldName}
-                component="input"
-                formatOnBlur={true}
-                format={trim}
-                data-testid="field"
-              />
-              <button type="submit">Submit</button>
-            </form>
-          )}
-        </Form>
-      )
-    }
-
-    const { getByTestId, getByText } = render(<TestForm />)
-
-    fireEvent.click(getByTestId('toggle'))
-    fireEvent.change(getByTestId('field'), { target: { value: 'trailing space ' } })
+    fireEvent.click(getByText('Toggle'))
+    fireEvent.change(getByTestId('field'), {
+      target: { value: 'trailing space ' }
+    })
     fireEvent.click(getByText('Submit'))
     expect(onSubmit).toHaveBeenCalled()
     expect(onSubmit.mock.calls[0][0]).toEqual({ newName: 'trailing space' })
-  });
+  })
 })
