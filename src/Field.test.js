@@ -1164,4 +1164,39 @@ describe('Field', () => {
     fireEvent.click(getByText('Toggle'))
     expect(validate).toHaveBeenCalledTimes(1)
   })
+
+  it('submit should not throw when field with enabled `formatOnBlur` changes name `prop`', () => {
+    const onSubmit = jest.fn()
+
+    const trim = value => value && value.trim()
+
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <Toggle>
+            {newFieldName => (
+              <form onSubmit={handleSubmit}>
+                <Field
+                  name={newFieldName ? 'newName' : 'oldName'}
+                  component="input"
+                  formatOnBlur={true}
+                  format={trim}
+                  data-testid="field"
+                />
+                <button type="submit">Submit</button>
+              </form>
+            )}
+          </Toggle>
+        )}
+      </Form>
+    )
+
+    fireEvent.click(getByText('Toggle'))
+    fireEvent.change(getByTestId('field'), {
+      target: { value: 'trailing space ' }
+    })
+    fireEvent.click(getByText('Submit'))
+    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit.mock.calls[0][0]).toEqual({ newName: 'trailing space' })
+  })
 })

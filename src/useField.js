@@ -50,6 +50,11 @@ function useField<FormValues: FormValuesShape>(
   const configRef = useLatest(config)
 
   const register = (callback: FieldState => void) =>
+    // avoid using `state` const in any closures created inside `register`
+    // because they would refer `state` from current execution context
+    // whereas actual `state` would defined in the subsequent `useField` hook
+    // execution
+    // (that would be caused by `setState` call performed in `register` callback)
     form.registerField(name, callback, subscription, {
       afterSubmit,
       beforeSubmit: () => {
@@ -60,11 +65,11 @@ function useField<FormValues: FormValuesShape>(
         } = configRef.current
 
         if (formatOnBlur) {
-          const { value } = ((form.getFieldState(state.name): any): FieldState)
-          const formatted = format(value, state.name)
+          const { value } = ((form.getFieldState(name): any): FieldState)
+          const formatted = format(value, name)
 
           if (formatted !== value) {
-            state.change(formatted)
+            form.change(name, formatted)
           }
         }
 
