@@ -24,7 +24,8 @@ export type FieldMetaState<FieldValue> = Pick<
   >
 >;
 
-interface FieldInputProps<FieldValue, T extends HTMLElement = HTMLElement> extends AnyObject {
+interface FieldInputProps<FieldValue, T extends HTMLElement = HTMLElement>
+  extends AnyObject {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
   onChange: (event: React.ChangeEvent<T> | any) => void;
@@ -39,13 +40,17 @@ interface AnyObject {
   [key: string]: any;
 }
 
-export interface FieldRenderProps<FieldValue, T extends HTMLElement = HTMLElement> {
+export interface FieldRenderProps<
+  FieldValue,
+  T extends HTMLElement = HTMLElement
+> {
   input: FieldInputProps<FieldValue, T>;
   meta: FieldMetaState<FieldValue>;
 }
 
 export interface FormRenderProps<FormValues = AnyObject>
-  extends FormState<FormValues>, RenderableProps<FormRenderProps<FormValues>> {
+  extends FormState<FormValues>,
+    RenderableProps<FormRenderProps<FormValues>> {
   form: FormApi<FormValues>;
   handleSubmit: (
     event?: React.SyntheticEvent<HTMLFormElement>
@@ -76,6 +81,7 @@ export interface UseFieldConfig<FieldValue> {
   afterSubmit?: () => void;
   allowNull?: boolean;
   beforeSubmit?: () => void | boolean;
+  data?: AnyObject;
   defaultValue?: FieldValue;
   format?: (value: FieldValue, name: string) => any;
   formatOnBlur?: boolean;

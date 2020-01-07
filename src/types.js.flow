@@ -80,6 +80,7 @@ export type UseFieldAutoConfig = {
   beforeSubmit?: () => void | false,
   children?: $PropertyType<RenderableProps<*>, 'children'>,
   component?: $PropertyType<RenderableProps<*>, 'component'>,
+  data?: Object,
   defaultValue?: any,
   format?: (value: any, name: string) => any,
   formatOnBlur?: boolean,
