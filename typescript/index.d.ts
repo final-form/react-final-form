@@ -42,6 +42,7 @@ interface AnyObject {
 export interface FieldRenderProps<FieldValue, T extends HTMLElement = HTMLElement> {
   input: FieldInputProps<FieldValue, T>;
   meta: FieldMetaState<FieldValue>;
+  [otherProp: string]: any;
 }
 
 export interface FormRenderProps<FormValues = AnyObject>
