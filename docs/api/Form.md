@@ -42,7 +42,7 @@ While using `component` might feel easiest if you are migrating from [Redux Form
 
 ### 3. Do something with `handleSubmit`
 
-The most important thing that `<Form/>` will pass to your render function is the `handleSubmit` function. `handleSubmit` is a convenience method designd to be passed as the `onSubmit` prop to an HTML `<form>` component. `handleSubmit` will call `event.preventDefault()` to stop the default browser submission process.
+The most important thing that `<Form/>` will pass to your render function is the `handleSubmit` function. `handleSubmit` is a convenience method designed to be passed as the `onSubmit` prop to an HTML `<form>` component. `handleSubmit` will call `event.preventDefault()` to stop the default browser submission process.
 
 In practice, your form will always look something like this:
 
