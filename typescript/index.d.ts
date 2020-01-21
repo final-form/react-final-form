@@ -46,6 +46,7 @@ export interface FieldRenderProps<
 > {
   input: FieldInputProps<FieldValue, T>;
   meta: FieldMetaState<FieldValue>;
+  [otherProp: string]: any;
 }
 
 export interface FormRenderProps<FormValues = AnyObject>
