@@ -97,6 +97,16 @@ Related:
 
 - [`FieldRenderProps`](FieldRenderProps)
 
+## `data`
+
+```ts
+Object
+```
+
+Optional.
+
+Initial state for arbitrary values to be placed by mutators.
+
 ## `defaultValue`
 
 ```ts

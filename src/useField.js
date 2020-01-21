@@ -34,6 +34,7 @@ function useField<FormValues: FormValuesShape>(
     afterSubmit,
     allowNull,
     component,
+    data,
     defaultValue,
     format = defaultFormat,
     formatOnBlur,
@@ -75,6 +76,7 @@ function useField<FormValues: FormValuesShape>(
 
         return beforeSubmit && beforeSubmit()
       },
+      data,
       defaultValue,
       getValidator: () => configRef.current.validate,
       initialValue,
@@ -114,6 +116,7 @@ function useField<FormValues: FormValuesShape>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       name,
+      data,
       defaultValue,
       // If we want to allow inline fat-arrow field-level validation functions, we
       // cannot reregister field every time validate function !==.
