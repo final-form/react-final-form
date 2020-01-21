@@ -117,7 +117,7 @@ export interface FormSpyProps<FormValues = AnyObject>
 export const Field: <
   FieldValue = any,
   RP extends FieldRenderProps<FieldValue, T> = FieldRenderProps<
-    any,
+    FieldValue,
     HTMLElement
   >,
   T extends HTMLElement = HTMLElement
