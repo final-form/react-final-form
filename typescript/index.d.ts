@@ -53,7 +53,9 @@ export interface FormRenderProps<FormValues = AnyObject>
     RenderableProps<FormRenderProps<FormValues>> {
   form: FormApi<FormValues>;
   handleSubmit: (
-    event?: React.SyntheticEvent<HTMLFormElement>
+    event?: Partial<
+      Pick<React.SyntheticEvent, 'preventDefault' | 'stopPropagation'>
+    >
   ) => Promise<AnyObject | undefined> | undefined;
 }
 

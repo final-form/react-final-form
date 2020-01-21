@@ -13,7 +13,7 @@ import type {
   FormValuesShape,
   Unsubscribe
 } from 'final-form'
-import type { FormProps as Props } from './types'
+import type { FormProps as Props, SubmitEvent } from './types'
 import renderComponent from './renderComponent'
 import useWhenValueChanges from './useWhenValueChanges'
 import useConstant from './useConstant'
@@ -163,7 +163,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     form.setConfig('validateOnBlur', validateOnBlur)
   })
 
-  const handleSubmit = (event: ?SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: ?SubmitEvent) => {
     if (event) {
       // sometimes not true, e.g. React Native
       if (typeof event.preventDefault === 'function') {
