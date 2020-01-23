@@ -140,6 +140,9 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   useWhenValueChanges(destroyOnUnregister, () => {
     form.destroyOnUnregister = !!destroyOnUnregister
   })
+  useWhenValueChanges(keepDirtyOnReinitialize, () => {
+    form.setConfig('keepDirtyOnReinitialize', keepDirtyOnReinitialize)
+  })
   useWhenValueChanges(
     initialValues,
     () => {
@@ -147,9 +150,6 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     },
     initialValuesEqual || shallowEqual
   )
-  useWhenValueChanges(keepDirtyOnReinitialize, () => {
-    form.setConfig('keepDirtyOnReinitialize', keepDirtyOnReinitialize)
-  })
   useWhenValueChanges(mutators, () => {
     form.setConfig('mutators', mutators)
   })
