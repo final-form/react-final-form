@@ -85,6 +85,12 @@ export default styled.div`
       & > input[type='checkbox'] {
         margin-top: 7px;
       }
+      & > span {
+        line-height: 32px;
+        margin-left: 10px;
+        color: #800;
+        font-weight: bold;
+      }
       & > div {
         margin-left: 16px;
         & > label {
