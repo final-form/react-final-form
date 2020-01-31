@@ -61,6 +61,7 @@ export default styled.div`
     border-radius: 3px;
 
     & > div {
+      position: relative;
       display: flex;
       flex-flow: row nowrap;
       line-height: 2em;
@@ -110,6 +111,7 @@ export default styled.div`
       }
     }
     pre {
+      position: relative;
       border: 1px solid #ccc;
       background: rgba(0, 0, 0, 0.1);
       box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);

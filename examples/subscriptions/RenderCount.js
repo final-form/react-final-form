@@ -1,16 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default class RenderCount extends React.Component {
-  renders = 0
+export default function RenderCount() {
+  const renders = React.useRef(0)
 
-  render() {
-    return <Circle>{++this.renders}</Circle>
-  }
+  return <Circle>{++renders.current}</Circle>
 }
 
 const size = 30
-const Circle = styled.i`
+const Circle = styled.span`
   position: absolute;
   top: 0;
   right: 0;
