@@ -8,7 +8,7 @@ export default function RenderCount() {
 }
 
 const size = 30
-const Circle = styled.span`
+const Circle = styled.i`
   position: absolute;
   top: 0;
   right: 0;
