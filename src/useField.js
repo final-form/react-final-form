@@ -116,27 +116,31 @@ function useField<FormValues: FormValuesShape>(
     registerAndGetInitialState
   )
 
-  React.useEffect(() => {
-    // make sure this doesn't get triggered on first render
-    if (firstRenderRef.current === false) {
-      unregisterRef.current && unregisterRef.current()
-      setState(registerAndGetInitialState())
-    }
+  React.useEffect(
+    () => {
+      // make sure this doesn't get triggered on first render
+      if (firstRenderRef.current === false) {
+        unregisterRef.current && unregisterRef.current()
+        setState(registerAndGetInitialState())
+      }
 
-    const unsubscribeFieldState = form.subscribeToFieldState(
-      name,
-      setState,
-      subscription
-    )
+      const unsubscribeFieldState = form.subscribeToFieldState(
+        name,
+        setState,
+        subscription
+      )
 
-    firstRenderRef.current = false
+      firstRenderRef.current = false
 
-    return () => {
-      unsubscribeFieldState()
-      unregisterRef.current && unregisterRef.current()
-      unregisterRef.current = undefined
-    }
-  }, [defaultValue, initialValue, name])
+      return () => {
+        unsubscribeFieldState()
+        unregisterRef.current && unregisterRef.current()
+        unregisterRef.current = undefined
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [defaultValue, initialValue, name]
+  )
 
   const handlers = {
     onBlur: React.useCallback(

@@ -1014,7 +1014,6 @@ describe('ReactFinalForm', () => {
       </Toggle>
     )
 
-    const nameField = getByTestId('name')
     const toggleButton = getByText('Toggle')
     expect(registerFieldSpy).toHaveBeenCalledTimes(1)
     expect(subscribeToFieldStateSpy).toHaveBeenCalledTimes(1)
