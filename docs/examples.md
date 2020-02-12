@@ -48,7 +48,6 @@ components can accept things like errors.
 
 ### Material-UI
 
-- [Wrapper components](https://github.com/Deadly0/final-form-material-ui) / [Codesandbox demo](https://codesandbox.io/s/react-final-form-material-ui-example-3u2jj)
 - [Wrapper components](https://github.com/lookfirst/mui-rff) / [Codesandbox demo](https://codesandbox.io/s/react-final-form-material-ui-example-tqv09)
 
 ### 💥 [Performance Optimization Through Subscriptions](examples/subscriptions) 💥
