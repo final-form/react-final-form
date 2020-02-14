@@ -53,7 +53,7 @@ A render function that is given [`FieldRenderProps`](FieldRenderProps), as well 
     console.log(props.someArbitraryOtherProp) // would print 42
     return <input {...props.input}/>
   }}
-</Form>
+</Field>
 ```
 
 Note that if you specify [`render`](#render) or [`component`](#component) _and_ `children`, `render` will be called, with `children` injected as if it were an additional prop. This can be especially useful for doing something like:
