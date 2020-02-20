@@ -8,14 +8,16 @@
   "dependencies": {
     "@date-io/date-fns": "latest",
     "@material-ui/core": "latest",
+    "@material-ui/lab": "latest",
+    "@material-ui/pickers": "latest",
     "date-fns": "next",
     "final-form": "latest",
-    "final-form-material-ui": "latest",
-    "material-ui-pickers": "latest",
+    "mui-rff": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-final-form": "latest",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "tslib": "latest"
   },
   "devDependencies": {},
   "scripts": {
