@@ -46,6 +46,13 @@ const App = () => {
         >
           External Submit via closure
         </button>
+        <button
+          type="submit"
+          form="exampleForm"
+          style={{ marginTop: 10 }}
+        >
+          External Submit via form attribute
+        </button>
       </div>
       <Form
         onSubmit={onSubmit}
