@@ -94,6 +94,7 @@ export type UseFieldAutoConfig = {
   formatOnBlur?: boolean,
   initialValue?: any,
   isEqual?: (a: any, b: any) => boolean,
+  keepFieldStateOnUnmount?: boolean,
   multiple?: boolean,
   parse?: (value: any, name: string) => any,
   type?: string,

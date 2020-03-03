@@ -39,6 +39,7 @@ function useField<FormValues: FormValuesShape>(
     format = defaultFormat,
     formatOnBlur,
     initialValue,
+    keepFieldStateOnUnmount = false,
     multiple,
     parse = defaultParse,
     subscription = all,
@@ -50,13 +51,13 @@ function useField<FormValues: FormValuesShape>(
 
   const configRef = useLatest(config)
 
-  const register = (callback: FieldState => void) =>
+  const register = () =>
     // avoid using `state` const in any closures created inside `register`
     // because they would refer `state` from current execution context
     // whereas actual `state` would defined in the subsequent `useField` hook
     // execution
     // (that would be caused by `setState` call performed in `register` callback)
-    form.registerField(name, callback, subscription, {
+    form.registerField(name, undefined, undefined, {
       afterSubmit,
       beforeSubmit: () => {
         const {
@@ -84,49 +85,61 @@ function useField<FormValues: FormValuesShape>(
       validateFields
     })
 
-  const firstRender = React.useRef(true)
+  const firstRenderRef = React.useRef(true)
+  const unregisterRef = React.useRef()
 
-  // synchronously register and unregister to query field state for our subscription on first render
-  const [state, setState] = React.useState<FieldState>((): FieldState => {
-    let initialState: FieldState = {}
+  const registerAndGetInitialState: () => FieldState = () => {
+    let initState
+    if (!keepFieldStateOnUnmount) {
+      unregisterRef.current && unregisterRef.current()
+      unregisterRef.current = undefined
+    } else {
+      initState = form.getFieldState(name)
+    }
 
-    // temporarily disable destroyOnUnregister
-    const destroyOnUnregister = form.destroyOnUnregister
-    form.destroyOnUnregister = false
+    // if no initial state, register!
+    if (!initState) {
+      const unregisterFn = register()
+      // only set unregister function when keepFieldStateOnUnmount option is false
+      if (keepFieldStateOnUnmount === false) {
+        unregisterRef.current = unregisterFn
+      }
+      initState = form.getFieldState(name)
+    }
 
-    register(state => {
-      initialState = state
-    })()
+    return initState || {}
+  }
 
-    // return destroyOnUnregister to its original value
-    form.destroyOnUnregister = destroyOnUnregister
-
-    return initialState
-  })
+  // register on first render
+  // this will initially check for existing field state from the form before trying to register
+  const [state, setState] = React.useState<FieldState>(
+    registerAndGetInitialState
+  )
 
   React.useEffect(
-    () =>
-      register(state => {
-        if (firstRender.current) {
-          firstRender.current = false
-        } else {
-          setState(state)
-        }
-      }),
+    () => {
+      // make sure this doesn't get triggered on first render
+      if (firstRenderRef.current === false) {
+        unregisterRef.current && unregisterRef.current()
+        setState(registerAndGetInitialState())
+      }
+
+      const unsubscribeFieldState = form.subscribeToFieldState(
+        name,
+        setState,
+        subscription
+      )
+
+      firstRenderRef.current = false
+
+      return () => {
+        unsubscribeFieldState()
+        unregisterRef.current && unregisterRef.current()
+        unregisterRef.current = undefined
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      name,
-      data,
-      defaultValue,
-      // If we want to allow inline fat-arrow field-level validation functions, we
-      // cannot reregister field every time validate function !==.
-      // validate,
-      initialValue
-      // The validateFields array is often passed as validateFields={[]}, creating
-      // a !== new array every time. If it needs to be changed, a rerender/reregister
-      // can be forced by changing the key prop
-      // validateFields
-    ]
+    [defaultValue, initialValue, name]
   )
 
   const handlers = {
