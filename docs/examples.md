@@ -115,7 +115,7 @@ use case, if migrating from `FormSection` should be handled.
 
 Demonstrates how you can use `document.getElementById()` or a closure to trigger
 a submit from outside of the form. For more information, see
-[How can I trigger a submit from outside the form?](docs/faq.md#how-can-i-trigger-a-submit-from-outside-my-form)
+[How can I trigger a submit from outside the form?](https://final-form.org/docs/react-final-form/faq#how-can-i-trigger-a-submit-from-outside-my-form)
 
 ### [Wizard Form](examples/wizard)
 
