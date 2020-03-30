@@ -177,7 +177,12 @@ Now you can just export your component. No HOC decorator needed! [Why?](../faq#w
 +export default MyForm
 ```
 
-### Step 7: Define your `renderField` functions inline (if you want)
+### Step 7: Error management
+
+No more `SubmissionError` to throw, error management is made with the return value.
+Have a look here to know more: https://final-form.org/docs/react-final-form/types/FormProps#onsubmit
+
+### Step 8: Define your `renderField` functions inline (if you want)
 
 With Redux Form, it was common to have to do something like this:
 
