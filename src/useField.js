@@ -50,7 +50,7 @@ function useField<FormValues: FormValuesShape>(
 
   const configRef = useLatest(config)
 
-  const register = (callback: FieldState => void) =>
+  const register = (callback: FieldState => void, silent: boolean) =>
     // avoid using `state` const in any closures created inside `register`
     // because they would refer `state` from current execution context
     // whereas actual `state` would defined in the subsequent `useField` hook
@@ -81,6 +81,7 @@ function useField<FormValues: FormValuesShape>(
       getValidator: () => configRef.current.validate,
       initialValue,
       isEqual: (a, b) => (configRef.current.isEqual || defaultIsEqual)(a, b),
+      silent,
       validateFields
     })
 
@@ -96,7 +97,7 @@ function useField<FormValues: FormValuesShape>(
 
     register(state => {
       initialState = state
-    })()
+    }, true)()
 
     // return destroyOnUnregister to its original value
     form.destroyOnUnregister = destroyOnUnregister
@@ -112,7 +113,7 @@ function useField<FormValues: FormValuesShape>(
         } else {
           setState(state)
         }
-      }),
+      }, false),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       name,
