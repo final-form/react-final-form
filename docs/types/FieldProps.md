@@ -164,6 +164,18 @@ Optional. Defaults to `===`.
 
 A function to determine if two values are equal.
 
+## `multiple`
+
+```ts
+boolean
+```
+
+Optional.
+
+This attribute is not documented yet.
+
+It will be added on your input component, or you may retrieve its value inside the "input" property of your custom components.
+
 ## `name`
 
 ```ts
@@ -232,6 +244,18 @@ If no `subscription` is provided, it will default to subscribing to _all_ field 
 Related:
 
 - [`FieldState`](/docs/final-form/types/FieldState)
+
+## `type`
+
+```ts
+string
+```
+
+Optional.
+
+This attribute is not documented yet.
+
+It will be added on your input component, or you may retrieve its value inside the "input" property of your custom components
 
 ## `validate`
 
