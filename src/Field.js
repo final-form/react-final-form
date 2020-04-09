@@ -55,6 +55,11 @@ const Field = ({
     // ignore meta, combine input with any other props
     return React.createElement(component, { ...field.input, children, ...rest })
   }
+
+  if (!name) {
+    throw new Error('prop name cannot be undefined in <Field> component')
+  }
+
   return renderComponent(
     { children, component, ...rest },
     field,

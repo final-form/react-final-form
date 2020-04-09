@@ -5,9 +5,9 @@ import { ErrorBoundary, Toggle, wrapWith } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'
 
-const onSubmitMock = values => {}
+const onSubmitMock = (values) => {}
 
-const timeout = ms => new Promise(resolve => setTimeout(resolve, ms))
+const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 async function sleep(ms) {
   await act(async () => {
     await timeout(ms)
@@ -36,7 +36,7 @@ describe('Field', () => {
   it('should resubscribe if name changes', () => {
     const { getByTestId, getByText } = render(
       <Toggle>
-        {isCat => (
+        {(isCat) => (
           <Form
             onSubmit={onSubmitMock}
             initialValues={{ dog: 'Odie', cat: 'Garfield' }}
@@ -129,7 +129,7 @@ describe('Field', () => {
     // This is mainly here for code coverage. 🧐
     const { getByText } = render(
       <Toggle>
-        {hidden => (
+        {(hidden) => (
           <Form
             onSubmit={onSubmitMock}
             initialValues={{ dog: 'Odie', cat: 'Garfield' }}
@@ -208,7 +208,7 @@ describe('Field', () => {
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {wrapWith(spy, () => (
           <form>
-            <Field name="name" parse={v => v}>
+            <Field name="name" parse={(v) => v}>
               {({ input: { value, ...props } }) => (
                 <input
                   {...props}
@@ -241,7 +241,7 @@ describe('Field', () => {
             <Field
               name="name"
               component="input"
-              format={value => (value ? value.toUpperCase() : '')}
+              format={(value) => (value ? value.toUpperCase() : '')}
               data-testid="name"
             />
           </form>
@@ -258,7 +258,7 @@ describe('Field', () => {
   })
 
   it('should only format on blur if formatOnBlur is true', () => {
-    const format = jest.fn(value => (value ? value.toUpperCase() : ''))
+    const format = jest.fn((value) => (value ? value.toUpperCase() : ''))
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
@@ -286,7 +286,7 @@ describe('Field', () => {
   })
 
   it('should `formatOnBlur` most updated value', () => {
-    const format = jest.fn(value => (value ? value.trim() : ''))
+    const format = jest.fn((value) => (value ? value.trim() : ''))
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
@@ -296,7 +296,7 @@ describe('Field', () => {
                 <input
                   {...input}
                   data-testid="name"
-                  onBlur={e => {
+                  onBlur={(e) => {
                     input.onChange(
                       e.target.value && e.target.value.toUpperCase()
                     )
@@ -320,7 +320,7 @@ describe('Field', () => {
   })
 
   it('should not format value at all when formatOnBlur and render prop', () => {
-    const format = jest.fn(value => (value ? value.toUpperCase() : ''))
+    const format = jest.fn((value) => (value ? value.toUpperCase() : ''))
     render(
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
@@ -344,7 +344,7 @@ describe('Field', () => {
       <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
         {() => (
           <form>
-            <Field name="name" format={v => v}>
+            <Field name="name" format={(v) => v}>
               {wrapWith(spy, ({ input: { value, ...props } }) => (
                 <input
                   {...props}
@@ -535,8 +535,8 @@ describe('Field', () => {
   })
 
   it('should allow changing field-level validation function', () => {
-    const simpleValidate = value => (value ? undefined : 'Required')
-    const complexValidate = value => {
+    const simpleValidate = (value) => (value ? undefined : 'Required')
+    const complexValidate = (value) => {
       if (value) {
         if (value !== value.toUpperCase()) {
           return 'SHOULD BE UPPERCASE!'
@@ -547,7 +547,7 @@ describe('Field', () => {
     }
     const { getByTestId, getByText } = render(
       <Toggle>
-        {useComplexValidation => (
+        {(useComplexValidation) => (
           <Form onSubmit={onSubmitMock}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
@@ -594,8 +594,8 @@ describe('Field', () => {
    * form.
    */
   it('should ignore changes field-level validation function', () => {
-    const createValidator = isRequired =>
-      isRequired ? value => (value ? undefined : 'Required') : undefined
+    const createValidator = (isRequired) =>
+      isRequired ? (value) => (value ? undefined : 'Required') : undefined
 
     const Error = ({ name }) => (
       <Field name={name} subscription={{ error: true }}>
@@ -604,7 +604,7 @@ describe('Field', () => {
     )
     const { getByTestId, getByText } = render(
       <Toggle>
-        {isRequired => (
+        {(isRequired) => (
           <Form onSubmit={onSubmitMock}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
@@ -640,7 +640,7 @@ describe('Field', () => {
 
   it('should not rerender if validateFields is !== every time', () => {
     // https://github.com/final-form/react-final-form/issues/502
-    const required = value => (value ? undefined : 'Required')
+    const required = (value) => (value ? undefined : 'Required')
     const spy = jest.fn()
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock}>
@@ -1022,7 +1022,7 @@ describe('Field', () => {
             <Field
               name="name"
               component="input"
-              format={value => value && value.toUpperCase()}
+              format={(value) => value && value.toUpperCase()}
               formatOnBlur
               data-testid="name"
             />
@@ -1091,7 +1091,7 @@ describe('Field', () => {
             <Field
               name="name"
               component="input"
-              validate={async value => {
+              validate={async (value) => {
                 await timeout(5)
                 return value === 'erikras' ? 'Username taken' : undefined
               }}
@@ -1136,7 +1136,7 @@ describe('Field', () => {
     const validate = jest.fn()
     const { getByText } = render(
       <Toggle>
-        {showOtherFields => (
+        {(showOtherFields) => (
           <Form onSubmit={onSubmitMock} validate={validate}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
@@ -1168,13 +1168,13 @@ describe('Field', () => {
   it('submit should not throw when field with enabled `formatOnBlur` changes name `prop`', () => {
     const onSubmit = jest.fn()
 
-    const trim = value => value && value.trim()
+    const trim = (value) => value && value.trim()
 
     const { getByTestId, getByText } = render(
       <Form onSubmit={onSubmit}>
         {({ handleSubmit }) => (
           <Toggle>
-            {newFieldName => (
+            {(newFieldName) => (
               <form onSubmit={handleSubmit}>
                 <Field
                   name={newFieldName ? 'newName' : 'oldName'}
@@ -1198,5 +1198,25 @@ describe('Field', () => {
     fireEvent.click(getByText('Submit'))
     expect(onSubmit).toHaveBeenCalled()
     expect(onSubmit.mock.calls[0][0]).toEqual({ newName: 'trailing space' })
+  })
+
+  it('should throw an error if name prop is undefined', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const errorSpy = jest.fn()
+    render(
+      <ErrorBoundary spy={errorSpy}>
+        <Form onSubmit={onSubmitMock}>
+          {() => <Field name={undefined} render={() => <input />} />}
+        </Form>
+      </ErrorBoundary>
+    )
+
+    expect(errorSpy).toHaveBeenCalled()
+    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy.mock.calls[0][0].message).toBe(
+      'prop name cannot be undefined in <Field> component'
+    )
+    console.error.mockRestore()
   })
 })
