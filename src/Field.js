@@ -63,6 +63,11 @@ const Field = React.forwardRef<any, Props>(function Field(
       ...rest
     })
   }
+
+  if (!name) {
+    throw new Error('prop name cannot be undefined in <Field> component')
+  }
+
   return renderComponent(
     { children, component, ref, ...rest },
     field,
