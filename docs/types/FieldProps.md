@@ -189,6 +189,10 @@ A function that takes the value from the input and name of the field and convert
 
 **Note: If would like to override the default behavior of converting `''` to `undefined`, you can pass an [identity function](https://en.wikipedia.org/wiki/Identity_function), `v => v`, to `parse`, thus allowing you to have form values of `''`.**
 
+## `ref`
+
+The `ref` is forwarded to the component provided by the `component` prop.
+
 ## `render`
 
 <!-- prettier-ignore -->
