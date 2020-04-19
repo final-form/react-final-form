@@ -31,6 +31,20 @@ In the interest of making 🏁 React Final Form the best library it can be, we'd
 
 ---
 
+## Broken forwardRef, DO not use unless you don't need to have `ref` for your form component
+
+<div style="text-align: center">
+  <img src="https://findicons.com/files/icons/811/developer_kit/128/warning.png" alt="read carefully" />
+</div>
+There is a known issue that affect many `react-dom` users and all `react-native` users concerning `ref` and more specifically, the `forwardRef` feature not being implemented. If you need to have a reference to your form component, we recommend you to use [`react-hook-form`](https://react-hook-form.com/)
+
+- https://github.com/final-form/react-final-form/issues/483
+- https://github.com/final-form/react-final-form/issues/779
+
+There is a pull request that require some final help with someone experienced with `Flow`, see https://github.com/final-form/react-final-form/pull/608
+
+---
+
 React Final Form is a thin React wrapper for [Final Form](https://final-form.org), which is a subscriptions-based form state management library that uses the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern), so only the components that need updating are re-rendered as the form's state changes.
 
 ## [Getting Started](https://final-form.org/docs/react-final-form/getting-started)
