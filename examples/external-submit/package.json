@@ -1,0 +1,20 @@
+{
+  "name": "react-final-form-external-submit-button",
+  "version": "1.0.0",
+  "description": "Demonstrates how you can use document.getElementById() or  a closure to trigger a submit from outside the form.",
+  "keywords": [
+    "final-form",
+    "react",
+    "submit",
+    "external submit",
+    "react-final-form"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "styled-components": "4.2.0"
+  }
+}

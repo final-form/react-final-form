@@ -4,13 +4,14 @@ import type { FieldProps as Props, FieldRenderProps } from './types'
 import renderComponent from './renderComponent'
 import useField from './useField'
 
-const Field = React.forwardRef(function Field(
+const Field = React.forwardRef((
   {
     afterSubmit,
     allowNull,
     beforeSubmit,
     children,
     component,
+    data,
     defaultValue,
     format,
     formatOnBlur,
@@ -27,13 +28,14 @@ const Field = React.forwardRef(function Field(
     ...rest
   }: Props,
   ref
-) {
+) => {
   const field: FieldRenderProps = useField(name, {
     afterSubmit,
     allowNull,
     beforeSubmit,
     children,
     component,
+    data,
     defaultValue,
     format,
     formatOnBlur,

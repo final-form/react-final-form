@@ -1,0 +1,16 @@
+{
+  "name": "react-final-form-prefixed-fields",
+  "version": "1.0.0",
+  "description": "This example shows how to use React Context to create sections of your form that have their fields' names prefixed, to structure the resulting form data. This provides similar functionality to Redux Form's FormSection component.",
+  "keywords": [],
+  "homepage": "https://codesandbox.io/s/ww40y2m595",
+  "main": "index.js",
+  "dependencies": {
+    "styled-components": "latest",
+    "react-fontawesome": "latest",
+    "react-final-form": "latest",
+    "react-dom": "latest",
+    "react": "latest",
+    "final-form": "latest"
+  }
+}

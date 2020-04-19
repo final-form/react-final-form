@@ -8,15 +8,15 @@ Good news! React Final Form was written by the same guy ([@erikras](https://twit
 
 ```diff
  import React from 'react'
--import { reduxForm, Field } from 'redux-form',
-+import { Form, Field } from 'react-final-form',
+-import { reduxForm, Field } from 'redux-form'
++import { Form, Field } from 'react-final-form'
 ```
 
 ### Step 2: Surround your `<form/>` with a `<Form/>`
 
 ```diff
  import React from 'react'
- import { Form, Field } from 'react-final-form',
+ import { Form, Field } from 'react-final-form'
 
  const MyForm = props => {
    const { handleSubmit, pristine, reset, submitting } = props
@@ -177,7 +177,12 @@ Now you can just export your component. No HOC decorator needed! [Why?](../faq#w
 +export default MyForm
 ```
 
-### Step 7: Define your `renderField` functions inline (if you want)
+### Step 7: Error management
+
+No more `SubmissionError` to throw, error management is made with the return value.
+Have a look here to know more: https://final-form.org/docs/react-final-form/types/FormProps#onsubmit
+
+### Step 8: Define your `renderField` functions inline (if you want)
 
 With Redux Form, it was common to have to do something like this:
 

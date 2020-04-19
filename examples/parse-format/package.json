@@ -1,0 +1,20 @@
+{
+  "name": "react-final-form-parse-and-format",
+  "version": "1.0.0",
+  "description": "Demonstrates how to use parse and format props to control how values are shown in the input and saved into the form state.",
+  "keywords": [
+    "parse",
+    "react",
+    "react-final-form",
+    "format",
+    "final-form"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "latest",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "latest",
+    "styled-components": "latest"
+  }
+}

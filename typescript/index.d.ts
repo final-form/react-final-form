@@ -24,7 +24,8 @@ export type FieldMetaState<FieldValue> = Pick<
   >
 >;
 
-interface FieldInputProps<FieldValue, T extends HTMLElement> {
+interface FieldInputProps<FieldValue, T extends HTMLElement = HTMLElement>
+  extends AnyObject {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
   onChange: (event: React.ChangeEvent<T> | any) => void;
@@ -33,23 +34,29 @@ interface FieldInputProps<FieldValue, T extends HTMLElement> {
   value: FieldValue;
   checked?: boolean;
   multiple?: boolean;
-  [key: string]: any;
 }
 
 interface AnyObject {
   [key: string]: any;
 }
 
-export interface FieldRenderProps<FieldValue, T extends HTMLElement> {
+export interface FieldRenderProps<
+  FieldValue,
+  T extends HTMLElement = HTMLElement
+> {
   input: FieldInputProps<FieldValue, T>;
   meta: FieldMetaState<FieldValue>;
+  [otherProp: string]: any;
 }
 
 export interface FormRenderProps<FormValues = AnyObject>
-  extends FormState<FormValues> {
+  extends FormState<FormValues>,
+    RenderableProps<FormRenderProps<FormValues>> {
   form: FormApi<FormValues>;
   handleSubmit: (
-    event?: React.SyntheticEvent<HTMLFormElement>
+    event?: Partial<
+      Pick<React.SyntheticEvent, 'preventDefault' | 'stopPropagation'>
+    >
   ) => Promise<AnyObject | undefined> | undefined;
 }
 
@@ -68,7 +75,7 @@ export interface FormProps<FormValues = AnyObject>
   extends Config<FormValues>,
     RenderableProps<FormRenderProps<FormValues>> {
   subscription?: FormSubscription;
-  decorators?: Decorator[];
+  decorators?: Array<Decorator<FormValues>>;
   form?: FormApi<FormValues>;
   initialValuesEqual?: (a?: AnyObject, b?: AnyObject) => boolean;
 }
@@ -77,6 +84,7 @@ export interface UseFieldConfig<FieldValue> {
   afterSubmit?: () => void;
   allowNull?: boolean;
   beforeSubmit?: () => void | boolean;
+  data?: AnyObject;
   defaultValue?: FieldValue;
   format?: (value: FieldValue, name: string) => any;
   formatOnBlur?: boolean;
@@ -94,7 +102,7 @@ export interface UseFieldConfig<FieldValue> {
 export interface FieldProps<
   FieldValue,
   RP extends FieldRenderProps<FieldValue, T>,
-  T extends HTMLElement
+  T extends HTMLElement = HTMLElement
 > extends UseFieldConfig<FieldValue>, RenderableProps<RP> {
   name: string;
   [otherProp: string]: any;
@@ -112,7 +120,7 @@ export interface FormSpyProps<FormValues = AnyObject>
 export const Field: <
   FieldValue = any,
   RP extends FieldRenderProps<FieldValue, T> = FieldRenderProps<
-    any,
+    FieldValue,
     HTMLElement
   >,
   T extends HTMLElement = HTMLElement

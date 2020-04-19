@@ -78,12 +78,14 @@ const MyForm = ({ subscription }) => (
           </button>
         </div>
         {values ? (
-          <pre>{JSON.stringify(values, 0, 2)}</pre>
+          <pre>
+                <RenderCount/>
+          {JSON.stringify(values, 0, 2)}</pre>
         ) : (
           <FormSpy subscription={{ values: true }}>
             {({ values }) => (
               <pre>
-                <RenderCount key="count" />
+                <RenderCount/>
                 {JSON.stringify(values, 0, 2)}
               </pre>
             )}

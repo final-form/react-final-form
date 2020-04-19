@@ -15,8 +15,9 @@ const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
-        🏁 React Final Form Example
-      </span>
+        🏁
+      </span>{' '}
+      React Final Form Example
     </h1>
     <h2>Synchronous Record-Level Validation (with debounced errors)</h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">

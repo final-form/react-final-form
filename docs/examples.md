@@ -12,11 +12,11 @@ Wanna help? We need to migrate all of these examples from CodeSandbox to [here](
 
 Uses the built-in React inputs: `input`, `select`, and `textarea` to build a form with no validation.
 
-### [Synchronous Record-Level Validation](examples/synchronous-record-level-validation)
+### [Synchronous Record-Level Validation](examples/record-level-validation)
 
 Introduces a whole-record validation function and demonstrates how to display errors next to fields using child render functions.
 
-### [Synchronous Field-Level Validation](examples/synchronous-field-level-validation)
+### [Synchronous Field-Level Validation](examples/field-level-validation)
 
 Introduces field-level validation functions and demonstrates how to display errors next to fields using child render functions.
 
@@ -46,9 +46,9 @@ Demonstrates how easy it is to use third party input components. All the third
 party component really needs is `value` and `onChange`, but more complex
 components can accept things like errors.
 
-### [Material-UI 3.0](https://codesandbox.io/s/9ywq085k9w)
+### Material-UI
 
-Demonstrates how to use Material-UI 3.0 input components.
+- [Wrapper components](https://github.com/lookfirst/mui-rff) / [Codesandbox demo](https://codesandbox.io/s/react-final-form-material-ui-example-tqv09)
 
 ### 💥 [Performance Optimization Through Subscriptions](examples/subscriptions) 💥
 
@@ -114,7 +114,7 @@ use case, if migrating from `FormSection` should be handled.
 
 Demonstrates how you can use `document.getElementById()` or a closure to trigger
 a submit from outside of the form. For more information, see
-[How can I trigger a submit from outside the form?](docs/faq.md#how-can-i-trigger-a-submit-from-outside-my-form)
+[How can I trigger a submit from outside the form?](https://final-form.org/docs/react-final-form/faq#how-can-i-trigger-a-submit-from-outside-my-form)
 
 ### [Wizard Form](examples/wizard)
 
@@ -191,6 +191,10 @@ Demonstrates how to use the `formatOnBlur` prop to postpone the formatting of a 
 ### [Styling with 🍭 Smooth-UI](https://codesandbox.io/s/40o45po3l4)
 
 Demonstrates how to use the Smooth-UI styling library to make your forms look fabulous! All you really need is a higher order component that adapts The 🍭 Smooth-UI form controls to work with 🏁 React Final Form.
+
+### [Styling with Chakra-UI](examples/chakra)
+
+Demonstrates how to use the [Chakra UI](https://chakra-ui.com) styling library to make your forms look fabulous!
 
 ### [CLI Example](https://github.com/final-form/rff-cli-example) 🤯
 

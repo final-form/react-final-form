@@ -596,7 +596,20 @@ describe('Field', () => {
     expect(getByTestId('error')).toHaveTextContent('')
   })
 
-  it('should allow changing field-level validation function with a new function', () => {
+  /**
+   * Allow me to explain this. If we allow field level validation functions
+   * to be swapped, it means that we'd have to run _ALL_ the validation
+   * every time a new field was removed regardless of whether or
+   * not it was using field-level validation. To avoid this overhead, we must
+   * accept some inconsistency when swapping of field-level validation functions.
+   * In this test, swapping from no validation to "required" validation
+   * does work because the field-level validation function is called on mount,
+   * but the error does not clear when we switch back to no validation function
+   * because in order for Final Form to determine if the 'Required' error came
+   * from the newly unmounted Field, it would need to run validation on the entire
+   * form.
+   */
+  it('should ignore changes field-level validation function', () => {
     const createValidator = isRequired =>
       isRequired ? value => (value ? undefined : 'Required') : undefined
 
@@ -623,23 +636,20 @@ describe('Field', () => {
                     </div>
                   )}
                 </Field>
-                <Error name="name" standalone />
+                <Error name="name" />
               </form>
             )}
           </Form>
         )}
       </Toggle>
     )
-    expect(getByTestId('error')).toHaveTextContent('')
-    expect(getByTestId('error2')).toHaveTextContent('')
-    debugger
+    expect(getByTestId('error')).toBeEmpty()
+    expect(getByTestId('error2')).toBeEmpty()
     fireEvent.click(getByText('Toggle'))
     expect(getByTestId('error')).toHaveTextContent('Required')
     expect(getByTestId('error2')).toHaveTextContent('Required')
     fireEvent.click(getByText('Toggle'))
-    expect(getByTestId('error')).toHaveTextContent('')
-    expect(getByTestId('error2')).toHaveTextContent('')
-    fireEvent.click(getByText('Toggle'))
+    // ERROR IS NOT CLEARED (see comment above)
     expect(getByTestId('error')).toHaveTextContent('Required')
     expect(getByTestId('error2')).toHaveTextContent('Required')
   })
@@ -911,6 +921,38 @@ describe('Field', () => {
     expect(getByTestId('dirty')).toHaveTextContent('Pristine')
   })
 
+  it('should be able to use inline isEqual to calculate dirty/pristine without falling into infinite rerender loop', () => {
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ name: 'bob' }}>
+        {() => (
+          <form>
+            <Field
+              name="name"
+              isEqual={(a, b) =>
+                (a && a.toUpperCase()) === (b && b.toUpperCase())
+              }
+            >
+              {({ input, meta }) => (
+                <div>
+                  <div data-testid="dirty">
+                    {meta.dirty ? 'Dirty' : 'Pristine'}
+                  </div>
+                  <input {...input} data-testid="input" />
+                </div>
+              )}
+            </Field>
+          </form>
+        )}
+      </Form>
+    )
+    expect(getByTestId('input').value).toBe('bob')
+    expect(getByTestId('dirty')).toHaveTextContent('Pristine')
+    fireEvent.change(getByTestId('input'), { target: { value: 'bobby' } })
+    expect(getByTestId('dirty')).toHaveTextContent('Dirty')
+    fireEvent.change(getByTestId('input'), { target: { value: 'BOB' } })
+    expect(getByTestId('dirty')).toHaveTextContent('Pristine')
+  })
+
   it('should only call each field-level validation once upon initial mount', () => {
     const fooValidate = jest.fn()
     const barValidate = jest.fn()
@@ -1137,5 +1179,40 @@ describe('Field', () => {
     expect(validate).toHaveBeenCalledTimes(1)
     fireEvent.click(getByText('Toggle'))
     expect(validate).toHaveBeenCalledTimes(1)
+  })
+
+  it('submit should not throw when field with enabled `formatOnBlur` changes name `prop`', () => {
+    const onSubmit = jest.fn()
+
+    const trim = value => value && value.trim()
+
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <Toggle>
+            {newFieldName => (
+              <form onSubmit={handleSubmit}>
+                <Field
+                  name={newFieldName ? 'newName' : 'oldName'}
+                  component="input"
+                  formatOnBlur={true}
+                  format={trim}
+                  data-testid="field"
+                />
+                <button type="submit">Submit</button>
+              </form>
+            )}
+          </Toggle>
+        )}
+      </Form>
+    )
+
+    fireEvent.click(getByText('Toggle'))
+    fireEvent.change(getByTestId('field'), {
+      target: { value: 'trailing space ' }
+    })
+    fireEvent.click(getByText('Submit'))
+    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit.mock.calls[0][0]).toEqual({ newName: 'trailing space' })
   })
 })

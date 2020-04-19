@@ -1,0 +1,34 @@
+{
+  "name": "Chakra-Example",
+  "version": "1.0.0",
+  "description": "An example form using Chakra UI",
+  "keywords": [
+    "state management",
+    "react-final-form",
+    "form",
+    "final-form",
+    "react"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "@chakra-ui/core": "^0.2.6",
+    "@emotion/core": "^10.0.17",
+    "@emotion/styled": "^10.0.17",
+    "emotion-theming": "^10.0.17",
+    "final-form": "4.18.6",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-final-form": "latest",
+    "react-scripts": "3.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

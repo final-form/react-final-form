@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default class RenderCount extends React.Component {
-  renders = 0
+export default function RenderCount() {
+  const renders = React.useRef(0)
 
-  render() {
-    return <Circle>{++this.renders}</Circle>
-  }
+  return <Circle>{++renders.current}</Circle>
 }
 
 const size = 30

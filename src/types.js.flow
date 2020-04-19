@@ -51,8 +51,16 @@ export type FieldRenderProps = {
   }
 }
 
+export type SubmitEvent = {
+  preventDefault?: $PropertyType<SyntheticEvent<EventTarget>, 'preventDefault'>,
+  stopPropagation?: $PropertyType<
+    SyntheticEvent<EventTarget>,
+    'stopPropagation'
+  >
+}
+
 export type FormRenderProps<FormValues: FormValuesShape> = {
-  handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
+  handleSubmit: (?SubmitEvent) => ?Promise<?Object>,
   form: FormApi<FormValues>
 } & FormState<FormValues>
 
@@ -80,6 +88,7 @@ export type UseFieldAutoConfig = {
   beforeSubmit?: () => void | false,
   children?: $PropertyType<RenderableProps<*>, 'children'>,
   component?: $PropertyType<RenderableProps<*>, 'component'>,
+  data?: Object,
   defaultValue?: any,
   format?: (value: any, name: string) => any,
   formatOnBlur?: boolean,

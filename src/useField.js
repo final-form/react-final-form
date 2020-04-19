@@ -24,49 +24,64 @@ const defaultFormat = (value: ?any, name: string) =>
 const defaultParse = (value: ?any, name: string) =>
   value === '' ? undefined : value
 
+const defaultIsEqual = (a: any, b: any): boolean => a === b
+
 function useField<FormValues: FormValuesShape>(
   name: string,
-  {
+  config: UseFieldConfig = {}
+): FieldRenderProps {
+  const {
     afterSubmit,
     allowNull,
-    beforeSubmit,
     component,
+    data,
     defaultValue,
     format = defaultFormat,
     formatOnBlur,
     initialValue,
-    isEqual,
     multiple,
     parse = defaultParse,
     subscription = all,
     type,
-    validate,
     validateFields,
     value: _value
-  }: UseFieldConfig = {}
-): FieldRenderProps {
+  } = config
   const form: FormApi<FormValues> = useForm<FormValues>('useField')
 
-  const validateRef = useLatest(validate)
+  const configRef = useLatest(config)
 
-  const beforeSubmitRef = useLatest(() => {
-    if (formatOnBlur) {
-      const formatted = format(state.value, state.name)
-      if (formatted !== state.value) {
-        state.change(formatted)
-      }
-    }
-    return beforeSubmit && beforeSubmit()
-  })
-
-  const register = (callback: FieldState => void) =>
+  const register = (callback: FieldState => void, silent: boolean) =>
+    // avoid using `state` const in any closures created inside `register`
+    // because they would refer `state` from current execution context
+    // whereas actual `state` would defined in the subsequent `useField` hook
+    // execution
+    // (that would be caused by `setState` call performed in `register` callback)
     form.registerField(name, callback, subscription, {
       afterSubmit,
-      beforeSubmit: () => beforeSubmitRef.current(),
+      beforeSubmit: () => {
+        const {
+          beforeSubmit,
+          formatOnBlur,
+          format = defaultFormat
+        } = configRef.current
+
+        if (formatOnBlur) {
+          const { value } = ((form.getFieldState(name): any): FieldState)
+          const formatted = format(value, name)
+
+          if (formatted !== value) {
+            form.change(name, formatted)
+          }
+        }
+
+        return beforeSubmit && beforeSubmit()
+      },
+      data,
       defaultValue,
-      getValidator: () => validateRef.current,
+      getValidator: () => configRef.current.validate,
       initialValue,
-      isEqual,
+      isEqual: (a, b) => (configRef.current.isEqual || defaultIsEqual)(a, b),
+      silent,
       validateFields
     })
 
@@ -82,7 +97,7 @@ function useField<FormValues: FormValuesShape>(
 
     register(state => {
       initialState = state
-    })()
+    }, true)()
 
     // return destroyOnUnregister to its original value
     form.destroyOnUnregister = destroyOnUnregister
@@ -98,16 +113,16 @@ function useField<FormValues: FormValuesShape>(
         } else {
           setState(state)
         }
-      }),
+      }, false),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       name,
+      data,
       defaultValue,
       // If we want to allow inline fat-arrow field-level validation functions, we
       // cannot reregister field every time validate function !==.
       // validate,
-      initialValue,
-      isEqual
+      initialValue
       // The validateFields array is often passed as validateFields={[]}, creating
       // a !== new array every time. If it needs to be changed, a rerender/reregister
       // can be forced by changing the key prop

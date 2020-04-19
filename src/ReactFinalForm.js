@@ -13,7 +13,7 @@ import type {
   FormValuesShape,
   Unsubscribe
 } from 'final-form'
-import type { FormProps as Props } from './types'
+import type { FormProps as Props, SubmitEvent } from './types'
 import renderComponent from './renderComponent'
 import useWhenValueChanges from './useWhenValueChanges'
 import useConstant from './useConstant'
@@ -108,7 +108,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
 
     return () => {
       form.pauseValidation() // pause validation so we don't revalidate on every field deregistration
-      unsubscriptions.forEach(unsubscribe => unsubscribe())
+      unsubscriptions.reverse().forEach(unsubscribe => unsubscribe())
       // don't need to resume validation here; either unmounting, or will re-run this hook with new deps
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -140,6 +140,9 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   useWhenValueChanges(destroyOnUnregister, () => {
     form.destroyOnUnregister = !!destroyOnUnregister
   })
+  useWhenValueChanges(keepDirtyOnReinitialize, () => {
+    form.setConfig('keepDirtyOnReinitialize', keepDirtyOnReinitialize)
+  })
   useWhenValueChanges(
     initialValues,
     () => {
@@ -147,9 +150,6 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     },
     initialValuesEqual || shallowEqual
   )
-  useWhenValueChanges(keepDirtyOnReinitialize, () => {
-    form.setConfig('keepDirtyOnReinitialize', keepDirtyOnReinitialize)
-  })
   useWhenValueChanges(mutators, () => {
     form.setConfig('mutators', mutators)
   })
@@ -163,7 +163,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     form.setConfig('validateOnBlur', validateOnBlur)
   })
 
-  const handleSubmit = (event: ?SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: ?SubmitEvent) => {
     if (event) {
       // sometimes not true, e.g. React Native
       if (typeof event.preventDefault === 'function') {

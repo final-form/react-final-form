@@ -1,0 +1,14 @@
+{
+  "name": "react-final-form-loading-and-initializing",
+  "version": "1.0.0",
+  "description": "This example demonstrates how you can initialize a form by passing in initialValues as a prop.",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "final-form": "4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-final-form": "5.0.1",
+    "styled-components": "4.2.0"
+  }
+}
