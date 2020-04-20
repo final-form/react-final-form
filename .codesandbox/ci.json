@@ -1,0 +1,9 @@
+{
+  "sandboxes": [
+    "/examples/simple",
+    "/examples/record-level-validation",
+    "/examples/field-level-validation",
+    "/examples/submission-errors",
+    "/examples/subscriptions"
+  ]
+}
