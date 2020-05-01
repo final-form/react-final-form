@@ -147,7 +147,7 @@ function useField<FormValues: FormValuesShape>(
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [state.name, format, formatOnBlur]
+      [state.blur, state.name, format, formatOnBlur]
     ),
     onChange: React.useCallback(
       (event: SyntheticInputEvent<*> | any) => {
@@ -183,10 +183,13 @@ function useField<FormValues: FormValuesShape>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [_value, name, parse, state.change, state.value, type]
     ),
-    onFocus: React.useCallback((event: ?SyntheticFocusEvent<*>) => {
-      state.focus()
+    onFocus: React.useCallback(
+      (event: ?SyntheticFocusEvent<*>) => {
+        state.focus()
+      },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+      [state.focus]
+    )
   }
 
   const meta = {}
