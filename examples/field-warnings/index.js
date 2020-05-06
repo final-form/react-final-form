@@ -1,34 +1,40 @@
-import React from "react";
-import { render } from "react-dom";
-import Styles from "./Styles";
-import { WarningEngine } from "./warning-engine";
-import { Form, Field } from "react-final-form";
-import setFieldData from "final-form-set-field-data";
+import React from 'react'
+import { render } from 'react-dom'
+import Styles from './Styles'
+import { WarningEngine } from './warning-engine'
+import { Form, Field } from 'react-final-form'
+import setFieldData from 'final-form-set-field-data'
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const onSubmit = async values => {
-  await sleep(300);
-  window.alert(JSON.stringify(values, 0, 2));
-};
+  await sleep(300)
+  window.alert(JSON.stringify(values, 0, 2))
+}
 
 const App = () => (
   <Styles>
-    <h1><span role="img" aria-label="final form flag">
+    <h1>
+      <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}React Final Form Example
+      </span>{' '}
+      React Final Form Example
     </h1>
     <h2>
-      <span role="img" aria-label="final form flag">⚠️</span>
-        {' '}Warnings{' '}
-      <span role="img" aria-label="final form flag">⚠️</span>
+      <span role="img" aria-label="final form flag">
+        ⚠️
+      </span>{' '}
+      Warnings{' '}
+      <span role="img" aria-label="final form flag">
+        ⚠️
+      </span>
     </h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs
     </a>
     <p>
       Warnings, in this example, are defined as: suggestions to the user, like
-      validation errors, but that do not prevent submission. Note that the{" "}
+      validation errors, but that do not prevent submission. Note that the{' '}
       <code>&lt;WarningEngine/&gt;</code> component must be at the bottom of the
       form to guarantee that all the fields have registered.
     </p>
@@ -37,8 +43,7 @@ const App = () => (
       mutators={{ setFieldData }}
       render={({
         handleSubmit,
-        reset,
-        form: { mutators },
+        form: { mutators, reset },
         submitting,
         pristine,
         values
@@ -82,10 +87,10 @@ const App = () => (
             <pre>{JSON.stringify(values, 0, 2)}</pre>
             <WarningEngine mutators={mutators} />
           </form>
-        );
+        )
       }}
     />
   </Styles>
-);
+)
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'))
