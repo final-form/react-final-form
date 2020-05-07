@@ -130,108 +130,130 @@ function useField<FormValues: FormValuesShape>(
     ]
   )
 
-  const handlers = {
-    onBlur: React.useCallback(
-      (event: ?SyntheticFocusEvent<*>) => {
-        state.blur()
-        if (formatOnBlur) {
-          /**
-           * Here we must fetch the value directly from Final Form because we cannot
-           * trust that our `state` closure has the most recent value. This is a problem
-           * if-and-only-if the library consumer has called `onChange()` immediately
-           * before calling `onBlur()`, but before the field has had a chance to receive
-           * the value update from Final Form.
-           */
-          const fieldState: any = form.getFieldState(state.name)
-          state.change(format(fieldState.value, state.name))
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [state.name, format, formatOnBlur]
-    ),
-    onChange: React.useCallback(
-      (event: SyntheticInputEvent<*> | any) => {
-        // istanbul ignore next
-        if (process.env.NODE_ENV !== 'production' && event && event.target) {
-          const targetType = event.target.type
-          const unknown =
-            ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
-            !type
-
-          const value: any =
-            targetType === 'select-multiple' ? state.value : _value
-
-          if (unknown) {
-            console.error(
-              `You must pass \`type="${
-                targetType === 'select-multiple' ? 'select' : targetType
-              }"\` prop to your Field(${name}) component.\n` +
-                `Without it we don't know how to unpack your \`value\` prop - ${
-                  Array.isArray(value) ? `[${value}]` : `"${value}"`
-                }.`
-            )
-          }
-        }
+  const onBlur = React.useCallback(
+    (event: ?SyntheticFocusEvent<*>) => {
+      state.blur()
+      if (formatOnBlur) {
+        /**
+         * Here we must fetch the value directly from Final Form because we cannot
+         * trust that our `state` closure has the most recent value. This is a problem
+         * if-and-only-if the library consumer has called `onChange()` immediately
+         * before calling `onBlur()`, but before the field has had a chance to receive
+         * the value update from Final Form.
+         */
+        const fieldState: any = form.getFieldState(state.name)
+        state.change(format(fieldState.value, state.name))
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.name, format, formatOnBlur]
+  )
+  const onChange = React.useCallback(
+    (event: SyntheticInputEvent<*> | any) => {
+      // istanbul ignore next
+      if (process.env.NODE_ENV !== 'production' && event && event.target) {
+        const targetType = event.target.type
+        const unknown =
+          ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
+          !type
 
         const value: any =
-          event && event.target
-            ? getValue(event, state.value, _value, isReactNative)
-            : event
-        state.change(parse(value, name))
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [_value, name, parse, state.change, state.value, type]
-    ),
-    onFocus: React.useCallback((event: ?SyntheticFocusEvent<*>) => {
-      state.focus()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-  }
+          targetType === 'select-multiple' ? state.value : _value
 
-  const meta = {}
-  addLazyFieldMetaState(meta, state)
-  const input: FieldInputProps = {
-    name,
-    get value() {
-      let value = state.value
-      if (formatOnBlur) {
-        if (component === 'input') {
-          value = defaultFormat(value, name)
+        if (unknown) {
+          console.error(
+            `You must pass \`type="${
+              targetType === 'select-multiple' ? 'select' : targetType
+            }"\` prop to your Field(${name}) component.\n` +
+            `Without it we don't know how to unpack your \`value\` prop - ${
+              Array.isArray(value) ? `[${value}]` : `"${value}"`
+            }.`
+          )
         }
-      } else {
-        value = format(value, name)
       }
-      if (value === null && !allowNull) {
-        value = ''
-      }
-      if (type === 'checkbox' || type === 'radio') {
-        return _value
-      } else if (component === 'select' && multiple) {
-        return value || []
-      }
-      return value
+
+      const value: any =
+        event && event.target
+          ? getValue(event, state.value, _value, isReactNative)
+          : event
+      state.change(parse(value, name))
     },
-    get checked() {
-      if (type === 'checkbox') {
-        if (_value === undefined) {
-          return !!state.value
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [_value, name, parse, state.change, state.value, type]
+  )
+  const onFocus = React.useCallback((event: ?SyntheticFocusEvent<*>) => {
+    state.focus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const meta = React.useMemo(() => {
+    const lazyObj = {}
+    addLazyFieldMetaState(lazyObj, state)
+    return lazyObj
+  }, [state])
+
+  const input = React.useMemo(() => {
+    const memoizedInput: FieldInputProps = {
+      name,
+      get value() {
+        let value = state.value
+        if (formatOnBlur) {
+          if (component === 'input') {
+            value = defaultFormat(value, name)
+          }
         } else {
-          return !!(Array.isArray(state.value) && ~state.value.indexOf(_value))
+          value = format(value, name)
         }
-      } else if (type === 'radio') {
-        return state.value === _value
-      }
-      return undefined
-    },
-    ...handlers
-  }
+        if (value === null && !allowNull) {
+          value = ''
+        }
+        if (type === 'checkbox' || type === 'radio') {
+          return _value
+        } else if (component === 'select' && multiple) {
+          return value || []
+        }
+        return value
+      },
+      get checked() {
+        if (type === 'checkbox') {
+          if (_value === undefined) {
+            return !!state.value
+          } else {
+            return !!(
+              Array.isArray(state.value) && ~state.value.indexOf(_value)
+            )
+          }
+        } else if (type === 'radio') {
+          return state.value === _value
+        }
+        return undefined
+      },
+      onChange,
+      onBlur,
+      onFocus
+    }
 
-  if (multiple) {
-    input.multiple = multiple
-  }
-  if (type !== undefined) {
-    input.type = type
-  }
+    if (multiple) {
+      memoizedInput.multiple = multiple
+    }
+    if (type !== undefined) {
+      memoizedInput.type = type
+    }
+    return memoizedInput
+  }, [
+    name,
+    type,
+    multiple,
+    component,
+    allowNull,
+    format,
+    formatOnBlur,
+    _value,
+    state.value,
+    onChange,
+    onBlur,
+    onFocus
+  ])
 
   const renderProps: FieldRenderProps = { input, meta } // assign to force Flow check
   return renderProps
