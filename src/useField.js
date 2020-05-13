@@ -156,7 +156,8 @@ function useField<FormValues: FormValuesShape>(
           const targetType = event.target.type
           const unknown =
             ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
-            !type
+            !type &&
+            component !== 'select'
 
           const value: any =
             targetType === 'select-multiple' ? state.value : _value

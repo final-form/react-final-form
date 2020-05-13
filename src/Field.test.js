@@ -996,6 +996,14 @@ describe('Field', () => {
                 </select>
               )}
             </Field>
+            <Field
+              name="selectMultipleWithoutRenderProp"
+              component="select"
+              data-testid="selectMultipleWithoutRenderProp"
+              multiple
+            >
+              <option>{'Option'}</option>
+            </Field>
           </form>
         )}
       </Form>
@@ -1026,6 +1034,11 @@ describe('Field', () => {
       'You must pass `type="select"` prop to your Field(selectMultipleInput) component.\n' +
         "Without it we don't know how to unpack your `value` prop - []."
     )
+    fireEvent.change(getByTestId('selectMultipleWithoutRenderProp'), {
+      target: { value: ['some value'] }
+    })
+    // error not given, since we can deduce that it's a "select"
+    expect(errorSpy).toHaveBeenCalledTimes(3)
     errorSpy.mockRestore()
   })
 
