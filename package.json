@@ -129,6 +129,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
+    "@scarf/scarf": "^1.0.5",
     "ts-essentials": "^6.0.3"
   }
 }
