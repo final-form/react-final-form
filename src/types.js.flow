@@ -39,6 +39,7 @@ export type FieldRenderProps = {
     invalid?: boolean,
     length?: number,
     modified?: boolean,
+    modifiedSinceLastSubmit?: boolean,
     pristine?: boolean,
     submitError?: any,
     submitFailed?: boolean,
