@@ -144,6 +144,18 @@ Optional: May not be present if you have not [subscribed](FieldProps#subscriptio
 
 Once `true`, it will remain `true` for the lifetime of the field, or until the form is reset.
 
+## `meta.modifiedSinceLastSubmit`
+
+```ts
+boolean
+```
+
+Optional: May not be present if you have not [subscribed](FieldProps#subscription) to `modifiedSinceLastSubmit`.
+
+`true` if this field's value has ever been changed since last submission. `false` otherwise.
+
+Once `true`, it will remain `true` until the next submit action, or until the form is reset.
+
 ## `meta.pristine`
 
 ```ts

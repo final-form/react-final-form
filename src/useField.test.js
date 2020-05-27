@@ -48,6 +48,7 @@ describe('useField', () => {
       expect(meta.invalid).toBe(false)
       expect(meta.length).toBeUndefined()
       expect(meta.modified).toBe(false)
+      expect(meta.modifiedSinceLastSubmit).toBe(false)
       expect(meta.pristine).toBe(true)
       expect(meta.submitError).toBeUndefined()
       expect(meta.submitFailed).toBe(false)
