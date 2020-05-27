@@ -172,7 +172,7 @@ boolean
 
 Optional.
 
-This attribute is not documented yet.
+Only of use when using `component="select"` and you want a multiselect.
 
 It will be added on your input component, or you may retrieve its value inside the "input" property of your custom components.
 
@@ -253,7 +253,7 @@ string
 
 Optional.
 
-This attribute is not documented yet.
+If set to `"checkbox"` or `"radio"`, React Final Form will know to manage your values as a checkbox or radio button respectively. Results in a `checked` boolean inside the `input` value given to your render prop.
 
 It will be added on your input component, or you may retrieve its value inside the "input" property of your custom components
 
