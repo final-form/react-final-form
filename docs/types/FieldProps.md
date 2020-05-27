@@ -164,6 +164,18 @@ Optional. Defaults to `===`.
 
 A function to determine if two values are equal.
 
+## `multiple`
+
+```ts
+boolean
+```
+
+Optional.
+
+Only of use when using `component="select"` and you want a multiselect.
+
+It will be added on your input component, or you may retrieve its value inside the "input" property of your custom components.
+
 ## `name`
 
 ```ts
@@ -236,6 +248,18 @@ If no `subscription` is provided, it will default to subscribing to _all_ field 
 Related:
 
 - [`FieldState`](/docs/final-form/types/FieldState)
+
+## `type`
+
+```ts
+string
+```
+
+Optional.
+
+If set to `"checkbox"` or `"radio"`, React Final Form will know to manage your values as a checkbox or radio button respectively. Results in a `checked` boolean inside the `input` value given to your render prop.
+
+It will be added on your input component, or you may retrieve its value inside the "input" property of your custom components
 
 ## `validate`
 
