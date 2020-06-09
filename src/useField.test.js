@@ -7,6 +7,7 @@ import { ErrorBoundary } from './testUtils'
 import Form from './ReactFinalForm'
 import Field from './Field'
 import { useField } from './index'
+import { act } from 'react-dom/test-utils'
 
 const onSubmitMock = values => {}
 
@@ -144,5 +145,38 @@ describe('useField', () => {
     expect(getByTestId('dirty')).toHaveTextContent('Pristine')
     expect(spy).toHaveBeenCalledTimes(3)
     expect(spy.mock.calls[2][0]).toBe(false)
+  })
+
+  it('should update input handlers if subscribed field is changed', () => {
+    const spy = jest.fn()
+    const MyFieldListener = ({ name }) => {
+      const { onChange, onFocus, onBlur } = useField(name).input
+      spy(onChange, onFocus, onBlur)
+      return null
+    }
+    const renderForm = fieldName => (
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <Field name={fieldName} component="input" data-testid="name" />
+            <MyFieldListener name={fieldName} />
+          </form>
+        )}
+      </Form>
+    )
+    const { rerender } = render(renderForm('first'))
+
+    // All forms without restricted subscriptions render twice at first because they
+    // need to update their validation and touched/modified/visited maps every time
+    // new fields are registered.
+    expect(spy).toHaveBeenCalledTimes(2)
+    act(() => {
+      rerender(renderForm('second'))
+    })
+    expect(spy).toHaveBeenCalledTimes(4)
+    // the new handlers should be different from ones before changing field name
+    expect(Object.is(spy.mock.calls[1][0], spy.mock.calls[3][0])).toBe(false) // onChange
+    expect(Object.is(spy.mock.calls[1][1], spy.mock.calls[3][1])).toBe(false) // onFocus
+    expect(Object.is(spy.mock.calls[1][2], spy.mock.calls[3][2])).toBe(false) // onBlur
   })
 })
