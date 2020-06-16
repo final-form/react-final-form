@@ -87,7 +87,7 @@
     "rollup-plugin-uglify": "^6.0.4",
     "tar": "^6.0.1",
     "tslint": "^6.1.0",
-    "ts-essentials": "^6.0.5"
+    "ts-essentials": "^6.0.5",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
