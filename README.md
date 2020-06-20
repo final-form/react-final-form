@@ -16,6 +16,8 @@
 [![codecov.io](https://codecov.io/gh/final-form/react-final-form/branch/master/graph/badge.svg)](https://codecov.io/gh/final-form/react-final-form)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
+✅ Zero dependencies	(that affect your bundle size)
+
 ✅ Only peer dependencies: React and
 [🏁 Final Form](https://github.com/final-form/final-form#-final-form)
 
