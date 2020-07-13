@@ -231,7 +231,7 @@ Note that if you specify `render` _and_ [`children`](#children), `render` will b
 
 Related:
 
-- [`FieldRenderProps`](FormRenderProps)
+- [`FieldRenderProps`](FieldRenderProps)
 
 ## `subscription`
 
