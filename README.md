@@ -29,7 +29,7 @@
 
 [<img align="right" src="docs/sencha.svg" height="100"/>](https://www.sencha.com/)
 
-### Final Form is sponsored by [Sencha](https://www.sencha.com/).
+### React Final Form is sponsored by [Sencha](https://www.sencha.com/).
 
 Comprehensive JS framework and UI components for building enterprise-grade web apps.
 
