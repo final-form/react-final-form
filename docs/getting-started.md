@@ -16,8 +16,6 @@ or
 yarn add final-form react-final-form
 ```
 
-React Final Form uses [scarf-js](https://github.com/scarf-sh/scarf-js) to collect anonymized installation analytics. These analytics help support the maintainers of this library. However, if you'd like to opt out, you can do so by setting `scarfSettings.enabled = false` in your project's `package.json`. Alternatively, you can set the environment variable `SCARF_ANALYTICS=false` before you install.
-
 ## Architecture
 
 React Final Form is a thin React wrapper for [Final Form](/), which is a subscriptions-based form state management library that uses the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern), so only the components that need updating are re-rendered as the form's state changes.
