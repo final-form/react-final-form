@@ -54,3 +54,5 @@ React Final Form is a thin React wrapper for [Final Form](https://final-form.org
 ## [API](https://final-form.org/docs/react-final-form/api)
 
 ## [FAQ](https://final-form.org/docs/react-final-form/faq)
+
+<img src="https://static.scarf.sh/a.png?x-pxid=8feec529-43ac-4b78-8ad9-17c280b4f2d9" />
