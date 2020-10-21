@@ -22,7 +22,7 @@ The only tricky one is:
 
 - [`validateOnBlur`](../types/FormProps#validateonblur)
 
-It's the same at all. In Formik, `validateOnBlur` defaults to `true` and it allows you to tell Formik _not_ to validate on blur. React Final Form validates on every change by default, and setting `validateOnBlur` to `true` is a way to tell React Final Form to _only_ validate on blur (to _not_ validate on change).
+It's not the same at all. In Formik, `validateOnBlur` defaults to `true` and it allows you to tell Formik _not_ to validate on blur. React Final Form validates on every change by default, and setting `validateOnBlur` to `true` is a way to tell React Final Form to _only_ validate on blur (to _not_ validate on change).
 
 ## Props passed by `<Formik/>`
 
