@@ -142,7 +142,7 @@ export function useForm<FormValues = Record<string, any>, InitialFormValues = Pa
   componentName?: string
 ): FormApi<FormValues, InitialFormValues>;
 export function useFormState<FormValues = Record<string, any>, InitialFormValues = Partial<FormValues>>(
-  params?: UseFormStateParams
+  params?: UseFormStateParams<FormValues, InitialFormValues>
 ): FormState<FormValues, InitialFormValues>;
 export function withTypes<FormValues = Record<string, any>, InitialFormValues = Partial<FormValues>>(): {
   Form: React.FC<FormProps<FormValues, InitialFormValues>>;
