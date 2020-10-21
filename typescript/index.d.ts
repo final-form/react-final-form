@@ -78,6 +78,7 @@ export interface FormProps<FormValues = Record<string, any>, InitialFormValues =
   decorators?: Array<Decorator<FormValues, InitialFormValues>>;
   form?: FormApi<FormValues, InitialFormValues>;
   initialValuesEqual?: (a?: AnyObject, b?: AnyObject) => boolean;
+  [otherProp: string]: any;
 }
 
 export interface UseFieldConfig<FieldValue> {
