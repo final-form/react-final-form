@@ -643,8 +643,8 @@ describe('Field', () => {
         )}
       </Toggle>
     )
-    expect(getByTestId('error')).toBeEmpty()
-    expect(getByTestId('error2')).toBeEmpty()
+    expect(getByTestId('error')).toBeEmptyDOMElement()
+    expect(getByTestId('error2')).toBeEmptyDOMElement()
     fireEvent.click(getByText('Toggle'))
     expect(getByTestId('error')).toHaveTextContent('Required')
     expect(getByTestId('error2')).toHaveTextContent('Required')
