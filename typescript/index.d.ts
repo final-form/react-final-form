@@ -28,7 +28,7 @@ interface FieldInputProps<FieldValue, T extends HTMLElement = HTMLElement>
   extends AnyObject {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
-  onChange: (event: React.ChangeEvent<T> | any) => void;
+  onChange: (event: React.ChangeEvent<T> | FieldValue) => void;
   onFocus: (event?: React.FocusEvent<T>) => void;
   type?: string;
   value: FieldValue;
