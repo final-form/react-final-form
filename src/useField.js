@@ -204,6 +204,7 @@ function useField<FormValues: FormValuesShape>(
         }
       } else {
         value = format(value, name)
+        state.change(value)
       }
       if (value === null && !allowNull) {
         value = ''
