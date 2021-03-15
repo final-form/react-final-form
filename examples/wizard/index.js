@@ -15,7 +15,7 @@ const onSubmit = async values => {
 const Error = ({ name }) => (
   <Field
     name={name}
-    subscribe={{ touched: true, error: true }}
+    subscription={{ touched: true, error: true }}
     render={({ meta: { touched, error } }) =>
       touched && error ? <span>{error}</span> : null
     }
