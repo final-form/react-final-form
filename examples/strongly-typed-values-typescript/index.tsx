@@ -1,19 +1,20 @@
-import React from "react";
-import { render } from "react-dom";
-import Styles from "./Styles";
-import { Form, Field } from "react-final-form";
-import CheckboxInput from "./components/CheckboxInput";
-import RadioInput from "./components/RadioInput";
-import TextInput from "./components/TextInput";
-import NumberInput from "./components/NumberInput";
-import TextAreaInput from "./components/TextAreaInput";
-import SelectInput from "./components/SelectInput";
-import MultiSelectInput from "./components/MultiSelectInput";
-import MultiCheckboxInput from "./components/MultiCheckboxInput";
+/* eslint-disable jsx-a11y/accessible-emoji */
+import React from 'react';
+import { render } from 'react-dom';
+import Styles from './Styles';
+import { Form, Field } from 'react-final-form';
+import CheckboxInput from './components/CheckboxInput';
+import RadioInput from './components/RadioInput';
+import TextInput from './components/TextInput';
+import NumberInput from './components/NumberInput';
+import TextAreaInput from './components/TextAreaInput';
+import SelectInput from './components/SelectInput';
+import MultiSelectInput from './components/MultiSelectInput';
+import MultiCheckboxInput from './components/MultiCheckboxInput';
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-type Stooge = "larry" | "moe" | "curly";
+type Stooge = 'larry' | 'moe' | 'curly';
 interface Values {
   firstName?: string;
   lastName?: string;
@@ -32,7 +33,12 @@ const onSubmit = async (values: Values) => {
 
 const App: React.FC = () => (
   <Styles>
-    <h1><span role="img" aria-label="final form flag">🏁</span> React Final Form</h1>
+    <h1>
+      <span role="img" aria-label="final form flag">
+        🏁
+      </span>{' '}
+      React Final Form
+    </h1>
     <h2>Strongly Typed Values with TypeScript</h2>
     <p>
       Strongly Typed form values and field values. Each input requires a
@@ -44,7 +50,7 @@ const App: React.FC = () => (
     </a>
     <Form
       onSubmit={onSubmit}
-      initialValues={{ stooge: "larry", employed: false }}
+      initialValues={{ stooge: 'larry', employed: false }}
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <div>
@@ -108,7 +114,7 @@ const App: React.FC = () => (
                   component={MultiCheckboxInput}
                   type="checkbox"
                   value="ketchup"
-                />{" "}
+                />{' '}
                 Ketchup
               </label>
               <label>
@@ -117,7 +123,7 @@ const App: React.FC = () => (
                   component="input"
                   type="checkbox"
                   value="mustard"
-                />{" "}
+                />{' '}
                 Mustard
               </label>
               <label>
@@ -126,7 +132,7 @@ const App: React.FC = () => (
                   component="input"
                   type="checkbox"
                   value="mayonnaise"
-                />{" "}
+                />{' '}
                 Mayonnaise
               </label>
               <label>
@@ -135,7 +141,7 @@ const App: React.FC = () => (
                   component="input"
                   type="checkbox"
                   value="guacamole"
-                />{" "}
+                />{' '}
                 Guacamole 🥑
               </label>
             </div>
@@ -149,7 +155,7 @@ const App: React.FC = () => (
                   component={RadioInput}
                   type="radio"
                   value="larry"
-                />{" "}
+                />{' '}
                 Larry
               </label>
               <label>
@@ -158,7 +164,7 @@ const App: React.FC = () => (
                   component={RadioInput}
                   type="radio"
                   value="moe"
-                />{" "}
+                />{' '}
                 Moe
               </label>
               <label>
@@ -167,7 +173,7 @@ const App: React.FC = () => (
                   component={RadioInput}
                   type="radio"
                   value="curly"
-                />{" "}
+                />{' '}
                 Curly
               </label>
             </div>
@@ -195,5 +201,5 @@ const App: React.FC = () => (
   </Styles>
 );
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 render(<App />, rootElement);
