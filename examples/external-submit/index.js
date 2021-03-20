@@ -32,7 +32,7 @@ const App = () => {
             // https://github.com/facebook/react/issues/12639#issuecomment-382519193
             document
               .getElementById('exampleForm')
-              .dispatchEvent(new Event('submit', { cancelable: true }))
+              .dispatchEvent(new Event('submit', { cancelable: true, bubbles:true }))
           }
         >
           External Submit via <code>document.getElementById()</code>
