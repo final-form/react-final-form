@@ -11,6 +11,7 @@
   ],
   "main": "index.js",
   "dependencies": {
+    "prop-types": "latest",
     "styled-components": "latest",
     "react-final-form": "latest",
     "react": "latest",
