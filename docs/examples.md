@@ -4,7 +4,7 @@
 
 ---
 
-Wanna help? We need to migrate all of these examples from CodeSandbox to [here](https://github.com/final-form/react-final-form/tree/master/examples). PRs to help with that process would be greatly appreciated. 🙏
+Wanna help? We need to migrate all of these examples from CodeSandbox to [here](https://github.com/final-form/react-final-form/tree/main/examples). PRs to help with that process would be greatly appreciated. 🙏
 
 ---
 
