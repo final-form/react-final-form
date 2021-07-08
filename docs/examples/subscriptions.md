@@ -4,4 +4,4 @@
 
 Demonstrates how, by restricting which parts of form state the form component needs to render, it reduces the number of times the whole form has to rerender. Yet, if some part of form state is needed inside of it, the [`<FormSpy/>`](../api/FormSpy) component can be used to attain it.
 
-[![Edit react-final-form-subscriptions-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/subscriptions)
+[![Edit react-final-form-subscriptions-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/main/examples/subscriptions)

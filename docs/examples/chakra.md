@@ -4,4 +4,4 @@
 
 Demonstrates how to use [Chakra UI](https://chakra-ui.com) components with React Final Form.
 
-[![Edit react-final-form-chakra-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/chakra)
+[![Edit react-final-form-chakra-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/main/examples/chakra)

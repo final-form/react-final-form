@@ -4,4 +4,4 @@
 
 Uses the built-in React inputs: input, select, and textarea to build a form with no validation.
 
-[![Edit react-final-form-simple-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/simple)
+[![Edit react-final-form-simple-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/final-form/react-final-form/tree/main/examples/simple)

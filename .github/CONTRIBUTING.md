@@ -52,7 +52,7 @@ npm run precommit
 ## Coding standards
 
 Our code formatting rules are defined in
-[.eslintrc](https://github.com/final-form/react-final-form/blob/master/.eslintrc).
+[.eslintrc](https://github.com/final-form/react-final-form/blob/main/.eslintrc).
 You can check your code against these standards by running:
 
 ```sh
