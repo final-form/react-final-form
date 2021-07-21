@@ -147,36 +147,306 @@ describe('useField', () => {
     expect(spy.mock.calls[2][0]).toBe(false)
   })
 
-  it('should update input handlers if subscribed field is changed', () => {
+  it('should give same instance of handlers as value changes', () => {
     const spy = jest.fn()
-    const MyFieldListener = ({ name }) => {
-      const { onChange, onFocus, onBlur } = useField(name).input
+    const MyField = ({ name }) => {
+      const { input } = useField(name, { subscription: { value: true } })
+      const { onChange, onFocus, onBlur } = input
       spy(onChange, onFocus, onBlur)
-      return null
+      return <input {...input} />
     }
-    const renderForm = fieldName => (
+    render(
       <Form onSubmit={onSubmitMock}>
         {() => (
           <form>
-            <Field name={fieldName} component="input" data-testid="name" />
-            <MyFieldListener name={fieldName} />
+            <MyField name="myField" />
           </form>
         )}
       </Form>
     )
-    const { rerender } = render(renderForm('first'))
 
-    // All forms without restricted subscriptions render twice at first because they
-    // need to update their validation and touched/modified/visited maps every time
-    // new fields are registered.
     expect(spy).toHaveBeenCalledTimes(2)
-    act(() => {
-      rerender(renderForm('second'))
-    })
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+    const [onChange, onFocus, onBlur] = spy.mock.calls[0]
+    const setValue = value => {
+      act(() => {
+        onFocus()
+        onChange(value)
+        onBlur()
+      })
+    }
+
+    setValue('dog')
+    expect(spy).toHaveBeenCalledTimes(3)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+
+    setValue('cat')
     expect(spy).toHaveBeenCalledTimes(4)
-    // the new handlers should be different from ones before changing field name
-    expect(Object.is(spy.mock.calls[1][0], spy.mock.calls[3][0])).toBe(false) // onChange
-    expect(Object.is(spy.mock.calls[1][1], spy.mock.calls[3][1])).toBe(false) // onFocus
-    expect(Object.is(spy.mock.calls[1][2], spy.mock.calls[3][2])).toBe(false) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
+  })
+
+  it('should give same instance of handlers as name changes', () => {
+    const spy = jest.fn()
+    const MyField = ({ name }) => {
+      const { input } = useField(name, { subscription: { value: true } })
+      const { onChange, onFocus, onBlur } = input
+      spy(onChange, onFocus, onBlur)
+      return <input {...input} />
+    }
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+
+    rerender(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="dog" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(4)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
+  })
+
+  it('should give same instance of handlers as type changes', () => {
+    const spy = jest.fn()
+    const MyField = ({ name, type }) => {
+      const { input } = useField(name, { subscription: { value: true }, type })
+      const { onChange, onFocus, onBlur } = input
+      spy(onChange, onFocus, onBlur)
+      return <input {...input} />
+    }
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+
+    rerender(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="dog" type="search"/>
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(4)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
+  })
+
+  it('should give same instance of handlers as formatOnBlur changes', () => {
+    const spy = jest.fn()
+    const MyField = ({ name, formatOnBlur }) => {
+      const { input } = useField(name, { subscription: { value: true }, formatOnBlur })
+      const { onChange, onFocus, onBlur } = input
+      spy(onChange, onFocus, onBlur)
+      return <input {...input} />
+    }
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+
+    rerender(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="dog" formatOnBlur />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(4)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
+  })
+
+  it('should give same instance of handlers as parse changes', () => {
+    const spy = jest.fn()
+    const MyField = ({ name, parse }) => {
+      const { input } = useField(name, { subscription: { value: true }, parse })
+      const { onChange, onFocus, onBlur } = input
+      spy(onChange, onFocus, onBlur)
+      return <input {...input} />
+    }
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+
+    rerender(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="dog" parse={(x) => x} />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(4)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
+  })
+
+  it('should give same instance of handlers as format changes', () => {
+    const spy = jest.fn()
+    const MyField = ({ name, format }) => {
+      const { input } = useField(name, { subscription: { value: true }, format })
+      const { onChange, onFocus, onBlur } = input
+      spy(onChange, onFocus, onBlur)
+      return <input {...input} />
+    }
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+
+    rerender(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="dog" format={(x) => x} />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(4)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
+  })
+
+  it('should give same instance of handlers as component changes', () => {
+    const spy = jest.fn()
+    const MyField = ({ name, component }) => {
+      const { input } = useField(name, { subscription: { value: true }, component })
+      const { onChange, onFocus, onBlur } = input
+      spy(onChange, onFocus, onBlur)
+      return <input {...input} />
+    }
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1][0]).toBe(spy.mock.calls[0][0]) // onChange
+    expect(spy.mock.calls[1][1]).toBe(spy.mock.calls[0][1]) // onFocus
+    expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]) // onBlur
+
+
+    rerender(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyField name="dog" component="select" />
+          </form>
+        )}
+      </Form>
+    )
+
+    expect(spy).toHaveBeenCalledTimes(4)
+    expect(spy.mock.calls[2][0]).toBe(spy.mock.calls[1][0]) // onChange
+    expect(spy.mock.calls[2][1]).toBe(spy.mock.calls[1][1]) // onFocus
+    expect(spy.mock.calls[2][2]).toBe(spy.mock.calls[1][2]) // onBlur
+    expect(spy.mock.calls[3][0]).toBe(spy.mock.calls[2][0]) // onChange
+    expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]) // onFocus
+    expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]) // onBlur
   })
 })
