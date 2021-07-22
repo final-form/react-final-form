@@ -130,11 +130,56 @@ function useField<FormValues: FormValuesShape>(
     ]
   )
 
+  const _valueRef = React.useRef(_value)
+  React.useEffect(() => {
+    _valueRef.current = _value
+  })
+
+  const stateRef = React.useRef(state)
+  React.useEffect(() => {
+    stateRef.current = state
+  })
+
+  const nameRef = React.useRef(name)
+  React.useEffect(() => {
+    nameRef.current = name
+  })
+
+  const typeRef = React.useRef(type)
+  React.useEffect(() => {
+    typeRef.current = type
+  })
+
+  const formatOnBlurRef = React.useRef(formatOnBlur)
+  React.useEffect(() => {
+    formatOnBlurRef.current = formatOnBlur
+  })
+
+  const formatRef = React.useRef(format)
+  React.useEffect(() => {
+    formatRef.current = format
+  })
+
+  const parseRef = React.useRef(parse)
+  React.useEffect(() => {
+    parseRef.current = parse
+  })
+
+  const formRef = React.useRef(form)
+  React.useEffect(() => {
+    formRef.current = form
+  })
+
+  const componentRef = React.useRef(component)
+  React.useEffect(() => {
+    componentRef.current = component
+  })
+
   const handlers = {
     onBlur: React.useCallback(
       (event: ?SyntheticFocusEvent<*>) => {
-        state.blur()
-        if (formatOnBlur) {
+        stateRef.current.blur()
+        if (formatOnBlurRef.current) {
           /**
            * Here we must fetch the value directly from Final Form because we cannot
            * trust that our `state` closure has the most recent value. This is a problem
@@ -142,12 +187,11 @@ function useField<FormValues: FormValuesShape>(
            * before calling `onBlur()`, but before the field has had a chance to receive
            * the value update from Final Form.
            */
-          const fieldState: any = form.getFieldState(state.name)
-          state.change(format(fieldState.value, state.name))
+          const fieldState: any = formRef.current.getFieldState(stateRef.current.name)
+          stateRef.current.change(formatRef.current(fieldState.value, stateRef.current.name))
         }
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [state.blur, state.name, format, formatOnBlur]
+      []
     ),
     onChange: React.useCallback(
       (event: SyntheticInputEvent<*> | any) => {
@@ -156,17 +200,17 @@ function useField<FormValues: FormValuesShape>(
           const targetType = event.target.type
           const unknown =
             ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
-            !type &&
-            component !== 'select'
+            !typeRef.current &&
+            componentRef.current !== 'select'
 
           const value: any =
-            targetType === 'select-multiple' ? state.value : _value
+            targetType === 'select-multiple' ? stateRef.current.value : _valueRef.current
 
           if (unknown) {
             console.error(
               `You must pass \`type="${
                 targetType === 'select-multiple' ? 'select' : targetType
-              }"\` prop to your Field(${name}) component.\n` +
+              }"\` prop to your Field(${nameRef.current}) component.\n` +
                 `Without it we don't know how to unpack your \`value\` prop - ${
                   Array.isArray(value) ? `[${value}]` : `"${value}"`
                 }.`
@@ -176,19 +220,17 @@ function useField<FormValues: FormValuesShape>(
 
         const value: any =
           event && event.target
-            ? getValue(event, state.value, _value, isReactNative)
+            ? getValue(event, stateRef.current.value, _valueRef.current, isReactNative)
             : event
-        state.change(parse(value, name))
+        stateRef.current.change(parseRef.current(value, nameRef.current))
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [_value, name, parse, state.change, state.value, type]
+      []
     ),
     onFocus: React.useCallback(
       (event: ?SyntheticFocusEvent<*>) => {
-        state.focus()
+        stateRef.current.focus()
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [state.focus]
+      []
     )
   }
 
