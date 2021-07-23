@@ -2,29 +2,15 @@
 import * as React from 'react'
 
 /**
- * Creates a callback, with dependencies, that will be
- * instance === for the lifetime of the component.
+ * Creates a callback, even with closures, that will be
+ * instance === for the lifetime of the component, always
+ * calling the most recent version of the function and its
+ * closures.
  */
-export default function useConstantCallback(callback, deps) {
-  // initialize refs on first render
-  const refs = deps.map(React.useRef)
-  // update refs on each additional render
-  deps.forEach((dep, index) => (refs[index].current = dep))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const constant = React.useRef((...args) => {
-    // This if seems weird, but if args is [], then the
-    // first param will be the refs.map()
-    if (args && args.length) {
-      callback(
-        ...args,
-        refs.map(ref => ref.current)
-      )
-    } else {
-      callback(
-        undefined,
-        refs.map(ref => ref.current)
-      )
-    }
-  }, [])
-  return constant.current
+export default function useConstantCallback(callback) {
+  const ref = React.useRef(callback)
+  React.useEffect(() => {
+    ref.current = callback
+  })
+  return React.useCallback((...args) => ref.current.apply(null, args), [])
 }

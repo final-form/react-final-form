@@ -14,13 +14,10 @@ describe('useConstantCallback', () => {
       const [name, setName] = React.useState('John')
       const [age, setAge] = React.useState(20)
       const [isAdmin, setAdmin] = React.useState(false)
-      const constantCallback = useConstantCallback(
-        (time, [name, age, isAdmin]) => {
-          expect(typeof time).toBe('number')
-          callback(name, age, isAdmin)
-        },
-        [name, age, isAdmin]
-      )
+      const constantCallback = useConstantCallback(time => {
+        expect(typeof time).toBe('number')
+        callback(name, age, isAdmin)
+      })
       const callbackRef = React.useRef(constantCallback)
       expect(callbackRef.current).toBe(constantCallback)
       return (

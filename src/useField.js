@@ -168,64 +168,52 @@ function useField<FormValues: FormValuesShape>(
       }
       return undefined
     },
-    onBlur: useConstantCallback(
-      (event: ?SyntheticFocusEvent<*>, [form, format, formatOnBlur, state]) => {
-        state.blur()
-        if (formatOnBlur) {
-          /**
-           * Here we must fetch the value directly from Final Form because we cannot
-           * trust that our `state` closure has the most recent value. This is a problem
-           * if-and-only-if the library consumer has called `onChange()` immediately
-           * before calling `onBlur()`, but before the field has had a chance to receive
-           * the value update from Final Form.
-           */
-          const fieldState: any = form.getFieldState(state.name)
-          state.change(format(fieldState.value, state.name))
-        }
-      },
-      [form, format, formatOnBlur, state]
-    ),
-    onChange: useConstantCallback(
-      (
-        event: SyntheticInputEvent<*> | any,
-        [component, name, parse, state, type, _value]
-      ) => {
-        // istanbul ignore next
-        if (process.env.NODE_ENV !== 'production' && event && event.target) {
-          const targetType = event.target.type
-          const unknown =
-            ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
-            !type &&
-            component !== 'select'
-
-          const value: any =
-            targetType === 'select-multiple' ? state.value : _value
-
-          if (unknown) {
-            console.error(
-              `You must pass \`type="${
-                targetType === 'select-multiple' ? 'select' : targetType
-              }"\` prop to your Field(${name}) component.\n` +
-                `Without it we don't know how to unpack your \`value\` prop - ${
-                  Array.isArray(value) ? `[${value}]` : `"${value}"`
-                }.`
-            )
-          }
-        }
+    onBlur: useConstantCallback((event: ?SyntheticFocusEvent<*>) => {
+      state.blur()
+      if (formatOnBlur) {
+        /**
+         * Here we must fetch the value directly from Final Form because we cannot
+         * trust that our `state` closure has the most recent value. This is a problem
+         * if-and-only-if the library consumer has called `onChange()` immediately
+         * before calling `onBlur()`, but before the field has had a chance to receive
+         * the value update from Final Form.
+         */
+        const fieldState: any = form.getFieldState(state.name)
+        state.change(format(fieldState.value, state.name))
+      }
+    }),
+    onChange: useConstantCallback((event: SyntheticInputEvent<*> | any) => {
+      // istanbul ignore next
+      if (process.env.NODE_ENV !== 'production' && event && event.target) {
+        const targetType = event.target.type
+        const unknown =
+          ~['checkbox', 'radio', 'select-multiple'].indexOf(targetType) &&
+          !type &&
+          component !== 'select'
 
         const value: any =
-          event && event.target
-            ? getValue(event, state.value, _value, isReactNative)
-            : event
-        state.change(parse(value, name))
-      },
-      [component, name, parse, state, type, _value]
-    ),
-    onFocus: useConstantCallback(
-      (event: ?SyntheticFocusEvent<*>, [state]) => {
-        state.focus()
-      },
-      [state]
+          targetType === 'select-multiple' ? state.value : _value
+
+        if (unknown) {
+          console.error(
+            `You must pass \`type="${
+              targetType === 'select-multiple' ? 'select' : targetType
+            }"\` prop to your Field(${name}) component.\n` +
+              `Without it we don't know how to unpack your \`value\` prop - ${
+                Array.isArray(value) ? `[${value}]` : `"${value}"`
+              }.`
+          )
+        }
+      }
+
+      const value: any =
+        event && event.target
+          ? getValue(event, state.value, _value, isReactNative)
+          : event
+      state.change(parse(value, name))
+    }),
+    onFocus: useConstantCallback((event: ?SyntheticFocusEvent<*>) =>
+      state.focus()
     )
   }
 
