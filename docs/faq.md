@@ -42,6 +42,21 @@ a hassle and would add unnecessary bulk.
 This is a common question I see from people migrating from `redux-form`. There
 are three possible solutions:
 
+### Via the `form` attribute
+
+You can provide the form id to a submit button.
+
+
+```jsx
+<button type="submit" form="myForm">Submit</button>
+{/*                   ^^^^^^^^^^^^^ */}
+
+<form id="myForm" onSubmit={handleSubmit}>
+{/*   ^^^^^^^^^^^ */}
+  ...fields go here...
+</form>
+```
+
 ### Via `document.getElementById()`
 
 You can use the DOM to get a reference to your `<form>` element and dispatch a
