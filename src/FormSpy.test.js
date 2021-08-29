@@ -341,7 +341,7 @@ describe('FormSpy', () => {
             <FormSpy
               subscription={{ dirty: true, values: true }}
               onChange={spy}
-              render={render}
+              render={renderSpy}
             />
           </form>
         )}
