@@ -5,11 +5,11 @@
   "keywords": [],
   "main": "index.js",
   "dependencies": {
-    "final-form": "latest",
+    "final-form": "4.20.2",
     "format-string-by-pattern": "1.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-final-form": "latest",
+    "react-final-form": "6.5.3",
     "styled-components": "latest"
   }
 }

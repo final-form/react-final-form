@@ -13,16 +13,21 @@
   "dependencies": {
     "prop-types": "latest",
     "styled-components": "latest",
-    "react-final-form": "latest",
+    "react-final-form": "6.5.3",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "3.0.1",
-    "final-form": "latest",
+    "final-form": "4.20.2",
     "prop-types": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

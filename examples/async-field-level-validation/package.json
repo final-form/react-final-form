@@ -11,10 +11,10 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "final-form": "4.16.1",
+    "final-form": "4.20.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-final-form": "6.3.0",
+    "react-final-form": "6.5.3",
     "styled-components": "4.2.0"
   }
 }

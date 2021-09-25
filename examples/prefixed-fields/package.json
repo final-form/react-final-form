@@ -8,9 +8,9 @@
   "dependencies": {
     "styled-components": "latest",
     "react-fontawesome": "latest",
-    "react-final-form": "latest",
+    "react-final-form": "6.5.3",
     "react-dom": "latest",
     "react": "latest",
-    "final-form": "latest"
+    "final-form": "4.20.2"
   }
 }

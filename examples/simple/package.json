@@ -12,10 +12,10 @@
   "main": "index.js",
   "dependencies": {
     "styled-components": "latest",
-    "react-final-form": "latest",
+    "react-final-form": "6.5.3",
     "react": "latest",
     "react-dom": "latest",
-    "final-form": "latest",
+    "final-form": "4.20.2",
     "prop-types": "latest"
   }
 }
