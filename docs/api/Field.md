@@ -30,7 +30,7 @@ There are four ways to render a `<Field/>` component:
 
 | Prop                 | Type                               |
 | -------------------- | ---------------------------------- |
-| `<Field component/>` | `'input' or 'select' or 'textarea` |
+| `<Field component/>` | `'input' or 'select' or 'textarea'` |
 | `<Field component/>` | `React.ComponentType`              |
 | `<Field render/>`    | `Function`                         |
 | `<Field children/>`  | `Function`                         |

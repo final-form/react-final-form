@@ -42,7 +42,7 @@ export const all: FormSubscription = formSubscriptionItems.reduce(
 
 function ReactFinalForm<FormValues: FormValuesShape>({
   debug,
-  decorators,
+  decorators = [],
   destroyOnUnregister,
   form: alternateFormApi,
   initialValues,
