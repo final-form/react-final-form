@@ -1,26 +1,26 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import DownshiftInput from './DownshiftInput'
-import fruit from './fruit'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import DownshiftInput from "./DownshiftInput";
+import fruit from "./fruit";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
-const validate = values => {
-  const errors = {}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
+const validate = (values) => {
+  const errors = {};
   if (!values.firstName) {
-    errors.firstName = 'Required'
+    errors.firstName = "Required";
   }
   if (!values.fruit) {
-    errors.fruit = 'Required'
+    errors.fruit = "Required";
   }
-  return errors
-}
+  return errors;
+};
 const Error = ({ name }) => (
   <Field
     name={name}
@@ -29,33 +29,33 @@ const Error = ({ name }) => (
       touched && error ? <span>{error}</span> : null
     }
   />
-)
+);
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>
       <span role="img" aria-label="racecar">
         🏎️
-      </span>{' '}
+      </span>{" "}
       Downshift Example
     </h2>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
       Read Docs
     </a>
     <p>
-      This example demonstrates using a{' '}
+      This example demonstrates using a{" "}
       <a href="https://github.com/paypal/downshift">
         <span role="img" aria-label="racecar">
           🏎️
-        </span>{' '}
+        </span>{" "}
         Downshift
-      </a>{' '}
+      </a>{" "}
       type-ahead component.
     </p>
     <Form
@@ -100,6 +100,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

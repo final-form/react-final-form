@@ -1,33 +1,33 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import createDecorator from 'final-form-calculate'
-import ExternalModificationDetector from './ExternalModificationDetector'
-import BooleanDecay from './BooleanDecay'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import createDecorator from "final-form-calculate";
+import ExternalModificationDetector from "./ExternalModificationDetector";
+import BooleanDecay from "./BooleanDecay";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const calculator = createDecorator({
   field: /day\[\d\]/, // when a field matching this pattern changes...
   updates: {
     // ...update the total to the result of this function
     total: (ignoredValue, allValues) =>
-      (allValues.day || []).reduce((sum, value) => sum + Number(value || 0), 0)
-  }
-})
+      (allValues.day || []).reduce((sum, value) => sum + Number(value || 0), 0),
+  },
+});
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form Example
     </h1>
     <h2>Listening for External Changes</h2>
@@ -98,17 +98,17 @@ const App = () => (
           <div>
             <label>Total</label>
             <ExternalModificationDetector name="total">
-              {externallyModified => (
+              {(externallyModified) => (
                 <BooleanDecay value={externallyModified} delay={1000}>
-                  {highlight => (
+                  {(highlight) => (
                     <Field
                       name="total"
                       component="input"
                       type="number"
                       placeholder="Total"
                       style={{
-                        transition: 'background 500ms ease-in-out',
-                        background: highlight ? 'yellow' : 'none'
+                        transition: "background 500ms ease-in-out",
+                        background: highlight ? "yellow" : "none",
                       }}
                     />
                   )}
@@ -134,6 +134,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

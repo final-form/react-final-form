@@ -1,6 +1,6 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import { Form, Field } from "react-final-form";
 import {
   Box,
   Button,
@@ -17,29 +17,28 @@ import {
   Row,
   Select,
   Textarea,
-  Typography
-} from 'smooth-ui'
+  Typography,
+} from "smooth-ui";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 // ****************************************
 //⬇️ THIS IS WHERE ALL THE MAGIC HAPPENS ⬇️
 // ****************************************
-const adapt /* ⬅️ this is a HOC */ = Component => ({
-  input,
-  meta: { valid },
-  ...rest
-}) => <Component {...input} {...rest} valid={valid} />
-const AdaptedInput = adapt(Input)
-const AdaptedCheckbox = adapt(Checkbox)
-const AdaptedRadio = adapt(Radio)
-const AdaptedSelect = adapt(Select)
-const AdaptedTextarea = adapt(Textarea)
+const adapt /* ⬅️ this is a HOC */ =
+  (Component) =>
+  ({ input, meta: { valid }, ...rest }) =>
+    <Component {...input} {...rest} valid={valid} />;
+const AdaptedInput = adapt(Input);
+const AdaptedCheckbox = adapt(Checkbox);
+const AdaptedRadio = adapt(Radio);
+const AdaptedSelect = adapt(Select);
+const AdaptedTextarea = adapt(Textarea);
 
 const Error = ({ name }) => (
   <Field name={name} subscription={{ error: true, touched: true }}>
@@ -49,12 +48,12 @@ const Error = ({ name }) => (
       ) : null
     }
   </Field>
-)
+);
 // ****************************************
 //⬆️ THIS IS WHERE ALL THE MAGIC HAPPENS ⬆️
 // ****************************************
 
-const required = value => (value ? undefined : 'Required')
+const required = (value) => (value ? undefined : "Required");
 const App = () => (
   <Row>
     <Col />
@@ -62,17 +61,17 @@ const App = () => (
       <Typography variant="h1">
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         React Final Form
       </Typography>
       <Typography variant="h2">
         <span role="img" aria-label="lollipop">
           🍭
-        </span>{' '}
+        </span>{" "}
         Smooth-UI Example
       </Typography>
       <p>
-        This example demonstrates how to use{' '}
+        This example demonstrates how to use{" "}
         <a
           href="https://smooth-ui.smooth-code.com"
           target="_blank"
@@ -80,23 +79,23 @@ const App = () => (
         >
           <span role="img" aria-label="lollipop">
             🍭
-          </span>{' '}
+          </span>{" "}
           Smooth-UI
-        </a>{' '}
+        </a>{" "}
         to make your forms look fabulous. All you really need is the
-        higher-order component that adapts the{' '}
+        higher-order component that adapts the{" "}
         <span role="img" aria-label="lollipop">
           🍭
-        </span>{' '}
-        Smooth-UI form components to be compatible with{' '}
+        </span>{" "}
+        Smooth-UI form components to be compatible with{" "}
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         React Final Form.
       </p>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ stooge: 'larry', employed: true }}
+        initialValues={{ stooge: "larry", employed: true }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <FormGroup>
@@ -138,9 +137,9 @@ const App = () => (
                 validate={required}
                 options={[
                   {},
-                  { value: '#ff0000', label: '❤️ Red' },
-                  { value: '#00ff00', label: '💚 Green' },
-                  { value: '#0000ff', label: '💙 Blue' }
+                  { value: "#ff0000", label: "❤️ Red" },
+                  { value: "#00ff00", label: "💚 Green" },
+                  { value: "#0000ff", label: "💙 Blue" },
                 ]}
                 control
               />
@@ -155,12 +154,12 @@ const App = () => (
                 multiple
                 arrow={false}
                 options={[
-                  { value: 'chicken', label: '🐓 Chicken' },
-                  { value: 'ham', label: '🐷 Ham' },
-                  { value: 'mushrooms', label: '🍄 Mushrooms' },
-                  { value: 'cheese', label: '🧀 Cheese' },
-                  { value: 'tuna', label: '🐟 Tuna' },
-                  { value: 'pineapple', label: '🍍 Pineapple' }
+                  { value: "chicken", label: "🐓 Chicken" },
+                  { value: "ham", label: "🐷 Ham" },
+                  { value: "mushrooms", label: "🍄 Mushrooms" },
+                  { value: "cheese", label: "🧀 Cheese" },
+                  { value: "tuna", label: "🐟 Tuna" },
+                  { value: "pineapple", label: "🍍 Pineapple" },
                 ]}
                 control
               />
@@ -197,7 +196,7 @@ const App = () => (
                   value="guacamole"
                 />
                 <FormCheckLabel htmlFor="guacamole">
-                  Guacamole{' '}
+                  Guacamole{" "}
                   <span role="img" aria-label="guacamole">
                     🥑
                   </span>
@@ -270,10 +269,10 @@ const App = () => (
             </Box>
             <pre
               style={{
-                border: '1px solid #ccc',
-                background: 'rgba(0, 0, 0, 0.1)',
-                boxShadow: 'inset 1px 1px 3px rgba(0, 0, 0, 0.2)',
-                padding: '20px'
+                border: "1px solid #ccc",
+                background: "rgba(0, 0, 0, 0.1)",
+                boxShadow: "inset 1px 1px 3px rgba(0, 0, 0, 0.2)",
+                padding: "20px",
               }}
             >
               {JSON.stringify(values, 0, 2)}
@@ -284,6 +283,6 @@ const App = () => (
     </Col>
     <Col />
   </Row>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

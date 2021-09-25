@@ -1,27 +1,27 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import Card from './Card'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import Card from "./Card";
 import {
   formatCreditCardNumber,
   formatCVC,
-  formatExpirationDate
-} from './cardUtils'
+  formatExpirationDate,
+} from "./cardUtils";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Credit Card Example</h2>
@@ -29,14 +29,14 @@ const App = () => (
       Read Docs
     </a>
     <p>
-      This example demonstrates how to use the amazing{' '}
+      This example demonstrates how to use the amazing{" "}
       <a
         href="https://github.com/amarofashion/react-credit-cards"
         target="_blank"
         rel="noopener noreferrer"
       >
         React Credit Cards
-      </a>{' '}
+      </a>{" "}
       library with your form.
     </p>
     <Form
@@ -47,15 +47,15 @@ const App = () => (
         submitting,
         pristine,
         values,
-        active
+        active,
       }) => {
         return (
           <form onSubmit={handleSubmit}>
             <Card
-              number={values.number || ''}
-              name={values.name || ''}
-              expiry={values.expiry || ''}
-              cvc={values.cvc || ''}
+              number={values.number || ""}
+              name={values.name || ""}
+              expiry={values.expiry || ""}
+              cvc={values.cvc || ""}
               focused={active}
             />
             <div>
@@ -109,10 +109,10 @@ const App = () => (
             <h2>Values</h2>
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
-        )
+        );
       }}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

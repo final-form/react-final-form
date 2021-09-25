@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as React from 'react';
-import { FieldRenderProps } from 'react-final-form';
+import * as React from "react";
+import { FieldRenderProps } from "react-final-form";
 
 function FormText1({ input }: FieldRenderProps<string, HTMLInputElement>) {
   // renders OK because of the used generic

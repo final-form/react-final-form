@@ -1,55 +1,55 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Field } from 'react-final-form'
-import LoadSaveReinitializeForm from './LoadSaveReinitializeForm'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Field } from "react-final-form";
+import LoadSaveReinitializeForm from "./LoadSaveReinitializeForm";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 let record = {
   primaryKey: 42,
-  phone: '2045551234',
-  name: 'John Doe',
-  email: 'john.doe@final-form.org',
+  phone: "2045551234",
+  name: "John Doe",
+  email: "john.doe@final-form.org",
   otherExtraneousInfo: {
-    creditScore: 800
-  }
-}
+    creditScore: 800,
+  },
+};
 
 const load = async () => {
-  console.info('Loading...')
-  await sleep(1500)
-  console.info('Loaded...')
-  return record
-}
+  console.info("Loading...");
+  await sleep(1500);
+  console.info("Loaded...");
+  return record;
+};
 
-const save = async values => {
-  console.info('Saving', values)
-  await sleep(1500)
-  record = values
-}
+const save = async (values) => {
+  console.info("Saving", values);
+  await sleep(1500);
+  record = values;
+};
 
-const postLoadFormat = values => {
-  const { name, email, phone } = values
-  const [firstName, lastName] = name.split(/ /, 2)
+const postLoadFormat = (values) => {
+  const { name, email, phone } = values;
+  const [firstName, lastName] = name.split(/ /, 2);
   return {
     firstName,
     lastName,
     email,
     phone: phone
       ? `${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6, 10)}`
-      : ''
-  }
-}
+      : "",
+  };
+};
 
 const preSaveFormat = (values, originalValues) => {
   return {
     ...originalValues,
-    name: `${values.firstName || ''} ${values.lastName || ''}`,
+    name: `${values.firstName || ""} ${values.lastName || ""}`,
     email: values.email,
-    phone: values.phone.replace(/-/g, '')
-  }
-}
+    phone: values.phone.replace(/-/g, ""),
+  };
+};
 
 const Error = ({ name }) => (
   <Field
@@ -59,32 +59,32 @@ const Error = ({ name }) => (
       touched && error ? <span>{error}</span> : null
     }
   />
-)
+);
 
-const loading = <div className="loading">Loading...</div>
+const loading = <div className="loading">Loading...</div>;
 
-const validate = values => {
-  const errors = {}
+const validate = (values) => {
+  const errors = {};
   if (!values.firstName) {
-    errors.firstName = 'Required'
+    errors.firstName = "Required";
   }
   if (!values.lastName) {
-    errors.lastName = 'Required'
+    errors.lastName = "Required";
   }
   if (!values.email) {
-    errors.email = 'Required'
+    errors.email = "Required";
   }
   if (!values.phone) {
-    errors.phone = 'Required'
+    errors.phone = "Required";
   }
-  return errors
-}
+  return errors;
+};
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Load, Save, and Reinitialize</h2>
@@ -92,10 +92,10 @@ const App = () => (
       Read Docs
     </a>
     <p>
-      <code>LoadSaveReinitializeForm</code> is a wrapper for a{' '}
+      <code>LoadSaveReinitializeForm</code> is a wrapper for a{" "}
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form component. On mount, it loads a record from the
       database/API, and formats it to the shape of the form inputs. On submit,
       it converts the data back to the format that the database/API wants
@@ -177,6 +177,6 @@ const App = () => (
       )}
     </LoadSaveReinitializeForm>
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

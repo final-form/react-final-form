@@ -1,5 +1,5 @@
-import React from 'react'
-import { Field } from 'react-final-form'
+import React from "react";
+import { Field } from "react-final-form";
 
 /**
  * Listens for changes to a field's value, and, if the value changes
@@ -8,31 +8,34 @@ import { Field } from 'react-final-form'
  */
 class ExternalModificationDetector extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       externallyModified: false,
-      value: props.input.value
-    }
+      value: props.input.value,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
-    const { input: { value }, meta: { active } } = nextProps
+    const {
+      input: { value },
+      meta: { active },
+    } = nextProps;
     if (value !== this.state.value) {
       this.setState({
         value,
-        externallyModified: !active
-      })
+        externallyModified: !active,
+      });
     } else if (this.state.externallyModified) {
       this.setState({
-        externallyModified: false
-      })
+        externallyModified: false,
+      });
     }
   }
 
   render() {
-    const { children } = this.props
-    const { externallyModified } = this.state
-    return children(externallyModified)
+    const { children } = this.props;
+    const { externallyModified } = this.state;
+    return children(externallyModified);
   }
 }
 
@@ -41,10 +44,10 @@ export default ({ name, children }) => (
   <Field
     name={name}
     subscription={{ value: true, active: true }}
-    render={props => (
+    render={(props) => (
       <ExternalModificationDetector {...props}>
         {children}
       </ExternalModificationDetector>
     )}
   />
-)
+);

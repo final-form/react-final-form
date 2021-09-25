@@ -1,32 +1,32 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import createDecorator from 'final-form-calculate'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import createDecorator from "final-form-calculate";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const calculator = createDecorator(
   {
-    field: 'minimum', // when minimum changes...
+    field: "minimum", // when minimum changes...
     updates: {
       // ...update maximum to the result of this function
       maximum: (minimumValue, allValues) =>
-        Math.max(minimumValue || 0, allValues.maximum || 0)
-    }
+        Math.max(minimumValue || 0, allValues.maximum || 0),
+    },
   },
   {
-    field: 'maximum', // when maximum changes...
+    field: "maximum", // when maximum changes...
     updates: {
       // update minimum to the result of this function
       minimum: (maximumValue, allValues) =>
-        Math.min(maximumValue || 0, allValues.minimum || 0)
-    }
+        Math.min(maximumValue || 0, allValues.minimum || 0),
+    },
   },
   {
     field: /day\[\d\]/, // when a field matching this pattern changes...
@@ -35,18 +35,18 @@ const calculator = createDecorator(
       total: (ignoredValue, allValues) =>
         (allValues.day || []).reduce(
           (sum, value) => sum + Number(value || 0),
-          0
-        )
-    }
-  }
-)
+          0,
+        ),
+    },
+  },
+);
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form Example
     </h1>
     <h2>Calculated Fields</h2>
@@ -159,6 +159,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

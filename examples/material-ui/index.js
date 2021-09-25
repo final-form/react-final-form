@@ -21,13 +21,13 @@ import {
 // Picker
 import DateFnsUtils from '@date-io/date-fns';
 
-const onSubmit = async values => {
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const onSubmit = async (values) => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   await sleep(300);
   window.alert(JSON.stringify(values, 0, 2));
 };
 
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   if (!values.firstName) {
     errors.firstName = 'Required';

@@ -1,5 +1,5 @@
 // @flow
 const isSyntheticEvent = (candidate: any): boolean =>
-  !!(candidate && typeof candidate.stopPropagation === 'function')
+  !!(candidate && typeof candidate.stopPropagation === "function");
 
-export default isSyntheticEvent
+export default isSyntheticEvent;

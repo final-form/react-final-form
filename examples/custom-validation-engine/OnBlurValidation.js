@@ -1,60 +1,60 @@
-import React from 'react'
-import { getIn } from 'final-form'
-import { FormSpy } from 'react-final-form'
+import React from "react";
+import { getIn } from "final-form";
+import { FormSpy } from "react-final-form";
 
 class OnBlurValidation extends React.Component {
   state = {
     withError: {},
-    validating: false
-  }
+    validating: false,
+  };
 
   componentWillReceiveProps(nextProps) {
-    const field = this.props.active
+    const field = this.props.active;
     if (field && field !== nextProps.active) {
       // blur occurred
       const {
         rules,
         form: { mutators },
-        values
-      } = nextProps
-      const rule = rules[field]
+        values,
+      } = nextProps;
+      const rule = rules[field];
       if (rule) {
-        const value = getIn(values, field)
-        let isSync = false
-        const setError = error => {
-          mutators.setFieldData(field, { error, validating: false })
-          isSync = true
-          this.setState(state => ({
+        const value = getIn(values, field);
+        let isSync = false;
+        const setError = (error) => {
+          mutators.setFieldData(field, { error, validating: false });
+          isSync = true;
+          this.setState((state) => ({
             withError: {
               ...state.withError,
-              [field]: !!error
+              [field]: !!error,
             },
-            validating: false
-          }))
-        }
-        rule(value, setError)
+            validating: false,
+          }));
+        };
+        rule(value, setError);
         if (!isSync) {
-          mutators.setFieldData(field, { validating: true })
+          mutators.setFieldData(field, { validating: true });
           this.setState({
-            validating: true
-          })
+            validating: true,
+          });
         }
       }
     }
   }
 
   render() {
-    const { withError, validating } = this.state
-    const hasErrors = Object.keys(withError).some(key => withError[key])
-    return this.props.render({ hasErrors, validating })
+    const { withError, validating } = this.state;
+    const hasErrors = Object.keys(withError).some((key) => withError[key]);
+    return this.props.render({ hasErrors, validating });
   }
 }
 
 // Make a HOC
-export default props => (
+export default (props) => (
   <FormSpy
     {...props}
     subscription={{ active: true, values: true }}
     component={OnBlurValidation}
   />
-)
+);

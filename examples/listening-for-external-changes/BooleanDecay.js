@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * 👋 Hey! Thanks for being curious about what this component does!
@@ -15,52 +15,52 @@ export default class BooleanDecay extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     delay: PropTypes.number.isRequired,
-    value: PropTypes.bool.isRequired
-  }
+    value: PropTypes.bool.isRequired,
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      value: props.value
-    }
+      value: props.value,
+    };
   }
 
   startTimer() {
-    this.stopTimer()
+    this.stopTimer();
     this.timeout = setTimeout(() => {
-      this.setState({ value: false })
-    }, this.props.delay)
+      this.setState({ value: false });
+    }, this.props.delay);
   }
 
   stopTimer() {
     if (this.timeout) {
-      clearTimeout(this.timeout)
+      clearTimeout(this.timeout);
     }
   }
 
   componentDidMount() {
     if (this.state.value) {
-      this.startTimer()
+      this.startTimer();
     }
   }
 
   componentWillUnmount() {
-    this.stopTimer()
+    this.stopTimer();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value } = nextProps
+    const { value } = nextProps;
     if (value !== this.state.value) {
-      this.setState({ value })
+      this.setState({ value });
       if (value) {
-        this.startTimer()
+        this.startTimer();
       } else {
-        this.stopTimer()
+        this.stopTimer();
       }
     }
   }
 
   render() {
-    return this.props.children(this.state.value)
+    return this.props.children(this.state.value);
   }
 }

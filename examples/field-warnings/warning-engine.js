@@ -6,10 +6,10 @@ export const WarningEngine = ({ mutators: { setFieldData } }) => (
     subscription={{ values: true }}
     onChange={({ values }) => {
       setFieldData("firstName", {
-        warning: values.firstName ? undefined : "Recommended"
+        warning: values.firstName ? undefined : "Recommended",
       });
       setFieldData("lastName", {
-        warning: values.lastName ? undefined : "Recommended"
+        warning: values.lastName ? undefined : "Recommended",
       });
     }}
   />

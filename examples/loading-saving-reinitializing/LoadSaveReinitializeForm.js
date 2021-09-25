@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Form } from 'react-final-form'
+import React from "react";
+import PropTypes from "prop-types";
+import { Form } from "react-final-form";
 
 export default class LoadSaveReinitializeForm extends React.Component {
   static propTypes = {
@@ -8,62 +8,56 @@ export default class LoadSaveReinitializeForm extends React.Component {
     loading: PropTypes.node.isRequired,
     postLoadFormat: PropTypes.func,
     preSaveFormat: PropTypes.func,
-    save: PropTypes.func.isRequired
-  }
+    save: PropTypes.func.isRequired,
+  };
 
   state = {
     isLoading: false,
     originalValues: undefined,
-    initialValues: undefined
-  }
+    initialValues: undefined,
+  };
 
   load = async () => {
-    const { load, postLoadFormat } = this.props
-    this.setState({ isLoading: true })
-    const originalValues = await load()
+    const { load, postLoadFormat } = this.props;
+    this.setState({ isLoading: true });
+    const originalValues = await load();
     const initialValues = postLoadFormat
       ? postLoadFormat(originalValues)
-      : originalValues
+      : originalValues;
     this.setState({
       isLoading: false,
       originalValues,
-      initialValues
-    })
-  }
+      initialValues,
+    });
+  };
 
-  save = async values => {
-    const { postLoadFormat, preSaveFormat, save } = this.props
+  save = async (values) => {
+    const { postLoadFormat, preSaveFormat, save } = this.props;
     let valuesToSave = preSaveFormat
       ? preSaveFormat(values, this.state.originalValues)
-      : values
-    const result = await save(valuesToSave)
+      : values;
+    const result = await save(valuesToSave);
     this.setState({
       originalValues: valuesToSave,
       initialValues: postLoadFormat
         ? postLoadFormat(valuesToSave)
-        : valuesToSave
-    })
-    return result
-  }
+        : valuesToSave,
+    });
+    return result;
+  };
 
   componentDidMount() {
-    this.load()
+    this.load();
   }
 
   render() {
-    const {
-      load,
-      loading,
-      postLoadFormat,
-      preSaveFormat,
-      save,
-      ...rest
-    } = this.props
-    const { isLoading, initialValues } = this.state
+    const { load, loading, postLoadFormat, preSaveFormat, save, ...rest } =
+      this.props;
+    const { isLoading, initialValues } = this.state;
     return isLoading || !initialValues ? (
       loading
     ) : (
       <Form {...rest} initialValues={initialValues} onSubmit={this.save} />
-    )
+    );
   }
 }

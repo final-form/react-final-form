@@ -1,28 +1,28 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import Styles from './Styles'
-import { Form } from 'react-final-form'
-import setFieldData from 'final-form-set-field-data'
+import React from "react";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import Styles from "./Styles";
+import { Form } from "react-final-form";
+import setFieldData from "final-form-set-field-data";
 
-import configureStore from './store'
-import GithubUserTypeahead from './GithubUserTypeahead'
+import configureStore from "./store";
+import GithubUserTypeahead from "./GithubUserTypeahead";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
-const store = configureStore()
+const store = configureStore();
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
@@ -52,11 +52,11 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
 render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root"),
+);

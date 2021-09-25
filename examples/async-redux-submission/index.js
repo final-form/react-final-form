@@ -1,15 +1,15 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import store, { promiseListener } from './store'
+import React from "react";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import store, { promiseListener } from "./store";
 import {
   REGISTER,
   REGISTER_SUCCESS,
-  REGISTER_FAILURE
-} from './registrationDuck'
-import MakeAsyncFunction from 'react-redux-promise-listener'
+  REGISTER_FAILURE,
+} from "./registrationDuck";
+import MakeAsyncFunction from "react-redux-promise-listener";
 
 const SubmitError = ({ name }) => (
   <Field
@@ -20,7 +20,7 @@ const SubmitError = ({ name }) => (
       submitError && !dirtySinceLastSubmit ? <span>{submitError}</span> : null
     }
   </Field>
-)
+);
 
 const App = () => (
   <Provider store={store}>
@@ -28,7 +28,7 @@ const App = () => (
       <h1>
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         React Final Form
       </h1>
       <h2>Async Redux Submission</h2>
@@ -36,27 +36,27 @@ const App = () => (
         Read Docs
       </a>
       <p>
-        Demonstrates how to use an async Redux side-effects library, like{' '}
-        <code>redux-saga</code> to manage form submissions using{' '}
+        Demonstrates how to use an async Redux side-effects library, like{" "}
+        <code>redux-saga</code> to manage form submissions using{" "}
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
-        React Final Form. Uses{' '}
+        </span>{" "}
+        React Final Form. Uses{" "}
         <a
           href="https://github.com/erikras/redux-promise-listener"
           target="_blank"
           rel="noopener noreferrer"
         >
           <code>redux-promise-listener</code>
-        </a>{' '}
-        and{' '}
+        </a>{" "}
+        and{" "}
         <a
           href="https://github.com/erikras/react-redux-promise-listener"
           target="_blank"
           rel="noopener noreferrer"
         >
           <code>react-redux-promise-listener</code>
-        </a>{' '}
+        </a>{" "}
         libraries.
       </p>
       <p>Dispatched Redux actions can be found in the console.</p>
@@ -69,7 +69,7 @@ const App = () => (
         resolve={REGISTER_SUCCESS}
         reject={REGISTER_FAILURE}
       >
-        {onSubmit => (
+        {(onSubmit) => (
           <Form
             onSubmit={onSubmit}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -111,19 +111,19 @@ const App = () => (
                     <option value="#ff0000">
                       <span role="img" aria-label="red heart">
                         ❤️
-                      </span>{' '}
+                      </span>{" "}
                       Red
                     </option>
                     <option value="#00ff00">
                       <span role="img" aria-label="green heart">
                         💚
-                      </span>{' '}
+                      </span>{" "}
                       Green
                     </option>
                     <option value="#0000ff">
                       <span role="img" aria-label="blue heart">
                         💙
-                      </span>{' '}
+                      </span>{" "}
                       Blue
                     </option>
                   </Field>
@@ -148,6 +148,6 @@ const App = () => (
       </MakeAsyncFunction>
     </Styles>
   </Provider>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

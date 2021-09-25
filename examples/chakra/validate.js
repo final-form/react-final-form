@@ -1,27 +1,27 @@
-const validate = values => {
-  const errors = {}
+const validate = (values) => {
+  const errors = {};
   if (!values.firstName) {
-    errors.firstName = 'Required'
+    errors.firstName = "Required";
   }
   if (!values.lastName) {
-    errors.lastName = 'Required'
+    errors.lastName = "Required";
   }
   if (values.employed) {
-    errors.employed = "We're only accepted unemployed applicants at the moment"
+    errors.employed = "We're only accepted unemployed applicants at the moment";
   }
   if (!values.favoriteColor) {
-    errors.favoriteColor = 'Required'
-  } else if (values.favoriteColor === '#00ff00') {
-    errors.favoriteColor = 'Not green! Gross!'
+    errors.favoriteColor = "Required";
+  } else if (values.favoriteColor === "#00ff00") {
+    errors.favoriteColor = "Not green! Gross!";
   }
   if (!values.toppings || values.toppings.length < 2) {
-    errors.toppings = 'You need at least two toppings'
+    errors.toppings = "You need at least two toppings";
   } else if (values.toppings && values.toppings.length > 3) {
-    errors.toppings = 'No more than three toppings'
+    errors.toppings = "No more than three toppings";
   }
   if (!values.notes) {
-    errors.notes = 'Required'
+    errors.notes = "Required";
   }
-  return errors
-}
-export default validate
+  return errors;
+};
+export default validate;

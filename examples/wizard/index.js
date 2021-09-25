@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Field } from 'react-final-form'
-import Wizard from './Wizard'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Field } from "react-final-form";
+import Wizard from "./Wizard";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const Error = ({ name }) => (
   <Field
@@ -20,9 +20,9 @@ const Error = ({ name }) => (
       touched && error ? <span>{error}</span> : null
     }
   />
-)
+);
 
-const required = value => (value ? undefined : 'Required')
+const required = (value) => (value ? undefined : "Required");
 
 const App = () => (
   <Styles>
@@ -36,11 +36,11 @@ const App = () => (
       Read Docs
     </a>
     <p>
-      Notice the mixture of field-level and record-level (or <em>page-level</em>{' '}
+      Notice the mixture of field-level and record-level (or <em>page-level</em>{" "}
       in this case) validation.
     </p>
     <Wizard
-      initialValues={{ employed: true, stooge: 'larry' }}
+      initialValues={{ employed: true, stooge: "larry" }}
       onSubmit={onSubmit}
     >
       <Wizard.Page>
@@ -68,15 +68,15 @@ const App = () => (
         </div>
       </Wizard.Page>
       <Wizard.Page
-        validate={values => {
-          const errors = {}
+        validate={(values) => {
+          const errors = {};
           if (!values.email) {
-            errors.email = 'Required'
+            errors.email = "Required";
           }
           if (!values.favoriteColor) {
-            errors.favoriteColor = 'Required'
+            errors.favoriteColor = "Required";
           }
-          return errors
+          return errors;
         }}
       >
         <div>
@@ -101,14 +101,14 @@ const App = () => (
         </div>
       </Wizard.Page>
       <Wizard.Page
-        validate={values => {
-          const errors = {}
+        validate={(values) => {
+          const errors = {};
           if (!values.toppings) {
-            errors.toppings = 'Required'
+            errors.toppings = "Required";
           } else if (values.toppings.length < 2) {
-            errors.toppings = 'Choose more'
+            errors.toppings = "Choose more";
           }
-          return errors
+          return errors;
         }}
       >
         <div>
@@ -128,12 +128,12 @@ const App = () => (
         </div>
       </Wizard.Page>
       <Wizard.Page
-        validate={values => {
-          const errors = {}
+        validate={(values) => {
+          const errors = {};
           if (!values.notes) {
-            errors.notes = 'Required'
+            errors.notes = "Required";
           }
-          return errors
+          return errors;
         }}
       >
         <div>
@@ -145,11 +145,11 @@ const App = () => (
                 component="input"
                 type="radio"
                 value="larry"
-              />{' '}
+              />{" "}
               Larry
             </label>
             <label>
-              <Field name="stooge" component="input" type="radio" value="moe" />{' '}
+              <Field name="stooge" component="input" type="radio" value="moe" />{" "}
               Moe
             </label>
             <label>
@@ -158,7 +158,7 @@ const App = () => (
                 component="input"
                 type="radio"
                 value="curly"
-              />{' '}
+              />{" "}
               Curly
             </label>
           </div>
@@ -171,6 +171,6 @@ const App = () => (
       </Wizard.Page>
     </Wizard>
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

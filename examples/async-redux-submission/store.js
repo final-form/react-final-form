@@ -1,23 +1,26 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import createReduxPromiseListener from 'redux-promise-listener'
-import registration from './registrationDuck'
-import asyncSubmissionMiddleware from './asyncSubmissionMiddleware'
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import createReduxPromiseListener from "redux-promise-listener";
+import registration from "./registrationDuck";
+import asyncSubmissionMiddleware from "./asyncSubmissionMiddleware";
 
-const reduxPromiseListener = createReduxPromiseListener()
+const reduxPromiseListener = createReduxPromiseListener();
 
-const logger = store => (next: Next) => (action: Action): State => {
-  console.log(action)
-  return next(action)
-}
+const logger =
+  (store) =>
+  (next: Next) =>
+  (action: Action): State => {
+    console.log(action);
+    return next(action);
+  };
 
 const reducer = combineReducers({
-  registration
-})
+  registration,
+});
 
 const composeEnhancers =
-  (typeof window !== 'undefined' &&
+  (typeof window !== "undefined" &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  compose
+  compose;
 
 const store = createStore(
   reducer,
@@ -26,11 +29,11 @@ const store = createStore(
     applyMiddleware(
       reduxPromiseListener.middleware,
       asyncSubmissionMiddleware,
-      logger
-    )
-  )
-)
+      logger,
+    ),
+  ),
+);
 
-export const promiseListener = reduxPromiseListener // <---------- IMPORTANT
+export const promiseListener = reduxPromiseListener; // <---------- IMPORTANT
 
-export default store
+export default store;

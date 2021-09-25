@@ -1,33 +1,33 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import Spinner from './Spinner'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import Spinner from "./Spinner";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
-const verifyUsername = async values => {
-  await sleep(400)
+const verifyUsername = async (values) => {
+  await sleep(400);
   if (
-    ~['john', 'paul', 'george', 'ringo'].indexOf(
-      values.username && values.username.toLowerCase()
+    ~["john", "paul", "george", "ringo"].indexOf(
+      values.username && values.username.toLowerCase(),
     )
   ) {
-    return { username: 'Username taken!' }
+    return { username: "Username taken!" };
   }
-}
+};
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form Example
     </h1>
     <h2>Hybrid Synchronous/Asynchronous Record-Level Validation</h2>
@@ -37,20 +37,20 @@ const App = () => (
     <div>Usernames John, Paul, George or Ringo will fail async validation.</div>
     <Form
       onSubmit={onSubmit}
-      validate={values => {
-        const errors = {}
+      validate={(values) => {
+        const errors = {};
         if (!values.username) {
-          errors.username = 'Required'
+          errors.username = "Required";
         }
         if (!values.password) {
-          errors.password = 'Required'
+          errors.password = "Required";
         }
         if (!values.confirm) {
-          errors.confirm = 'Required'
+          errors.confirm = "Required";
         } else if (values.confirm !== values.password) {
-          errors.confirm = 'Does not match'
+          errors.confirm = "Does not match";
         }
-        return Object.keys(errors).length ? errors : verifyUsername(values)
+        return Object.keys(errors).length ? errors : verifyUsername(values);
       }}
       render={({
         handleSubmit,
@@ -58,7 +58,7 @@ const App = () => (
         submitting,
         pristine,
         validating,
-        values
+        values,
       }) => (
         <form onSubmit={handleSubmit}>
           {validating && <Spinner />}
@@ -110,6 +110,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

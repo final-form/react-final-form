@@ -1,29 +1,29 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const Fields = ({
   names,
   subscription,
   fieldsState = {},
   children,
-  originalRender
+  originalRender,
 }) => {
   if (!names.length) {
-    return (originalRender || children)(fieldsState)
+    return (originalRender || children)(fieldsState);
   }
-  const [name, ...rest] = names
+  const [name, ...rest] = names;
   return (
     <Field name={name} subscription={subscription}>
-      {fieldState => (
+      {(fieldState) => (
         <Fields
           names={rest}
           subscription={subscription}
@@ -32,15 +32,15 @@ const Fields = ({
         />
       )}
     </Field>
-  )
-}
+  );
+};
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Fields Component</h2>
@@ -90,8 +90,8 @@ const App = () => (
               Reset
             </button>
           </div>
-          <Fields names={['firstName', 'lastName', 'employed', 'notes']}>
-            {fieldsState => (
+          <Fields names={["firstName", "lastName", "employed", "notes"]}>
+            {(fieldsState) => (
               <pre>{JSON.stringify(fieldsState, undefined, 2)}</pre>
             )}
           </Fields>
@@ -99,6 +99,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

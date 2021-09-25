@@ -1,27 +1,27 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 /************ IMPORTANT CODE STARTS HERE **************/
-const FieldPrefixContext = React.createContext()
+const FieldPrefixContext = React.createContext();
 const FieldPrefix = ({ prefix, children }) => (
   <FieldPrefixContext.Provider value={prefix}>
     {children}
   </FieldPrefixContext.Provider>
-)
+);
 const PrefixedField = ({ name, ...props }) => (
   <FieldPrefixContext.Consumer>
-    {prefix => <Field name={`${prefix}.${name}`} {...props} />}
+    {(prefix) => <Field name={`${prefix}.${name}`} {...props} />}
   </FieldPrefixContext.Consumer>
-)
+);
 /************* IMPORTANT CODE ENDS HERE ***************/
 
 const App = () => (
@@ -29,7 +29,7 @@ const App = () => (
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Prefixed Fields Example</h2>
@@ -39,14 +39,14 @@ const App = () => (
     <p>
       This example shows how to use React Context to create sections of your
       form that have their fields' names prefixed, to structure the resulting
-      form data. This provides similar functionality to Redux Form's{' '}
+      form data. This provides similar functionality to Redux Form's{" "}
       <a
         href="https://redux-form.com/8.2.2/docs/api/formsection.md/"
         target="_blank"
         rel="noopener noreferrer"
       >
         <code>FormSection</code>
-      </a>{' '}
+      </a>{" "}
       component.
     </p>
     <Form
@@ -112,6 +112,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

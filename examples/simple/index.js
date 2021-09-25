@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const App = () => (
   <Styles>
@@ -23,7 +23,7 @@ const App = () => (
     </a>
     <Form
       onSubmit={onSubmit}
-      initialValues={{ stooge: 'larry', employed: false }}
+      initialValues={{ stooge: "larry", employed: false }}
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <div>
@@ -77,7 +77,7 @@ const App = () => (
                   component="input"
                   type="checkbox"
                   value="ketchup"
-                />{' '}
+                />{" "}
                 Ketchup
               </label>
               <label>
@@ -86,7 +86,7 @@ const App = () => (
                   component="input"
                   type="checkbox"
                   value="mustard"
-                />{' '}
+                />{" "}
                 Mustard
               </label>
               <label>
@@ -95,7 +95,7 @@ const App = () => (
                   component="input"
                   type="checkbox"
                   value="mayonnaise"
-                />{' '}
+                />{" "}
                 Mayonnaise
               </label>
               <label>
@@ -104,7 +104,7 @@ const App = () => (
                   component="input"
                   type="checkbox"
                   value="guacamole"
-                />{' '}
+                />{" "}
                 Guacamole 🥑
               </label>
             </div>
@@ -118,7 +118,7 @@ const App = () => (
                   component="input"
                   type="radio"
                   value="larry"
-                />{' '}
+                />{" "}
                 Larry
               </label>
               <label>
@@ -127,7 +127,7 @@ const App = () => (
                   component="input"
                   type="radio"
                   value="moe"
-                />{' '}
+                />{" "}
                 Moe
               </label>
               <label>
@@ -136,7 +136,7 @@ const App = () => (
                   component="input"
                   type="radio"
                   value="curly"
-                />{' '}
+                />{" "}
                 Curly
               </label>
             </div>
@@ -162,6 +162,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

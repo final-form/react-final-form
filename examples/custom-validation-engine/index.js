@@ -1,18 +1,18 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import Icon from 'react-fontawesome'
-import OnBlurValidation from './OnBlurValidation'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import Icon from "react-fontawesome";
+import OnBlurValidation from "./OnBlurValidation";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
-const isBeatle = value =>
-  ~['john', 'paul', 'george', 'ringo'].indexOf(value.toLowerCase())
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
+const isBeatle = (value) =>
+  ~["john", "paul", "george", "ringo"].indexOf(value.toLowerCase());
 
 const Error = ({ name }) => (
   <Field
@@ -22,7 +22,7 @@ const Error = ({ name }) => (
       data.error ? <span>{data.error}</span> : null
     }
   />
-)
+);
 const AsyncIndicator = ({ name }) => (
   <Field
     name={name}
@@ -31,14 +31,14 @@ const AsyncIndicator = ({ name }) => (
       data.validating ? <Icon name="cog" spin /> : null
     }
   />
-)
+);
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Custom Validation Engine</h2>
@@ -47,7 +47,7 @@ const App = () => (
     </a>
     <p>
       This example includes a special <code>OnBlurValidation</code> component
-      that manages its own set of validation rules, completely apart from{' '}
+      that manages its own set of validation rules, completely apart from{" "}
       <span role="img" aria-label="final form flag">
         🏁
       </span>
@@ -58,7 +58,7 @@ const App = () => (
       halted if errors are present.
     </p>
     <p>
-      Any first name value of <code>John</code>, <code>Paul</code>,{' '}
+      Any first name value of <code>John</code>, <code>Paul</code>,{" "}
       <code>George</code>, or <code>Ringo</code> will fail asynchronous
       validation.
     </p>
@@ -70,26 +70,26 @@ const App = () => (
             firstName: (value, setError) => {
               if (!value) {
                 // return synchronously
-                setError('Required')
+                setError("Required");
               } else {
                 // return asynchronously
                 setTimeout(() => {
                   if (isBeatle(value)) {
-                    setError('No Beatles')
+                    setError("No Beatles");
                   } else {
-                    setError(undefined)
+                    setError(undefined);
                   }
-                }, 1000)
+                }, 1000);
               }
             },
             lastName: (value, setError) =>
-              setError(value ? undefined : 'Required')
+              setError(value ? undefined : "Required"),
           }}
           render={({ hasErrors, validating }) => (
             <form
-              onSubmit={event => {
-                event.preventDefault()
-                if (!hasErrors && !validating) handleSubmit()
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (!hasErrors && !validating) handleSubmit();
               }}
             >
               <div>
@@ -144,6 +144,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

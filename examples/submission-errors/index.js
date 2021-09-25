@@ -1,21 +1,21 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import { FORM_ERROR } from 'final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import { FORM_ERROR } from "final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  if (values.username !== 'erikras') {
-    return { username: 'Unknown username' }
+const onSubmit = async (values) => {
+  await sleep(300);
+  if (values.username !== "erikras") {
+    return { username: "Unknown username" };
   }
-  if (values.password !== 'finalformrocks') {
-    return { [FORM_ERROR]: 'Login Failed' }
+  if (values.password !== "finalformrocks") {
+    return { [FORM_ERROR]: "Login Failed" };
   }
-  window.alert('LOGIN SUCCESS!')
-}
+  window.alert("LOGIN SUCCESS!");
+};
 
 const App = () => (
   <Styles>
@@ -29,20 +29,20 @@ const App = () => (
       Read Docs
     </a>
     <div>
-      Only successful credentials are <code>erikras</code> and{' '}
+      Only successful credentials are <code>erikras</code> and{" "}
       <code>finalformrocks</code>.
     </div>
     <Form
       onSubmit={onSubmit}
-      validate={values => {
-        const errors = {}
+      validate={(values) => {
+        const errors = {};
         if (!values.username) {
-          errors.username = 'Required'
+          errors.username = "Required";
         }
         if (!values.password) {
-          errors.password = 'Required'
+          errors.password = "Required";
         }
-        return errors
+        return errors;
       }}
       render={({
         submitError,
@@ -50,7 +50,7 @@ const App = () => (
         form,
         submitting,
         pristine,
-        values
+        values,
       }) => (
         <form onSubmit={handleSubmit}>
           <Field name="username">
@@ -91,6 +91,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

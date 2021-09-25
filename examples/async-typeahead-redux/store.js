@@ -9,16 +9,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         [action.query]: {
           ...state[action.query],
-          loading: true
-        }
+          loading: true,
+        },
       };
     case "GITHUB_USERS_RESPONSE":
       return {
         ...state,
         [action.query]: {
           value: action.users,
-          loading: false
-        }
+          loading: false,
+        },
       };
     default:
       return state;

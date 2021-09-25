@@ -1,18 +1,18 @@
-export default values => {
-  const errors = {}
+export default (values) => {
+  const errors = {};
   if (!values.firstName) {
-    errors.firstName = 'Required'
+    errors.firstName = "Required";
   }
   if (!values.lastName) {
-    errors.lastName = 'Required'
+    errors.lastName = "Required";
   }
   if (!values.street) {
-    errors.street = 'Required'
+    errors.street = "Required";
   }
   if (!values.age) {
-    errors.age = 'Required'
+    errors.age = "Required";
   } else if (isNaN(values.age)) {
-    errors.age = 'Must be a number'
+    errors.age = "Must be a number";
   }
-  return errors
-}
+  return errors;
+};

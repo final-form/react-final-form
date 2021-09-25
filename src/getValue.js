@@ -1,67 +1,69 @@
 // @flow
-const getSelectedValues = options => {
-  const result = []
+const getSelectedValues = (options) => {
+  const result = [];
   if (options) {
     for (let index = 0; index < options.length; index++) {
-      const option = options[index]
+      const option = options[index];
       if (option.selected) {
-        result.push(option.value)
+        result.push(option.value);
       }
     }
   }
-  return result
-}
+  return result;
+};
 
 const getValue = (
   event: SyntheticInputEvent<*>,
   currentValue: any,
   valueProp: any,
-  isReactNative: boolean
+  isReactNative: boolean,
 ) => {
   if (
     !isReactNative &&
     event.nativeEvent &&
     (event.nativeEvent: Object).text !== undefined
   ) {
-    return (event.nativeEvent: Object).text
+    return (event.nativeEvent: Object).text;
   }
   if (isReactNative && event.nativeEvent) {
-    return (event.nativeEvent: any).text
+    return (event.nativeEvent: any).text;
   }
-  const detypedEvent: any = event
-  const { target: { type, value, checked } } = detypedEvent
+  const detypedEvent: any = event;
+  const {
+    target: { type, value, checked },
+  } = detypedEvent;
   switch (type) {
-    case 'checkbox':
+    case "checkbox":
       if (valueProp !== undefined) {
         // we are maintaining an array, not just a boolean
         if (checked) {
           // add value to current array value
           return Array.isArray(currentValue)
             ? currentValue.concat(valueProp)
-            : [valueProp]
+            : [valueProp];
         } else {
           // remove value from current array value
           if (!Array.isArray(currentValue)) {
-            return currentValue
+            return currentValue;
           }
-          const index = currentValue.indexOf(valueProp)
+          const index = currentValue.indexOf(valueProp);
           if (index < 0) {
-            return currentValue
+            return currentValue;
           } else {
             return currentValue
               .slice(0, index)
-              .concat(currentValue.slice(index + 1))
+              .concat(currentValue.slice(index + 1));
           }
         }
       } else {
         // it's just a boolean
-        return !!checked
+        return !!checked;
       }
-    case 'select-multiple':
-      return getSelectedValues((event.target: any).options)
+    case "select-multiple":
+      return getSelectedValues((event.target: any).options);
     default:
-      return value
+      return value;
   }
-}
+};
 
-export default getValue
+export default getValue;
