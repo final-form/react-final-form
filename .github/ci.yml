@@ -47,3 +47,5 @@ jobs:
         run: yarn install --ignore-scripts --frozen-lockfile
       - name: Run unit tests
         run: yarn start test
+      - name: Run code coverage
+        run: npx codecov

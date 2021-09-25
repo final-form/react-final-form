@@ -8,13 +8,13 @@ cache:
 notifications:
   email: false
 node_js:
-  - '10'
-  - '12'
-  - '14'
+  - "10"
+  - "12"
+  - "14"
 script:
   - npm start validate
 after_success:
   - npx codecov
 branches:
   only:
-    - master
+    - main
