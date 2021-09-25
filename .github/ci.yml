@@ -1,0 +1,51 @@
+name: CI
+
+on: [push]
+
+jobs:
+  lint:
+    name: Prettier Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Prepare env
+        run: yarn install --ignore-scripts --frozen-lockfile
+      - name: Run linter
+        run: yarn start lint
+
+  prettier:
+    name: Prettier Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Prepare env
+        run: yarn install --ignore-scripts --frozen-lockfile
+      - name: Run prettier
+        run: yarn start prettier
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Prepare env
+        run: yarn install --ignore-scripts --frozen-lockfile
+      - name: Run unit tests
+        run: yarn start test
+      - name: Run code coverage
+        run: npx codecov

@@ -1,33 +1,33 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
-const normalizePhone = value => {
-  if (!value) return value
-  const onlyNums = value.replace(/[^\d]/g, '')
-  if (onlyNums.length <= 3) return onlyNums
+const normalizePhone = (value) => {
+  if (!value) return value;
+  const onlyNums = value.replace(/[^\d]/g, "");
+  if (onlyNums.length <= 3) return onlyNums;
   if (onlyNums.length <= 7)
-    return `(${onlyNums.slice(0, 3)}) ${onlyNums.slice(3, 7)}`
+    return `(${onlyNums.slice(0, 3)}) ${onlyNums.slice(3, 7)}`;
   return `(${onlyNums.slice(0, 3)}) ${onlyNums.slice(3, 6)}-${onlyNums.slice(
     6,
-    10
-  )}`
-}
+    10,
+  )}`;
+};
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Parse and Format</h2>
@@ -46,8 +46,8 @@ const App = () => (
               component="input"
               type="text"
               placeholder="Username"
-              parse={value => value && value.toUpperCase()}
-              format={value => (value ? value.toLowerCase() : '')}
+              parse={(value) => value && value.toUpperCase()}
+              format={(value) => (value ? value.toLowerCase() : "")}
             />
           </div>
           <div>
@@ -77,6 +77,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

@@ -1,27 +1,24 @@
-import React from 'react'
-import { Field } from 'react-final-form'
+import React from "react";
+import { Field } from "react-final-form";
 
 const DisplayError = ({ delay, active, dirty, error, touched, children }) => {
-  const [show, setShow] = React.useState(false)
-  React.useEffect(
-    () => {
-      let timeout
-      if (active && error && dirty) {
-        console.info('setting timeout')
-        timeout = setTimeout(() => setShow(true), delay)
-      }
-      return () => {
-        console.info('clearing timeout')
-        clearTimeout(timeout)
-      }
-    },
-    [delay, error, active, dirty]
-  )
+  const [show, setShow] = React.useState(false);
+  React.useEffect(() => {
+    let timeout;
+    if (active && error && dirty) {
+      console.info("setting timeout");
+      timeout = setTimeout(() => setShow(true), delay);
+    }
+    return () => {
+      console.info("clearing timeout");
+      clearTimeout(timeout);
+    };
+  }, [delay, error, active, dirty]);
 
   return error && ((touched && !active) || (touched && !show && active) || show)
     ? children(error)
-    : null
-}
+    : null;
+};
 
 const ErrorWithDelay = ({ name, children, delay }) => (
   <Field
@@ -39,6 +36,6 @@ const ErrorWithDelay = ({ name, children, delay }) => (
       />
     )}
   </Field>
-)
+);
 
-export default ErrorWithDelay
+export default ErrorWithDelay;

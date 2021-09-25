@@ -1,43 +1,46 @@
 // @flow
-import renderComponent from './renderComponent'
-import type { FormSpyPropsWithForm as Props, FormSpyRenderProps } from './types'
-import type { FormValuesShape } from 'final-form'
-import isSyntheticEvent from './isSyntheticEvent'
-import useForm from './useForm'
-import useFormState from './useFormState'
+import renderComponent from "./renderComponent";
+import type {
+  FormSpyPropsWithForm as Props,
+  FormSpyRenderProps,
+} from "./types";
+import type { FormValuesShape } from "final-form";
+import isSyntheticEvent from "./isSyntheticEvent";
+import useForm from "./useForm";
+import useFormState from "./useFormState";
 
 function FormSpy<FormValues: FormValuesShape>({
   onChange,
   subscription,
   ...rest
 }: Props<FormValues>) {
-  const reactFinalForm = useForm<FormValues>('FormSpy')
-  const state = useFormState({ onChange, subscription })
+  const reactFinalForm = useForm<FormValues>("FormSpy");
+  const state = useFormState({ onChange, subscription });
   if (onChange) {
-    return null
+    return null;
   }
 
   const renderProps: FormSpyRenderProps<FormValues> = {
     form: {
       ...reactFinalForm,
-      reset: eventOrValues => {
+      reset: (eventOrValues) => {
         if (isSyntheticEvent(eventOrValues)) {
           // it's a React SyntheticEvent, call reset with no arguments
-          reactFinalForm.reset()
+          reactFinalForm.reset();
         } else {
-          reactFinalForm.reset(eventOrValues)
+          reactFinalForm.reset(eventOrValues);
         }
-      }
-    }
-  }
+      },
+    },
+  };
   return renderComponent(
     {
       ...rest,
-      ...renderProps
+      ...renderProps,
     },
     state,
-    'FormSpy'
-  )
+    "FormSpy",
+  );
 }
 
-export default FormSpy
+export default FormSpy;

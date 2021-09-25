@@ -1,27 +1,27 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import numeral from 'numeral'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import numeral from "numeral";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
-const formatPrice = value =>
+const formatPrice = (value) =>
   value === undefined
-    ? '' // make controlled
-    : numeral(value).format('$0,0.00')
+    ? "" // make controlled
+    : numeral(value).format("$0,0.00");
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Format On Blur Example</h2>
@@ -31,8 +31,8 @@ const App = () => (
     <p>
       By default the <code>format</code> function given to <code>Field</code> is
       called every time the component is rendered. But that can lead to a
-      difficult UX for some types of values. That's why there is a{' '}
-      <code>formatOnBlur</code> flag that will prevent the <code>format</code>{' '}
+      difficult UX for some types of values. That's why there is a{" "}
+      <code>formatOnBlur</code> flag that will prevent the <code>format</code>{" "}
       function from being called until the field is blurred.
     </p>
     <Form
@@ -76,6 +76,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

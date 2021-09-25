@@ -1,14 +1,14 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const App = () => (
   <Styles>
@@ -23,20 +23,20 @@ const App = () => (
     </a>
     <Form
       onSubmit={onSubmit}
-      validate={values => {
-        const errors = {}
+      validate={(values) => {
+        const errors = {};
         if (!values.username) {
-          errors.username = 'Required'
+          errors.username = "Required";
         }
         if (!values.password) {
-          errors.password = 'Required'
+          errors.password = "Required";
         }
         if (!values.confirm) {
-          errors.confirm = 'Required'
+          errors.confirm = "Required";
         } else if (values.confirm !== values.password) {
-          errors.confirm = 'Must match'
+          errors.confirm = "Must match";
         }
-        return errors
+        return errors;
       }}
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
@@ -84,6 +84,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

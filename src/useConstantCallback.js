@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import * as React from "react";
 
 /**
  * Creates a callback, even with closures, that will be
@@ -8,9 +8,9 @@ import * as React from 'react'
  * closures.
  */
 export default function useConstantCallback(callback) {
-  const ref = React.useRef(callback)
+  const ref = React.useRef(callback);
   React.useEffect(() => {
-    ref.current = callback
-  })
-  return React.useCallback((...args) => ref.current.apply(null, args), [])
+    ref.current = callback;
+  });
+  return React.useCallback((...args) => ref.current.apply(null, args), []);
 }

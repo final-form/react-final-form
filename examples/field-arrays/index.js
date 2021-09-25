@@ -1,23 +1,23 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import arrayMutators from "final-form-arrays";
+import { FieldArray } from "react-final-form-arrays";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form - Array Fields
     </h1>
     <a href="https://github.com/erikras/react-final-form#-react-final-form">
@@ -26,17 +26,17 @@ const App = () => (
     <Form
       onSubmit={onSubmit}
       mutators={{
-        ...arrayMutators
+        ...arrayMutators,
       }}
       render={({
         handleSubmit,
         form: {
-          mutators: { push, pop }
+          mutators: { push, pop },
         }, // injected from final-form-arrays above
         pristine,
         form,
         submitting,
-        values
+        values,
       }) => {
         return (
           <form onSubmit={handleSubmit}>
@@ -47,11 +47,11 @@ const App = () => (
             <div className="buttons">
               <button
                 type="button"
-                onClick={() => push('customers', undefined)}
+                onClick={() => push("customers", undefined)}
               >
                 Add Customer
               </button>
-              <button type="button" onClick={() => pop('customers')}>
+              <button type="button" onClick={() => pop("customers")}>
                 Remove Customer
               </button>
             </div>
@@ -72,7 +72,7 @@ const App = () => (
                     />
                     <span
                       onClick={() => fields.remove(index)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                       role="img"
                       aria-label="remove customer icon"
                     >
@@ -97,10 +97,10 @@ const App = () => (
             </div>
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
-        )
+        );
       }}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

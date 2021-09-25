@@ -1,23 +1,23 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const App = () => {
-  let submit
+  let submit;
   return (
     <Styles>
       <h1>
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         React Final Form Example
       </h1>
       <h2>External Submit</h2>
@@ -31,33 +31,31 @@ const App = () => {
             // { cancelable: true } required for Firefox
             // https://github.com/facebook/react/issues/12639#issuecomment-382519193
             document
-              .getElementById('exampleForm')
-              .dispatchEvent(new Event('submit', { cancelable: true, bubbles:true }))
+              .getElementById("exampleForm")
+              .dispatchEvent(
+                new Event("submit", { cancelable: true, bubbles: true }),
+              )
           }
         >
           External Submit via <code>document.getElementById()</code>
         </button>
         <button
           type="submit"
-          onClick={event => {
-            submit(event)
+          onClick={(event) => {
+            submit(event);
           }}
           style={{ marginTop: 10 }}
         >
           External Submit via closure
         </button>
-        <button
-          type="submit"
-          form="exampleForm"
-          style={{ marginTop: 10 }}
-        >
+        <button type="submit" form="exampleForm" style={{ marginTop: 10 }}>
           External Submit via form attribute
         </button>
       </div>
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => {
-          submit = handleSubmit
+          submit = handleSubmit;
           return (
             <form id="exampleForm" onSubmit={handleSubmit}>
               <div>
@@ -85,19 +83,19 @@ const App = () => {
                   <option value="#ff0000">
                     <span role="img" aria-label="red heart">
                       ❤️
-                    </span>{' '}
+                    </span>{" "}
                     Red
                   </option>
                   <option value="#00ff00">
                     <span role="img" aria-label="green heart">
                       💚
-                    </span>{' '}
+                    </span>{" "}
                     Green
                   </option>
                   <option value="#0000ff">
                     <span role="img" aria-label="blue heart">
                       💙
-                    </span>{' '}
+                    </span>{" "}
                     Blue
                   </option>
                 </Field>
@@ -116,11 +114,11 @@ const App = () => {
               </div>
               <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
-          )
+          );
         }}
       />
     </Styles>
-  )
-}
+  );
+};
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

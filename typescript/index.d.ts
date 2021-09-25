@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   FormApi,
   Config,
@@ -7,14 +7,14 @@ import {
   FormSubscription,
   FieldState,
   FieldSubscription,
-  FieldValidator
-} from 'final-form';
+  FieldValidator,
+} from "final-form";
 
-type SupportedInputs = 'input' | 'select' | 'textarea';
+type SupportedInputs = "input" | "select" | "textarea";
 
 export interface ReactContext<
   FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>
+  InitialFormValues = Partial<FormValues>,
 > {
   reactFinalForm: FormApi<FormValues, InitialFormValues>;
 }
@@ -23,7 +23,7 @@ export type FieldMetaState<FieldValue> = Pick<
   FieldState<FieldValue>,
   Exclude<
     keyof FieldState<FieldValue>,
-    'blur' | 'change' | 'focus' | 'name' | 'value'
+    "blur" | "change" | "focus" | "name" | "value"
   >
 >;
 
@@ -55,20 +55,20 @@ export interface FieldRenderProps<
 
 export interface FormRenderProps<
   FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>
+  InitialFormValues = Partial<FormValues>,
 > extends FormState<FormValues, InitialFormValues>,
     RenderableProps<FormRenderProps<FormValues>> {
   form: FormApi<FormValues>;
   handleSubmit: (
     event?: Partial<
-      Pick<React.SyntheticEvent, 'preventDefault' | 'stopPropagation'>
-    >
+      Pick<React.SyntheticEvent, "preventDefault" | "stopPropagation">
+    >,
   ) => Promise<AnyObject | undefined> | undefined;
 }
 
 export interface FormSpyRenderProps<
   FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>
+  InitialFormValues = Partial<FormValues>,
 > extends FormState<FormValues, InitialFormValues> {
   form: FormApi<FormValues, InitialFormValues>;
 }
@@ -81,7 +81,7 @@ export interface RenderableProps<T> {
 
 export interface FormProps<
   FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>
+  InitialFormValues = Partial<FormValues>,
 > extends Config<FormValues, InitialFormValues>,
     RenderableProps<FormRenderProps<FormValues, InitialFormValues>> {
   subscription?: FormSubscription;
@@ -123,7 +123,7 @@ export interface FieldProps<
 
 export interface UseFormStateParams<
   FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>
+  InitialFormValues = Partial<FormValues>,
 > {
   onChange?: (formState: FormState<FormValues, InitialFormValues>) => void;
   subscription?: FormSubscription;
@@ -131,7 +131,7 @@ export interface UseFormStateParams<
 
 export interface FormSpyProps<
   FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>
+  InitialFormValues = Partial<FormValues>,
 > extends UseFormStateParams<FormValues, InitialFormValues>,
     RenderableProps<FormSpyRenderProps<FormValues, InitialFormValues>> {}
 

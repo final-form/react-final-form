@@ -1,9 +1,9 @@
 /* tslint:disable: no-shadowed-variable */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Decorator, Mutator } from 'final-form';
-import * as React from 'react';
-import { Field, Form } from 'react-final-form';
+import { Decorator, Mutator } from "final-form";
+import * as React from "react";
+import { Field, Form } from "react-final-form";
 
 const noop = () => {};
 // missing required props
@@ -77,7 +77,7 @@ function simpleSubscription() {
       subscription={{
         pristine: true,
         submitting: true,
-        values: true
+        values: true,
       }}
     >
       {({ handleSubmit, form, submitting, pristine, values }) => (
@@ -97,7 +97,7 @@ function simpleSubscription() {
 }
 
 const setValue: Mutator = ([name, newValue], state, { changeValue }) => {
-  changeValue(state, name, value => newValue);
+  changeValue(state, name, (value) => newValue);
 };
 
 function mutated() {
@@ -106,11 +106,11 @@ function mutated() {
       {({
         handleSubmit,
         form: {
-          mutators: { setValue }
+          mutators: { setValue },
         },
         submitting,
         pristine,
-        values
+        values,
       }) => (
         <form onSubmit={handleSubmit}>
           <Field
@@ -121,7 +121,7 @@ function mutated() {
           />
           <button
             type="button"
-            onClick={e => setValue('firstName', 'Kevin')}
+            onClick={(e) => setValue("firstName", "Kevin")}
             disabled={submitting || pristine}
           >
             Reset
@@ -165,9 +165,9 @@ function withTypedFormData() {
   );
 }
 
-const decorator: Decorator<UserForm> = form => {
+const decorator: Decorator<UserForm> = (form) => {
   return form.subscribe(({ values: { firstName } }) => firstName, {
-    values: true
+    values: true,
   });
 };
 
@@ -179,7 +179,7 @@ function withTypedDecorator() {
 // with wrong typed decorator
 function withWrongTypedDecorator() {
   return (
-    <Form<Omit<UserForm, 'firstName'>>
+    <Form<Omit<UserForm, "firstName">>
       // $ExpectError
       decorators={[decorator]}
       onSubmit={noop}

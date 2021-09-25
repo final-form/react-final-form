@@ -1,22 +1,22 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import AutoSave from './AutoSave'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import AutoSave from "./AutoSave";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const save = async values => {
-  console.log('Saving', values)
-  await sleep(2000)
-}
+const save = async (values) => {
+  console.log("Saving", values);
+  await sleep(2000);
+};
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Auto-Save with Debounce</h2>
@@ -24,20 +24,20 @@ const App = () => (
       Read Docs
     </a>
     <p>
-      The <code>AutoSave</code> component uses{' '}
+      The <code>AutoSave</code> component uses{" "}
       <a
         href="https://github.com/final-form/react-final-form#formspy--reactcomponenttypeformspyprops"
         target="_blank"
         rel="noopener noreferrer"
       >
         <code>FormSpy</code>
-      </a>{' '}
+      </a>{" "}
       to listen to changes to values and auto-save changes. Look in the console
       for the save events.
     </p>
     <Form
       onSubmit={save /* NOT USED, but required */}
-      initialValues={{ employed: true, stooge: 'larry' }}
+      initialValues={{ employed: true, stooge: "larry" }}
       subscription={{} /* No need to subscribe to anything */}
     >
       {() => (
@@ -82,19 +82,19 @@ const App = () => (
               <option value="#ff0000">
                 <span role="img" aria-label="red heart">
                   ❤️
-                </span>{' '}
+                </span>{" "}
                 Red
               </option>
               <option value="#00ff00">
                 <span role="img" aria-label="green heart">
                   💚
-                </span>{' '}
+                </span>{" "}
                 Green
               </option>
               <option value="#0000ff">
                 <span role="img" aria-label="blue heart">
                   💙
-                </span>{' '}
+                </span>{" "}
                 Blue
               </option>
             </Field>
@@ -109,31 +109,31 @@ const App = () => (
               <option value="ham">
                 <span role="img" aria-label="pig head">
                   🐷
-                </span>{' '}
+                </span>{" "}
                 Ham
               </option>
               <option value="mushrooms">
                 <span role="img" aria-label="mushroom">
                   🍄
-                </span>{' '}
+                </span>{" "}
                 Mushrooms
               </option>
               <option value="cheese">
                 <span role="img" aria-label="cheese">
                   🧀
-                </span>{' '}
+                </span>{" "}
                 Cheese
               </option>
               <option value="chicken">
                 <span role="img" aria-label="chicken">
                   🐓
-                </span>{' '}
+                </span>{" "}
                 Chicken
               </option>
               <option value="pineapple">
                 <span role="img" aria-label="pineapple">
                   🍍
-                </span>{' '}
+                </span>{" "}
                 Pinapple
               </option>
             </Field>
@@ -147,7 +147,7 @@ const App = () => (
                   component="input"
                   type="radio"
                   value="larry"
-                />{' '}
+                />{" "}
                 Larry
               </label>
               <label>
@@ -156,7 +156,7 @@ const App = () => (
                   component="input"
                   type="radio"
                   value="moe"
-                />{' '}
+                />{" "}
                 Moe
               </label>
               <label>
@@ -165,7 +165,7 @@ const App = () => (
                   component="input"
                   type="radio"
                   value="curly"
-                />{' '}
+                />{" "}
                 Curly
               </label>
             </div>
@@ -178,6 +178,6 @@ const App = () => (
       )}
     </Form>
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

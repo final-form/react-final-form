@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import * as React from "react";
 import type {
   FormApi,
   Config,
@@ -8,14 +8,14 @@ import type {
   FormSubscription,
   FormValuesShape,
   FieldSubscription,
-  FieldValidator
-} from 'final-form'
+  FieldValidator,
+} from "final-form";
 
-type SupportedInputs = 'input' | 'select' | 'textarea'
+type SupportedInputs = "input" | "select" | "textarea";
 
 export type ReactContext<FormValues: FormValuesShape> = {
-  reactFinalForm: FormApi<FormValues>
-}
+  reactFinalForm: FormApi<FormValues>,
+};
 
 export type FieldInputProps = {
   name: string,
@@ -25,8 +25,8 @@ export type FieldInputProps = {
   value: any,
   type?: string,
   checked?: boolean,
-  multiple?: boolean
-}
+  multiple?: boolean,
+};
 export type FieldRenderProps = {
   input: FieldInputProps,
   meta: {
@@ -48,47 +48,47 @@ export type FieldRenderProps = {
     touched?: boolean,
     valid?: boolean,
     validating?: boolean,
-    visited?: boolean
-  }
-}
+    visited?: boolean,
+  },
+};
 
 export type SubmitEvent = {
-  preventDefault?: $PropertyType<SyntheticEvent<EventTarget>, 'preventDefault'>,
+  preventDefault?: $PropertyType<SyntheticEvent<EventTarget>, "preventDefault">,
   stopPropagation?: $PropertyType<
     SyntheticEvent<EventTarget>,
-    'stopPropagation'
-  >
-}
+    "stopPropagation",
+  >,
+};
 
 export type FormRenderProps<FormValues: FormValuesShape> = {
   handleSubmit: (?SubmitEvent) => ?Promise<?Object>,
-  form: FormApi<FormValues>
-} & FormState<FormValues>
+  form: FormApi<FormValues>,
+} & FormState<FormValues>;
 
 export type FormSpyRenderProps<FormValues: FormValuesShape> = {
-  form: FormApi<FormValues>
-} & FormState<FormValues>
+  form: FormApi<FormValues>,
+} & FormState<FormValues>;
 
 export type RenderableProps<T> = {
   component?: React.ComponentType<*> | SupportedInputs,
   children?: ((props: T) => React.Node) | React.Node,
-  render?: (props: T) => React.Node
-}
+  render?: (props: T) => React.Node,
+};
 
 export type FormProps<FormValues: FormValuesShape> = {
   subscription?: FormSubscription,
   decorators?: Decorator<FormValues>[],
   form?: FormApi<FormValues>,
-  initialValuesEqual?: (?Object, ?Object) => boolean
+  initialValuesEqual?: (?Object, ?Object) => boolean,
 } & Config<FormValues> &
-  RenderableProps<FormRenderProps<FormValues>>
+  RenderableProps<FormRenderProps<FormValues>>;
 
 export type UseFieldAutoConfig = {
   afterSubmit?: () => void,
   allowNull?: boolean,
   beforeSubmit?: () => void | false,
-  children?: $PropertyType<RenderableProps<*>, 'children'>,
-  component?: $PropertyType<RenderableProps<*>, 'component'>,
+  children?: $PropertyType<RenderableProps<*>, "children">,
+  component?: $PropertyType<RenderableProps<*>, "component">,
   data?: Object,
   defaultValue?: any,
   format?: (value: any, name: string) => any,
@@ -100,27 +100,26 @@ export type UseFieldAutoConfig = {
   type?: string,
   validate?: FieldValidator,
   validateFields?: string[],
-  value?: any
-}
+  value?: any,
+};
 
 export type UseFieldConfig = {
-  subscription?: FieldSubscription
-} & UseFieldAutoConfig
+  subscription?: FieldSubscription,
+} & UseFieldAutoConfig;
 
 export type FieldProps = UseFieldConfig & {
-  name: string
-} & RenderableProps<FieldRenderProps>
+  name: string,
+} & RenderableProps<FieldRenderProps>;
 
 export type UseFormStateParams<FormValues: FormValuesShape> = {
   onChange?: (formState: FormState<FormValues>) => void,
-  subscription?: FormSubscription
-}
+  subscription?: FormSubscription,
+};
 
-export type FormSpyProps<
-  FormValues: FormValuesShape
-> = UseFormStateParams<FormValues> &
-  RenderableProps<FormSpyRenderProps<FormValues>>
+export type FormSpyProps<FormValues: FormValuesShape> =
+  UseFormStateParams<FormValues> &
+    RenderableProps<FormSpyRenderProps<FormValues>>;
 
 export type FormSpyPropsWithForm<FormValues: FormValuesShape> = {
-  reactFinalForm: FormApi<FormValues>
-} & FormSpyProps<FormValues>
+  reactFinalForm: FormApi<FormValues>,
+} & FormSpyProps<FormValues>;

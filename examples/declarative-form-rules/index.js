@@ -1,39 +1,39 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import { OnChange } from 'react-final-form-listeners'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import { OnChange } from "react-final-form-listeners";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const WhenFieldChanges = ({ field, becomes, set, to }) => (
   <Field name={set} subscription={{}}>
     {(
       // No subscription. We only use Field to get to the change function
-      { input: { onChange } }
+      { input: { onChange } },
     ) => (
       <OnChange name={field}>
-        {value => {
+        {(value) => {
           if (value === becomes) {
-            onChange(to)
+            onChange(to);
           }
         }}
       </OnChange>
     )}
   </Field>
-)
+);
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form
     </h1>
     <h2>Declarative Form Rules</h2>
@@ -41,7 +41,7 @@ const App = () => (
       Read Docs
     </a>
     <p>
-      This example demonstrates how to use{' '}
+      This example demonstrates how to use{" "}
       <a
         href="https://github.com/final-form/react-final-form-listeners#-react-final-form-listeners"
         target="_blank"
@@ -49,9 +49,9 @@ const App = () => (
       >
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         React Final Form Listeners
-      </a>{' '}
+      </a>{" "}
       to listen to the change of one field to then update the value of other
       fields.
     </p>
@@ -68,7 +68,7 @@ const App = () => (
         submitting,
         pristine,
         values,
-        errors
+        errors,
       }) => {
         return (
           <form onSubmit={handleSubmit}>
@@ -121,9 +121,9 @@ const App = () => (
             <h2>Data</h2>
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
-        )
+        );
       }}
     />
   </Styles>
-)
-render(<App />, document.getElementById('root'))
+);
+render(<App />, document.getElementById("root"));

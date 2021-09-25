@@ -1,18 +1,3 @@
 {
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "none",
-  "arrowParens": "avoid",
-  "overrides": [
-    {
-      "files": [".prettierrc"],
-      "options": { "parser": "json" }
-    },
-    {
-      "files": ["*.ts*"],
-      "options": {
-        "semi": true
-      }
-    }
-  ]
+  "trailingComma": "all"
 }

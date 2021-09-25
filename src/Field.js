@@ -1,8 +1,8 @@
 // @flow
-import * as React from 'react'
-import type { FieldProps as Props, FieldRenderProps } from './types'
-import renderComponent from './renderComponent'
-import useField from './useField'
+import * as React from "react";
+import type { FieldProps as Props, FieldRenderProps } from "./types";
+import renderComponent from "./renderComponent";
+import useField from "./useField";
 
 const Field = React.forwardRef<any, Props>(function Field(
   {
@@ -27,7 +27,7 @@ const Field = React.forwardRef<any, Props>(function Field(
     value,
     ...rest
   }: Props,
-  ref
+  ref,
 ) {
   const field: FieldRenderProps = useField(name, {
     afterSubmit,
@@ -47,32 +47,32 @@ const Field = React.forwardRef<any, Props>(function Field(
     type,
     validate,
     validateFields,
-    value
-  })
+    value,
+  });
 
-  if (typeof children === 'function') {
-    return (children: Function)({ ...field, ...rest })
+  if (typeof children === "function") {
+    return (children: Function)({ ...field, ...rest });
   }
 
-  if (typeof component === 'string') {
+  if (typeof component === "string") {
     // ignore meta, combine input with any other props
     return React.createElement(component, {
       ...field.input,
       children,
       ref,
-      ...rest
-    })
+      ...rest,
+    });
   }
 
   if (!name) {
-    throw new Error('prop name cannot be undefined in <Field> component')
+    throw new Error("prop name cannot be undefined in <Field> component");
   }
 
   return renderComponent(
     { children, component, ref, ...rest },
     field,
-    `Field(${name})`
-  )
-})
+    `Field(${name})`,
+  );
+});
 
-export default Field
+export default Field;

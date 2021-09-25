@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from "styled-components";
 
 const btn = (light, dark) => css`
   white-space: nowrap;
@@ -25,12 +25,14 @@ const btn = (light, dark) => css`
     opacity: 0.6;
     cursor: not-allowed;
   }
-`
+`;
 
-const btnDefault = css`${btn('#ffffff', '#d5d5d5')} color: #555;`
+const btnDefault = css`
+  ${btn("#ffffff", "#d5d5d5")} color: #555;
+`;
 
-const btnPrimary = btn('#4f93ce', '#285f8f')
-const btnDanger = btn('#e27c79', '#c9302c')
+const btnPrimary = btn("#4f93ce", "#285f8f");
+const btnDanger = btn("#e27c79", "#c9302c");
 
 export default styled.div`
   font-family: sans-serif;
@@ -96,7 +98,7 @@ export default styled.div`
         border: 1px solid #ccc;
         border-radius: 3px;
       }
-      & > input[type='checkbox'] {
+      & > input[type="checkbox"] {
         margin-top: 7px;
       }
       & > div {
@@ -126,10 +128,10 @@ export default styled.div`
     }
     button {
       margin: 0 10px;
-      &[type='submit'] {
+      &[type="submit"] {
         ${btnPrimary};
       }
-      &[type='button'] {
+      &[type="button"] {
         ${btnDefault};
       }
     }
@@ -148,4 +150,4 @@ export default styled.div`
       padding: 20px;
     }
   }
-`
+`;

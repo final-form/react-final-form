@@ -1,31 +1,31 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import createDecorator from 'final-form-focus'
-import validate from './validate'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import createDecorator from "final-form-focus";
+import validate from "./validate";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 const InputRow = ({ label, type, input, meta: { active, error, touched } }) => (
-  <div className={active ? 'active' : ''}>
+  <div className={active ? "active" : ""}>
     <label>{label}</label>
     <input {...input} type={type} placeholder={label} />
     {error && touched && <span>{error}</span>}
   </div>
-)
+);
 
-const focusOnError = createDecorator()
+const focusOnError = createDecorator();
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form Example
     </h1>
     <h2>Focus On First Error</h2>
@@ -33,7 +33,7 @@ const App = () => (
       Read Docs
     </a>
     <p>
-      Demonstrates how to use the{' '}
+      Demonstrates how to use the{" "}
       <a
         href="https://github.com/final-form/final-form-focus"
         target="_blank"
@@ -41,16 +41,16 @@ const App = () => (
       >
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
-        Final Form Focus{' '}
+        </span>{" "}
+        Final Form Focus{" "}
         <span role="img" aria-label="face with monocle">
           🧐
         </span>
-      </a>{' '}
-      library as a pluggable{' '}
+      </a>{" "}
+      library as a pluggable{" "}
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       Final Form decorator to provide "focus on first error" functionality.
       Notice what when you click the Submit button, the focus is placed on the
       first field with an error.
@@ -97,6 +97,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

@@ -1,18 +1,18 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import store from './store'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
-import FormStateToRedux from './FormStateToRedux'
-import FormStateFromRedux from './FormStateFromRedux'
+import React from "react";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import store from "./store";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
+import FormStateToRedux from "./FormStateToRedux";
+import FormStateFromRedux from "./FormStateFromRedux";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 const App = () => (
   <Provider store={store}>
@@ -20,7 +20,7 @@ const App = () => (
       <h1>
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         React Final Form
       </h1>
       <h2>Redux Example</h2>
@@ -28,25 +28,25 @@ const App = () => (
         Read Docs
       </a>
       <p>
-        The only reason to keep your{' '}
+        The only reason to keep your{" "}
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         Final Form form data in Redux is if you need to be able to read it from
-        outside your form. This example demonstrates how to use a{' '}
+        outside your form. This example demonstrates how to use a{" "}
         <code>FormSpy</code> to keep a copy of your form data in the Redux
         store. Note that the canonical authoritative version of the data still
-        lives in{' '}
+        lives in{" "}
         <span role="img" aria-label="final form flag">
           🏁
-        </span>{' '}
+        </span>{" "}
         Final Form. If you need to <em>mutate</em> your data via dispatching
-        Redux actions, you should probably use{' '}
+        Redux actions, you should probably use{" "}
         <a href="https://redux-form.com">Redux Form</a>.
       </p>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ employed: true, stooge: 'larry' }}
+        initialValues={{ employed: true, stooge: "larry" }}
         subscription={{ submitting: true, pristine: true }}
       >
         {({ handleSubmit, form, submitting, pristine }) => (
@@ -86,19 +86,19 @@ const App = () => (
                 <option value="#ff0000">
                   <span role="img" aria-label="red heart">
                     ❤️
-                  </span>{' '}
+                  </span>{" "}
                   Red
                 </option>
                 <option value="#00ff00">
                   <span role="img" aria-label="green heart">
                     💚
-                  </span>{' '}
+                  </span>{" "}
                   Green
                 </option>
                 <option value="#0000ff">
                   <span role="img" aria-label="blue heart">
                     💙
-                  </span>{' '}
+                  </span>{" "}
                   Blue
                 </option>
               </Field>
@@ -113,31 +113,31 @@ const App = () => (
                 <option value="ham">
                   <span role="img" aria-label="pig head">
                     🐷
-                  </span>{' '}
+                  </span>{" "}
                   Ham
                 </option>
                 <option value="mushrooms">
                   <span role="img" aria-label="mushroom">
                     🍄
-                  </span>{' '}
+                  </span>{" "}
                   Mushrooms
                 </option>
                 <option value="cheese">
                   <span role="img" aria-label="cheese">
                     🧀
-                  </span>{' '}
+                  </span>{" "}
                   Cheese
                 </option>
                 <option value="chicken">
                   <span role="img" aria-label="chicken">
                     🐓
-                  </span>{' '}
+                  </span>{" "}
                   Chicken
                 </option>
                 <option value="pineapple">
                   <span role="img" aria-label="pineapple">
                     🍍
-                  </span>{' '}
+                  </span>{" "}
                   Pinapple
                 </option>
               </Field>
@@ -151,7 +151,7 @@ const App = () => (
                     component="input"
                     type="radio"
                     value="larry"
-                  />{' '}
+                  />{" "}
                   Larry
                 </label>
                 <label>
@@ -160,7 +160,7 @@ const App = () => (
                     component="input"
                     type="radio"
                     value="moe"
-                  />{' '}
+                  />{" "}
                   Moe
                 </label>
                 <label>
@@ -169,7 +169,7 @@ const App = () => (
                     component="input"
                     type="radio"
                     value="curly"
-                  />{' '}
+                  />{" "}
                   Curly
                 </label>
               </div>
@@ -183,7 +183,7 @@ const App = () => (
                     component="input"
                     type="checkbox"
                     value="ketchup"
-                  />{' '}
+                  />{" "}
                   Ketchup
                 </label>
                 <label>
@@ -192,7 +192,7 @@ const App = () => (
                     component="input"
                     type="checkbox"
                     value="mustard"
-                  />{' '}
+                  />{" "}
                   Mustard
                 </label>
                 <label>
@@ -201,7 +201,7 @@ const App = () => (
                     component="input"
                     type="checkbox"
                     value="salsa"
-                  />{' '}
+                  />{" "}
                   Salsa
                 </label>
                 <label>
@@ -210,8 +210,8 @@ const App = () => (
                     component="input"
                     type="checkbox"
                     value="guacamole"
-                  />{' '}
-                  Guacamole{' '}
+                  />{" "}
+                  Guacamole{" "}
                   <span role="img" aria-label="guacamole">
                     🥑
                   </span>
@@ -241,6 +241,6 @@ const App = () => (
       </Form>
     </Styles>
   </Provider>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

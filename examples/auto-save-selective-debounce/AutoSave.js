@@ -7,14 +7,14 @@ const areObjectsIdentical = (a, b) =>
 
 class AutoSave extends React.Component {
   static defaultProps = {
-    debounced: []
+    debounced: [],
   };
   constructor(props) {
     super(props);
 
     this.state = {
       submitting: false,
-      ...this.splitValues(props.values)
+      ...this.splitValues(props.values),
     };
   }
 
@@ -36,13 +36,13 @@ class AutoSave extends React.Component {
     }
   }
 
-  splitValues = values => {
+  splitValues = (values) => {
     const { debounced } = this.props;
 
     const debouncedValues = {};
     const immediateValues = {};
 
-    Object.keys(values).forEach(key => {
+    Object.keys(values).forEach((key) => {
       if (debounced.includes(key)) {
         debouncedValues[key] = values[key];
       } else {
@@ -52,7 +52,7 @@ class AutoSave extends React.Component {
 
     return {
       debouncedValues,
-      immediateValues
+      immediateValues,
     };
   };
 
@@ -65,22 +65,22 @@ class AutoSave extends React.Component {
     const { debouncedValues, immediateValues } = this.splitValues(values);
 
     this.setState(
-      state => ({
+      (state) => ({
         submitting: true,
         immediateValues: { ...immediateValues },
-        debouncedValues: { ...debouncedValues }
+        debouncedValues: { ...debouncedValues },
       }),
       async () => {
         this.promise = save({
           ...this.state.immediateValues,
-          ...this.state.debouncedValues
+          ...this.state.debouncedValues,
         });
 
         await this.promise;
         delete this.promise;
 
         this.setState({ submitting: false });
-      }
+      },
     );
   };
 
@@ -99,6 +99,6 @@ class AutoSave extends React.Component {
 // - Maintain state of when we are submitting
 // - Render a message when submitting
 // - Pass in debounce and save props nicely
-export default props => (
+export default (props) => (
   <FormSpy {...props} subscription={{ values: true }} component={AutoSave} />
 );

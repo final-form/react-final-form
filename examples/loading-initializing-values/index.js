@@ -1,29 +1,29 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const load = async () => {
-  await sleep(2000)
+  await sleep(2000);
   return {
-    username: 'erikras',
-    firstName: 'Erik'
-  }
-}
+    username: "erikras",
+    firstName: "Erik",
+  };
+};
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
 
 class App extends React.Component {
-  state = { data: {} }
+  state = { data: {} };
   async componentDidMount() {
-    this.setState({ loading: true })
-    const data = await load()
-    this.setState({ loading: false, data })
+    this.setState({ loading: true });
+    const data = await load();
+    this.setState({ loading: false, data });
   }
 
   render() {
@@ -32,7 +32,7 @@ class App extends React.Component {
         <h1>
           <span role="img" aria-label="final form flag">
             🏁
-          </span>{' '}
+          </span>{" "}
           React Final Form - Loading and Initializing Values
         </h1>
         <a href="https://github.com/erikras/react-final-form#-react-final-form">
@@ -75,12 +75,12 @@ class App extends React.Component {
                 </div>
                 <pre>{JSON.stringify(values, 0, 2)}</pre>
               </form>
-            )
+            );
           }}
         />
       </Styles>
-    )
+    );
   }
 }
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

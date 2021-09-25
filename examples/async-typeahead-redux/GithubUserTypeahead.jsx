@@ -18,13 +18,9 @@ const GithubUserTypeahead = ({ name, ...props }) => {
   const dispatch = useDispatch();
   const getOptions = useCallback(pathOr([], [keyword, "value"]), [keyword]);
   const isLoading = useCallback(pathOr(false, [keyword, "loading"]), [keyword]);
-  const handleOnSearch = useCallback(
-    compose(
-      dispatch,
-      searchGithubUsers
-    ),
-    [dispatch]
-  );
+  const handleOnSearch = useCallback(compose(dispatch, searchGithubUsers), [
+    dispatch,
+  ]);
 
   const options = useSelector(getOptions);
   const loading = useSelector(isLoading);

@@ -1,18 +1,18 @@
 // @flow
-import * as React from 'react'
-import type { FormApi, FormValuesShape } from 'final-form'
-import ReactFinalFormContext from './context'
+import * as React from "react";
+import type { FormApi, FormValuesShape } from "final-form";
+import ReactFinalFormContext from "./context";
 
 function useForm<FormValues: FormValuesShape>(
-  componentName?: string
+  componentName?: string,
 ): FormApi<FormValues> {
-  const form: ?FormApi<FormValues> = React.useContext(ReactFinalFormContext)
+  const form: ?FormApi<FormValues> = React.useContext(ReactFinalFormContext);
   if (!form) {
     throw new Error(
-      `${componentName || 'useForm'} must be used inside of a <Form> component`
-    )
+      `${componentName || "useForm"} must be used inside of a <Form> component`,
+    );
   }
-  return form
+  return form;
 }
 
-export default useForm
+export default useForm;

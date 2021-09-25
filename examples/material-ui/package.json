@@ -2,7 +2,9 @@
   "name": "react-final-form-material-ui-example",
   "version": "1.0.0",
   "description": "Demonstrates how to use Material-UI form controls.",
-  "keywords": ["material-ui"],
+  "keywords": [
+    "material-ui"
+  ],
   "homepage": "https://codesandbox.io/s/new",
   "main": "src/index.js",
   "dependencies": {
@@ -11,11 +13,11 @@
     "@material-ui/lab": "latest",
     "@material-ui/pickers": "latest",
     "date-fns": "next",
-    "final-form": "latest",
+    "final-form": "4.20.2",
     "mui-rff": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-final-form": "latest",
+    "react-final-form": "6.5.3",
     "react-scripts": "latest",
     "tslib": "latest"
   },

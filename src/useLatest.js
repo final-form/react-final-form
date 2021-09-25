@@ -1,12 +1,12 @@
 // @flow
-import React from 'react'
+import React from "react";
 
 export default function useLatest<T>(value: T): { +current: T } {
-  const ref = React.useRef(value)
+  const ref = React.useRef(value);
 
   React.useEffect(() => {
-    ref.current = value
-  })
+    ref.current = value;
+  });
 
-  return ref
+  return ref;
 }

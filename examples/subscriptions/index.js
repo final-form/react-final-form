@@ -1,16 +1,16 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import { Form, Field, FormSpy } from 'react-final-form'
-import RenderCount from './RenderCount'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import { Form, Field, FormSpy } from "react-final-form";
+import RenderCount from "./RenderCount";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
-const required = value => (value ? undefined : 'Required')
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, 0, 2));
+};
+const required = (value) => (value ? undefined : "Required");
 
 const App = () => (
   <Styles>
@@ -36,7 +36,7 @@ const App = () => (
     </p>
     <MyForm subscription={{ submitting: true, pristine: true }} />
   </Styles>
-)
+);
 
 const MyForm = ({ subscription }) => (
   <Form
@@ -79,13 +79,14 @@ const MyForm = ({ subscription }) => (
         </div>
         {values ? (
           <pre>
-                <RenderCount/>
-          {JSON.stringify(values, 0, 2)}</pre>
+            <RenderCount />
+            {JSON.stringify(values, 0, 2)}
+          </pre>
         ) : (
           <FormSpy subscription={{ values: true }}>
             {({ values }) => (
               <pre>
-                <RenderCount/>
+                <RenderCount />
                 {JSON.stringify(values, 0, 2)}
               </pre>
             )}
@@ -94,6 +95,6 @@ const MyForm = ({ subscription }) => (
       </form>
     )}
   />
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as React from 'react';
-import { FormSpy } from 'react-final-form';
+import * as React from "react";
+import { FormSpy } from "react-final-form";
 
 function submitButtonSpy() {
   return (

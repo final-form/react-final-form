@@ -1,53 +1,58 @@
-import React from 'react'
-import { render } from 'react-dom'
-import Styles from './Styles'
-import Spinner from './Spinner'
-import { Form, Field } from 'react-final-form'
+import React from "react";
+import { render } from "react-dom";
+import Styles from "./Styles";
+import Spinner from "./Spinner";
+import { Form, Field } from "react-final-form";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, undefined, 2))
-}
+const onSubmit = async (values) => {
+  await sleep(300);
+  window.alert(JSON.stringify(values, undefined, 2));
+};
 
-const required = value => (value ? undefined : 'Required')
-const mustBeNumber = value => (isNaN(value) ? 'Must be a number' : undefined)
-const minValue = min => value =>
-  isNaN(value) || value >= min ? undefined : `Should be greater than ${min}`
-const composeValidators = (...validators) => value =>
-  validators.reduce((error, validator) => error || validator(value), undefined)
+const required = (value) => (value ? undefined : "Required");
+const mustBeNumber = (value) => (isNaN(value) ? "Must be a number" : undefined);
+const minValue = (min) => (value) =>
+  isNaN(value) || value >= min ? undefined : `Should be greater than ${min}`;
+const composeValidators =
+  (...validators) =>
+  (value) =>
+    validators.reduce(
+      (error, validator) => error || validator(value),
+      undefined,
+    );
 
-const simpleMemoize = fn => {
-  let lastArg
-  let lastResult
-  return arg => {
+const simpleMemoize = (fn) => {
+  let lastArg;
+  let lastResult;
+  return (arg) => {
     if (arg !== lastArg) {
-      lastArg = arg
-      lastResult = fn(arg)
+      lastArg = arg;
+      lastResult = fn(arg);
     }
-    return lastResult
-  }
-}
+    return lastResult;
+  };
+};
 
-const usernameAvailable = simpleMemoize(async value => {
+const usernameAvailable = simpleMemoize(async (value) => {
   if (!value) {
-    return 'Required'
+    return "Required";
   }
-  await sleep(400)
+  await sleep(400);
   if (
-    ~['john', 'paul', 'george', 'ringo'].indexOf(value && value.toLowerCase())
+    ~["john", "paul", "george", "ringo"].indexOf(value && value.toLowerCase())
   ) {
-    return 'Username taken!'
+    return "Username taken!";
   }
-})
+});
 
 const App = () => (
   <Styles>
     <h1>
       <span role="img" aria-label="final form flag">
         🏁
-      </span>{' '}
+      </span>{" "}
       React Final Form Example
     </h1>
     <h2>Asynchronous Field-Level Validation</h2>
@@ -107,6 +112,6 @@ const App = () => (
       )}
     />
   </Styles>
-)
+);
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById("root"));
