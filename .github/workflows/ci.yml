@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   lint:
-    name: Prettier Check
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -48,4 +48,4 @@ jobs:
       - name: Run unit tests
         run: yarn start test
       - name: Run code coverage
-        run: npx codecov
+        uses: codecov/codecov-action@v2.1.0
