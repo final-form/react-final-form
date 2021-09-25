@@ -4,6 +4,7 @@
   "rules": {
     "jsx-a11y/href-no-hash": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-anonymous-default-export": 0
   }
 }
