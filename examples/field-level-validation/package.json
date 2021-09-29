@@ -15,6 +15,6 @@
     "react-final-form": "6.5.3",
     "react": "latest",
     "react-dom": "latest",
-    "final-form": "4.20.2"
+    "final-form": "4.20.3"
   }
 }

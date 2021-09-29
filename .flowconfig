@@ -6,4 +6,3 @@ dist
 [libs]
 
 [options]
-esproposal.decorators=ignore

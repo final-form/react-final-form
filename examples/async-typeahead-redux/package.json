@@ -6,7 +6,7 @@
   "main": "index.js",
   "dependencies": {
     "arrify": "2.0.1",
-    "final-form": "4.20.2",
+    "final-form": "4.20.3",
     "final-form-set-field-data": "1.0.2",
     "ramda": "0.25.0",
     "react": "17.0.2",
