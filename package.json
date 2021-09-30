@@ -1,6 +1,6 @@
 {
   "name": "react-final-form",
-  "version": "6.5.6",
+  "version": "6.5.7",
   "description": "🏁 High performance subscription-based form state management for React",
   "main": "dist/react-final-form.cjs.js",
   "jsnext:main": "dist/react-final-form.es.js",
