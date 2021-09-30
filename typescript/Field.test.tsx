@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as React from 'react';
-import { Field, FieldRenderProps } from 'react-final-form';
+import * as React from "react";
+import { Field, FieldRenderProps } from "react-final-form";
 
 const NumberInput: React.FC<{ value?: number }> = () => null;
 
@@ -17,7 +17,7 @@ function FormText2({ input }: FieldRenderProps<string, HTMLInputElement>) {
 
 function FieldNumberValue() {
   return (
-    <Field<number, FieldRenderProps<number>> name="numberField">
+    <Field<number> name="numberField">
       {({ input }) => <NumberInput value={input.value} />}
     </Field>
   );
@@ -25,7 +25,7 @@ function FieldNumberValue() {
 
 function FieldNumberInputValue() {
   return (
-    <Field<string, FieldRenderProps<string, HTMLElement, number>>
+    <Field<string, HTMLElement, number>
       name="numberField"
       parse={(value: number) => String(value)}
     >
