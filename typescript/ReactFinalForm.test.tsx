@@ -192,7 +192,7 @@ function withFormApiInstance() {
   return <Form form={createForm({ onSubmit: noop })} />;
 }
 
-// with form api instance
+// with form api instance & invalid prop
 function withFormApiInstanceAndSubmit() {
   return (
     <Form
