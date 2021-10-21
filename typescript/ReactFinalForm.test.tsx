@@ -1,7 +1,7 @@
 /* tslint:disable: no-shadowed-variable */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Decorator, Mutator } from "final-form";
+import { Decorator, Mutator, createForm } from "final-form";
 import * as React from "react";
 import { Field, Form } from "react-final-form";
 
@@ -182,6 +182,22 @@ function withWrongTypedDecorator() {
     <Form<Omit<UserForm, "firstName">>
       // $ExpectError
       decorators={[decorator]}
+      onSubmit={noop}
+    />
+  );
+}
+
+// with form api instance
+function withFormApiInstance() {
+  return <Form form={createForm({ onSubmit: noop })} />;
+}
+
+// with form api instance
+function withFormApiInstanceAndSubmit() {
+  return (
+    <Form
+      form={createForm({ onSubmit: noop })}
+      // $ExpectError
       onSubmit={noop}
     />
   );
