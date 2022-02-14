@@ -1249,3 +1249,91 @@ describe("Field", () => {
     console.error.mockRestore();
   });
 });
+
+it("should support using format/parse with radio controls", () => {
+  const format = (value) => value && value.toString();
+  const parse = (value) => value && parseInt(value, 10);
+
+  const { getByTestId } = render(
+    <Form onSubmit={onSubmitMock} initialValues={{ number: 20 }}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <Field
+            name="number"
+            component="input"
+            type="radio"
+            value={10}
+            data-testid="ten"
+            parse={parse}
+            format={format}
+          />
+          <Field
+            name="number"
+            component="input"
+            type="radio"
+            value={20}
+            data-testid="twenty"
+            parse={parse}
+            format={format}
+          />
+          <Field
+            name="number"
+            component="input"
+            type="radio"
+            value={30}
+            data-testid="thirty"
+            parse={parse}
+            format={format}
+          />
+        </form>
+      )}
+    </Form>,
+  );
+  expect(getByTestId("ten").checked).toBe(false);
+  expect(getByTestId("twenty").checked).toBe(true);
+  expect(getByTestId("thirty").checked).toBe(false);
+});
+
+it("should support using format/parse with checkbox controls", () => {
+  const format = (value) => value && value.map((x) => x.toString());
+  const parse = (value) => value && value.map((x) => parseInt(x, 10));
+
+  const { getByTestId } = render(
+    <Form onSubmit={onSubmitMock} initialValues={{ number: [20, 30] }}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <Field
+            name="number"
+            component="input"
+            type="checkbox"
+            value={10}
+            data-testid="ten"
+            parse={parse}
+            format={format}
+          />
+          <Field
+            name="number"
+            component="input"
+            type="checkbox"
+            value={20}
+            data-testid="twenty"
+            parse={parse}
+            format={format}
+          />
+          <Field
+            name="number"
+            component="input"
+            type="checkbox"
+            value={30}
+            data-testid="thirty"
+            parse={parse}
+            format={format}
+          />
+        </form>
+      )}
+    </Form>,
+  );
+  expect(getByTestId("ten").checked).toBe(false);
+  expect(getByTestId("twenty").checked).toBe(true);
+  expect(getByTestId("thirty").checked).toBe(true);
+});
