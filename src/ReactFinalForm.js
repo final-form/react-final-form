@@ -86,7 +86,8 @@ function ReactFinalForm<FormValues: FormValuesShape>({
 
   // save a copy of state that can break through the closure
   // on the shallowEqual() line below.
-  const stateRef = useLatest<FormState<FormValues>>(state);
+  const stateRef = React.useRef<FormState>(state);
+  stateRef.current = state;
 
   React.useEffect(() => {
     // We have rendered, so all fields are now registered, so we can unpause validation
