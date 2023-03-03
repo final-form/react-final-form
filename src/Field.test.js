@@ -4,6 +4,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { ErrorBoundary, Toggle, wrapWith } from "./testUtils";
 import Form from "./ReactFinalForm";
 import Field from "./Field";
+import { useFormState } from ".";
 
 const onSubmitMock = (values) => {};
 
@@ -1154,6 +1155,159 @@ describe("Field", () => {
     expect(getByTestId("validating")).toHaveTextContent("Not Validating");
 
     fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+
+    await sleep(6);
+
+    expect(getByTestId("validating")).toHaveTextContent("Not Validating");
+  });
+
+  it("should have validating state false after a field has been unregistred during mixed async validation", async () => {
+    const Test = () => {
+      const [hasField, setHasField] = React.useState(true);
+      const state = useFormState({ subscription: { validating: true } });
+
+      return (
+        <div>
+          {!hasField && (
+            <Field
+              name="lastname"
+              component="input"
+              validate={(value) => (value ? undefined : "Required")}
+              data-testid="lastname"
+            />
+          )}
+          {hasField && (
+            <Field
+              name="name"
+              component="input"
+              validate={async (value) => {
+                await timeout(5);
+                return value === "erikras" ? "Username taken" : undefined;
+              }}
+              data-testid="name"
+            />
+          )}
+          <div data-testid="validating">
+            {state.validating === true ? "Spinner" : "Not Validating"}
+          </div>
+          <button data-testid="hide" onClick={() => setHasField(false)}>
+            Hide field
+          </button>
+        </div>
+      );
+    };
+
+    const { getByTestId, queryByTestId } = render(
+      <Form onSubmit={onSubmitMock}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Test />
+          </form>
+        )}
+      </Form>,
+    );
+
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+    await sleep(6);
+    expect(getByTestId("name").value).toBe("");
+
+    // validating state is ok as long as a Field with async validation is visible
+    expect(getByTestId("validating")).toHaveTextContent("Not Validating");
+    fireEvent.change(getByTestId("name"), { target: { value: "erik" } });
+
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+    await sleep(6);
+
+    expect(getByTestId("validating")).toHaveTextContent("Not Validating");
+
+    // validating state is KO if Field is unregistered while validating
+    fireEvent.change(getByTestId("name"), { target: { value: "erikr" } });
+
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+    fireEvent.click(getByTestId("hide"));
+    expect(queryByTestId("name")).not.toBeInTheDocument();
+
+    // when an other field with sync validation is present, it should not have side effect on the async validation
+    expect(queryByTestId("lastname")).toBeInTheDocument();
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+
+    await sleep(6);
+
+    expect(getByTestId("validating")).toHaveTextContent("Not Validating");
+  });
+
+  it("should have validating state false after a field has been unregistred during full async validation", async () => {
+    const Test = () => {
+      const [hasField, setHasField] = React.useState(true);
+      const state = useFormState({ subscription: { validating: true } });
+
+      return (
+        <div>
+          {!hasField && (
+            <Field
+              name="lastname"
+              component="input"
+              validate={async (value) => {
+                await timeout(5);
+                return value ? undefined : "Required";
+              }}
+              data-testid="lastname"
+            />
+          )}
+          {hasField && (
+            <Field
+              name="name"
+              component="input"
+              validate={async (value) => {
+                await timeout(5);
+                return value === "erikras" ? "Username taken" : undefined;
+              }}
+              data-testid="name"
+            />
+          )}
+          <div data-testid="validating">
+            {state.validating === true ? "Spinner" : "Not Validating"}
+          </div>
+          <button data-testid="hide" onClick={() => setHasField(false)}>
+            Hide field
+          </button>
+        </div>
+      );
+    };
+
+    const { getByTestId, queryByTestId } = render(
+      <Form onSubmit={onSubmitMock}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Test />
+          </form>
+        )}
+      </Form>,
+    );
+
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+    await sleep(6);
+    expect(getByTestId("name").value).toBe("");
+
+    // validating state is ok as long as a Field with async validation is visible
+    expect(getByTestId("validating")).toHaveTextContent("Not Validating");
+    fireEvent.change(getByTestId("name"), { target: { value: "erik" } });
+
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+    await sleep(6);
+
+    expect(getByTestId("validating")).toHaveTextContent("Not Validating");
+
+    // validating state is KO if Field is unregistered while validating
+    fireEvent.change(getByTestId("name"), { target: { value: "erikr" } });
+
+    expect(getByTestId("validating")).toHaveTextContent("Spinner");
+    fireEvent.click(getByTestId("hide"));
+    expect(queryByTestId("name")).not.toBeInTheDocument();
+
+    // when an other field with sync validation is present, it should not have side effect on the async validation
+    expect(queryByTestId("lastname")).toBeInTheDocument();
     expect(getByTestId("validating")).toHaveTextContent("Spinner");
 
     await sleep(6);
