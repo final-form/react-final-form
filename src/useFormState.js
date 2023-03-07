@@ -22,13 +22,19 @@ function useFormState<FormValues: FormValuesShape>({
       form.subscribe((state) => {
         initialState = state;
       }, subscription)();
-      if (onChange) {
-        onChange(initialState);
-      }
       return initialState;
     },
   );
 
+  React.useEffect(
+    () => {
+      if (onChange) {
+        onChange(state);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
   React.useEffect(
     () =>
       form.subscribe((newState) => {
