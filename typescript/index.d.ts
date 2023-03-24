@@ -79,17 +79,26 @@ export interface RenderableProps<T> {
   render?: (props: T) => React.ReactNode;
 }
 
-export interface FormProps<
-  FormValues = Record<string, any>,
-  InitialFormValues = Partial<FormValues>,
-> extends Config<FormValues, InitialFormValues>,
+interface FormManualProps<FormValues, InitialFormValues> {
+  form: FormApi<FormValues, InitialFormValues>;
+}
+
+interface FormAutoConfigureProps<FormValues, InitialFormValues>
+  extends Config<FormValues, InitialFormValues>,
     RenderableProps<FormRenderProps<FormValues, InitialFormValues>> {
   subscription?: FormSubscription;
   decorators?: Array<Decorator<FormValues, InitialFormValues>>;
-  form?: FormApi<FormValues, InitialFormValues>;
   initialValuesEqual?: (a?: AnyObject, b?: AnyObject) => boolean;
+  form?: undefined;
   [otherProp: string]: any;
 }
+
+export type FormProps<
+  FormValues = Record<string, any>,
+  InitialFormValues = Partial<FormValues>,
+> =
+  | FormManualProps<FormValues, InitialFormValues>
+  | FormAutoConfigureProps<FormValues, InitialFormValues>;
 
 export interface UseFieldConfig<FieldValue, InputValue = any> {
   afterSubmit?: () => void;
