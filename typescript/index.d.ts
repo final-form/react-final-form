@@ -9,6 +9,7 @@ import {
   FieldSubscription,
   FieldValidator,
 } from "final-form";
+import { StrictOmit } from "ts-essentials";
 
 type SupportedInputs = "input" | "select" | "textarea";
 
@@ -19,12 +20,9 @@ export interface ReactContext<
   reactFinalForm: FormApi<FormValues, InitialFormValues>;
 }
 
-export type FieldMetaState<FieldValue> = Pick<
+export type FieldMetaState<FieldValue> = StrictOmit<
   FieldState<FieldValue>,
-  Exclude<
-    keyof FieldState<FieldValue>,
-    "blur" | "change" | "focus" | "name" | "value"
-  >
+  "blur" | "change" | "focus" | "name" | "value"
 >;
 
 interface FieldInputProps<FieldValue, T extends HTMLElement = HTMLElement>
