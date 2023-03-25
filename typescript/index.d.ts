@@ -57,8 +57,8 @@ export interface FormRenderProps<
   FormValues = Record<string, any>,
   InitialFormValues = Partial<FormValues>,
 > extends FormState<FormValues, InitialFormValues>,
-    RenderableProps<FormRenderProps<FormValues>> {
-  form: FormApi<FormValues>;
+    RenderableProps<FormRenderProps<FormValues, InitialFormValues>> {
+  form: FormApi<FormValues, InitialFormValues>;
   handleSubmit: (
     event?: Partial<
       Pick<React.SyntheticEvent, "preventDefault" | "stopPropagation">
