@@ -161,14 +161,14 @@ function useField<FormValues: FormValuesShape>(
     get checked() {
       let value = state.value;
       if (type === "checkbox") {
-        value = format(value, name);
+        value = parse(value, name);
         if (_value === undefined) {
           return !!value;
         } else {
           return !!(Array.isArray(value) && ~value.indexOf(_value));
         }
       } else if (type === "radio") {
-        return format(value, name) === _value;
+        return parse(value, name) === _value;
       }
       return undefined;
     },
