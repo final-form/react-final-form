@@ -112,11 +112,14 @@ function useField<FormValues: FormValuesShape>(
 
   React.useEffect(
     () =>
-      register((state) => {
+      register((newState) => {
         if (firstRender.current) {
           firstRender.current = false;
+          if(state.initial != newState.initial){
+            setState(newState);
+          }
         } else {
-          setState(state);
+          setState(newState);
         }
       }, false),
     // eslint-disable-next-line react-hooks/exhaustive-deps
