@@ -455,4 +455,27 @@ describe("useField", () => {
     expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]); // onFocus
     expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]); // onBlur
   });
+
+  it("should listen to initial value 2", () => {
+    const MyFieldListener = () => {
+      const isFirstRender = React.useRef(true)
+      const { input, meta } = useField("name");
+      if(!isFirstRender.current){
+        expect(meta.initial).toBe("test");
+        // expect(input.value).toBe("test");
+      }
+      isFirstRender.current = false
+      return null;
+    };
+    render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MyFieldListener />
+            <Field name="name" component="input" data-testid="name" initialValue="test"/>
+          </form>
+        )}
+      </Form>,
+    );
+  });
 });
