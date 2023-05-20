@@ -85,7 +85,7 @@ function useField<FormValues: FormValuesShape>(
       defaultValue,
       getValidator: () => configRef.current.validate,
       initialValue,
-      isEqual: (a, b) => (configRef.current.isEqual || defaultIsEqual)(a, b),
+      isEqual: configRef.current.isEqual,
       silent,
       validateFields,
     });
