@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 
 /**
@@ -7,10 +6,15 @@ import * as React from "react";
  * calling the most recent version of the function and its
  * closures.
  */
-export default function useConstantCallback(callback) {
+export default function useConstantCallback<T extends (...args: any[]) => any>(
+  callback: T,
+): T {
   const ref = React.useRef(callback);
   React.useEffect(() => {
     ref.current = callback;
   });
-  return React.useCallback((...args) => ref.current.apply(null, args), []);
+  return React.useCallback(
+    (...args: any[]) => ref.current.apply(null, args),
+    [],
+  ) as T;
 }

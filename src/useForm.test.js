@@ -1,8 +1,6 @@
-// @flow
-
 import React from "react";
 import { render, cleanup } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import { ErrorBoundary } from "./testUtils";
 import Form from "./ReactFinalForm";
 import { useForm } from "./index";

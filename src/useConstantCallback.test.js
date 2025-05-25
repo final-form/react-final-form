@@ -1,8 +1,6 @@
-// @flow
-
 import * as React from "react";
-import { render, cleanup } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import { render, cleanup, act } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import useConstantCallback from "./useConstantCallback";
 
 describe("useConstantCallback", () => {
@@ -62,7 +60,9 @@ describe("useConstantCallback", () => {
     expect(changeAge).toHaveTextContent(20);
     expect(changeAdmin).toHaveTextContent("No");
 
-    changeName.click();
+    act(() => {
+      changeName.click();
+    });
 
     expect(callback).toHaveBeenCalledTimes(1);
     expect(changeName).toHaveTextContent("Paul");
@@ -76,7 +76,9 @@ describe("useConstantCallback", () => {
     expect(callback.mock.calls[1][1]).toBe(20);
     expect(callback.mock.calls[1][2]).toBe(false);
 
-    changeAge.click();
+    act(() => {
+      changeAge.click();
+    });
 
     expect(callback).toHaveBeenCalledTimes(2);
     expect(changeName).toHaveTextContent("Paul");
@@ -90,7 +92,9 @@ describe("useConstantCallback", () => {
     expect(callback.mock.calls[2][1]).toBe(25);
     expect(callback.mock.calls[2][2]).toBe(false);
 
-    changeAdmin.click();
+    act(() => {
+      changeAdmin.click();
+    });
 
     expect(callback).toHaveBeenCalledTimes(3);
     expect(changeName).toHaveTextContent("Paul");

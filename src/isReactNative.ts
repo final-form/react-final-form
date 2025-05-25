@@ -1,8 +1,8 @@
-// @flow
-const isReactNative =
+const isReactNative: boolean = !!(
   typeof window !== "undefined" &&
   window.navigator &&
   window.navigator.product &&
-  window.navigator.product === "ReactNative";
+  window.navigator.product === "ReactNative"
+);
 
 export default isReactNative;

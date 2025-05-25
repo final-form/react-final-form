@@ -1,10 +1,21 @@
-import resolve from "rollup-plugin-node-resolve";
-import babel from "rollup-plugin-babel";
-import commonjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
-import { uglify } from "rollup-plugin-uglify";
-import replace from "rollup-plugin-replace";
-import pkg from "./package.json";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import babel from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
+import terser from "@rollup/plugin-terser";
+import replace from "@rollup/plugin-replace";
+// import pkg from "./package.json" assert { type: "json" };
+// Hardcode version to avoid import issues
+const pkg = {
+  version: "6.5.9",
+  dependencies: {
+    "@babel/runtime": "^7.15.4",
+  },
+  peerDependencies: {
+    "final-form": "^5.0.0-0",
+    react: "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+  },
+};
 
 const makeExternalPredicate = (externalArr) => {
   if (externalArr.length === 0) {
@@ -42,7 +53,7 @@ if (es) {
 }
 
 export default {
-  input: "src/index.js",
+  input: "src/index.ts",
   output: Object.assign(
     {
       name: "react-final-form",
@@ -54,6 +65,7 @@ export default {
     },
     output,
   ),
+
   external: makeExternalPredicate(
     umd
       ? Object.keys(pkg.peerDependencies || {})
@@ -63,21 +75,25 @@ export default {
         ],
   ),
   plugins: [
-    resolve({ mainFields: ["jsnext:main"] }),
+    nodeResolve({
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+    }),
     json(),
-    commonjs({ include: "node_modules/**" }),
+    commonjs(),
     babel({
       exclude: "node_modules/**",
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
       plugins: [["@babel/plugin-transform-runtime", { useESModules: !cjs }]],
-      runtimeHelpers: true,
+      babelHelpers: "runtime",
     }),
     umd
       ? replace({
           "process.env.NODE_ENV": JSON.stringify(
             minify ? "production" : "development",
           ),
+          preventAssignment: true,
         })
       : null,
-    minify ? uglify() : null,
+    minify ? terser() : null,
   ].filter(Boolean),
 };

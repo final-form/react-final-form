@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 
 /**
@@ -11,10 +10,10 @@ import React from "react";
  * Use Andarist's hook; it's more fault tolerant to things like
  * falsy values.
  *
- * @param {Function} init - A function to generate the value
+ * @param init - A function to generate the value
  */
 export default function useConstant<T>(init: () => T): T {
-  const ref = React.useRef<?T>();
+  const ref = React.useRef<T | undefined>(undefined);
   if (!ref.current) {
     ref.current = init();
   }

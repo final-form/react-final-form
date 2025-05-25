@@ -11,21 +11,18 @@ const submit = async (values) => {
 };
 
 /** This is to mimic the behavior of one of the various Redux async middlewares */
-const asyncSubmissionMiddleware =
-  (store) =>
-  (next: Next) =>
-  (action: Action): State => {
-    if (action && action.type === REGISTER) {
-      submit(action.payload).then(
-        () => store.dispatch({ type: REGISTER_SUCCESS }),
-        (errors) => {
-          // NOTE!! We are passing REGISTER_SUCCESS here because 🏁 Final Form expects
-          // submit errors to come back in a *resolved* promise.
-          store.dispatch({ type: REGISTER_SUCCESS, payload: errors });
-        },
-      );
-    }
-    return next(action);
-  };
+const asyncSubmissionMiddleware = (store) => (next) => (action) => {
+  if (action && action.type === REGISTER) {
+    submit(action.payload).then(
+      () => store.dispatch({ type: REGISTER_SUCCESS }),
+      (errors) => {
+        // NOTE!! We are passing REGISTER_SUCCESS here because 🏁 Final Form expects
+        // submit errors to come back in a *resolved* promise.
+        store.dispatch({ type: REGISTER_SUCCESS, payload: errors });
+      },
+    );
+  }
+  return next(action);
+};
 
 export default asyncSubmissionMiddleware;

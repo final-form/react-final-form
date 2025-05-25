@@ -1,19 +1,14 @@
-// @flow
 import renderComponent from "./renderComponent";
-import type {
-  FormSpyPropsWithForm as Props,
-  FormSpyRenderProps,
-} from "./types";
-import type { FormValuesShape } from "final-form";
+import type { FormSpyProps, FormSpyRenderProps } from "./types";
 import isSyntheticEvent from "./isSyntheticEvent";
 import useForm from "./useForm";
 import useFormState from "./useFormState";
 
-function FormSpy<FormValues: FormValuesShape>({
+function FormSpy<FormValues = Record<string, any>>({
   onChange,
   subscription,
   ...rest
-}: Props<FormValues>) {
+}: FormSpyProps<FormValues>): React.ReactElement | null {
   const reactFinalForm = useForm<FormValues>("FormSpy");
   const state = useFormState({ onChange, subscription });
   if (onChange) {
@@ -21,9 +16,10 @@ function FormSpy<FormValues: FormValuesShape>({
   }
 
   const renderProps: FormSpyRenderProps<FormValues> = {
+    ...state,
     form: {
       ...reactFinalForm,
-      reset: (eventOrValues) => {
+      reset: (eventOrValues?: any) => {
         if (isSyntheticEvent(eventOrValues)) {
           // it's a React SyntheticEvent, call reset with no arguments
           reactFinalForm.reset();
@@ -32,7 +28,7 @@ function FormSpy<FormValues: FormValuesShape>({
         }
       },
     },
-  };
+  } as FormSpyRenderProps<FormValues>;
   return renderComponent(
     {
       ...rest,
@@ -40,7 +36,7 @@ function FormSpy<FormValues: FormValuesShape>({
     },
     state,
     "FormSpy",
-  );
+  ) as React.ReactElement;
 }
 
 export default FormSpy;

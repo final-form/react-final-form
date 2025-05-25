@@ -1,5 +1,5 @@
 import * as React from "react";
-import {
+import type {
   FormApi,
   Config,
   Decorator,
@@ -92,6 +92,7 @@ export interface FormProps<FormValues = Record<string, any>>
     a?: Record<string, any>,
     b?: Record<string, any>,
   ) => boolean;
+  __versions?: Record<string, string>;
 }
 
 export interface UseFieldAutoConfig {
@@ -125,7 +126,7 @@ export interface FieldProps<
     Omit<RenderableProps<FieldRenderProps<FieldValue, T>>, "children"> {
   name: string;
   children?: RenderableProps<FieldRenderProps<FieldValue, T>>["children"];
-  [key: string]: any;
+  [key: string]: any; // Allow additional props for HTML elements
 }
 
 export interface UseFormStateParams<FormValues = Record<string, any>> {
@@ -141,43 +142,3 @@ export interface FormSpyPropsWithForm<FormValues = Record<string, any>>
   extends FormSpyProps<FormValues> {
   reactFinalForm: FormApi<FormValues>;
 }
-
-export const Field: <
-  FieldValue = any,
-  T extends HTMLElement = HTMLElement,
-  FormValues = Record<string, any>,
->(
-  props: FieldProps<FieldValue, T, FormValues>,
-) => React.ReactElement;
-
-export const Form: <FormValues = Record<string, any>>(
-  props: FormProps<FormValues>,
-) => React.ReactElement;
-
-export const FormSpy: <FormValues = Record<string, any>>(
-  props: FormSpyProps<FormValues>,
-) => React.ReactElement;
-
-export function useField<
-  FieldValue = any,
-  T extends HTMLElement = HTMLElement,
-  FormValues = Record<string, any>,
->(
-  name: string,
-  config?: UseFieldConfig,
-): FieldRenderProps<FieldValue, T, FormValues>;
-
-export function useForm<FormValues = Record<string, any>>(
-  componentName?: string,
-): FormApi<FormValues>;
-
-export function useFormState<FormValues = Record<string, any>>(
-  params?: UseFormStateParams<FormValues>,
-): FormState<FormValues>;
-
-export function withTypes<FormValues = Record<string, any>>(): {
-  Form: React.FC<FormProps<FormValues>>;
-  FormSpy: React.FC<FormSpyProps<FormValues>>;
-};
-
-export const version: string;

@@ -5,13 +5,10 @@ import asyncSubmissionMiddleware from "./asyncSubmissionMiddleware";
 
 const reduxPromiseListener = createReduxPromiseListener();
 
-const logger =
-  (store) =>
-  (next: Next) =>
-  (action: Action): State => {
-    console.log(action);
-    return next(action);
-  };
+const logger = (store) => (next) => (action) => {
+  console.log(action);
+  return next(action);
+};
 
 const reducer = combineReducers({
   registration,

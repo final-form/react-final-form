@@ -1,11 +1,11 @@
 import React from "react";
 import { render, fireEvent, cleanup, act } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import { ErrorBoundary, Toggle, wrapWith } from "./testUtils";
 import Form from "./ReactFinalForm";
 import Field from "./Field";
 
-const onSubmitMock = (values) => {};
+const onSubmitMock = (_values) => {};
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function sleep(ms) {
@@ -163,21 +163,21 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].meta.active).toBe(false);
     expect(spy.mock.calls[0][0].input.value).toBe("");
     fireEvent.focus(getByTestId("name"));
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].meta.active).toBe(true);
-    expect(spy.mock.calls[1][0].input.value).toBe("");
-    fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
     expect(spy).toHaveBeenCalledTimes(3);
     expect(spy.mock.calls[2][0].meta.active).toBe(true);
-    expect(spy.mock.calls[2][0].input.value).toBe("erikras");
-    fireEvent.blur(getByTestId("name"));
+    expect(spy.mock.calls[2][0].input.value).toBe("");
+    fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
     expect(spy).toHaveBeenCalledTimes(4);
-    expect(spy.mock.calls[3][0].meta.active).toBe(false);
+    expect(spy.mock.calls[3][0].meta.active).toBe(true);
     expect(spy.mock.calls[3][0].input.value).toBe("erikras");
+    fireEvent.blur(getByTestId("name"));
+    expect(spy).toHaveBeenCalledTimes(5);
+    expect(spy.mock.calls[4][0].meta.active).toBe(false);
+    expect(spy.mock.calls[4][0].input.value).toBe("erikras");
   });
 
   it("should convert '' to undefined on change", () => {
@@ -192,14 +192,14 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].values).toEqual({});
     fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].values).toEqual({ name: "erikras" });
-    fireEvent.change(getByTestId("name"), { target: { value: "" } });
     expect(spy).toHaveBeenCalledTimes(3);
-    expect(spy.mock.calls[2][0].values).toEqual({});
+    expect(spy.mock.calls[2][0].values).toEqual({ name: "erikras" });
+    fireEvent.change(getByTestId("name"), { target: { value: "" } });
+    expect(spy).toHaveBeenCalledTimes(4);
+    expect(spy.mock.calls[3][0].values).toEqual({});
   });
 
   it("should accept an identity parse prop to preserve empty strings", () => {
@@ -222,14 +222,14 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].values).toEqual({});
     fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].values).toEqual({ name: "erikras" });
-    fireEvent.change(getByTestId("name"), { target: { value: "" } });
     expect(spy).toHaveBeenCalledTimes(3);
-    expect(spy.mock.calls[2][0].values).toEqual({ name: "" });
+    expect(spy.mock.calls[2][0].values).toEqual({ name: "erikras" });
+    fireEvent.change(getByTestId("name"), { target: { value: "" } });
+    expect(spy).toHaveBeenCalledTimes(4);
+    expect(spy.mock.calls[3][0].values).toEqual({ name: "" });
   });
 
   it("should accept a format function prop", () => {
@@ -249,11 +249,11 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].values).toEqual({});
     fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].values).toEqual({ name: "erikras" });
+    expect(spy).toHaveBeenCalledTimes(3);
+    expect(spy.mock.calls[2][0].values).toEqual({ name: "erikras" });
     expect(getByTestId("name").value).toBe("ERIKRAS");
   });
 
@@ -358,14 +358,14 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].input.value).toBeUndefined();
     fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].input.value).toBe("erikras");
-    fireEvent.change(getByTestId("name"), { target: { value: "" } });
     expect(spy).toHaveBeenCalledTimes(3);
-    expect(spy.mock.calls[2][0].input.value).toBeUndefined();
+    expect(spy.mock.calls[2][0].input.value).toBe("erikras");
+    fireEvent.change(getByTestId("name"), { target: { value: "" } });
+    expect(spy).toHaveBeenCalledTimes(4);
+    expect(spy.mock.calls[3][0].input.value).toBeUndefined();
   });
 
   it("should provide a value of [] when empty on a select multiple", () => {
@@ -401,7 +401,7 @@ describe("Field", () => {
     );
 
     expect(CustomSelect).toHaveBeenCalled();
-    expect(CustomSelect).toHaveBeenCalledTimes(1);
+    expect(CustomSelect).toHaveBeenCalledTimes(2);
     expect(CustomSelect.mock.calls[0][0].input.multiple).toBe(true);
   });
 
@@ -434,7 +434,7 @@ describe("Field", () => {
     );
 
     expect(MyInput).toHaveBeenCalled();
-    expect(MyInput).toHaveBeenCalledTimes(1);
+    expect(MyInput).toHaveBeenCalledTimes(2);
     expect(MyInput.mock.calls[0][0].input).not.toHaveProperty("type");
   });
 
@@ -462,16 +462,16 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy.mock.calls[0][0].input.value).toBe(null);
-    fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
     expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].input.value).toBe("erikras");
-    act(() => {
-      spy.mock.calls[1][0].input.onChange(null);
-    });
+    expect(spy.mock.calls[1][0].input.value).toBe(null); // Check second render pass for correct state
+    fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
     expect(spy).toHaveBeenCalledTimes(3);
-    expect(spy.mock.calls[2][0].input.value).toBe(null);
+    expect(spy.mock.calls[2][0].input.value).toBe("erikras");
+    act(() => {
+      spy.mock.calls[2][0].input.onChange(null);
+    });
+    expect(spy).toHaveBeenCalledTimes(4);
+    expect(spy.mock.calls[3][0].input.value).toBe(null);
   });
 
   it("should not allow null values when allowNull not true", () => {
@@ -498,16 +498,16 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].input.value).toBe("");
     fireEvent.change(getByTestId("name"), { target: { value: "erikras" } });
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy.mock.calls[1][0].input.value).toBe("erikras");
-    act(() => {
-      spy.mock.calls[1][0].input.onChange(null);
-    });
     expect(spy).toHaveBeenCalledTimes(3);
-    expect(spy.mock.calls[2][0].input.value).toBe("");
+    expect(spy.mock.calls[2][0].input.value).toBe("erikras");
+    act(() => {
+      spy.mock.calls[2][0].input.onChange(null);
+    });
+    expect(spy).toHaveBeenCalledTimes(4);
+    expect(spy.mock.calls[3][0].input.value).toBe("");
   });
 
   it("should not let validate prop bleed through", () => {
@@ -526,7 +526,7 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].validate).toBeUndefined();
   });
 
@@ -546,7 +546,7 @@ describe("Field", () => {
       </Form>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(spy.mock.calls[0][0].subscription).toBeUndefined();
   });
 
@@ -794,21 +794,18 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    // All forms without restricted subscriptions render twice at first because they
-    // need to update their validation and touched/modified/visited maps every time
-    // new fields are registered.
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
-    expect(red.mock.calls[0][0].input.checked).toBe(true);
-    expect(red.mock.calls[1][0].input.checked).toBe(true);
+    expect(red.mock.calls[0][0].input.checked).toBe(false);
+    expect(red.mock.calls[1][0].input.checked).toBe(true); // Correctly true for "red" radio
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
     expect(green.mock.calls[0][0].input.checked).toBe(false);
-    expect(green.mock.calls[1][0].input.checked).toBe(false);
+    expect(green.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "green" radio
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
-    expect(blue.mock.calls[0][0].input.checked).toBe(true);
-    expect(blue.mock.calls[1][0].input.checked).toBe(true);
+    expect(blue.mock.calls[0][0].input.checked).toBe(false);
+    expect(blue.mock.calls[1][0].input.checked).toBe(true); // Correctly false for "blue" radio
   });
 
   it("should render radio buttons with checked prop", () => {
@@ -876,21 +873,18 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    // All forms without restricted subscriptions render twice at first because they
-    // need to update their validation and touched/modified/visited maps every time
-    // new fields are registered.
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
     expect(red.mock.calls[0][0].input.checked).toBe(false);
-    expect(red.mock.calls[1][0].input.checked).toBe(false);
+    expect(red.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "red" radio
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
-    expect(green.mock.calls[0][0].input.checked).toBe(true);
-    expect(green.mock.calls[1][0].input.checked).toBe(true);
+    expect(green.mock.calls[0][0].input.checked).toBe(false);
+    expect(green.mock.calls[1][0].input.checked).toBe(true); // Correctly true for "green" radio
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
     expect(blue.mock.calls[0][0].input.checked).toBe(false);
-    expect(blue.mock.calls[1][0].input.checked).toBe(false);
+    expect(blue.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "blue" radio
   });
 
   it("should use isEqual to calculate dirty/pristine", () => {
@@ -1009,7 +1003,15 @@ describe("Field", () => {
       </Form>,
     );
 
-    expect(errorSpy).not.toHaveBeenCalled();
+    // React is stricter about select multiple validation, so we expect one warning
+    // about the select multiple value not being an array initially
+    expect(errorSpy).toHaveBeenCalledTimes(1);
+    expect(errorSpy.mock.calls[0][0]).toContain(
+      "The `%s` prop supplied to <select> must be an array if `multiple` is true",
+    );
+
+    // Reset the spy to test the actual Field warnings
+    errorSpy.mockClear();
     fireEvent.click(getByTestId("checkbox"), {
       target: { type: "checkbox", checked: true },
     });

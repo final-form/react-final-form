@@ -28,8 +28,9 @@ module.exports = {
           "build.cjs",
           "build.umd.main",
           "build.umd.min",
-          "copyTypes",
         ),
+        "tsc --project tsconfig.build.json",
+        'echo \'{"name":"react-final-form","main":"react-final-form.cjs.js","module":"react-final-form.es.js","types":"index.d.ts"}\' > dist/package.json',
       ),
       es: {
         description: "run the build with rollup (uses rollup.config.js)",
@@ -51,15 +52,6 @@ module.exports = {
       },
       andTest: series.nps("build", "test.size"),
     },
-    copyTypes: series(
-      npsUtils.copy("src/*.js.flow dist"),
-      npsUtils.copy(
-        'dist/index.js.flow dist --rename="react-final-form.cjs.js.flow"',
-      ),
-      npsUtils.copy(
-        'dist/index.js.flow dist --rename="react-final-form.es.js.flow"',
-      ),
-    ),
     docs: {
       description: "Generates table of contents in README",
       script: "doctoc README.md",
@@ -72,28 +64,22 @@ module.exports = {
       description: "lint the entire project",
       script: "eslint .",
     },
-    flow: {
-      description: "flow check the entire project",
-      script: "flow check",
-    },
     typescript: {
       default: {
-        description: "typescript",
-        script:
-          "dtslint --localTs ./node_modules/typescript/lib --expectOnly ./typescript",
+        description: "typescript type checking",
+        script: "tsc --noEmit",
+      },
+      definitions: {
+        description: "typescript definition tests",
+        script: "cd typescript && tsc --noEmit --skipLibCheck",
       },
     },
     validate: {
       description:
         "This runs several scripts to make sure things look good before committing or on clean install",
-      default: concurrent.nps(
-        "lint",
-        // Flow has been causing headaches in this lib for years.
-        // Disabling now to ship some features. -@erikras, 2020-04-19
-        // 'flow',
-        "typescript",
-        "build.andTest",
-        "test",
+      default: series(
+        "nps build.andTest",
+        concurrent.nps("lint", "typescript", "typescript.definitions", "test"),
       ),
     },
   },

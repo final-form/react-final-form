@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
-import { useField } from "react-final-form";
+import { useField, FieldRenderProps } from "react-final-form";
 
 const NumberInput: React.FC<{ value?: number }> = () => null;
 
@@ -15,4 +14,22 @@ function NumberInputValue() {
     parse: (value: number) => String(value),
   });
   return <NumberInput value={input.value} />;
+}
+
+function MyComponent() {
+  const field: FieldRenderProps = useField("myField");
+  return <input {...field.input} />;
+}
+
+function MyTypedComponent() {
+  const field: FieldRenderProps<string> = useField<string>("myField");
+  return <input {...field.input} />;
+}
+
+function MyTypedComponentWithElement() {
+  const field: FieldRenderProps<string, HTMLInputElement> = useField<
+    string,
+    HTMLInputElement
+  >("myField");
+  return <input {...field.input} />;
 }
