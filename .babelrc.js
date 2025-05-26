@@ -12,10 +12,9 @@ module.exports = {
       },
     ],
     "@babel/preset-react",
-    "@babel/preset-flow",
+    "@babel/preset-typescript",
   ],
   plugins: [
-    "@babel/plugin-transform-flow-strip-types",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
     test && "@babel/plugin-transform-react-jsx-source",

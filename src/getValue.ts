@@ -1,5 +1,4 @@
-// @flow
-const getSelectedValues = (options) => {
+const getSelectedValues = (options: any) => {
   const result = [];
   if (options) {
     for (let index = 0; index < options.length; index++) {
@@ -13,20 +12,20 @@ const getSelectedValues = (options) => {
 };
 
 const getValue = (
-  event: SyntheticInputEvent<*>,
+  event: React.ChangeEvent<any>,
   currentValue: any,
   valueProp: any,
   isReactNative: boolean,
 ) => {
   if (
     !isReactNative &&
-    event.nativeEvent &&
-    (event.nativeEvent: Object).text !== undefined
+    (event as any).nativeEvent &&
+    ((event as any).nativeEvent as any).text !== undefined
   ) {
-    return (event.nativeEvent: Object).text;
+    return ((event as any).nativeEvent as any).text;
   }
-  if (isReactNative && event.nativeEvent) {
-    return (event.nativeEvent: any).text;
+  if (isReactNative && (event as any).nativeEvent) {
+    return ((event as any).nativeEvent as any).text;
   }
   const detypedEvent: any = event;
   const {
@@ -60,7 +59,7 @@ const getValue = (
         return !!checked;
       }
     case "select-multiple":
-      return getSelectedValues((event.target: any).options);
+      return getSelectedValues((event.target as any).options);
     default:
       return value;
   }

@@ -1,15 +1,13 @@
-// @flow
-
 import * as React from "react";
 import { render, fireEvent, cleanup } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import { ErrorBoundary } from "./testUtils";
 import Form from "./ReactFinalForm";
 import Field from "./Field";
 import { useField } from "./index";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
-const onSubmitMock = (values) => {};
+const onSubmitMock = (_values) => {};
 
 describe("useField", () => {
   afterEach(cleanup);

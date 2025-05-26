@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import {
   createForm,
@@ -10,20 +9,18 @@ import type {
   Config,
   FormSubscription,
   FormState,
-  FormValuesShape,
   Unsubscribe,
 } from "final-form";
-import type { FormProps as Props, SubmitEvent } from "./types";
+import type { FormProps, SubmitEvent } from "./types";
 import renderComponent from "./renderComponent";
 import useWhenValueChanges from "./useWhenValueChanges";
 import useConstant from "./useConstant";
 import shallowEqual from "./shallowEqual";
 import isSyntheticEvent from "./isSyntheticEvent";
-import type { FormRenderProps } from "./types.js.flow";
+import type { FormRenderProps } from "./types";
 import ReactFinalFormContext from "./context";
-import useLatest from "./useLatest";
-import { version } from "../package.json";
 import { addLazyFormState } from "./getters";
+import { version } from "../package.json";
 
 export { version };
 
@@ -32,15 +29,15 @@ const versions = {
   "react-final-form": version,
 };
 
-export const all: FormSubscription = formSubscriptionItems.reduce(
-  (result, key) => {
+export const all = formSubscriptionItems.reduce<FormSubscription>(
+  (result: FormSubscription, key: keyof FormSubscription) => {
     result[key] = true;
     return result;
   },
   {},
 );
 
-function ReactFinalForm<FormValues: FormValuesShape>({
+function ReactFinalForm<FormValues = Record<string, any>>({
   debug,
   decorators = [],
   destroyOnUnregister,
@@ -54,7 +51,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   validate,
   validateOnBlur,
   ...rest
-}: Props<FormValues>) {
+}: FormProps<FormValues>) {
   const config: Config<FormValues> = {
     debug,
     destroyOnUnregister,
@@ -73,20 +70,15 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     return f;
   });
 
-  // synchronously register and unregister to query form state for our subscription on first render
-  const [state, setState] = React.useState<FormState<FormValues>>(
-    (): FormState<FormValues> => {
-      let initialState: FormState<FormValues> = {};
-      form.subscribe((state) => {
-        initialState = state;
-      }, subscription)();
-      return initialState;
-    },
-  );
+  // Get initial state without triggering callbacks during render
+  const [state, setState] = React.useState<FormState<FormValues>>(() => {
+    // Get initial state synchronously but without callbacks
+    return form.getState();
+  });
 
   // save a copy of state that can break through the closure
   // on the shallowEqual() line below.
-  const stateRef = React.useRef<FormState>(state);
+  const stateRef = React.useRef<FormState<FormValues>>(state);
   stateRef.current = state;
 
   React.useEffect(() => {
@@ -94,17 +86,14 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     form.isValidationPaused() && form.resumeValidation();
     const unsubscriptions: Unsubscribe[] = [
       form.subscribe((s) => {
-        if (!shallowEqual(s, stateRef.current)) {
-          setState(s);
-        }
+        setState((prevState) => {
+          if (!shallowEqual(s, prevState)) {
+            return s;
+          }
+          return prevState;
+        });
       }, subscription),
-      ...(decorators
-        ? decorators.map((decorator) =>
-            // this noop ternary is to appease the flow gods
-            // istanbul ignore next
-            decorator(form),
-          )
-        : []),
+      ...(decorators ? decorators.map((decorator) => decorator(form)) : []),
     ];
 
     return () => {
@@ -113,7 +102,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
       // don't need to resume validation here; either unmounting, or will re-run this hook with new deps
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, decorators);
+  }, []);
 
   // warn about decorator changes
   // istanbul ignore next
@@ -164,7 +153,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
     form.setConfig("validateOnBlur", validateOnBlur);
   });
 
-  const handleSubmit = (event: ?SubmitEvent) => {
+  const handleSubmit = (event?: SubmitEvent) => {
     if (event) {
       // sometimes not true, e.g. React Native
       if (typeof event.preventDefault === "function") {
@@ -181,7 +170,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
   const renderProps: FormRenderProps<FormValues> = {
     form: {
       ...form,
-      reset: (eventOrValues) => {
+      reset: (eventOrValues?: any) => {
         if (isSyntheticEvent(eventOrValues)) {
           // it's a React SyntheticEvent, call reset with no arguments
           form.reset();
@@ -191,7 +180,7 @@ function ReactFinalForm<FormValues: FormValuesShape>({
       },
     },
     handleSubmit,
-  };
+  } as FormRenderProps<FormValues>;
   addLazyFormState(renderProps, state);
   return React.createElement(
     ReactFinalFormContext.Provider,

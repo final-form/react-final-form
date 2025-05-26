@@ -32,8 +32,9 @@ const onSubmit = async (values) => {
 // ****************************************
 const adapt /* ⬅️ this is a HOC */ =
   (Component) =>
-  ({ input, meta: { valid }, ...rest }) =>
-    <Component {...input} {...rest} valid={valid} />;
+  ({ input, meta: { valid }, ...rest }) => (
+    <Component {...input} {...rest} valid={valid} />
+  );
 const AdaptedInput = adapt(Input);
 const AdaptedCheckbox = adapt(Checkbox);
 const AdaptedRadio = adapt(Radio);

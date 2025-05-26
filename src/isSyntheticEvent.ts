@@ -1,4 +1,3 @@
-// @flow
 const isSyntheticEvent = (candidate: any): boolean =>
   !!(candidate && typeof candidate.stopPropagation === "function");
 

@@ -2,12 +2,13 @@
   "compilerOptions": {
     "lib": ["es2015", "dom"],
     "jsx": "react",
+    "module": "esnext",
     "baseUrl": ".",
     "noEmit": true,
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "paths": {
-      "react-final-form": [".."]
+      "react-final-form": ["../dist/index.d.ts"]
     }
   },
   "include": ["."]

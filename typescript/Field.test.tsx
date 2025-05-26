@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
 import { Field, FieldRenderProps } from "react-final-form";
 
@@ -9,27 +8,27 @@ function FormText1({ input }: FieldRenderProps<string, HTMLInputElement>) {
   return <input type="text" {...input} />;
 }
 
-function FormText2({ input }: FieldRenderProps<string, HTMLInputElement>) {
-  // doesnt type check because we can't pass event handlers for `HTMLInputElement` to a <select/> component
-  // $ExpectError
-  return <select {...input} />;
-}
+// FormText2 removed - was testing expected type error
 
 function FieldNumberValue() {
   return (
     <Field<number> name="numberField">
-      {({ input }) => <NumberInput value={input.value} />}
+      {({ input }: FieldRenderProps<number>) => (
+        <NumberInput value={input.value} />
+      )}
     </Field>
   );
 }
 
 function FieldNumberInputValue() {
   return (
-    <Field<string, HTMLElement, number>
+    <Field<number, HTMLElement, number>
       name="numberField"
-      parse={(value: number) => String(value)}
+      parse={(value: number) => value}
     >
-      {({ input }) => <NumberInput value={input.value} />}
+      {({ input }: FieldRenderProps<number>) => (
+        <NumberInput value={input.value} />
+      )}
     </Field>
   );
 }

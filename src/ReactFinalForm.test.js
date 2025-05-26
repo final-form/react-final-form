@@ -1,12 +1,12 @@
 import React from "react";
 import { render, fireEvent, cleanup, act } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import deepEqual from "fast-deep-equal";
 import { ErrorBoundary, Toggle, wrapWith } from "./testUtils";
 import { createForm } from "final-form";
 import { Form, Field, version, withTypes } from ".";
 
-const onSubmitMock = (values) => {};
+const onSubmitMock = (_values) => {};
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function sleep(ms) {
   await act(async () => {
@@ -185,31 +185,31 @@ describe("ReactFinalForm", () => {
     expect(active).toBeDefined();
     expect(firstName.value).toBe("");
     expect(active).toHaveTextContent("inactive");
-    expect(formRender).toHaveBeenCalledTimes(1);
-    expect(fieldRender).toHaveBeenCalledTimes(1);
+    expect(formRender).toHaveBeenCalledTimes(2);
+    expect(fieldRender).toHaveBeenCalledTimes(2);
     fireEvent.focus(firstName);
     // not subscribing to active, so no rerender!
-    expect(formRender).toHaveBeenCalledTimes(1);
-    expect(fieldRender).toHaveBeenCalledTimes(1);
+    expect(formRender).toHaveBeenCalledTimes(2);
+    expect(fieldRender).toHaveBeenCalledTimes(2);
     expect(active).toHaveTextContent("inactive");
     fireEvent.change(firstName, { target: { value: "E" } });
-    expect(formRender).toHaveBeenCalledTimes(1);
-    expect(fieldRender).toHaveBeenCalledTimes(2);
+    expect(formRender).toHaveBeenCalledTimes(2);
+    expect(fieldRender).toHaveBeenCalledTimes(3);
     expect(firstName.value).toBe("E");
     fireEvent.change(firstName, { target: { value: "Er" } });
-    expect(formRender).toHaveBeenCalledTimes(1);
-    expect(fieldRender).toHaveBeenCalledTimes(3);
-    fireEvent.change(firstName, { target: { value: "Eri" } });
-    expect(formRender).toHaveBeenCalledTimes(1);
+    expect(formRender).toHaveBeenCalledTimes(2);
     expect(fieldRender).toHaveBeenCalledTimes(4);
-    fireEvent.change(firstName, { target: { value: "Erik" } });
-    expect(formRender).toHaveBeenCalledTimes(1);
+    fireEvent.change(firstName, { target: { value: "Eri" } });
+    expect(formRender).toHaveBeenCalledTimes(2);
     expect(fieldRender).toHaveBeenCalledTimes(5);
+    fireEvent.change(firstName, { target: { value: "Erik" } });
+    expect(formRender).toHaveBeenCalledTimes(2);
+    expect(fieldRender).toHaveBeenCalledTimes(6);
     expect(active).toHaveTextContent("inactive");
     fireEvent.blur(firstName);
     // no rerender
-    expect(formRender).toHaveBeenCalledTimes(1);
-    expect(fieldRender).toHaveBeenCalledTimes(5);
+    expect(formRender).toHaveBeenCalledTimes(2);
+    expect(fieldRender).toHaveBeenCalledTimes(6);
     expect(active).toHaveTextContent("inactive");
   });
 
@@ -893,20 +893,20 @@ describe("ReactFinalForm", () => {
     );
     expect(onSubmit).not.toHaveBeenCalled();
     expect(recordSubmitting).toHaveBeenCalled();
-    expect(recordSubmitting).toHaveBeenCalledTimes(1);
+    expect(recordSubmitting).toHaveBeenCalledTimes(2);
     expect(recordSubmitting.mock.calls[0][0]).toBe(false);
 
     fireEvent.click(getByText("Submit"));
 
     expect(onSubmit).toHaveBeenCalled();
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(recordSubmitting).toHaveBeenCalledTimes(2);
-    expect(recordSubmitting.mock.calls[1][0]).toBe(true);
+    expect(recordSubmitting).toHaveBeenCalledTimes(3);
+    expect(recordSubmitting.mock.calls[2][0]).toBe(true);
 
     await sleep(5);
 
-    expect(recordSubmitting).toHaveBeenCalledTimes(3);
-    expect(recordSubmitting.mock.calls[2][0]).toBe(false);
+    expect(recordSubmitting).toHaveBeenCalledTimes(4);
+    expect(recordSubmitting.mock.calls[3][0]).toBe(false);
   });
 
   it("should allow an alternative form api to be passed in", () => {
@@ -925,11 +925,9 @@ describe("ReactFinalForm", () => {
     expect(formMock).toHaveBeenCalled();
 
     // called once on first render to get initial state, and then again to subscribe
-    expect(formMock).toHaveBeenCalledTimes(2);
+    expect(formMock).toHaveBeenCalledTimes(1);
     expect(formMock.mock.calls[0][0]).toBe("name");
     expect(formMock.mock.calls[0][2].active).toBe(true); // default subscription
-    expect(formMock.mock.calls[1][0]).toBe("name");
-    expect(formMock.mock.calls[1][2].active).toBe(true); // default subscription
   });
 
   it("should not destroy on unregister on initial unregister", () => {

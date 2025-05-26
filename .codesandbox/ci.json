@@ -6,5 +6,6 @@
     "/examples/submission-errors",
     "/examples/subscriptions"
   ],
-  "node": "14"
+  "node": "18",
+  "installCommand": "setup"
 }

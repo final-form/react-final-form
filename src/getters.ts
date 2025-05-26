@@ -1,6 +1,10 @@
 import type { FormState, FieldState } from "final-form";
 
-const addLazyState = (dest: Object, state: Object, keys: string[]): void => {
+const addLazyState = (
+  dest: Record<string, any>,
+  state: Record<string, any>,
+  keys: string[],
+): void => {
   keys.forEach((key) => {
     Object.defineProperty(dest, key, {
       get: () => state[key],
@@ -9,7 +13,10 @@ const addLazyState = (dest: Object, state: Object, keys: string[]): void => {
   });
 };
 
-export const addLazyFormState = (dest: Object, state: FormState): void =>
+export const addLazyFormState = (
+  dest: Record<string, any>,
+  state: FormState<any>,
+): void =>
   addLazyState(dest, state, [
     "active",
     "dirty",
@@ -37,7 +44,10 @@ export const addLazyFormState = (dest: Object, state: FormState): void =>
     "visited",
   ]);
 
-export const addLazyFieldMetaState = (dest: Object, state: FieldState): void =>
+export const addLazyFieldMetaState = (
+  dest: Record<string, any>,
+  state: FieldState<any>,
+): void =>
   addLazyState(dest, state, [
     "active",
     "data",
