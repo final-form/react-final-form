@@ -4434,10 +4434,10 @@ fill-range@^7.1.1:
   dependencies:
     to-regex-range "^5.0.1"
 
-final-form@5.0.0-3:
-  version "5.0.0-3"
-  resolved "https://registry.yarnpkg.com/final-form/-/final-form-5.0.0-3.tgz#149f1e879d3c1dbf0991e219be62b3f4e75a8422"
-  integrity sha512-3KPyaI2qmfevLevdrEAJvSLXn/sOlp1+a6DRDxqn5FLLkUgpYNB21FTeXRYPIEFT6l1+/JSpiS/7CbBRF0UXLQ==
+final-form@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-5.0.0.tgz#3b00dc957bf2fa809e738be557a34b7c32a1f654"
+  integrity sha512-HByosvP7x3N4bWTCPoBeUeoMatadewRifxaH3qhCQI2DBwFNO0m5wxETLVUXNGWz2yokdSCMdJEvtjfZoXnqDA==
   dependencies:
     "@babel/runtime" "^7.10.0"
 
