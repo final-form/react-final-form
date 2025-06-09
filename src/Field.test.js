@@ -385,7 +385,12 @@ describe("Field", () => {
   });
 
   it("should pass multiple through to custom components", () => {
-    const CustomSelect = jest.fn(({ input }) => <select {...input} />);
+    const CustomSelect = jest.fn(({ input }) => (
+      <select
+        {...input}
+        value={input.multiple ? input.value || [] : input.value}
+      />
+    ));
     render(
       <Form
         onSubmit={onSubmitMock}

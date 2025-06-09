@@ -280,13 +280,14 @@ describe("useField", () => {
       const { input } = useField(name, {
         subscription: { value: true },
         formatOnBlur,
+        defaultValue: "",
       });
       const { onChange, onFocus, onBlur } = input;
       spy(onChange, onFocus, onBlur);
-      return <input {...input} />;
+      return <input {...input} value={input.value || ""} />;
     };
     const { rerender } = render(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="myField" />
@@ -301,7 +302,7 @@ describe("useField", () => {
     expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]); // onBlur
 
     rerender(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="dog" formatOnBlur />
@@ -325,13 +326,14 @@ describe("useField", () => {
       const { input } = useField(name, {
         subscription: { value: true },
         parse,
+        defaultValue: "",
       });
       const { onChange, onFocus, onBlur } = input;
       spy(onChange, onFocus, onBlur);
-      return <input {...input} />;
+      return <input {...input} value={input.value || ""} />;
     };
     const { rerender } = render(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="myField" />
@@ -346,7 +348,7 @@ describe("useField", () => {
     expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]); // onBlur
 
     rerender(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="dog" parse={(x) => x} />
@@ -370,13 +372,14 @@ describe("useField", () => {
       const { input } = useField(name, {
         subscription: { value: true },
         format,
+        defaultValue: "",
       });
       const { onChange, onFocus, onBlur } = input;
       spy(onChange, onFocus, onBlur);
-      return <input {...input} />;
+      return <input {...input} value={input.value || ""} />;
     };
     const { rerender } = render(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="myField" />
@@ -391,7 +394,7 @@ describe("useField", () => {
     expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]); // onBlur
 
     rerender(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="dog" format={(x) => x} />
@@ -415,13 +418,14 @@ describe("useField", () => {
       const { input } = useField(name, {
         subscription: { value: true },
         component,
+        defaultValue: "",
       });
       const { onChange, onFocus, onBlur } = input;
       spy(onChange, onFocus, onBlur);
-      return <input {...input} />;
+      return <input {...input} value={input.value || ""} />;
     };
     const { rerender } = render(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="myField" />
@@ -436,7 +440,7 @@ describe("useField", () => {
     expect(spy.mock.calls[1][2]).toBe(spy.mock.calls[0][2]); // onBlur
 
     rerender(
-      <Form onSubmit={onSubmitMock}>
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "", dog: "" }}>
         {() => (
           <form>
             <MyField name="dog" component="select" />
