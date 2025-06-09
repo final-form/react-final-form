@@ -457,4 +457,55 @@ describe("useField", () => {
     expect(spy.mock.calls[3][1]).toBe(spy.mock.calls[2][1]); // onFocus
     expect(spy.mock.calls[3][2]).toBe(spy.mock.calls[2][2]); // onBlur
   });
+
+  it("should handle null values correctly with allowNull", () => {
+    const spy = jest.fn();
+    const MyField = ({ name }) => {
+      const { input } = useField(name, {
+        subscription: { value: true },
+        allowNull: true,
+      });
+      spy(input.value);
+      // Convert null to empty string for the input element to avoid React warnings
+      return (
+        <input {...input} value={input.value === null ? "" : input.value} />
+      );
+    };
+    const { rerender } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: null }}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>,
+    );
+
+    // Change to non-null value
+    rerender(
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: "test" }}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>,
+    );
+
+    // Change back to null
+    rerender(
+      <Form onSubmit={onSubmitMock} initialValues={{ myField: null }}>
+        {() => (
+          <form>
+            <MyField name="myField" />
+          </form>
+        )}
+      </Form>,
+    );
+
+    const calls = spy.mock.calls.map((call) => call[0]);
+    expect(calls).toContain(null); // At least one call with null
+    expect(calls).toContain("test"); // At least one call with 'test'
+    expect(calls[calls.length - 1]).toBe(null); // Last call is null
+  });
 });

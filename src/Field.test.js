@@ -1237,22 +1237,15 @@ describe("Field", () => {
   });
 
   it("should throw an error if name prop is undefined", () => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-
-    const errorSpy = jest.fn();
-    render(
-      <ErrorBoundary spy={errorSpy}>
+    const consoleError = console.error;
+    console.error = jest.fn(); // Suppress React error boundary warning
+    expect(() => {
+      render(
         <Form onSubmit={onSubmitMock}>
           {() => <Field name={undefined} render={() => <input />} />}
-        </Form>
-      </ErrorBoundary>,
-    );
-
-    expect(errorSpy).toHaveBeenCalled();
-    expect(errorSpy).toHaveBeenCalledTimes(1);
-    expect(errorSpy.mock.calls[0][0].message).toBe(
-      "prop name cannot be undefined in <Field> component",
-    );
-    console.error.mockRestore();
+        </Form>,
+      );
+    }).toThrow("prop name cannot be undefined in <Field> component");
+    console.error = consoleError;
   });
 });
