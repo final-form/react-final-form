@@ -16,7 +16,7 @@ module.exports = {
       ),
       size: {
         description: "check the size of the bundle",
-        script: "bundlesize",
+        script: "size-limit",
       },
     },
     build: {
