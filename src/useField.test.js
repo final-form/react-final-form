@@ -508,4 +508,76 @@ describe("useField", () => {
     expect(calls).toContain("test"); // At least one call with 'test'
     expect(calls[calls.length - 1]).toBe(null); // Last call is null
   });
+
+  it("should return Form initialValues on first render (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    
+    const MyField = () => {
+      const { input } = useField("username");
+      renderSpy(input.value);
+      return <input {...input} data-testid="username" />;
+    };
+    
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ username: "erikras" }}>
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    
+    // Critical: on the FIRST render, value should be "erikras" not undefined
+    expect(renderSpy.mock.calls[0][0]).toBe("erikras");
+    expect(getByTestId("username").value).toBe("erikras");
+  });
+
+  it("should prefer Form initialValues over field initialValue", () => {
+    const renderSpy = jest.fn();
+    
+    const MyField = () => {
+      const { input } = useField("username", { initialValue: "fallback" });
+      renderSpy(input.value);
+      return <input {...input} data-testid="username" />;
+    };
+    
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ username: "formLevel" }}>
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    
+    // Form-level initialValues should take precedence
+    expect(renderSpy.mock.calls[0][0]).toBe("formLevel");
+    expect(getByTestId("username").value).toBe("formLevel");
+  });
+
+  it("should use field initialValue when Form initialValues doesnt have that field", () => {
+    const renderSpy = jest.fn();
+    
+    const MyField = () => {
+      const { input } = useField("username", { initialValue: "fieldLevel" });
+      renderSpy(input.value);
+      return <input {...input} data-testid="username" />;
+    };
+    
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ other: "value" }}>
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    
+    // Field-level initialValue should be used as fallback
+    expect(renderSpy.mock.calls[0][0]).toBe("fieldLevel");
+    expect(getByTestId("username").value).toBe("fieldLevel");
+  });
 });

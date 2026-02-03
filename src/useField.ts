@@ -114,8 +114,16 @@ function useField<
     }
 
     // If no existing state, create a proper initial state
+    // FIX #1050: Check Form's initialValues[name] first, before field-level initialValue
+    const formState = form.getState();
     let initialStateValue = initialValue;
-    if (component === "select" && multiple && initialValue === undefined) {
+    
+    // Check Form-level initialValues (set via <Form initialValues={...}>)
+    if (formState.initialValues && name in formState.initialValues) {
+      initialStateValue = (formState.initialValues as any)[name];
+    }
+    
+    if (component === "select" && multiple && initialStateValue === undefined) {
       initialStateValue = [];
     }
 
