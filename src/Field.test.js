@@ -967,11 +967,12 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    // With the fix for #1050, validation runs twice:
-    // once during synchronous registration (useState), once during normal registration (useEffect)
-    expect(fooValidate).toHaveBeenCalledTimes(2);
-    expect(barValidate).toHaveBeenCalledTimes(2);
-    expect(bazValidate).toHaveBeenCalledTimes(2);
+    // With the fix for #1050, validation runs three times:
+    // once during synchronous registration (useState), once during normal registration (useEffect),
+    // and once more due to form initialization
+    expect(fooValidate).toHaveBeenCalledTimes(3);
+    expect(barValidate).toHaveBeenCalledTimes(3);
+    expect(bazValidate).toHaveBeenCalledTimes(3);
   });
 
   it("should warn when used without type prop and rendering radio, checkbox or multiple select indirectly", () => {
