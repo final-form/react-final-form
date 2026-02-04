@@ -10,13 +10,20 @@ export default function renderComponent<T>(
 ): React.ReactNode {
   const { render, children, component, ...rest } = props;
   if (component) {
-    return React.createElement(
-      component,
-      Object.assign(lazyProps, rest, {
-        children,
-        render,
-      }),
-    );
+    // FIX: Don't use Object.assign which tries to overwrite getters
+    // Instead, create a new object with lazyProps descriptors first,
+    // then add non-conflicting properties from rest
+    const result = {} as any;
+    Object.defineProperties(result, Object.getOwnPropertyDescriptors(lazyProps));
+    const restDescriptors = Object.getOwnPropertyDescriptors(rest);
+    for (const key in restDescriptors) {
+      if (!(key in result)) {
+        Object.defineProperty(result, key, restDescriptors[key]);
+      }
+    }
+    result.children = children;
+    result.render = render;
+    return React.createElement(component, result);
   }
   if (render) {
     const result = {} as T;

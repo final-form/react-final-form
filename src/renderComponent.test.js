@@ -69,4 +69,76 @@ describe("renderComponent", () => {
     expect(getA).not.toHaveBeenCalled();
     expect(getB).not.toHaveBeenCalled();
   });
+
+  it("should not overwrite getter-only properties when using component prop", () => {
+    // This test reproduces issue #1055
+    // When lazyProps has getter-only properties (like 'active'), and props contains
+    // a property with the same name, it should not attempt to overwrite the getter
+    const Component = () => null;
+    const props = {
+      component: Component,
+      active: "value-from-props", // This would cause "Cannot set property active" error
+      customProp: "custom",
+    };
+    const lazyProps = {};
+    Object.defineProperty(lazyProps, "active", {
+      get: () => "value-from-getter",
+      enumerable: true,
+      // Note: no setter - this is getter-only
+    });
+    const name = "TestComponent";
+
+    // Should not throw "Cannot set property active"
+    let result;
+    expect(() => {
+      result = renderComponent(props, lazyProps, name);
+    }).not.toThrow();
+
+    // Check the React element was created with correct props
+    expect(result.type).toBe(Component);
+    
+    // The getter-only property should remain and use the getter value
+    expect(result.props.active).toBe("value-from-getter");
+
+    // Custom props should still be passed through
+    expect(result.props.customProp).toBe("custom");
+  });
+
+  it("should handle getter-only properties in all render paths", () => {
+    const lazyProps = {};
+    Object.defineProperty(lazyProps, "active", {
+      get: () => "getter-value",
+      enumerable: true,
+    });
+
+    // Test with render prop
+    const render = jest.fn();
+    renderComponent(
+      { render, active: "prop-value" },
+      lazyProps,
+      "TestComponent",
+    );
+    expect(render).toHaveBeenCalled();
+    expect(render.mock.calls[0][0].active).toBe("getter-value");
+
+    // Test with children function
+    const children = jest.fn();
+    renderComponent(
+      { children, active: "prop-value" },
+      lazyProps,
+      "TestComponent",
+    );
+    expect(children).toHaveBeenCalled();
+    expect(children.mock.calls[0][0].active).toBe("getter-value");
+
+    // Test with component prop
+    const Component = () => null;
+    const result = renderComponent(
+      { component: Component, active: "prop-value" },
+      lazyProps,
+      "TestComponent",
+    );
+    expect(result.type).toBe(Component);
+    expect(result.props.active).toBe("getter-value");
+  });
 });
