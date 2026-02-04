@@ -1,5 +1,5 @@
 import * as React from "react";
-import { fieldSubscriptionItems } from "final-form";
+import { fieldSubscriptionItems, getIn } from "final-form";
 import type { FieldSubscription, FieldState, FormApi } from "final-form";
 import type {
   UseFieldConfig,
@@ -113,9 +113,16 @@ function useField<
       return existingFieldState;
     }
 
+    // FIX #1050: Check Form initialValues before falling back to field initialValue
     // If no existing state, create a proper initial state
-    let initialStateValue = initialValue;
-    if (component === "select" && multiple && initialValue === undefined) {
+    const formState = form.getState();
+    // Use getIn to support nested field paths like "user.name" or "items[0].id"
+    const formInitialValue = getIn(formState.initialValues, name);
+    
+    // Use Form initialValues if available, otherwise use field initialValue
+    let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;
+    
+    if (component === "select" && multiple && initialStateValue === undefined) {
       initialStateValue = [];
     }
 

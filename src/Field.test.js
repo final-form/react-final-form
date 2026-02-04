@@ -801,16 +801,18 @@ describe("Field", () => {
     );
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
-    expect(red.mock.calls[0][0].input.checked).toBe(false);
-    expect(red.mock.calls[1][0].input.checked).toBe(true); // Correctly true for "red" radio
+    // After fix #1050, initialValues work on first render
+    expect(red.mock.calls[0][0].input.checked).toBe(true); // Correctly true for "red" from initialValues
+    expect(red.mock.calls[1][0].input.checked).toBe(true);
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
     expect(green.mock.calls[0][0].input.checked).toBe(false);
-    expect(green.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "green" radio
+    expect(green.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "green"
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
-    expect(blue.mock.calls[0][0].input.checked).toBe(false);
-    expect(blue.mock.calls[1][0].input.checked).toBe(true); // Correctly false for "blue" radio
+    // After fix #1050, initialValues work on first render
+    expect(blue.mock.calls[0][0].input.checked).toBe(true); // Correctly true for "blue" from initialValues
+    expect(blue.mock.calls[1][0].input.checked).toBe(true);
   });
 
   it("should render radio buttons with checked prop", () => {
@@ -884,8 +886,9 @@ describe("Field", () => {
     expect(red.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "red" radio
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
-    expect(green.mock.calls[0][0].input.checked).toBe(false);
-    expect(green.mock.calls[1][0].input.checked).toBe(true); // Correctly true for "green" radio
+    // After fix #1050, initialValues work on first render
+    expect(green.mock.calls[0][0].input.checked).toBe(true); // Correctly true for "green" from initialValues
+    expect(green.mock.calls[1][0].input.checked).toBe(true);
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
     expect(blue.mock.calls[0][0].input.checked).toBe(false);
@@ -1008,12 +1011,10 @@ describe("Field", () => {
       </Form>,
     );
 
-    // React is stricter about select multiple validation, so we expect one warning
-    // about the select multiple value not being an array initially
-    expect(errorSpy).toHaveBeenCalledTimes(1);
-    expect(errorSpy.mock.calls[0][0]).toContain(
-      "The `%s` prop supplied to <select> must be an array if `multiple` is true",
-    );
+    // After fix #1050, initialValues work on first render, so select multiple
+    // correctly gets the array value from initialValues and no longer triggers
+    // React's "must be an array" warning
+    expect(errorSpy).toHaveBeenCalledTimes(0);
 
     // Reset the spy to test the actual Field warnings
     errorSpy.mockClear();
