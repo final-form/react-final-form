@@ -118,9 +118,20 @@ function useField<
     const formState = form.getState();
     let initialStateValue = initialValue;
     
+    console.log('[useField DEBUG]', {
+      name,
+      fieldInitialValue: initialValue,
+      formInitialValues: formState.initialValues,
+      hasFormInitialValues: !!formState.initialValues,
+      nameInFormInitialValues: formState.initialValues && name in formState.initialValues,
+    });
+    
     // Check Form-level initialValues (set via <Form initialValues={...}>)
     if (formState.initialValues && name in formState.initialValues) {
       initialStateValue = (formState.initialValues as any)[name];
+      console.log('[useField DEBUG] Using Form initialValue:', initialStateValue);
+    } else {
+      console.log('[useField DEBUG] Using field initialValue:', initialStateValue);
     }
     
     if (component === "select" && multiple && initialStateValue === undefined) {
