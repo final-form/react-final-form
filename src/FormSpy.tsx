@@ -16,7 +16,6 @@ function FormSpy<FormValues = Record<string, any>>({
   }
 
   const renderProps: FormSpyRenderProps<FormValues> = {
-    ...state,
     form: {
       ...reactFinalForm,
       reset: (eventOrValues?: any) => {
