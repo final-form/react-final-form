@@ -801,16 +801,16 @@ describe("Field", () => {
     );
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
-    expect(red.mock.calls[0][0].input.checked).toBe(false);
-    expect(red.mock.calls[1][0].input.checked).toBe(true); // Correctly true for "red" radio
+    expect(red.mock.calls[0][0].input.checked).toBe(true); // Now correctly true on first render!
+    expect(red.mock.calls[1][0].input.checked).toBe(true); // Still true for "red" checkbox
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
-    expect(green.mock.calls[0][0].input.checked).toBe(false);
-    expect(green.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "green" radio
+    expect(green.mock.calls[0][0].input.checked).toBe(false); // Correctly false on first render
+    expect(green.mock.calls[1][0].input.checked).toBe(false); // Still false for "green" checkbox
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
-    expect(blue.mock.calls[0][0].input.checked).toBe(false);
-    expect(blue.mock.calls[1][0].input.checked).toBe(true); // Correctly false for "blue" radio
+    expect(blue.mock.calls[0][0].input.checked).toBe(true); // Now correctly true on first render!
+    expect(blue.mock.calls[1][0].input.checked).toBe(true); // Still true for "blue" checkbox
   });
 
   it("should render radio buttons with checked prop", () => {
@@ -880,16 +880,16 @@ describe("Field", () => {
     );
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
-    expect(red.mock.calls[0][0].input.checked).toBe(false);
-    expect(red.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "red" radio
+    expect(red.mock.calls[0][0].input.checked).toBe(false); // Correctly false on first render
+    expect(red.mock.calls[1][0].input.checked).toBe(false); // Still false for "red" radio
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
-    expect(green.mock.calls[0][0].input.checked).toBe(false);
-    expect(green.mock.calls[1][0].input.checked).toBe(true); // Correctly true for "green" radio
+    expect(green.mock.calls[0][0].input.checked).toBe(true); // Now correctly true on first render!
+    expect(green.mock.calls[1][0].input.checked).toBe(true); // Still true for "green" radio
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
-    expect(blue.mock.calls[0][0].input.checked).toBe(false);
-    expect(blue.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "blue" radio
+    expect(blue.mock.calls[0][0].input.checked).toBe(false); // Correctly false on first render
+    expect(blue.mock.calls[1][0].input.checked).toBe(false); // Still false for "blue" radio
   });
 
   it("should use isEqual to calculate dirty/pristine", () => {
@@ -967,9 +967,11 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    expect(fooValidate).toHaveBeenCalledTimes(1);
-    expect(barValidate).toHaveBeenCalledTimes(1);
-    expect(bazValidate).toHaveBeenCalledTimes(1);
+    // With the fix for #1050, validation runs twice:
+    // once during synchronous registration (useState), once during normal registration (useEffect)
+    expect(fooValidate).toHaveBeenCalledTimes(2);
+    expect(barValidate).toHaveBeenCalledTimes(2);
+    expect(bazValidate).toHaveBeenCalledTimes(2);
   });
 
   it("should warn when used without type prop and rendering radio, checkbox or multiple select indirectly", () => {
@@ -1008,12 +1010,9 @@ describe("Field", () => {
       </Form>,
     );
 
-    // React is stricter about select multiple validation, so we expect one warning
-    // about the select multiple value not being an array initially
-    expect(errorSpy).toHaveBeenCalledTimes(1);
-    expect(errorSpy.mock.calls[0][0]).toContain(
-      "The `%s` prop supplied to <select> must be an array if `multiple` is true",
-    );
+    // With the fix for #1050, initialValues are now correctly available on first render,
+    // so the select multiple value IS an array from the start - no warning needed!
+    expect(errorSpy).toHaveBeenCalledTimes(0);
 
     // Reset the spy to test the actual Field warnings
     errorSpy.mockClear();
