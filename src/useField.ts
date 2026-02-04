@@ -106,10 +106,16 @@ function useField<
     const destroyOnUnregister = form.destroyOnUnregister;
     form.destroyOnUnregister = false;
 
+    // Pause validation to prevent notifications during synchronous registration
+    form.pauseValidation();
+
     // Register field synchronously with silent=true, capture state, then unregister
     register((fieldState) => {
       initialFieldState = fieldState;
     }, true)();
+
+    // Resume validation
+    form.resumeValidation();
 
     // Restore destroyOnUnregister to its original value
     form.destroyOnUnregister = destroyOnUnregister;
