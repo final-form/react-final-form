@@ -508,4 +508,94 @@ describe("useField", () => {
     expect(calls).toContain("test"); // At least one call with 'test'
     expect(calls[calls.length - 1]).toBe(null); // Last call is null
   });
+
+  it("should return Form initialValues on first render (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input } = useField("username");
+      renderSpy(input.value);
+      return <input {...input} data-testid="username" />;
+    };
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ username: "erikras" }}>
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Critical: on the FIRST render, value should be "erikras" not undefined
+    expect(renderSpy.mock.calls[0][0]).toBe("erikras");
+    expect(getByTestId("username").value).toBe("erikras");
+  });
+
+  it("should use field initialValue when Form initialValues doesn't have that field (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input } = useField("username", { initialValue: "fieldLevel" });
+      renderSpy(input.value);
+      return <input {...input} data-testid="username" />;
+    };
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ other: "value" }}>
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Field-level initialValue should be used as fallback
+    expect(renderSpy.mock.calls[0][0]).toBe("fieldLevel");
+    expect(getByTestId("username").value).toBe("fieldLevel");
+  });
+
+  it("should handle nested field paths in Form initialValues (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input } = useField("user.name");
+      renderSpy(input.value);
+      return <input {...input} data-testid="nested" />;
+    };
+    const { getByTestId } = render(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ user: { name: "erikras" } }}
+      >
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Should correctly resolve nested path on first render
+    expect(renderSpy.mock.calls[0][0]).toBe("erikras");
+    expect(getByTestId("nested").value).toBe("erikras");
+  });
+
+  it("should handle array field paths in Form initialValues (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input } = useField("items[0].name");
+      renderSpy(input.value);
+      return <input {...input} data-testid="array" />;
+    };
+    const { getByTestId } = render(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ items: [{ name: "Apple" }] }}
+      >
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Should correctly resolve array path on first render
+    expect(renderSpy.mock.calls[0][0]).toBe("Apple");
+    expect(getByTestId("array").value).toBe("Apple");
+  });
 });
