@@ -97,54 +97,30 @@ function useField<
 
   // Initialize state with proper field state from Final Form without callbacks
   const [state, setState] = React.useState<FieldState<any>>(() => {
-    // Get the current field state from Final Form without registering callbacks
-    const existingFieldState = form.getFieldState(name as keyof FormValues);
+    // FIX #1050: Register field synchronously to get proper initial state
+    // This is the same approach used in v6.5.9 to ensure Form initialValues
+    // are available on first render.
+    let initialFieldState: FieldState<any> = {} as FieldState<any>;
 
-    if (existingFieldState) {
-      // If allowNull is true and the initial value was null, preserve it
-      // (and its formatted version is not null, meaning it was formatted away)
-      if (allowNull && existingFieldState.initial === null && existingFieldState.value !== null) {
-        return {
-          ...existingFieldState,
-          value: null,   // Force value back to null
-          initial: null, // Ensure our local state's 'initial' also reflects this
-        };
-      }
-      return existingFieldState;
-    }
+    // Temporarily disable destroyOnUnregister
+    const destroyOnUnregister = form.destroyOnUnregister;
+    form.destroyOnUnregister = false;
 
-    // If no existing state, create a proper initial state
-    let initialStateValue = initialValue;
-    if (component === "select" && multiple && initialValue === undefined) {
-      initialStateValue = [];
-    }
+    // Pause validation to prevent notifications during synchronous registration
+    form.pauseValidation();
 
-    return {
-      active: false,
-      blur: () => { },
-      change: () => { },
-      data: data || {},
-      dirty: false,
-      dirtySinceLastSubmit: false,
-      error: undefined,
-      focus: () => { },
-      initial: initialStateValue,
-      invalid: false,
-      length: undefined,
-      modified: false,
-      modifiedSinceLastSubmit: false,
-      name,
-      pristine: true,
-      submitError: undefined,
-      submitFailed: false,
-      submitSucceeded: false,
-      submitting: false,
-      touched: false,
-      valid: true,
-      validating: false,
-      value: initialStateValue,
-      visited: false,
-    };
+    // Register field synchronously with silent=true, capture state, then unregister
+    register((fieldState) => {
+      initialFieldState = fieldState;
+    }, true)();
+
+    // Resume validation
+    form.resumeValidation();
+
+    // Restore destroyOnUnregister to its original value
+    form.destroyOnUnregister = destroyOnUnregister;
+
+    return initialFieldState;
   });
 
   React.useEffect(() => {
