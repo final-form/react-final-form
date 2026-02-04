@@ -98,78 +98,23 @@ function useField<
   // Initialize state with proper field state from Final Form without callbacks
   const [state, setState] = React.useState<FieldState<any>>(() => {
     // FIX #1050: Register field synchronously to get proper initial state
-    // that includes Form initialValues. This ensures useField returns the
-    // correct value on first render instead of undefined.
-    let initialFieldState: FieldState<any> | undefined;
-    
-    const unregister = form.registerField(
-      name as keyof FormValues,
-      (fieldState) => {
-        // Capture the initial state on first registration
-        initialFieldState = fieldState;
-      },
-      subscription,
-      {
-        afterSubmit,
-        beforeSubmit: () => undefined,
-        data,
-        defaultValue,
-        getValidator: () => config.validate,
-        initialValue,
-        isEqual: (a: any, b: any) => (config.isEqual || defaultIsEqual)(a, b),
-        silent: true, // Silent registration to avoid triggering validation
-        validateFields,
-      }
-    );
-    
-    // Immediately unregister - we'll re-register properly in useEffect
-    unregister();
-    
-    // If we got initial state from registration, use it
-    if (initialFieldState) {
-      // If allowNull is true and the initial value was null, preserve it
-      if (allowNull && initialFieldState.initial === null && initialFieldState.value !== null) {
-        return {
-          ...initialFieldState,
-          value: null,   // Force value back to null
-          initial: null, // Ensure our local state's 'initial' also reflects this
-        };
-      }
-      return initialFieldState;
-    }
+    // This is the same approach used in v6.5.9 to ensure Form initialValues
+    // are available on first render.
+    let initialFieldState: FieldState<any> = {} as FieldState<any>;
 
-    // Fallback: create initial state manually (shouldn't normally reach here)
-    let initialStateValue = initialValue;
-    if (component === "select" && multiple && initialStateValue === undefined) {
-      initialStateValue = [];
-    }
+    // Temporarily disable destroyOnUnregister
+    const destroyOnUnregister = form.destroyOnUnregister;
+    form.destroyOnUnregister = false;
 
-    return {
-      active: false,
-      blur: () => { },
-      change: () => { },
-      data: data || {},
-      dirty: false,
-      dirtySinceLastSubmit: false,
-      error: undefined,
-      focus: () => { },
-      initial: initialStateValue,
-      invalid: false,
-      length: undefined,
-      modified: false,
-      modifiedSinceLastSubmit: false,
-      name,
-      pristine: true,
-      submitError: undefined,
-      submitFailed: false,
-      submitSucceeded: false,
-      submitting: false,
-      touched: false,
-      valid: true,
-      validating: false,
-      value: initialStateValue,
-      visited: false,
-    };
+    // Register field synchronously with silent=true, capture state, then unregister
+    register((fieldState) => {
+      initialFieldState = fieldState;
+    }, true)();
+
+    // Restore destroyOnUnregister to its original value
+    form.destroyOnUnregister = destroyOnUnregister;
+
+    return initialFieldState;
   });
 
   React.useEffect(() => {
