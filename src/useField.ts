@@ -122,7 +122,7 @@ function useField<
     // Use Form initialValues if available, otherwise use field initialValue
     let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;
     
-    if (component === "select" && multiple && initialStateValue === undefined) {
+    if ((component === "select" || type === "select") && multiple && initialStateValue === undefined) {
       initialStateValue = [];
     }
 
@@ -191,7 +191,7 @@ function useField<
       }
     }
 
-    if (component === "select" && multiple) {
+    if ((component === "select" || type === "select") && multiple) {
       return Array.isArray(value) ? value : [];
     }
     // For checkboxes and radios, the `value` prop on the input element itself
