@@ -97,43 +97,49 @@ function useField<
 
   // Initialize state with proper field state from Final Form without callbacks
   const [state, setState] = React.useState<FieldState<any>>(() => {
-    // Get the current field state from Final Form without registering callbacks
-    const existingFieldState = form.getFieldState(name as keyof FormValues);
-
-    if (existingFieldState) {
+    // FIX #1050: Register field synchronously to get proper initial state
+    // that includes Form initialValues. This ensures useField returns the
+    // correct value on first render instead of undefined.
+    let initialFieldState: FieldState<any> | undefined;
+    
+    const unregister = form.registerField(
+      name as keyof FormValues,
+      (fieldState) => {
+        // Capture the initial state on first registration
+        initialFieldState = fieldState;
+      },
+      subscription,
+      {
+        afterSubmit,
+        beforeSubmit: () => undefined,
+        data,
+        defaultValue,
+        getValidator: () => config.validate,
+        initialValue,
+        isEqual: (a: any, b: any) => (config.isEqual || defaultIsEqual)(a, b),
+        silent: true, // Silent registration to avoid triggering validation
+        validateFields,
+      }
+    );
+    
+    // Immediately unregister - we'll re-register properly in useEffect
+    unregister();
+    
+    // If we got initial state from registration, use it
+    if (initialFieldState) {
       // If allowNull is true and the initial value was null, preserve it
-      // (and its formatted version is not null, meaning it was formatted away)
-      if (allowNull && existingFieldState.initial === null && existingFieldState.value !== null) {
+      if (allowNull && initialFieldState.initial === null && initialFieldState.value !== null) {
         return {
-          ...existingFieldState,
+          ...initialFieldState,
           value: null,   // Force value back to null
           initial: null, // Ensure our local state's 'initial' also reflects this
         };
       }
-      return existingFieldState;
+      return initialFieldState;
     }
 
-    // If no existing state, create a proper initial state
-    // FIX #1050: Check Form's initialValues[name] first, before field-level initialValue
-    const formState = form.getState();
+    // Fallback: create initial state manually (shouldn't normally reach here)
     let initialStateValue = initialValue;
-    
-    console.log('[useField DEBUG]', {
-      name,
-      fieldInitialValue: initialValue,
-      formInitialValues: formState.initialValues,
-      hasFormInitialValues: !!formState.initialValues,
-      nameInFormInitialValues: formState.initialValues && name in formState.initialValues,
-    });
-    
-    // Check Form-level initialValues (set via <Form initialValues={...}>)
-    if (formState.initialValues && name in formState.initialValues) {
-      initialStateValue = (formState.initialValues as any)[name];
-      console.log('[useField DEBUG] Using Form initialValue:', initialStateValue);
-    } else {
-      console.log('[useField DEBUG] Using field initialValue:', initialStateValue);
-    }
-    
     if (component === "select" && multiple && initialStateValue === undefined) {
       initialStateValue = [];
     }
