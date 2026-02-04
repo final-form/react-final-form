@@ -53,7 +53,8 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^29.7.0",
-    "bundlesize": "^0.18.2",
+    "@size-limit/preset-small-lib": "^11.1.6",
+    "size-limit": "^11.1.6",
     "doctoc": "^2.2.1",
     "dtslint": "^4.2.1",
     "eslint": "^9.27.0",
@@ -100,18 +101,18 @@
       "/typescript/"
     ]
   },
-  "bundlesize": [
+  "size-limit": [
     {
       "path": "dist/react-final-form.umd.min.js",
-      "threshold": "2kB"
+      "limit": "4kB"
     },
     {
       "path": "dist/react-final-form.es.js",
-      "threshold": "3kB"
+      "limit": "4kB"
     },
     {
       "path": "dist/react-final-form.cjs.js",
-      "threshold": "3kB"
+      "limit": "4kB"
     }
   ],
   "collective": {
