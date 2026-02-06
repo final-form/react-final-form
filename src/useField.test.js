@@ -598,4 +598,81 @@ describe("useField", () => {
     expect(renderSpy.mock.calls[0][0]).toBe("Apple");
     expect(getByTestId("array").value).toBe("Apple");
   });
+
+  it("should default undefined value to [] for select multiple with type prop (fix react-final-form-arrays #185)", () => {
+    const renderSpy = jest.fn();
+    const MySelectField = () => {
+      const { input } = useField("scopes", { type: "select", multiple: true });
+      renderSpy(input.value);
+      return (
+        <select {...input} multiple data-testid="select">
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+        </select>
+      );
+    };
+    render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MySelectField />
+          </form>
+        )}
+      </Form>,
+    );
+    // When no initial value is provided, should default to [] not undefined
+    // This prevents React warning: "The `value` prop supplied to <select> must be an array if `multiple` is true"
+    expect(renderSpy.mock.calls[0][0]).toEqual([]);
+  });
+
+  it("should default undefined value to [] for select multiple with component prop", () => {
+    const renderSpy = jest.fn();
+    const MySelectField = () => {
+      const { input } = useField("scopes", { component: "select", multiple: true });
+      renderSpy(input.value);
+      return (
+        <select {...input} multiple data-testid="select">
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+        </select>
+      );
+    };
+    render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MySelectField />
+          </form>
+        )}
+      </Form>,
+    );
+    // When no initial value is provided, should default to [] not undefined
+    // This prevents React warning: "The `value` prop supplied to <select> must be an array if `multiple` is true"
+    expect(renderSpy.mock.calls[0][0]).toEqual([]);
+  });
+
+  it("should ensure select multiple value is always an array", () => {
+    const renderSpy = jest.fn();
+    const MySelectField = () => {
+      const { input } = useField("scopes", { type: "select", multiple: true });
+      renderSpy(input.value);
+      return (
+        <select {...input} multiple data-testid="select">
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+        </select>
+      );
+    };
+    render(
+      <Form onSubmit={onSubmitMock} initialValues={{ scopes: null }}>
+        {() => (
+          <form>
+            <MySelectField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Even if the form value is null/undefined, input.value should be []
+    expect(Array.isArray(renderSpy.mock.calls[0][0])).toBe(true);
+  });
 });
