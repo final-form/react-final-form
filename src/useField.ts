@@ -46,25 +46,34 @@ const buildFallbackFieldState = (
 ): FieldState<any> => {
   const formState = form.getState();
   
-  // Priority order: live values > initialValues > initialValue prop > defaultValue > select multiple default
+  // Compute initial value (never includes live values from form.change())
+  // Priority: initialValues > initialValue prop > defaultValue > select multiple default
+  let initial: any;
+  const formInitialValue = getIn(formState.initialValues, name);
+  if (formInitialValue !== undefined) {
+    initial = formInitialValue;
+  } else if (initialValue !== undefined) {
+    initial = initialValue;
+  } else if (defaultValue !== undefined) {
+    initial = defaultValue;
+  } else if (component === "select" && multiple) {
+    initial = [];
+  }
+  
+  // Compute current value (prefers live values from form.change() calls)
+  // Priority: live values > initialValues > initialValue prop > defaultValue > select multiple default
   let value: any;
   const liveValue = getIn(formState.values, name);
   if (liveValue !== undefined) {
     value = liveValue;
   } else {
-    const formInitialValue = getIn(formState.initialValues, name);
-    if (formInitialValue !== undefined) {
-      value = formInitialValue;
-    } else if (initialValue !== undefined) {
-      value = initialValue;
-    } else if (defaultValue !== undefined) {
-      value = defaultValue;
-    } else if (component === "select" && multiple) {
-      value = [];
-    }
+    value = initial;
   }
 
-  // Handle allowNull
+  // Handle allowNull for both initial and value
+  if (initial === null && !allowNull) {
+    initial = undefined;
+  }
   if (value === null && !allowNull) {
     value = undefined;
   }
@@ -78,7 +87,7 @@ const buildFallbackFieldState = (
     dirtySinceLastSubmit: false,
     error: undefined,
     focus: stableFocus,
-    initial: value,
+    initial,
     invalid: false,
     length: undefined,
     modified: false,
