@@ -1,5 +1,5 @@
 import * as React from "react";
-import { fieldSubscriptionItems } from "final-form";
+import { fieldSubscriptionItems, getIn } from "final-form";
 import type { FieldSubscription, FieldState, FormApi } from "final-form";
 import type {
   UseFieldConfig,
@@ -29,22 +29,12 @@ const defaultParse = (value: any, _name: string) =>
 
 const defaultIsEqual = (a: any, b: any): boolean => a === b;
 
-// Helper to get nested values from an object (e.g., "address.city")
-const getIn = (obj: any, path: string): any => {
-  const keys = path.split('.');
-  let result = obj;
-  for (const key of keys) {
-    if (result == null) return undefined;
-    result = result[key];
-  }
-  return result;
-};
-
 // Helper to build fallback field state when field is not yet registered
 const buildFallbackFieldState = (
   name: string,
   form: FormApi<any>,
   initialValue: any,
+  defaultValue: any,
   component: string | undefined,
   multiple: boolean | undefined,
   allowNull: boolean | undefined,
@@ -54,16 +44,23 @@ const buildFallbackFieldState = (
   stableFocus: () => void,
 ): FieldState<any> => {
   const formState = form.getState();
-  const formInitialValues = formState.initialValues || {};
   
+  // Priority order: live values > initialValues > initialValue prop > defaultValue > select multiple default
   let value: any;
-  const nestedValue = getIn(formInitialValues, name);
-  if (nestedValue !== undefined) {
-    value = nestedValue;
-  } else if (initialValue !== undefined) {
-    value = initialValue;
-  } else if (component === "select" && multiple) {
-    value = [];
+  const liveValue = getIn(formState.values, name);
+  if (liveValue !== undefined) {
+    value = liveValue;
+  } else {
+    const formInitialValue = getIn(formState.initialValues, name);
+    if (formInitialValue !== undefined) {
+      value = formInitialValue;
+    } else if (initialValue !== undefined) {
+      value = initialValue;
+    } else if (defaultValue !== undefined) {
+      value = defaultValue;
+    } else if (component === "select" && multiple) {
+      value = [];
+    }
   }
 
   // Handle allowNull
@@ -180,7 +177,7 @@ function useField<
   // Reset fallback state when key dependencies change to avoid stale values
   React.useEffect(() => {
     fallbackStateRef.current = null;
-  }, [name, initialValue, data, allowNull, component, multiple]);
+  }, [name, initialValue, defaultValue, data, allowNull, component, multiple]);
   
   const state = React.useSyncExternalStore(
     // subscribe: called when component mounts and when dependencies change
@@ -207,6 +204,7 @@ function useField<
           name,
           form,
           initialValue,
+          defaultValue,
           component,
           multiple,
           allowNull,
@@ -227,6 +225,7 @@ function useField<
           name,
           form,
           initialValue,
+          defaultValue,
           component,
           multiple,
           allowNull,
