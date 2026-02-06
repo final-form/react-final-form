@@ -123,6 +123,7 @@
     "url": "https://opencollective.com/final-form"
   },
   "dependencies": {
-    "@babel/runtime": "^7.15.4"
+    "@babel/runtime": "^7.15.4",
+    "use-sync-external-store": "^1.6.0"
   }
 }

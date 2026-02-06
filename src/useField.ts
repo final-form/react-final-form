@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useSyncExternalStore } from "use-sync-external-store/shim";
 import { fieldSubscriptionItems, getIn } from "final-form";
 import type { FieldSubscription, FieldState, FormApi } from "final-form";
 import type {
@@ -184,7 +185,7 @@ function useField<
     latestStateRef.current = null;
   }, [name, initialValue, defaultValue, data, allowNull, component, multiple]);
   
-  const state = React.useSyncExternalStore(
+  const state = useSyncExternalStore(
     // subscribe: called when component mounts and when dependencies change
     React.useCallback(
       (onStoreChange) => {
