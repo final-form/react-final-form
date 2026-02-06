@@ -95,49 +95,120 @@ function useField<
       validateFields,
     });
 
-  // Initialize state with proper field state from Final Form without callbacks
-  const [state, setState] = React.useState<FieldState<any>>(() => {
-    // FIX #1050: Register field synchronously to get proper initial state
-    // This is the same approach used in v6.5.9 to ensure Form initialValues
-    // are available on first render.
-    let initialFieldState: FieldState<any> = {} as FieldState<any>;
+  // FIX #1050: Use useSyncExternalStore to properly integrate with Final Form
+  // This ensures Form initialValues are available on first render without
+  // causing side effects during render (React 18+ best practice)
+  const state = React.useSyncExternalStore(
+    // subscribe: called when component mounts and when dependencies change
+    React.useCallback(
+      (onStoreChange) => {
+        return register((newState) => {
+          onStoreChange();
+        }, false);
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [name, data, defaultValue, initialValue],
+    ),
+    // getSnapshot: return current field state (must be idempotent)
+    () => {
+      const fieldState = form.getFieldState(name as keyof FormValues);
+      if (fieldState) {
+        return fieldState;
+      }
+      // Return initial state if field not registered yet
+      const formState = form.getState();
+      const formInitialValues = formState.initialValues || {};
+      const fieldPath = name as string;
+      
+      let value: any;
+      if (fieldPath in formInitialValues) {
+        value = formInitialValues[fieldPath as keyof typeof formInitialValues];
+      } else if (initialValue !== undefined) {
+        value = initialValue;
+      } else if (component === "select" && multiple) {
+        value = [];
+      }
 
-    // Temporarily disable destroyOnUnregister
-    const destroyOnUnregister = form.destroyOnUnregister;
-    form.destroyOnUnregister = false;
+      // Handle allowNull
+      if (value === null && !allowNull) {
+        value = undefined;
+      }
 
-    // Pause validation to prevent notifications during synchronous registration
-    form.pauseValidation();
+      return {
+        active: false,
+        blur: () => {},
+        change: () => {},
+        data,
+        dirty: false,
+        dirtySinceLastSubmit: false,
+        error: undefined,
+        focus: () => {},
+        initial: value,
+        invalid: false,
+        length: undefined,
+        modified: false,
+        modifiedSinceLastSubmit: false,
+        name,
+        pristine: true,
+        submitError: undefined,
+        submitFailed: false,
+        submitSucceeded: false,
+        submitting: false,
+        touched: false,
+        valid: true,
+        validating: false,
+        visited: false,
+        value,
+      } as FieldState<any>;
+    },
+    // getServerSnapshot: for SSR, return initial state
+    () => {
+      const formState = form.getState();
+      const formInitialValues = formState.initialValues || {};
+      const fieldPath = name as string;
+      
+      let value: any;
+      if (fieldPath in formInitialValues) {
+        value = formInitialValues[fieldPath as keyof typeof formInitialValues];
+      } else if (initialValue !== undefined) {
+        value = initialValue;
+      } else if (component === "select" && multiple) {
+        value = [];
+      }
 
-    // Register field synchronously with silent=true, capture state, then unregister
-    register((fieldState) => {
-      initialFieldState = fieldState;
-    }, true)();
+      // Handle allowNull
+      if (value === null && !allowNull) {
+        value = undefined;
+      }
 
-    // Resume validation
-    form.resumeValidation();
-
-    // Restore destroyOnUnregister to its original value
-    form.destroyOnUnregister = destroyOnUnregister;
-
-    return initialFieldState;
-  });
-
-  React.useEffect(() => {
-    // Register field after the initial render to avoid setState during render
-    const unregister = register((newState) => {
-      setState((prevState) => {
-        // Only update if the state actually changed
-        if (!shallowEqual(newState, prevState)) {
-          return newState;
-        }
-        return prevState;
-      });
-    }, false);
-
-    return unregister;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, data, defaultValue, initialValue]);
+      return {
+        active: false,
+        blur: () => {},
+        change: () => {},
+        data,
+        dirty: false,
+        dirtySinceLastSubmit: false,
+        error: undefined,
+        focus: () => {},
+        initial: value,
+        invalid: false,
+        length: undefined,
+        modified: false,
+        modifiedSinceLastSubmit: false,
+        name,
+        pristine: true,
+        submitError: undefined,
+        submitFailed: false,
+        submitSucceeded: false,
+        submitting: false,
+        touched: false,
+        valid: true,
+        validating: false,
+        visited: false,
+        value,
+      } as FieldState<any>;
+    },
+  );
 
   const meta: any = {};
   addLazyFieldMetaState(meta, state);
