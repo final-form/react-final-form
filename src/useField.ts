@@ -98,11 +98,20 @@ function useField<
   // FIX #1050: Use useSyncExternalStore to properly integrate with Final Form
   // This ensures Form initialValues are available on first render without
   // causing side effects during render (React 18+ best practice)
+  
+  // Stable no-op functions for unregistered field state
+  const stableBlur = React.useCallback(() => {}, []);
+  const stableChange = React.useCallback(() => {}, []);
+  const stableFocus = React.useCallback(() => {}, []);
+
+  // Memoized fallback state for when field is not yet registered
+  const fallbackStateRef = React.useRef<FieldState<any> | null>(null);
+  
   const state = React.useSyncExternalStore(
     // subscribe: called when component mounts and when dependencies change
     React.useCallback(
       (onStoreChange) => {
-        return register((newState) => {
+        return register((_fieldState) => {
           onStoreChange();
         }, false);
       },
@@ -115,98 +124,109 @@ function useField<
       if (fieldState) {
         return fieldState;
       }
-      // Return initial state if field not registered yet
-      const formState = form.getState();
-      const formInitialValues = formState.initialValues || {};
-      const fieldPath = name as string;
       
-      let value: any;
-      if (fieldPath in formInitialValues) {
-        value = formInitialValues[fieldPath as keyof typeof formInitialValues];
-      } else if (initialValue !== undefined) {
-        value = initialValue;
-      } else if (component === "select" && multiple) {
-        value = [];
-      }
+      // Return memoized fallback state if field not registered yet
+      // Must return same object reference for React 18 stability
+      if (!fallbackStateRef.current) {
+        const formState = form.getState();
+        const formInitialValues = formState.initialValues || {};
+        const fieldPath = name as string;
+        
+        let value: any;
+        if (fieldPath in formInitialValues) {
+          value = formInitialValues[fieldPath as keyof typeof formInitialValues];
+        } else if (initialValue !== undefined) {
+          value = initialValue;
+        } else if (component === "select" && multiple) {
+          value = [];
+        }
 
-      // Handle allowNull
-      if (value === null && !allowNull) {
-        value = undefined;
-      }
+        // Handle allowNull
+        if (value === null && !allowNull) {
+          value = undefined;
+        }
 
-      return {
-        active: false,
-        blur: () => {},
-        change: () => {},
-        data,
-        dirty: false,
-        dirtySinceLastSubmit: false,
-        error: undefined,
-        focus: () => {},
-        initial: value,
-        invalid: false,
-        length: undefined,
-        modified: false,
-        modifiedSinceLastSubmit: false,
-        name,
-        pristine: true,
-        submitError: undefined,
-        submitFailed: false,
-        submitSucceeded: false,
-        submitting: false,
-        touched: false,
-        valid: true,
-        validating: false,
-        visited: false,
-        value,
-      } as FieldState<any>;
+        fallbackStateRef.current = {
+          active: false,
+          blur: stableBlur,
+          change: stableChange,
+          data,
+          dirty: false,
+          dirtySinceLastSubmit: false,
+          error: undefined,
+          focus: stableFocus,
+          initial: value,
+          invalid: false,
+          length: undefined,
+          modified: false,
+          modifiedSinceLastSubmit: false,
+          name,
+          pristine: true,
+          submitError: undefined,
+          submitFailed: false,
+          submitSucceeded: false,
+          submitting: false,
+          touched: false,
+          valid: true,
+          validating: false,
+          visited: false,
+          value,
+        } as FieldState<any>;
+      }
+      
+      return fallbackStateRef.current;
     },
-    // getServerSnapshot: for SSR, return initial state
+    // getServerSnapshot: for SSR, return initial state (same as fallback)
     () => {
-      const formState = form.getState();
-      const formInitialValues = formState.initialValues || {};
-      const fieldPath = name as string;
+      // For SSR, we can return the fallback state which has stable references
+      if (!fallbackStateRef.current) {
+        const formState = form.getState();
+        const formInitialValues = formState.initialValues || {};
+        const fieldPath = name as string;
+        
+        let value: any;
+        if (fieldPath in formInitialValues) {
+          value = formInitialValues[fieldPath as keyof typeof formInitialValues];
+        } else if (initialValue !== undefined) {
+          value = initialValue;
+        } else if (component === "select" && multiple) {
+          value = [];
+        }
+
+        // Handle allowNull
+        if (value === null && !allowNull) {
+          value = undefined;
+        }
+
+        fallbackStateRef.current = {
+          active: false,
+          blur: stableBlur,
+          change: stableChange,
+          data,
+          dirty: false,
+          dirtySinceLastSubmit: false,
+          error: undefined,
+          focus: stableFocus,
+          initial: value,
+          invalid: false,
+          length: undefined,
+          modified: false,
+          modifiedSinceLastSubmit: false,
+          name,
+          pristine: true,
+          submitError: undefined,
+          submitFailed: false,
+          submitSucceeded: false,
+          submitting: false,
+          touched: false,
+          valid: true,
+          validating: false,
+          visited: false,
+          value,
+        } as FieldState<any>;
+      }
       
-      let value: any;
-      if (fieldPath in formInitialValues) {
-        value = formInitialValues[fieldPath as keyof typeof formInitialValues];
-      } else if (initialValue !== undefined) {
-        value = initialValue;
-      } else if (component === "select" && multiple) {
-        value = [];
-      }
-
-      // Handle allowNull
-      if (value === null && !allowNull) {
-        value = undefined;
-      }
-
-      return {
-        active: false,
-        blur: () => {},
-        change: () => {},
-        data,
-        dirty: false,
-        dirtySinceLastSubmit: false,
-        error: undefined,
-        focus: () => {},
-        initial: value,
-        invalid: false,
-        length: undefined,
-        modified: false,
-        modifiedSinceLastSubmit: false,
-        name,
-        pristine: true,
-        submitError: undefined,
-        submitFailed: false,
-        submitSucceeded: false,
-        submitting: false,
-        touched: false,
-        valid: true,
-        validating: false,
-        visited: false,
-        value,
-      } as FieldState<any>;
+      return fallbackStateRef.current;
     },
   );
 

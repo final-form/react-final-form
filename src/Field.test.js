@@ -967,11 +967,11 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    // With the useSyncExternalStore fix for #1050, validation runs twice:
-    // once during initial subscription and once after the field is fully registered
-    expect(fooValidate).toHaveBeenCalledTimes(2);
-    expect(barValidate).toHaveBeenCalledTimes(2);
-    expect(bazValidate).toHaveBeenCalledTimes(2);
+    // With the useSyncExternalStore fix for #1050, validation runs once
+    // during the initial field registration
+    expect(fooValidate).toHaveBeenCalledTimes(1);
+    expect(barValidate).toHaveBeenCalledTimes(1);
+    expect(bazValidate).toHaveBeenCalledTimes(1);
   });
 
   it("should warn when used without type prop and rendering radio, checkbox or multiple select indirectly", () => {
