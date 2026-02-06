@@ -72,7 +72,7 @@ const buildFallbackFieldState = (
     active: false,
     blur: stableBlur,
     change: stableChange,
-    data,
+    data: data || {},
     dirty: false,
     dirtySinceLastSubmit: false,
     error: undefined,

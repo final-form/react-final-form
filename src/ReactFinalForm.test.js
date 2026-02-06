@@ -924,11 +924,10 @@ describe("ReactFinalForm", () => {
     );
     expect(formMock).toHaveBeenCalled();
 
-    // called once on first render to get initial state, and then again to subscribe
-    expect(formMock).toHaveBeenCalledTimes(2);
+    // With useSyncExternalStore, registerField is called once during subscribe
+    expect(formMock).toHaveBeenCalledTimes(1);
     expect(formMock.mock.calls[0][0]).toBe("name");
-    expect(formMock.mock.calls[1][0]).toBe("name");
-    expect(formMock.mock.calls[1][2].active).toBe(true); // default subscription
+    expect(formMock.mock.calls[0][2].active).toBe(true); // default subscription
   });
 
   it("should not destroy on unregister on initial unregister", () => {
