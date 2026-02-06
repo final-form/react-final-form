@@ -29,6 +29,76 @@ const defaultParse = (value: any, _name: string) =>
 
 const defaultIsEqual = (a: any, b: any): boolean => a === b;
 
+// Helper to get nested values from an object (e.g., "address.city")
+const getIn = (obj: any, path: string): any => {
+  const keys = path.split('.');
+  let result = obj;
+  for (const key of keys) {
+    if (result == null) return undefined;
+    result = result[key];
+  }
+  return result;
+};
+
+// Helper to build fallback field state when field is not yet registered
+const buildFallbackFieldState = (
+  name: string,
+  form: FormApi<any>,
+  initialValue: any,
+  component: string | undefined,
+  multiple: boolean | undefined,
+  allowNull: boolean | undefined,
+  data: any,
+  stableBlur: () => void,
+  stableChange: () => void,
+  stableFocus: () => void,
+): FieldState<any> => {
+  const formState = form.getState();
+  const formInitialValues = formState.initialValues || {};
+  
+  let value: any;
+  const nestedValue = getIn(formInitialValues, name);
+  if (nestedValue !== undefined) {
+    value = nestedValue;
+  } else if (initialValue !== undefined) {
+    value = initialValue;
+  } else if (component === "select" && multiple) {
+    value = [];
+  }
+
+  // Handle allowNull
+  if (value === null && !allowNull) {
+    value = undefined;
+  }
+
+  return {
+    active: false,
+    blur: stableBlur,
+    change: stableChange,
+    data,
+    dirty: false,
+    dirtySinceLastSubmit: false,
+    error: undefined,
+    focus: stableFocus,
+    initial: value,
+    invalid: false,
+    length: undefined,
+    modified: false,
+    modifiedSinceLastSubmit: false,
+    name,
+    pristine: true,
+    submitError: undefined,
+    submitFailed: false,
+    submitSucceeded: false,
+    submitting: false,
+    touched: false,
+    valid: true,
+    validating: false,
+    visited: false,
+    value,
+  } as FieldState<any>;
+};
+
 function useField<
   FieldValue = any,
   T extends HTMLElement = HTMLElement,
@@ -107,6 +177,11 @@ function useField<
   // Memoized fallback state for when field is not yet registered
   const fallbackStateRef = React.useRef<FieldState<any> | null>(null);
   
+  // Reset fallback state when key dependencies change to avoid stale values
+  React.useEffect(() => {
+    fallbackStateRef.current = null;
+  }, [name, initialValue, data, allowNull, component, multiple]);
+  
   const state = React.useSyncExternalStore(
     // subscribe: called when component mounts and when dependencies change
     React.useCallback(
@@ -128,50 +203,18 @@ function useField<
       // Return memoized fallback state if field not registered yet
       // Must return same object reference for React 18 stability
       if (!fallbackStateRef.current) {
-        const formState = form.getState();
-        const formInitialValues = formState.initialValues || {};
-        const fieldPath = name as string;
-        
-        let value: any;
-        if (fieldPath in formInitialValues) {
-          value = formInitialValues[fieldPath as keyof typeof formInitialValues];
-        } else if (initialValue !== undefined) {
-          value = initialValue;
-        } else if (component === "select" && multiple) {
-          value = [];
-        }
-
-        // Handle allowNull
-        if (value === null && !allowNull) {
-          value = undefined;
-        }
-
-        fallbackStateRef.current = {
-          active: false,
-          blur: stableBlur,
-          change: stableChange,
-          data,
-          dirty: false,
-          dirtySinceLastSubmit: false,
-          error: undefined,
-          focus: stableFocus,
-          initial: value,
-          invalid: false,
-          length: undefined,
-          modified: false,
-          modifiedSinceLastSubmit: false,
+        fallbackStateRef.current = buildFallbackFieldState(
           name,
-          pristine: true,
-          submitError: undefined,
-          submitFailed: false,
-          submitSucceeded: false,
-          submitting: false,
-          touched: false,
-          valid: true,
-          validating: false,
-          visited: false,
-          value,
-        } as FieldState<any>;
+          form,
+          initialValue,
+          component,
+          multiple,
+          allowNull,
+          data,
+          stableBlur,
+          stableChange,
+          stableFocus,
+        );
       }
       
       return fallbackStateRef.current;
@@ -180,50 +223,18 @@ function useField<
     () => {
       // For SSR, we can return the fallback state which has stable references
       if (!fallbackStateRef.current) {
-        const formState = form.getState();
-        const formInitialValues = formState.initialValues || {};
-        const fieldPath = name as string;
-        
-        let value: any;
-        if (fieldPath in formInitialValues) {
-          value = formInitialValues[fieldPath as keyof typeof formInitialValues];
-        } else if (initialValue !== undefined) {
-          value = initialValue;
-        } else if (component === "select" && multiple) {
-          value = [];
-        }
-
-        // Handle allowNull
-        if (value === null && !allowNull) {
-          value = undefined;
-        }
-
-        fallbackStateRef.current = {
-          active: false,
-          blur: stableBlur,
-          change: stableChange,
-          data,
-          dirty: false,
-          dirtySinceLastSubmit: false,
-          error: undefined,
-          focus: stableFocus,
-          initial: value,
-          invalid: false,
-          length: undefined,
-          modified: false,
-          modifiedSinceLastSubmit: false,
+        fallbackStateRef.current = buildFallbackFieldState(
           name,
-          pristine: true,
-          submitError: undefined,
-          submitFailed: false,
-          submitSucceeded: false,
-          submitting: false,
-          touched: false,
-          valid: true,
-          validating: false,
-          visited: false,
-          value,
-        } as FieldState<any>;
+          form,
+          initialValue,
+          component,
+          multiple,
+          allowNull,
+          data,
+          stableBlur,
+          stableChange,
+          stableFocus,
+        );
       }
       
       return fallbackStateRef.current;
