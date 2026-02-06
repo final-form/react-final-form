@@ -174,27 +174,34 @@ function useField<
   // Memoized fallback state for when field is not yet registered
   const fallbackStateRef = React.useRef<FieldState<any> | null>(null);
   
-  // Reset fallback state when key dependencies change to avoid stale values
+  // Store the latest field state from subscription callback
+  // This ensures getSnapshot only returns state when subscribed fields change
+  const latestStateRef = React.useRef<FieldState<any> | null>(null);
+  
+  // Reset refs when key dependencies change to avoid stale values
   React.useEffect(() => {
     fallbackStateRef.current = null;
+    latestStateRef.current = null;
   }, [name, initialValue, defaultValue, data, allowNull, component, multiple]);
   
   const state = React.useSyncExternalStore(
     // subscribe: called when component mounts and when dependencies change
     React.useCallback(
       (onStoreChange) => {
-        return register((_fieldState) => {
+        return register((fieldState) => {
+          // Save the state from subscription callback
+          latestStateRef.current = fieldState;
           onStoreChange();
         }, false);
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [name, data, defaultValue, initialValue],
     ),
-    // getSnapshot: return current field state (must be idempotent)
+    // getSnapshot: return field state from subscription callback
     () => {
-      const fieldState = form.getFieldState(name as keyof FormValues);
-      if (fieldState) {
-        return fieldState;
+      // If we have state from subscription, return it
+      if (latestStateRef.current) {
+        return latestStateRef.current;
       }
       
       // Return memoized fallback state if field not registered yet
