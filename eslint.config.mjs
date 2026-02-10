@@ -161,6 +161,21 @@ export default [
     },
   },
 
+  // Configuration for .mjs files (ES modules in Node.js environment)
+  {
+    files: ["**/*.mjs"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...nodeGlobals,
+      },
+    },
+    rules: {
+      "no-undef": "error",
+    },
+  },
+
   // Specific overrides for ALL test files (JS and TS)
   {
     files: ["**/*.test.js", "**/*.test.jsx", "**/*.test.ts", "**/*.test.tsx"],

@@ -801,16 +801,18 @@ describe("Field", () => {
     );
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
-    expect(red.mock.calls[0][0].input.checked).toBe(true); // Now correctly true on first render!
-    expect(red.mock.calls[1][0].input.checked).toBe(true); // Still true for "red" checkbox
+    // After fix #1050, initialValues work on first render
+    expect(red.mock.calls[0][0].input.checked).toBe(true); // Correctly true for "red" from initialValues
+    expect(red.mock.calls[1][0].input.checked).toBe(true);
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
-    expect(green.mock.calls[0][0].input.checked).toBe(false); // Correctly false on first render
-    expect(green.mock.calls[1][0].input.checked).toBe(false); // Still false for "green" checkbox
+    expect(green.mock.calls[0][0].input.checked).toBe(false);
+    expect(green.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "green"
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
-    expect(blue.mock.calls[0][0].input.checked).toBe(true); // Now correctly true on first render!
-    expect(blue.mock.calls[1][0].input.checked).toBe(true); // Still true for "blue" checkbox
+    // After fix #1050, initialValues work on first render
+    expect(blue.mock.calls[0][0].input.checked).toBe(true); // Correctly true for "blue" from initialValues
+    expect(blue.mock.calls[1][0].input.checked).toBe(true);
   });
 
   it("should render radio buttons with checked prop", () => {
@@ -880,16 +882,17 @@ describe("Field", () => {
     );
     expect(red).toHaveBeenCalled();
     expect(red).toHaveBeenCalledTimes(2);
-    expect(red.mock.calls[0][0].input.checked).toBe(false); // Correctly false on first render
-    expect(red.mock.calls[1][0].input.checked).toBe(false); // Still false for "red" radio
+    expect(red.mock.calls[0][0].input.checked).toBe(false);
+    expect(red.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "red" radio
     expect(green).toHaveBeenCalled();
     expect(green).toHaveBeenCalledTimes(2);
-    expect(green.mock.calls[0][0].input.checked).toBe(true); // Now correctly true on first render!
-    expect(green.mock.calls[1][0].input.checked).toBe(true); // Still true for "green" radio
+    // After fix #1050, initialValues work on first render
+    expect(green.mock.calls[0][0].input.checked).toBe(true); // Correctly true for "green" from initialValues
+    expect(green.mock.calls[1][0].input.checked).toBe(true);
     expect(blue).toHaveBeenCalled();
     expect(blue).toHaveBeenCalledTimes(2);
-    expect(blue.mock.calls[0][0].input.checked).toBe(false); // Correctly false on first render
-    expect(blue.mock.calls[1][0].input.checked).toBe(false); // Still false for "blue" radio
+    expect(blue.mock.calls[0][0].input.checked).toBe(false);
+    expect(blue.mock.calls[1][0].input.checked).toBe(false); // Correctly false for "blue" radio
   });
 
   it("should use isEqual to calculate dirty/pristine", () => {
@@ -967,8 +970,6 @@ describe("Field", () => {
         )}
       </Form>,
     );
-    // With the useSyncExternalStore fix for #1050, validation runs once
-    // during the initial field registration
     expect(fooValidate).toHaveBeenCalledTimes(1);
     expect(barValidate).toHaveBeenCalledTimes(1);
     expect(bazValidate).toHaveBeenCalledTimes(1);
@@ -1010,8 +1011,9 @@ describe("Field", () => {
       </Form>,
     );
 
-    // With the fix for #1050, initialValues are now correctly available on first render,
-    // so the select multiple value IS an array from the start - no warning needed!
+    // After fix #1050, initialValues work on first render, so select multiple
+    // correctly gets the array value from initialValues and no longer triggers
+    // React's "must be an array" warning
     expect(errorSpy).toHaveBeenCalledTimes(0);
 
     // Reset the spy to test the actual Field warnings

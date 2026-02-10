@@ -416,4 +416,47 @@ describe("FormSpy", () => {
     // Implementation of this test case is not provided in the original file or the code block
     // This test case is assumed to exist based on the code block
   });
+
+  it("should not throw error when subscribing to active (fix #1055)", () => {
+    // Issue #1055: Cannot set property active of #<Object> which has only a getter
+    // This was caused by spreading lazy state with getter-only properties into renderProps
+    const spy = jest.fn();
+    const { container, getByTestId } = render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <Field name="name" component="input" data-testid="name" />
+            <FormSpy
+              subscription={{ active: true, values: true }}
+              render={wrapWith(spy, (props) => {
+                // Verify that we can access active and values without error
+                const { active, values } = props;
+                return <div data-testid="spy">active={String(active)} values={JSON.stringify(values)}</div>;
+              })}
+            />
+          </form>
+        )}
+      </Form>,
+    );
+    
+    // Should render without throwing "Cannot set property active" error
+    expect(container).toBeTruthy();
+    expect(spy).toHaveBeenCalled();
+    
+    // Verify that active and values properties exist and can be accessed
+    const props = spy.mock.calls[spy.mock.calls.length - 1][0];
+    expect("active" in props).toBe(true);
+    expect("values" in props).toBe(true);
+    
+    // Active should be undefined initially (no field focused)
+    expect(props.active).toBeUndefined();
+    
+    // Values should be defined (empty object initially)
+    expect(props.values).toBeDefined();
+    expect(props.values).toEqual({});
+    
+    // When we focus a field, active should be the field name
+    fireEvent.focus(getByTestId("name"));
+    expect(spy.mock.calls[spy.mock.calls.length - 1][0].active).toBe("name");
+  });
 });

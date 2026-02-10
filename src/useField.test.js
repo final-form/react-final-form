@@ -511,13 +511,11 @@ describe("useField", () => {
 
   it("should return Form initialValues on first render (fix #1050)", () => {
     const renderSpy = jest.fn();
-    
     const MyField = () => {
       const { input } = useField("username");
       renderSpy(input.value);
       return <input {...input} data-testid="username" />;
     };
-    
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} initialValues={{ username: "erikras" }}>
         {() => (
@@ -527,21 +525,18 @@ describe("useField", () => {
         )}
       </Form>,
     );
-    
     // Critical: on the FIRST render, value should be "erikras" not undefined
     expect(renderSpy.mock.calls[0][0]).toBe("erikras");
     expect(getByTestId("username").value).toBe("erikras");
   });
 
-  it("should use field initialValue when Form initialValues doesnt have that field", () => {
+  it("should use field initialValue when Form initialValues doesn't have that field (fix #1050)", () => {
     const renderSpy = jest.fn();
-    
     const MyField = () => {
       const { input } = useField("username", { initialValue: "fieldLevel" });
       renderSpy(input.value);
       return <input {...input} data-testid="username" />;
     };
-    
     const { getByTestId } = render(
       <Form onSubmit={onSubmitMock} initialValues={{ other: "value" }}>
         {() => (
@@ -551,9 +546,133 @@ describe("useField", () => {
         )}
       </Form>,
     );
-    
     // Field-level initialValue should be used as fallback
     expect(renderSpy.mock.calls[0][0]).toBe("fieldLevel");
     expect(getByTestId("username").value).toBe("fieldLevel");
+  });
+
+  it("should handle nested field paths in Form initialValues (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input } = useField("user.name");
+      renderSpy(input.value);
+      return <input {...input} data-testid="nested" />;
+    };
+    const { getByTestId } = render(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ user: { name: "erikras" } }}
+      >
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Should correctly resolve nested path on first render
+    expect(renderSpy.mock.calls[0][0]).toBe("erikras");
+    expect(getByTestId("nested").value).toBe("erikras");
+  });
+
+  it("should handle array field paths in Form initialValues (fix #1050)", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input } = useField("items[0].name");
+      renderSpy(input.value);
+      return <input {...input} data-testid="array" />;
+    };
+    const { getByTestId } = render(
+      <Form
+        onSubmit={onSubmitMock}
+        initialValues={{ items: [{ name: "Apple" }] }}
+      >
+        {() => (
+          <form>
+            <MyField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Should correctly resolve array path on first render
+    expect(renderSpy.mock.calls[0][0]).toBe("Apple");
+    expect(getByTestId("array").value).toBe("Apple");
+  });
+
+  it("should default undefined value to [] for select multiple with type prop (fix react-final-form-arrays #185)", () => {
+    const renderSpy = jest.fn();
+    const MySelectField = () => {
+      const { input } = useField("scopes", { type: "select", multiple: true });
+      renderSpy(input.value);
+      return (
+        <select {...input} multiple data-testid="select">
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+        </select>
+      );
+    };
+    render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MySelectField />
+          </form>
+        )}
+      </Form>,
+    );
+    // When no initial value is provided, should default to [] not undefined
+    // This prevents React warning: "The `value` prop supplied to <select> must be an array if `multiple` is true"
+    expect(renderSpy.mock.calls[0][0]).toEqual([]);
+  });
+
+  it("should default undefined value to [] for select multiple with component prop", () => {
+    const renderSpy = jest.fn();
+    const MySelectField = () => {
+      const { input } = useField("scopes", { component: "select", multiple: true });
+      renderSpy(input.value);
+      return (
+        <select {...input} multiple data-testid="select">
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+        </select>
+      );
+    };
+    render(
+      <Form onSubmit={onSubmitMock}>
+        {() => (
+          <form>
+            <MySelectField />
+          </form>
+        )}
+      </Form>,
+    );
+    // When no initial value is provided, should default to [] not undefined
+    // This prevents React warning: "The `value` prop supplied to <select> must be an array if `multiple` is true"
+    expect(renderSpy.mock.calls[0][0]).toEqual([]);
+  });
+
+  it("should ensure select multiple value is always an array", () => {
+    const renderSpy = jest.fn();
+    const MySelectField = () => {
+      const { input } = useField("scopes", { type: "select", multiple: true });
+      renderSpy(input.value);
+      return (
+        <select {...input} multiple data-testid="select">
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+        </select>
+      );
+    };
+    render(
+      <Form onSubmit={onSubmitMock} initialValues={{ scopes: null }}>
+        {() => (
+          <form>
+            <MySelectField />
+          </form>
+        )}
+      </Form>,
+    );
+    // Even if the form value is null/undefined, input.value should be []
+    expect(Array.isArray(renderSpy.mock.calls[0][0])).toBe(true);
   });
 });
