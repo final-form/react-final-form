@@ -37,6 +37,7 @@ const buildFallbackFieldState = (
   initialValue: any,
   defaultValue: any,
   component: React.ComponentType<any> | "input" | "select" | "textarea" | undefined,
+  type: string | undefined,
   multiple: boolean | undefined,
   allowNull: boolean | undefined,
   data: any,
@@ -56,7 +57,7 @@ const buildFallbackFieldState = (
     initial = initialValue;
   } else if (defaultValue !== undefined) {
     initial = defaultValue;
-  } else if (component === "select" && multiple) {
+  } else if ((component === "select" || type === "select") && multiple) {
     initial = [];
   }
   
@@ -223,6 +224,7 @@ function useField<
           initialValue,
           defaultValue,
           component,
+          type,
           multiple,
           allowNull,
           data,
@@ -244,6 +246,7 @@ function useField<
           initialValue,
           defaultValue,
           component,
+          type,
           multiple,
           allowNull,
           data,
@@ -278,7 +281,7 @@ function useField<
       }
     }
 
-    if (component === "select" && multiple) {
+    if ((component === "select" || type === "select") && multiple) {
       return Array.isArray(value) ? value : [];
     }
     // For checkboxes and radios, the `value` prop on the input element itself
