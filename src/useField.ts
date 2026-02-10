@@ -13,7 +13,6 @@ import useForm from "./useForm";
 import useLatest from "./useLatest";
 import { addLazyFieldMetaState } from "./getters";
 import useConstantCallback from "./useConstantCallback";
-import shallowEqual from "./shallowEqual";
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce(
   (result: any, key) => {
@@ -113,7 +112,6 @@ function useField<
   FormValues = Record<string, any>,
 >(name: string, config: UseFieldConfig = {}): FieldRenderProps<FieldValue, T> {
   const {
-    afterSubmit,
     allowNull,
     component,
     data,
@@ -123,9 +121,7 @@ function useField<
     initialValue,
     multiple,
     parse = defaultParse,
-    subscription = all,
     type,
-    validateFields,
     value: _value,
   } = config;
   const form: FormApi<FormValues> = useForm<FormValues>("useField");
