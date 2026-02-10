@@ -90,7 +90,7 @@ function useField<
       defaultValue,
       getValidator: () => configRef.current.validate,
       initialValue,
-      isEqual: (a: any, b: any) => (configRef.current.isEqual || defaultIsEqual)(a, b),
+      isEqual: configRef.current.isEqual,
       silent,
       validateFields,
     });
