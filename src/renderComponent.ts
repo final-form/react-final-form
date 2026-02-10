@@ -17,7 +17,7 @@ export default function renderComponent<T>(
     Object.defineProperties(result, Object.getOwnPropertyDescriptors(lazyProps));
     const restDescriptors = Object.getOwnPropertyDescriptors(rest);
     for (const key in restDescriptors) {
-      if (!(key in result)) {
+      if (!Object.prototype.hasOwnProperty.call(result, key)) {
         Object.defineProperty(result, key, restDescriptors[key]);
       }
     }

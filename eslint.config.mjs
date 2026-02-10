@@ -168,7 +168,13 @@ export default [
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
-        ...nodeGlobals,
+        // Only include Node.js globals that are valid in ES modules
+        // Exclude CommonJS-only: require, module, exports, __dirname, __filename
+        ...Object.fromEntries(
+          Object.entries(nodeGlobals).filter(
+            ([key]) => !["require", "module", "exports", "__dirname", "__filename"].includes(key)
+          )
+        ),
       },
     },
     rules: {

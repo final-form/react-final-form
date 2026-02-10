@@ -141,8 +141,8 @@ function useField<
     // whereas actual `state` would defined in the subsequent `useField` hook
     // execution
     // (that would be caused by `setState` call performed in `register` callback)
-    form.registerField(name as keyof FormValues, callback, subscription, {
-      afterSubmit,
+    form.registerField(name as keyof FormValues, callback, configRef.current.subscription || all, {
+      afterSubmit: configRef.current.afterSubmit,
       beforeSubmit: () => {
         const {
           beforeSubmit,
@@ -170,7 +170,7 @@ function useField<
       initialValue,
       isEqual: (a: any, b: any) => (configRef.current.isEqual || defaultIsEqual)(a, b),
       silent,
-      validateFields,
+      validateFields: configRef.current.validateFields,
     });
 
   // FIX #1050: Use useSyncExternalStore to properly integrate with Final Form
