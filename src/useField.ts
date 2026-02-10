@@ -201,6 +201,8 @@ function useField<
           onStoreChange();
         }, false);
       },
+      // Note: subscription, afterSubmit, and validateFields are intentionally omitted from deps.
+      // The register callback reads these from configRef.current to avoid stale closures.
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [name, data, defaultValue, initialValue],
     ),

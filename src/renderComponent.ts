@@ -34,7 +34,7 @@ export default function renderComponent<T>(
     // Only add properties from rest that don't already exist
     const restDescriptors = Object.getOwnPropertyDescriptors(rest);
     for (const key in restDescriptors) {
-      if (!(key in (result as any))) {
+      if (!Object.prototype.hasOwnProperty.call(result as any, key)) {
         Object.defineProperty(result as any, key, restDescriptors[key]);
       }
     }
@@ -53,7 +53,7 @@ export default function renderComponent<T>(
   // Only add properties from rest that don't already exist
   const restDescriptors = Object.getOwnPropertyDescriptors(rest);
   for (const key in restDescriptors) {
-    if (!(key in (result as any))) {
+    if (!Object.prototype.hasOwnProperty.call(result as any, key)) {
       Object.defineProperty(result as any, key, restDescriptors[key]);
     }
   }
