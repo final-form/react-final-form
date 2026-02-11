@@ -125,6 +125,5 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.4"
-  },
-  "types": "dist/index.d.ts"
+  }
 }
