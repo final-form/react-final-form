@@ -224,7 +224,10 @@ function useField<
   const input: FieldInputProps<FieldValue, T> = {
     name,
     onBlur: useConstantCallback((_event?: React.FocusEvent<any>) => {
-      state.blur();
+      // Safety check: ensure blur is a function (guards against edge cases)
+      if (typeof state.blur === "function") {
+        state.blur();
+      }
       if (formatOnBlur) {
         /**
          * Here we must fetch the value directly from Final Form because we cannot
@@ -234,7 +237,7 @@ function useField<
          * the value update from Final Form.
          */
         const fieldState = form.getFieldState(state.name as keyof FormValues);
-        if (fieldState) {
+        if (fieldState && typeof state.change === "function") {
           state.change(format(fieldState.value, state.name));
         }
       }
@@ -265,11 +268,17 @@ function useField<
         event && event.target
           ? getValue(event, state.value, _value, isReactNative)
           : event;
-      state.change(parse(value, name));
+      // Safety check: ensure change is a function (guards against edge cases)
+      if (typeof state.change === "function") {
+        state.change(parse(value, name));
+      }
     }),
-    onFocus: useConstantCallback((_event?: React.FocusEvent<any>) =>
-      state.focus(),
-    ),
+    onFocus: useConstantCallback((_event?: React.FocusEvent<any>) => {
+      // Safety check: ensure focus is a function (guards against edge cases)
+      if (typeof state.focus === "function") {
+        state.focus();
+      }
+    }),
     get value() {
       return getInputValue();
     },
