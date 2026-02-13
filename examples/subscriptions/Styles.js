@@ -53,6 +53,7 @@ export default styled.div`
   }
 
   form {
+    position: relative;
     max-width: 500px;
     margin: 10px auto;
     border: 1px solid #ccc;
