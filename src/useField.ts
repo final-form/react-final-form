@@ -78,12 +78,16 @@ const buildFallbackFieldState = (
     value = undefined;
   }
 
+  // Compute dirty by comparing value and initial
+  // Use defaultIsEqual since we don't have access to form config here
+  const dirty = !defaultIsEqual(value, initial);
+
   return {
     active: false,
     blur: stableBlur,
     change: stableChange,
     data: data ?? {},
-    dirty: false,
+    dirty,
     dirtySinceLastSubmit: false,
     error: undefined,
     focus: stableFocus,
@@ -93,7 +97,7 @@ const buildFallbackFieldState = (
     modified: false,
     modifiedSinceLastSubmit: false,
     name,
-    pristine: true,
+    pristine: !dirty,
     submitError: undefined,
     submitFailed: false,
     submitSucceeded: false,
