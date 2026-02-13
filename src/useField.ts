@@ -13,6 +13,7 @@ import useLatest from "./useLatest";
 import { addLazyFieldMetaState } from "./getters";
 import useConstantCallback from "./useConstantCallback";
 import shallowEqual from "./shallowEqual";
+import useEffectOnceInStrictMode from "./useEffectOnceInStrictMode";
 
 const all: FieldSubscription = fieldSubscriptionItems.reduce(
   (result: any, key) => {
@@ -154,7 +155,10 @@ function useField<
     };
   });
 
-  React.useEffect(() => {
+  // Use useEffectOnceInStrictMode to prevent destroyOnUnregister from breaking
+  // in React 18 StrictMode. StrictMode intentionally unmounts/remounts components,
+  // and we don't want to destroy field values during that test unmount.
+  useEffectOnceInStrictMode(() => {
     // Register field after the initial render to avoid setState during render
     const unregister = register((newState) => {
       setState((prevState) => {
