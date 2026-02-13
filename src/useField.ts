@@ -194,7 +194,7 @@ function useField<
   React.useEffect(() => {
     fallbackStateRef.current = null;
     latestStateRef.current = null;
-  }, [name, initialValue, defaultValue, data, allowNull, component, multiple]);
+  }, [name, initialValue, defaultValue, data, allowNull, component, multiple, type]);
   
   const state = useSyncExternalStore(
     // subscribe: called when component mounts and when dependencies change
