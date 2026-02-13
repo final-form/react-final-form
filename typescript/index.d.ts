@@ -17,7 +17,7 @@ export interface ReactContext<FormValues = Record<string, any>> {
 
 export interface FieldInputProps<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
 > {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
@@ -31,7 +31,7 @@ export interface FieldInputProps<
 
 export interface FieldRenderProps<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   _FormValues = any,
 > {
   input: FieldInputProps<FieldValue, T>;
@@ -57,6 +57,10 @@ export interface FieldRenderProps<
     visited?: boolean;
   };
 }
+
+// Re-export of FieldMetaState for backwards compatibility
+// (removed from original sources in v7.0.0 but re-exported here)
+export type FieldMetaState<FieldValue = any> = FieldRenderProps<FieldValue>['meta'];
 
 export interface SubmitEvent {
   preventDefault?: () => void;
@@ -119,7 +123,7 @@ export interface UseFieldConfig extends UseFieldAutoConfig {
 
 export interface FieldProps<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   _FormValues = Record<string, any>,
 > extends UseFieldConfig,
     Omit<RenderableProps<FieldRenderProps<FieldValue, T>>, "children"> {
@@ -145,7 +149,7 @@ export interface FormSpyPropsWithForm<FormValues = Record<string, any>>
 
 export const Field: <
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   FormValues = Record<string, any>,
 >(
   props: FieldProps<FieldValue, T, FormValues>,
@@ -161,7 +165,7 @@ export const FormSpy: <FormValues = Record<string, any>>(
 
 export function useField<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   FormValues = Record<string, any>,
 >(
   name: string,
