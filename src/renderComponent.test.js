@@ -142,3 +142,56 @@ describe("renderComponent", () => {
     expect(result.props.active).toBe("getter-value");
   });
 });
+
+describe("renderComponent - Issue #1048", () => {
+  it("should allow rest props to override lazyProps data properties", () => {
+    const Component = () => null;
+    const lazyProps = {
+      input: {
+        value: "",
+        onChange: () => {},
+      },
+    };
+
+    const customInput = {
+      value: "foo",
+      onChange: () => {},
+    };
+
+    const result = renderComponent(
+      { component: Component, input: customInput },
+      lazyProps,
+      "Field",
+    );
+
+    expect(result.type).toBe(Component);
+    // The custom input prop should override the lazyProps input
+    expect(result.props.input).toBe(customInput);
+    expect(result.props.input.value).toBe("foo");
+  });
+
+  it("should still protect getter-only properties from being overwritten", () => {
+    const Component = () => null;
+    const lazyProps = {
+      data: { regular: "value" },
+    };
+
+    // Add a getter-only property
+    Object.defineProperty(lazyProps, "active", {
+      get: () => "getter-value",
+      enumerable: true,
+    });
+
+    const result = renderComponent(
+      { component: Component, active: "override-attempt", custom: "prop" },
+      lazyProps,
+      "Field",
+    );
+
+    expect(result.type).toBe(Component);
+    // Getter-only property should NOT be overridden
+    expect(result.props.active).toBe("getter-value");
+    // Regular data property should be overridable
+    expect(result.props.custom).toBe("prop");
+  });
+});
