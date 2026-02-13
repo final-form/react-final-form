@@ -126,6 +126,7 @@ export interface FieldProps<
     Omit<RenderableProps<FieldRenderProps<FieldValue, T>>, "children"> {
   name: string;
   children?: RenderableProps<FieldRenderProps<FieldValue, T>>["children"];
+  input?: Partial<FieldInputProps<FieldValue, T>>; // Allow overriding input props
   [key: string]: any; // Allow additional props for HTML elements
 }
 

@@ -125,6 +125,7 @@ export interface FieldProps<
     Omit<RenderableProps<FieldRenderProps<FieldValue, T>>, "children"> {
   name: string;
   children?: RenderableProps<FieldRenderProps<FieldValue, T>>["children"];
+  input?: Partial<FieldInputProps<FieldValue, T>>;
   [key: string]: any;
 }
 
