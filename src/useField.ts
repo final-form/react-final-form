@@ -27,8 +27,6 @@ const defaultFormat = (value: any, _name: string) =>
 const defaultParse = (value: any, _name: string) =>
   value === "" ? undefined : value;
 
-const defaultIsEqual = (a: any, b: any): boolean => a === b;
-
 function useField<
   FieldValue = any,
   T extends HTMLElement = HTMLElement,
@@ -117,7 +115,7 @@ function useField<
     // If no existing state, create a proper initial state
     const formState = form.getState();
     // Use getIn to support nested field paths like "user.name" or "items[0].id"
-    const formInitialValue = getIn(formState.initialValues, name);
+    const formInitialValue = formState.initialValues ? getIn(formState.initialValues, name) : undefined;
     
     // Use Form initialValues if available, otherwise use field initialValue
     let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;
@@ -155,6 +153,22 @@ function useField<
   });
 
   React.useEffect(() => {
+    // Check if field state exists in the form before registering
+    const existingFieldState = form.getFieldState(name as keyof FormValues);
+    
+    // If field doesn't exist in form state, it means the field was destroyed 
+    // (e.g., by destroyOnUnregister in StrictMode). In this case, we need to 
+    // explicitly set the value before registering to ensure the initial value 
+    // is applied, even if form thinks initialValues haven't changed.
+    if (!existingFieldState) {
+      const formState = form.getState();
+      const formInitialValue = formState.initialValues ? getIn(formState.initialValues, name) : undefined;
+      const valueToSet = formInitialValue !== undefined ? formInitialValue : initialValue;
+      if (valueToSet !== undefined) {
+        form.change(name as keyof FormValues, valueToSet);
+      }
+    }
+
     // Register field after the initial render to avoid setState during render
     const unregister = register((newState) => {
       setState((prevState) => {
