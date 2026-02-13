@@ -5,7 +5,7 @@ import useField from "./useField";
 
 function FieldComponent<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   FormValues = Record<string, any>,
 >(
   {
@@ -95,7 +95,7 @@ function FieldComponent<
 // Create a properly typed forwardRef component that preserves generics
 const Field = React.forwardRef(FieldComponent as any) as <
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   FormValues = Record<string, any>,
 >(
   props: FieldProps<FieldValue, T, FormValues> & { ref?: React.Ref<T> },

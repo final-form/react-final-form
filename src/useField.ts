@@ -29,11 +29,10 @@ const defaultParse = (value: any, _name: string) =>
 
 const defaultIsEqual = (a: any, b: any): boolean => a === b;
 
-function useField<
-  FieldValue = any,
-  T extends HTMLElement = HTMLElement,
-  FormValues = Record<string, any>,
->(name: string, config: UseFieldConfig = {}): FieldRenderProps<FieldValue, T> {
+function useField<FieldValue = any, T = any, FormValues = Record<string, any>>(
+  name: string,
+  config: UseFieldConfig = {},
+): FieldRenderProps<FieldValue, T> {
   const {
     afterSubmit,
     allowNull,
@@ -117,7 +116,10 @@ function useField<
     // If no existing state, create a proper initial state
     const formState = form.getState();
     // Use getIn to support nested field paths like "user.name" or "items[0].id"
-    const formInitialValue = getIn(formState.initialValues, name);
+    const formInitialValue = getIn(
+      formState.initialValues || ({} as FormValues),
+      name,
+    );
     
     // Use Form initialValues if available, otherwise use field initialValue
     let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;

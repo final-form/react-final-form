@@ -15,10 +15,7 @@ export interface ReactContext<FormValues = Record<string, any>> {
   reactFinalForm: FormApi<FormValues>;
 }
 
-export interface FieldInputProps<
-  FieldValue = any,
-  T extends HTMLElement = HTMLElement,
-> {
+export interface FieldInputProps<FieldValue = any, T = any> {
   name: string;
   onBlur: (event?: React.FocusEvent<T>) => void;
   onChange: (event: React.ChangeEvent<T> | any) => void;
@@ -31,7 +28,7 @@ export interface FieldInputProps<
 
 export interface FieldRenderProps<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   _FormValues = any,
 > {
   input: FieldInputProps<FieldValue, T>;
@@ -57,6 +54,10 @@ export interface FieldRenderProps<
     visited?: boolean;
   };
 }
+
+// Backward compatibility: Export FieldMetaState type
+export type FieldMetaState<FieldValue = any> =
+  FieldRenderProps<FieldValue>["meta"];
 
 export interface SubmitEvent {
   preventDefault?: () => void;
@@ -120,7 +121,7 @@ export interface UseFieldConfig extends UseFieldAutoConfig {
 
 export interface FieldProps<
   FieldValue = any,
-  T extends HTMLElement = HTMLElement,
+  T = any,
   _FormValues = Record<string, any>,
 > extends UseFieldConfig,
     Omit<RenderableProps<FieldRenderProps<FieldValue, T>>, "children"> {
