@@ -117,7 +117,7 @@ function useField<
     // If no existing state, create a proper initial state
     const formState = form.getState();
     // Use getIn to support nested field paths like "user.name" or "items[0].id"
-    const formInitialValue = getIn(formState.initialValues, name);
+    const formInitialValue = formState.initialValues ? getIn(formState.initialValues, name) : undefined;
     
     // Use Form initialValues if available, otherwise use field initialValue
     let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;
@@ -164,7 +164,7 @@ function useField<
     // is applied, even if form thinks initialValues haven't changed.
     if (!existingFieldState) {
       const formState = form.getState();
-      const formInitialValue = getIn(formState.initialValues, name);
+      const formInitialValue = formState.initialValues ? getIn(formState.initialValues, name) : undefined;
       const valueToSet = formInitialValue !== undefined ? formInitialValue : initialValue;
       if (valueToSet !== undefined) {
         form.change(name as keyof FormValues, valueToSet);
