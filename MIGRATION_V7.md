@@ -11,6 +11,7 @@ Version 7.0.0 includes a complete TypeScript rewrite (migrated from Flow). While
 In v7.0.0, most FormState boolean properties can be `undefined`:
 
 **❌ Before (v6.x):**
+
 ```typescript
 const { dirty, pristine, valid } = formState;
 if (dirty && !pristine) { // Works fine
@@ -19,6 +20,7 @@ if (dirty && !pristine) { // Works fine
 ```
 
 **✅ After (v7.0.0):**
+
 ```typescript
 const { dirty, pristine, valid } = formState;
 if ((dirty ?? false) && !(pristine ?? true)) { // Must handle undefined
@@ -37,6 +39,7 @@ if ((dirty ?? false) && !(pristine ?? true)) { // Must handle undefined
 ### 2. FieldMetaState Type No Longer Exported
 
 **❌ Before (v6.x):**
+
 ```typescript
 import { FieldMetaState } from 'react-final-form';
 
@@ -44,6 +47,7 @@ const meta: FieldMetaState = { /* ... */ };
 ```
 
 **✅ After (v7.0.0):**
+
 ```typescript
 import { FieldRenderProps } from 'react-final-form';
 
@@ -61,11 +65,13 @@ type FieldMetaState = {
 ### 3. AnyObject Type No Longer Exported
 
 **❌ Before (v6.x):**
+
 ```typescript
 import { AnyObject } from 'react-final-form';
 ```
 
 **✅ After (v7.0.0):**
+
 ```typescript
 // Define locally:
 type AnyObject = Record<string, any>;
@@ -74,6 +80,7 @@ type AnyObject = Record<string, any>;
 ### 4. UseFieldConfig No Longer Generic
 
 **❌ Before (v6.x):**
+
 ```typescript
 const config: UseFieldConfig<string> = {
   validate: (value) => value ? undefined : 'Required'
@@ -81,6 +88,7 @@ const config: UseFieldConfig<string> = {
 ```
 
 **✅ After (v7.0.0):**
+
 ```typescript
 const config: UseFieldConfig = {
   validate: (value) => value ? undefined : 'Required'
@@ -92,6 +100,7 @@ const config: UseFieldConfig = {
 In v6.x, you could pass arbitrary props (like `style`, `className`) directly to `<Form>`. In v7.0.0, this is no longer supported due to stricter TypeScript typing.
 
 **❌ Before (v6.x):**
+
 ```tsx
 <Form
   onSubmit={handleSubmit}
@@ -103,6 +112,7 @@ In v6.x, you could pass arbitrary props (like `style`, `className`) directly to 
 ```
 
 **✅ After (v7.0.0):**
+
 ```tsx
 <Form onSubmit={handleSubmit}>
   {({ handleSubmit }) => (
@@ -127,6 +137,7 @@ If you're also upgrading final-form to v5.0.0, be aware of these changes:
 ### 1. InternalFormState Requires asyncErrors
 
 **❌ Before (v4.x):**
+
 ```typescript
 const mockFormState: InternalFormState = {
   values: {},
@@ -135,6 +146,7 @@ const mockFormState: InternalFormState = {
 ```
 
 **✅ After (v5.0.0):**
+
 ```typescript
 const mockFormState: InternalFormState = {
   values: {},
@@ -146,6 +158,7 @@ const mockFormState: InternalFormState = {
 ### 2. Mutator Type Signature Changed
 
 **❌ Before (v4.x):**
+
 ```typescript
 const mutator: Mutator = (args, state, tools) => {
   // ...
@@ -153,6 +166,7 @@ const mutator: Mutator = (args, state, tools) => {
 ```
 
 **✅ After (v5.0.0):**
+
 ```typescript
 // If you get type errors with existing mutators:
 const mutator = ((args, state, tools) => {
@@ -165,6 +179,7 @@ const mutator = ((args, state, tools) => {
 For a medium to large codebase, expect to modify 100+ files. Here's a recommended approach:
 
 1. **Update dependencies:**
+
    ```bash
    npm install react-final-form@^7.0.0 final-form@^5.0.0
    ```
