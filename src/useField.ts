@@ -27,8 +27,6 @@ const defaultFormat = (value: any, _name: string) =>
 const defaultParse = (value: any, _name: string) =>
   value === "" ? undefined : value;
 
-const defaultIsEqual = (a: any, b: any): boolean => a === b;
-
 function useField<
   FieldValue = any,
   T extends HTMLElement = HTMLElement,
