@@ -39,6 +39,10 @@ React Final Form is a thin React wrapper for [Final Form](https://final-form.org
 
 ## [Getting Started](https://final-form.org/docs/react-final-form/getting-started)
 
+## 🔄 Upgrading from v6 to v7?
+
+See the [Migration Guide](./MIGRATION_V7.md) for TypeScript-specific breaking changes and how to handle them.
+
 ## [Philosophy](https://final-form.org/docs/react-final-form/philosophy)
 
 ## [Examples](https://final-form.org/docs/react-final-form/examples)
