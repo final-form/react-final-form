@@ -43,6 +43,7 @@ const buildFallbackFieldState = (
   stableBlur: () => void,
   stableChange: () => void,
   stableFocus: () => void,
+  isEqual: (a: any, b: any) => boolean = defaultIsEqual,
 ): FieldState<any> => {
   const formState = form.getState();
   
@@ -79,8 +80,8 @@ const buildFallbackFieldState = (
   }
 
   // Compute dirty by comparing value and initial
-  // Use defaultIsEqual since we don't have access to form config here
-  const dirty = !defaultIsEqual(value, initial);
+  // Use provided isEqual comparator (respects custom form config)
+  const dirty = !isEqual(value, initial);
 
   return {
     active: false,
@@ -233,6 +234,7 @@ function useField<
           stableBlur,
           stableChange,
           stableFocus,
+          configRef.current.isEqual || defaultIsEqual,
         );
       }
       
@@ -255,6 +257,7 @@ function useField<
           stableBlur,
           stableChange,
           stableFocus,
+          configRef.current.isEqual || defaultIsEqual,
         );
       }
       
