@@ -19,6 +19,7 @@ function FieldComponent<
     format,
     formatOnBlur,
     initialValue,
+    input,
     isEqual,
     multiple,
     name,
@@ -52,17 +53,22 @@ function FieldComponent<
     value,
   });
 
+  // Merge provided input prop with field.input
+  const mergedField = input
+    ? { ...field, input: { ...field.input, ...input } }
+    : field;
+
   if (typeof children === "function") {
     return (
       children as (
         props: FieldRenderProps<FieldValue, T> & typeof rest,
       ) => React.ReactNode
-    )({ ...field, ...rest });
+    )({ ...mergedField, ...rest });
   }
 
   if (typeof component === "string") {
     // ignore meta, combine input with any other props
-    const inputProps = { ...field.input };
+    const inputProps = { ...mergedField.input };
 
     // Ensure multiple select has array value
     if (
@@ -86,7 +92,7 @@ function FieldComponent<
   }
 
   return renderComponent(
-    { children, component, ...rest, ...field },
+    { children, component, ...rest, ...mergedField },
     {},
     `Field(${name})`,
   );
