@@ -86,7 +86,7 @@ function FieldComponent<
   }
 
   return renderComponent(
-    { children, component, ...rest, ...field },
+    { children, component, ...field, ...rest },
     {},
     `Field(${name})`,
   );
