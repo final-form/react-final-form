@@ -158,16 +158,13 @@ function useField<
     // Check if field state exists in the form before registering
     const existingFieldState = form.getFieldState(name as keyof FormValues);
     
-    // If field doesn't exist in form state but we have an initial value,
-    // it means the field was destroyed (e.g., by destroyOnUnregister in StrictMode).
-    // In this case, we need to explicitly set the value before registering
-    // to ensure the initial value is applied, even if form thinks initialValues haven't changed.
-    if (!existingFieldState && initialValue !== undefined) {
-      // Check if this value exists in form's initialValues
+    // If field doesn't exist in form state, it means the field was destroyed 
+    // (e.g., by destroyOnUnregister in StrictMode). In this case, we need to 
+    // explicitly set the value before registering to ensure the initial value 
+    // is applied, even if form thinks initialValues haven't changed.
+    if (!existingFieldState) {
       const formState = form.getState();
       const formInitialValue = getIn(formState.initialValues, name);
-      
-      // Only set if we have either a field initialValue or form initialValue
       const valueToSet = formInitialValue !== undefined ? formInitialValue : initialValue;
       if (valueToSet !== undefined) {
         form.change(name as keyof FormValues, valueToSet);
