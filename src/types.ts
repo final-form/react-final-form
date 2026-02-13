@@ -11,6 +11,9 @@ import type {
 
 type SupportedInputs = "input" | "select" | "textarea";
 
+// Backward compatibility: Re-export AnyObject type
+export type AnyObject = Record<string, any>;
+
 export interface ReactContext<FormValues = Record<string, any>> {
   reactFinalForm: FormApi<FormValues>;
 }
