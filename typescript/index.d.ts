@@ -58,7 +58,8 @@ export interface FieldRenderProps<
   };
 }
 
-// Re-export FieldMetaState for backwards compatibility (removed in v7.0.0)
+// Re-export of FieldMetaState for backwards compatibility
+// (removed from original sources in v7.0.0 but re-exported here)
 export type FieldMetaState<FieldValue = any> = FieldRenderProps<FieldValue>['meta'];
 
 export interface SubmitEvent {
