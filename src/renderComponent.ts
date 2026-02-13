@@ -16,7 +16,8 @@ export default function renderComponent<T>(
     const result = {} as any;
     Object.defineProperties(result, Object.getOwnPropertyDescriptors(lazyProps));
     const restDescriptors = Object.getOwnPropertyDescriptors(rest);
-    for (const key in restDescriptors) {
+    // Use Reflect.ownKeys to include symbol-keyed properties
+    for (const key of Reflect.ownKeys(restDescriptors)) {
       const existingDescriptor = Object.getOwnPropertyDescriptor(result, key);
       // Skip getter-only properties (these would throw an error if we tried to overwrite them)
       if (existingDescriptor && existingDescriptor.get && !existingDescriptor.set) {
@@ -37,7 +38,8 @@ export default function renderComponent<T>(
     );
     // Add properties from rest (but don't overwrite getter-only properties)
     const restDescriptors = Object.getOwnPropertyDescriptors(rest);
-    for (const key in restDescriptors) {
+    // Use Reflect.ownKeys to include symbol-keyed properties
+    for (const key of Reflect.ownKeys(restDescriptors)) {
       const existingDescriptor = Object.getOwnPropertyDescriptor(result as any, key);
       // Skip getter-only properties
       if (existingDescriptor && existingDescriptor.get && !existingDescriptor.set) {
@@ -59,7 +61,8 @@ export default function renderComponent<T>(
   Object.defineProperties(result, Object.getOwnPropertyDescriptors(lazyProps));
   // Add properties from rest (but don't overwrite getter-only properties)
   const restDescriptors = Object.getOwnPropertyDescriptors(rest);
-  for (const key in restDescriptors) {
+  // Use Reflect.ownKeys to include symbol-keyed properties
+  for (const key of Reflect.ownKeys(restDescriptors)) {
     const existingDescriptor = Object.getOwnPropertyDescriptor(result as any, key);
     // Skip getter-only properties
     if (existingDescriptor && existingDescriptor.get && !existingDescriptor.set) {
