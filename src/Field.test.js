@@ -1338,3 +1338,42 @@ describe("Field", () => {
     expect(getByTestId("thirty").checked).toBe(true);
   });
 });
+
+describe("Field.nodeName issue #871", () => {
+  it("should not crash when field name is 'nodeName'", () => {
+    const onSubmit = jest.fn();
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="nodeName"
+              component="input"
+              data-testid="nodeName-input"
+            />
+            <button type="submit" data-testid="submit">
+              Submit
+            </button>
+          </form>
+        )}
+      </Form>,
+    );
+
+    const input = getByTestId("nodeName-input");
+    const submit = getByTestId("submit");
+
+    // Should not crash when interacting with the field
+    expect(() => {
+      fireEvent.change(input, { target: { value: "test" } });
+      fireEvent.blur(input);
+      fireEvent.click(submit);
+    }).not.toThrow();
+
+    // Verify the field value was set correctly
+    expect(onSubmit).toHaveBeenCalledWith(
+      { nodeName: "test" },
+      expect.any(Object),
+      expect.any(Function),
+    );
+  });
+});

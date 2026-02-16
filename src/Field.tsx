@@ -68,19 +68,20 @@ function FieldComponent<
 
   if (typeof component === "string") {
     // ignore meta, combine input with any other props
-    const inputProps = { ...mergedField.input };
+    const { name: inputName, ...restInputProps } = mergedField.input;
 
     // Ensure multiple select has array value
     if (
       component === "select" &&
       multiple &&
-      !Array.isArray(inputProps.value)
+      !Array.isArray(restInputProps.value)
     ) {
-      inputProps.value = [] as any;
+      restInputProps.value = [] as any;
     }
 
     return React.createElement(component, {
-      ...inputProps,
+      name: inputName, // Pass name explicitly to avoid shadowing DOM properties
+      ...restInputProps,
       children,
       ref,
       ...rest,
