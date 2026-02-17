@@ -47,9 +47,14 @@ describe('useField - Dynamic Name (Issue #869)', () => {
     // Verify all renders have name and value in sync
     const calls = renderSpy.mock.calls
     
+    // Ensure Field actually rendered
+    expect(calls.length).toBeGreaterThan(0)
+    
     // All calls should have matching name/value pairs
     calls.forEach(call => {
       const [name, value] = call
+      // Field name should only be 'a' or 'b'
+      expect(name).toMatch(/^(a|b)$/)
       if (name === 'a') {
         expect(value).toBe('value-a')
       } else if (name === 'b') {
