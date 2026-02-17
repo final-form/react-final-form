@@ -44,18 +44,16 @@ describe('useField - Dynamic Name (Issue #869)', () => {
       rerender(<TestComponent fieldName="b" />)
     })
     
-    // BUG: First render after name change has mismatched name/value
-    // We get name='b' but value='value-a' (stale)
+    // Verify all renders have name and value in sync
     const calls = renderSpy.mock.calls
     
-    // The bug manifests as: first call has name='b' but value='value-a'
-    // Expected: ALL calls should have name and value in sync
+    // All calls should have matching name/value pairs
     calls.forEach(call => {
       const [name, value] = call
       if (name === 'a') {
         expect(value).toBe('value-a')
       } else if (name === 'b') {
-        expect(value).toBe('value-b')  // This will FAIL on first render
+        expect(value).toBe('value-b')
       }
     })
   })
@@ -91,8 +89,8 @@ describe('useField - Dynamic Name (Issue #869)', () => {
       rerender(<TestComponent fieldName="b" />)
     })
     
-    // IMMEDIATELY after rerender, name and value should be in sync
+    // Immediately after rerender, name and value should be in sync
     expect(getByTestId('name')).toHaveTextContent('b')
-    expect(getByTestId('value')).toHaveTextContent('value-b')  // BUG: This will show 'value-a'
+    expect(getByTestId('value')).toHaveTextContent('value-b')
   })
 })
