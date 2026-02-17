@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+// Tests for dynamic Field name changes (issue #869).
+// Covers text inputs, checkboxes, and radio buttons.
 import React from 'react'
 import { render, cleanup, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
