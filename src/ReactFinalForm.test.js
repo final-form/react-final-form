@@ -990,4 +990,61 @@ describe("ReactFinalForm", () => {
     fireEvent.focus(getByTestId("password"));
     expect(getByTestId("password").value).toBe("f1nal-f0rm-RULEZ");
   });
+
+  it("should set submitting back to false when onSubmit returns Promise.resolve() immediately (#903)", async () => {
+    // Regression test for: https://github.com/final-form/react-final-form/issues/903
+    // When onSubmit is an async function with no awaits (returns Promise<void>),
+    // submitting should reset to false after the promise resolves.
+    const onSubmit = jest.fn(async () => {
+      // async with no await — resolves in the next microtask, no real async delay
+    });
+    const recordSubmitting = jest.fn();
+    const { getByText } = render(
+      <Form onSubmit={onSubmit} subscription={{ submitting: true }}>
+        {({ handleSubmit, submitting }) => {
+          recordSubmitting(submitting);
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="name" component="input" />
+              <button type="submit">Submit</button>
+            </form>
+          );
+        }}
+      </Form>,
+    );
+
+    fireEvent.click(getByText("Submit"));
+
+    // Wait for the microtask Promise to resolve and React to update
+    await act(async () => {});
+
+    // submitting should have gone true then back to false
+    const calls = recordSubmitting.mock.calls.map((c) => c[0]);
+    expect(calls).toContain(true);  // was submitting at some point
+    expect(calls[calls.length - 1]).toBe(false); // ends as not submitting
+  });
+
+  it("should set submitting back to false when onSubmit returns Promise.resolve() (#903)", async () => {
+    const onSubmit = jest.fn(() => Promise.resolve());
+    const recordSubmitting = jest.fn();
+    const { getByText } = render(
+      <Form onSubmit={onSubmit} subscription={{ submitting: true }}>
+        {({ handleSubmit, submitting }) => {
+          recordSubmitting(submitting);
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="name" component="input" />
+              <button type="submit">Submit</button>
+            </form>
+          );
+        }}
+      </Form>,
+    );
+
+    fireEvent.click(getByText("Submit"));
+    await act(async () => {});
+
+    const calls = recordSubmitting.mock.calls.map((c) => c[0]);
+    expect(calls[calls.length - 1]).toBe(false);
+  });
 });
