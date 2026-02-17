@@ -44,22 +44,17 @@ describe('useField - Dynamic Name (Issue #869)', () => {
       rerender(<TestComponent fieldName="b" />)
     })
     
-    // Verify all renders have name and value in sync
+    // Verify all renders after name change have name='b' and value='value-b'
     const calls = renderSpy.mock.calls
     
     // Ensure Field actually rendered
     expect(calls.length).toBeGreaterThan(0)
     
-    // All calls should have matching name/value pairs
+    // After rerender with fieldName="b", ALL calls should be for field 'b'
     calls.forEach(call => {
       const [name, value] = call
-      // Field name should only be 'a' or 'b'
-      expect(name).toMatch(/^(a|b)$/)
-      if (name === 'a') {
-        expect(value).toBe('value-a')
-      } else if (name === 'b') {
-        expect(value).toBe('value-b')
-      }
+      expect(name).toBe('b')
+      expect(value).toBe('value-b')
     })
   })
 
