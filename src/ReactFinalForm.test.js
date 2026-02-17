@@ -991,3 +991,33 @@ describe("ReactFinalForm", () => {
     expect(getByTestId("password").value).toBe("f1nal-f0rm-RULEZ");
   });
 });
+
+describe("Issue #914 – nested Field with validator causing Maximum update depth", () => {
+  it("should not throw Maximum update depth exceeded when nesting Fields with validators", () => {
+    // https://github.com/final-form/react-final-form/issues/914
+    const required = (value) => (value ? undefined : "Required");
+
+    expect(() => {
+      render(
+        <Form onSubmit={onSubmitMock}>
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="outer" validate={required}>
+                {({ input }) => (
+                  <div>
+                    <input {...input} data-testid="outer" />
+                    <Field name="inner" validate={required}>
+                      {({ input: innerInput }) => (
+                        <input {...innerInput} data-testid="inner" />
+                      )}
+                    </Field>
+                  </div>
+                )}
+              </Field>
+            </form>
+          )}
+        </Form>,
+      );
+    }).not.toThrow();
+  });
+});
