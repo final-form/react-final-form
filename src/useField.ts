@@ -187,7 +187,11 @@ function useField<
   const meta: any = {};
   addLazyFieldMetaState(meta, state);
   const getInputValue = () => {
-    let value = state.value;
+    // Fix #869: If name changed but state hasn't updated yet (effect hasn't run),
+    // get the value directly from form values to avoid returning stale value
+    let value = state.name !== name
+      ? getIn(form.getState().values, name)
+      : state.value;
 
     // Handle null values first
     if (value === null && !allowNull) {
@@ -221,7 +225,10 @@ function useField<
   };
 
   const getInputChecked = () => {
-    let value = state.value;
+    // Fix #869: Same as getInputValue - sync with current name
+    let value = state.name !== name
+      ? getIn(form.getState().values, name)
+      : state.value;
     if (type === "checkbox") {
       value = parse(value, name);
       if (_value === undefined) {
