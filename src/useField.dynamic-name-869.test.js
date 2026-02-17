@@ -1,18 +1,19 @@
 /**
  * @jest-environment jsdom
  */
-import * as React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import React from 'react'
+import { render, cleanup, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Form from './ReactFinalForm'
 import Field from './Field'
-import { act } from 'react-dom/test-utils'
 
 describe('useField - Dynamic Name (Issue #869)', () => {
-  it('should keep name and value in sync when field name changes', async () => {
+  afterEach(cleanup)
+
+  it('should keep name and value in sync when field name changes', () => {
     const renderSpy = jest.fn()
     
-    const TestComponent = ({ fieldName }: { fieldName: string }) => {
+    const TestComponent = ({ fieldName }) => {
       return (
         <Form
           onSubmit={() => {}}
@@ -59,8 +60,8 @@ describe('useField - Dynamic Name (Issue #869)', () => {
     })
   })
 
-  it('should have correct value immediately after name change (no stale renders)', async () => {
-    const TestComponent = ({ fieldName }: { fieldName: string }) => {
+  it('should have correct value immediately after name change (no stale renders)', () => {
+    const TestComponent = ({ fieldName }) => {
       return (
         <Form
           onSubmit={() => {}}
