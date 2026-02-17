@@ -1078,3 +1078,47 @@ describe("Issue #914 – nested Field with validator causing Maximum update dept
     }).not.toThrow();
   });
 });
+
+describe("Issue #850 – Cannot update component while rendering different component", () => {
+  it("should not warn about updating during render when conditionally rendering Field with initialValue", async () => {
+    // https://github.com/final-form/react-final-form/issues/850
+    const warnSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    const Toggle = ({ children }) => {
+      const [show, setShow] = React.useState(false);
+      return (
+        <div>
+          <button onClick={() => setShow((s) => !s)}>Toggle</button>
+          {show && children}
+        </div>
+      );
+    };
+
+    const { getByText } = render(
+      <Form onSubmit={onSubmitMock} subscription={{}}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="name" component="input" initialValue="erik" />
+            <Toggle>
+              <Field name="message" component="input" initialValue="hello" />
+            </Toggle>
+          </form>
+        )}
+      </Form>,
+    );
+
+    // Toggle the conditional field
+    await act(async () => {
+      fireEvent.click(getByText("Toggle"));
+    });
+
+    // Should not have any "Cannot update component while rendering" warnings
+    const updateWhileRenderingWarnings = warnSpy.mock.calls.filter(
+      (call) =>
+        call[0] &&
+        typeof call[0] === "string" &&
+        call[0].includes("Cannot update"),
+    );
+    expect(updateWhileRenderingWarnings).toHaveLength(0);
+    warnSpy.mockRestore();
+  });
+});
