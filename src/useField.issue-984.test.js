@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Form from "./ReactFinalForm";
 import { useField } from "./index";
@@ -7,8 +7,6 @@ import { useField } from "./index";
 const onSubmitMock = (_values) => {};
 
 describe("useField issue #984", () => {
-  afterEach(cleanup);
-
   // https://github.com/final-form/react-final-form/issues/984
   // When a parent component's useEffect changes a form value,
   // sibling components' useField should receive the updated value.
@@ -50,10 +48,8 @@ describe("useField issue #984", () => {
 
     // After useEffect runs, Field2 should see the updated value
     // This is the bug: Field2 sees stale "InitialField1" instead
-    await (async () => {
-      // Wait a bit for effects to settle
-      await new Promise((resolve) => setTimeout(resolve, 100));
+    await waitFor(() => {
       expect(getByTestId("field1-value").textContent).toBe("UpdatedByField1");
-    })();
+    });
   });
 });

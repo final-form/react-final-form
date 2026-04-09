@@ -238,12 +238,14 @@ function useField<
             try {
               // Manually update initialValues via registerField with silent: false
               // to force notification
-              form.registerField(
+              const unsubscribe = form.registerField(
                 name as keyof FormValues,
                 () => {},
                 {},
                 { initialValue }
               );
+              // Immediately unsubscribe to avoid orphan subscriber
+              unsubscribe();
             } finally {
               form.resumeValidation();
             }
