@@ -27,6 +27,7 @@ describe("useField issue #984", () => {
       React.useEffect(() => {
         // Simulate programmatic change during effect phase
         input.onChange("UpdatedByField1");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };
@@ -49,7 +50,7 @@ describe("useField issue #984", () => {
     // After useEffect runs, Field2 should see the updated value
     // This is the bug: Field2 sees stale "InitialField1" instead
     await waitFor(() => {
-      expect(getByTestId("field1-value").textContent).toBe("UpdatedByField1");
+      expect(getByTestId("field1-value")).toHaveTextContent("UpdatedByField1");
     });
   });
 });

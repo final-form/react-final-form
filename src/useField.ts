@@ -195,9 +195,11 @@ function useField<
   // after a save operation, the field becomes pristine if the value matches.
   const prevInitialValueRef = React.useRef(initialValue);
   React.useEffect(() => {
+    // Use the configured isEqual function (respects custom equality for objects/arrays)
+    const isEqual = configRef.current.isEqual || ((a: any, b: any) => a === b);
     // Only run when initialValue actually changes (not on mount)
     if (
-      prevInitialValueRef.current !== initialValue &&
+      !isEqual(prevInitialValueRef.current, initialValue) &&
       initialValue !== undefined
     ) {
       prevInitialValueRef.current = initialValue;
@@ -209,7 +211,7 @@ function useField<
         : undefined;
       
       // Only update if the new initialValue differs from current form initial
-      if (initialValue !== currentFormInitial) {
+      if (!isEqual(initialValue, currentFormInitial)) {
         const currentValue = getIn(formState.values, name);
         
         // If the current value matches the new initial value, update the form's
@@ -223,7 +225,7 @@ function useField<
         if (fieldState) {
           // Force an update through the field subscriber by triggering a change
           // to the same value, which will recalculate dirty state with new initial
-          if (currentValue === initialValue) {
+          if (isEqual(currentValue, initialValue)) {
             // The value matches the new initial, so field should become pristine.
             // Re-register with new initialValue to update formState.initialValues.
             // Final Form's registerField will update initialValues when:
