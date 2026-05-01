@@ -152,12 +152,15 @@ export default [
     },
     plugins: {
       react: reactPlugin,
+      "react-hooks": reactHooks,
     },
     rules: {
       "no-undef": "error",
       "react/jsx-uses-vars": "warn",
       "react/react-in-jsx-scope": "off",
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }], // Enforce _ prefix for unused vars in JS files
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
     },
   },
 
