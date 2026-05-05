@@ -212,7 +212,7 @@ function useField<
       
       // Only update if the new initialValue differs from current form initial
       if (!isEqual(initialValue, currentFormInitial)) {
-        const currentValue = getIn(formState.values, name);
+        const currentValue = formState.values ? getIn(formState.values, name) : undefined;
         
         // If the current value matches the new initial value, update the form's
         // initialValues to reflect this. This is needed for radio buttons where
@@ -271,7 +271,7 @@ function useField<
     // Fix #869: If name changed but state hasn't updated yet (effect hasn't run),
     // get the value directly from form values to avoid returning stale value
     let value = state.name !== name
-      ? getIn(form.getState().values, name)
+      ? getIn(form.getState().values ?? {}, name)
       : state.value;
 
     // Handle null values first
@@ -308,7 +308,7 @@ function useField<
   const getInputChecked = () => {
     // Fix #869: Same as getInputValue - sync with current name
     let value = state.name !== name
-      ? getIn(form.getState().values, name)
+      ? getIn(form.getState().values ?? {}, name)
       : state.value;
     if (type === "checkbox") {
       value = parse(value, name);
