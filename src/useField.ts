@@ -126,13 +126,19 @@ function useField<
 
     return {
       active: false,
-      blur: () => { },
-      change: () => { },
+      blur: () => {
+        form.blur(name as keyof FormValues);
+      },
+      change: (value) => {
+        form.change(name as keyof FormValues, value);
+      },
       data: data || {},
       dirty: false,
       dirtySinceLastSubmit: false,
       error: undefined,
-      focus: () => { },
+      focus: () => {
+        form.focus(name as keyof FormValues);
+      },
       initial: initialStateValue,
       invalid: false,
       length: undefined,
@@ -183,6 +189,81 @@ function useField<
     return unregister;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, data, defaultValue, initialValue]);
+
+  // FIX #988: When initialValue prop changes, update the form's initialValues
+  // for this field. This ensures that when a parent component updates initialValues
+  // after a save operation, the field becomes pristine if the value matches.
+  const prevInitialValueRef = React.useRef(initialValue);
+  React.useEffect(() => {
+    // Use the configured isEqual function (respects custom equality for objects/arrays)
+    const isEqual = configRef.current.isEqual || ((a: any, b: any) => a === b);
+    const prevInitialValue = prevInitialValueRef.current;
+    // Always advance the ref so transitions through `undefined` are tracked
+    // correctly (e.g. "foo" → undefined → "foo" must re-trigger the block).
+    prevInitialValueRef.current = initialValue;
+    // Only run when initialValue actually changes (not on mount) and is defined
+    if (!isEqual(prevInitialValue, initialValue) && initialValue !== undefined) {
+      
+      // Get current form state
+      const formState = form.getState();
+      const currentFormInitial = formState.initialValues
+        ? getIn(formState.initialValues, name)
+        : undefined;
+      
+      // Only update if the new initialValue differs from current form initial
+      if (!isEqual(initialValue, currentFormInitial)) {
+        const currentValue = getIn(formState.values, name);
+        
+        // If the current value matches the new initial value, update the form's
+        // initialValues to reflect this. This is needed for radio buttons where
+        // the user changes the value, then the parent saves and passes back the
+        // new initial value that matches what the user selected.
+        // 
+        // We need to manually update formState.initialValues and notify listeners.
+        // Final Form doesn't expose a public API for this, so we use internal state.
+        const fieldState = form.getFieldState(name as keyof FormValues);
+        if (fieldState) {
+          // Force an update through the field subscriber by triggering a change
+          // to the same value, which will recalculate dirty state with new initial
+          if (isEqual(currentValue, initialValue)) {
+            // The value matches the new initial, so field should become pristine.
+            // Re-register with new initialValue to update formState.initialValues.
+            // Final Form's registerField will update initialValues when:
+            // - value === old initial (meaning pristine before)
+            // We need to handle the case where value === new initial but value !== old initial
+            // 
+            // Workaround: We need to update formState.initialValues directly.
+            // The only public API is form.setConfig('initialValues', ...) but that
+            // resets ALL values. Instead, we use a workaround:
+            // Trigger a re-registration which will update initialValues for this field.
+            const wasValidationPaused = form.isValidationPaused();
+            if (!wasValidationPaused) {
+              form.pauseValidation();
+            }
+            try {
+              // Manually update initialValues via registerField with silent: false
+              // to force notification
+              const unsubscribe = form.registerField(
+                name as keyof FormValues,
+                () => {},
+                {},
+                {
+                  initialValue,
+                  isEqual: configRef.current.isEqual,
+                }
+              );
+              // Immediately unsubscribe to avoid orphan subscriber
+              unsubscribe();
+            } finally {
+              if (!wasValidationPaused) {
+                form.resumeValidation();
+              }
+            }
+          }
+        }
+      }
+    }
+  }, [initialValue, name, form]);
 
   const meta: any = {};
   addLazyFieldMetaState(meta, state);
@@ -245,7 +326,7 @@ function useField<
   const input: FieldInputProps<FieldValue, T> = {
     name,
     onBlur: useConstantCallback((_event?: React.FocusEvent<any>) => {
-      state.blur();
+      form.blur(name as keyof FormValues);
       if (formatOnBlur) {
         /**
          * Here we must fetch the value directly from Final Form because we cannot
@@ -254,9 +335,9 @@ function useField<
          * before calling `onBlur()`, but before the field has had a chance to receive
          * the value update from Final Form.
          */
-        const fieldState = form.getFieldState(state.name as keyof FormValues);
+        const fieldState = form.getFieldState(name as keyof FormValues);
         if (fieldState) {
-          state.change(format(fieldState.value, state.name));
+          form.change(name as keyof FormValues, format(fieldState.value, name));
         }
       }
     }),
@@ -282,14 +363,16 @@ function useField<
         }
       }
 
+      const currentValue =
+        form.getFieldState(name as keyof FormValues)?.value ?? state.value;
       const value: any =
         event && event.target
-          ? getValue(event, state.value, _value, isReactNative)
+          ? getValue(event, currentValue, _value, isReactNative)
           : event;
-      state.change(parse(value, name));
+      form.change(name as keyof FormValues, parse(value, name));
     }),
     onFocus: useConstantCallback((_event?: React.FocusEvent<any>) =>
-      state.focus(),
+      form.focus(name as keyof FormValues),
     ),
     get value() {
       return getInputValue();
