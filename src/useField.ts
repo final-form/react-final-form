@@ -197,12 +197,12 @@ function useField<
   React.useEffect(() => {
     // Use the configured isEqual function (respects custom equality for objects/arrays)
     const isEqual = configRef.current.isEqual || ((a: any, b: any) => a === b);
-    // Only run when initialValue actually changes (not on mount)
-    if (
-      !isEqual(prevInitialValueRef.current, initialValue) &&
-      initialValue !== undefined
-    ) {
-      prevInitialValueRef.current = initialValue;
+    const prevInitialValue = prevInitialValueRef.current;
+    // Always advance the ref so transitions through `undefined` are tracked
+    // correctly (e.g. "foo" → undefined → "foo" must re-trigger the block).
+    prevInitialValueRef.current = initialValue;
+    // Only run when initialValue actually changes (not on mount) and is defined
+    if (!isEqual(prevInitialValue, initialValue) && initialValue !== undefined) {
       
       // Get current form state
       const formState = form.getState();
