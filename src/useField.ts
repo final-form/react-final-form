@@ -236,7 +236,10 @@ function useField<
             // The only public API is form.setConfig('initialValues', ...) but that
             // resets ALL values. Instead, we use a workaround:
             // Trigger a re-registration which will update initialValues for this field.
-            form.pauseValidation();
+            const wasValidationPaused = form.isValidationPaused();
+            if (!wasValidationPaused) {
+              form.pauseValidation();
+            }
             try {
               // Manually update initialValues via registerField with silent: false
               // to force notification
@@ -244,12 +247,17 @@ function useField<
                 name as keyof FormValues,
                 () => {},
                 {},
-                { initialValue }
+                {
+                  initialValue,
+                  isEqual: configRef.current.isEqual,
+                }
               );
               // Immediately unsubscribe to avoid orphan subscriber
               unsubscribe();
             } finally {
-              form.resumeValidation();
+              if (!wasValidationPaused) {
+                form.resumeValidation();
+              }
             }
           }
         }
