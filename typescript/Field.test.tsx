@@ -32,3 +32,22 @@ function FieldNumberInputValue() {
     </Field>
   );
 }
+
+interface TextInputProps extends FieldRenderProps<string, HTMLInputElement> {
+  label: string;
+}
+
+const TextInput: React.FC<TextInputProps> = () => null;
+
+function FieldRenderPropsDoesNotAllowArbitraryProps({
+  input,
+  meta,
+}: FieldRenderProps<string, HTMLInputElement>) {
+  return (
+    <>
+      <TextInput input={input} meta={meta} label="First name" />
+      {/* @ts-expect-error FieldRenderProps should not add an index signature */}
+      <TextInput input={input} meta={meta} label="First name" extra="ignored" />
+    </>
+  );
+}
