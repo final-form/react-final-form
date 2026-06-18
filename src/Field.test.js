@@ -1091,6 +1091,39 @@ describe("Field", () => {
     expect(onSubmit.mock.calls[1][0]).toEqual({ name: "ERIKRAS" });
   });
 
+  it("should not throw when formatOnBlur beforeSubmit runs after field state is removed", () => {
+    const onSubmit = jest.fn();
+    let formApi;
+    const { getByTestId, getByText } = render(
+      <Form onSubmit={onSubmit}>
+        {({ form, handleSubmit }) => {
+          formApi = form;
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field
+                name="url"
+                component="input"
+                format={(value) => value && value.trim()}
+                formatOnBlur
+                data-testid="url"
+              />
+              <button type="submit">Submit</button>
+            </form>
+          );
+        }}
+      </Form>,
+    );
+
+    fireEvent.change(getByTestId("url"), { target: { value: " test " } });
+    const originalGetFieldState = formApi.getFieldState;
+    formApi.getFieldState = jest.fn(() => undefined);
+
+    expect(() => fireEvent.click(getByText("Submit"))).not.toThrow();
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+
+    formApi.getFieldState = originalGetFieldState;
+  });
+
   it("should allow submission to be cancelled in beforeSubmit", () => {
     const onSubmit = jest.fn();
     const beforeSubmit = jest.fn(() => false);
