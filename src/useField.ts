@@ -124,7 +124,12 @@ function useField<
     // Use Form initialValues if available, otherwise use field initialValue
     let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;
 
-    let value = formValue !== undefined ? formValue : initialStateValue;
+    let value =
+      formInitialValue !== undefined
+        ? formValue
+        : formValue !== undefined
+          ? formValue
+          : initialStateValue;
 
     if ((component === "select" || type === "select") && multiple) {
       if (value === undefined && initialStateValue === undefined) {
@@ -133,10 +138,15 @@ function useField<
         initialStateValue = emptyValue;
       } else {
         if (value === undefined) {
-          value = [];
+          value =
+            Array.isArray(initialStateValue) && initialStateValue.length === 0
+              ? initialStateValue
+              : [];
         }
+
         if (initialStateValue === undefined) {
-          initialStateValue = [];
+          initialStateValue =
+            Array.isArray(value) && value.length === 0 ? value : [];
         }
       }
     }
