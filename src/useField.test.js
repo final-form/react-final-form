@@ -599,6 +599,38 @@ describe("useField", () => {
     expect(getByTestId("array").value).toBe("Apple");
   });
 
+  it("should return current form values on first render for newly added array fields", () => {
+    const renderSpy = jest.fn();
+    const MyField = () => {
+      const { input, meta } = useField("items[0].name");
+      renderSpy(input.value, meta.initial, meta.dirty);
+      return <input {...input} data-testid="array" />;
+    };
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={{ items: [] }}>
+        {({ form, values }) => (
+          <form>
+            <button
+              type="button"
+              data-testid="add"
+              onClick={() => form.change("items", [{ name: "Apple" }])}
+            >
+              Add
+            </button>
+            {values.items.map((_item, index) => (
+              <MyField key={index} />
+            ))}
+          </form>
+        )}
+      </Form>,
+    );
+
+    fireEvent.click(getByTestId("add"));
+
+    expect(renderSpy.mock.calls[0]).toEqual(["Apple", undefined, true]);
+    expect(getByTestId("array").value).toBe("Apple");
+  });
+
   it("should default undefined value to [] for select multiple with type prop (fix react-final-form-arrays #185)", () => {
     const renderSpy = jest.fn();
     const MySelectField = () => {
