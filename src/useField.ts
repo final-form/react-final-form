@@ -116,13 +116,32 @@ function useField<
     const formState = form.getState();
     // Use getIn to support nested field paths like "user.name" or "items[0].id"
     const formInitialValue = formState.initialValues ? getIn(formState.initialValues, name) : undefined;
-    
+  
+    const formValue = formState.values
+      ? getIn(formState.values, name)
+      : undefined;
+
     // Use Form initialValues if available, otherwise use field initialValue
     let initialStateValue = formInitialValue !== undefined ? formInitialValue : initialValue;
-    
-    if ((component === "select" || type === "select") && multiple && initialStateValue === undefined) {
-      initialStateValue = [];
+
+    let value = formValue !== undefined ? formValue : initialStateValue;
+
+    if ((component === "select" || type === "select") && multiple) {
+      if (value === undefined && initialStateValue === undefined) {
+        const emptyValue: any[] = [];
+        value = emptyValue;
+        initialStateValue = emptyValue;
+      } else {
+        if (value === undefined) {
+          value = [];
+        }
+        if (initialStateValue === undefined) {
+          initialStateValue = [];
+        }
+      }
     }
+    const isEqual = configRef.current.isEqual || ((a: any, b: any) => a === b);
+    const pristine = isEqual(value, initialStateValue);
 
     return {
       active: false,
@@ -133,7 +152,7 @@ function useField<
         form.change(name as keyof FormValues, value);
       },
       data: data || {},
-      dirty: false,
+      dirty: !pristine,
       dirtySinceLastSubmit: false,
       error: undefined,
       focus: () => {
@@ -145,7 +164,7 @@ function useField<
       modified: false,
       modifiedSinceLastSubmit: false,
       name,
-      pristine: true,
+      pristine,
       submitError: undefined,
       submitFailed: false,
       submitSucceeded: false,
@@ -153,7 +172,7 @@ function useField<
       touched: false,
       valid: true,
       validating: false,
-      value: initialStateValue,
+      value,
       visited: false,
     };
   });
