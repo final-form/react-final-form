@@ -162,15 +162,18 @@ function useField<
     // Check if field state exists in the form before registering
     const existingFieldState = form.getFieldState(name as keyof FormValues);
     
-    // If field doesn't exist in form state, it means the field was destroyed 
-    // (e.g., by destroyOnUnregister in StrictMode). In this case, we need to 
-    // explicitly set the value before registering to ensure the initial value 
-    // is applied, even if form thinks initialValues haven't changed.
+    // FIX #1095: a missing field state does not mean the value was destroyed.
+    // Final Form drops `fields[name]` on the last unregister either way, so a
+    // path written only through `form.change()` looks the same as a wiped one.
+    // Values are deleted on unregister only under `destroyOnUnregister`, so that
+    // flag plus an empty path is what this reseed exists to repair (#1031).
     if (!existingFieldState) {
       const formState = form.getState();
+      const currentValue = formState.values ? getIn(formState.values, name) : undefined;
       const formInitialValue = formState.initialValues ? getIn(formState.initialValues, name) : undefined;
       const valueToSet = formInitialValue !== undefined ? formInitialValue : initialValue;
-      if (valueToSet !== undefined) {
+      const valueWasDestroyed = form.destroyOnUnregister && currentValue === undefined;
+      if (valueToSet !== undefined && valueWasDestroyed) {
         form.change(name as keyof FormValues, valueToSet);
       }
     }
@@ -241,6 +244,12 @@ function useField<
               form.pauseValidation();
             }
             try {
+              // registerField only adopts a new `initialValue` while the field
+              // is pristine, so restore the old initial to satisfy that check.
+              // This used to happen implicitly, as a side effect of the mount
+              // effect above resetting on every re-registration. Safe here:
+              // `currentValue` already equals `initialValue`.
+              form.change(name as keyof FormValues, currentFormInitial);
               // Manually update initialValues via registerField with silent: false
               // to force notification
               const unsubscribe = form.registerField(
