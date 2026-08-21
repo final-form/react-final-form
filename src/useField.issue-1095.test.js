@@ -7,6 +7,26 @@ import Field from "./Field";
 const onSubmitMock = () => {};
 const arrayInitialValues = { items: [{ name: "a" }, { name: "b" }] };
 const nestedInitialValues = { parent: { child: { value: null } } };
+const listInitialValues = {
+  items: [
+    { id: "a", label: "A" },
+    { id: "b", label: "B" },
+    { id: "c", label: "C" },
+  ],
+};
+
+// Stable React key per item, positional field name per index. A row that moves
+// keeps its instance and only changes its `name`, so the registration effect
+// re-runs against a path final-form dropped during the same commit's cleanup.
+const renderRows = (values) =>
+  values.items.map((item, index) => (
+    <Field
+      key={item.id}
+      name={`items[${index}].label`}
+      component="input"
+      data-testid={`label-${item.id}`}
+    />
+  ));
 
 describe("useField issue #1095", () => {
   it("does not overwrite a value set through change() when a field first mounts at that path", () => {
@@ -315,5 +335,60 @@ describe("useField issue #1095", () => {
 
     expect(getByTestId("late").value).toBe("seeded");
     expect(form.getState().values.late).toBe("seeded");
+  });
+
+  it("keeps edited labels with their rows when an item is inserted at the head", () => {
+    let form;
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={listInitialValues}>
+        {(props) => {
+          form = props.form;
+          return renderRows(props.values);
+        }}
+      </Form>,
+    );
+
+    act(() => form.change("items[0].label", "A-edited"));
+
+    act(() =>
+      form.change("items", [
+        { id: "d", label: "D" },
+        ...form.getState().values.items,
+      ]),
+    );
+
+    expect(form.getState().values.items).toEqual([
+      { id: "d", label: "D" },
+      { id: "a", label: "A-edited" },
+      { id: "b", label: "B" },
+      { id: "c", label: "C" },
+    ]);
+    expect(getByTestId("label-d").value).toBe("D");
+    expect(getByTestId("label-a").value).toBe("A-edited");
+  });
+
+  it("keeps edited labels with their rows when an item is removed from the middle", () => {
+    let form;
+    const { getByTestId } = render(
+      <Form onSubmit={onSubmitMock} initialValues={listInitialValues}>
+        {(props) => {
+          form = props.form;
+          return renderRows(props.values);
+        }}
+      </Form>,
+    );
+
+    act(() => form.change("items[2].label", "C-edited"));
+
+    act(() => {
+      const items = form.getState().values.items;
+      form.change("items", [items[0], items[2]]);
+    });
+
+    expect(form.getState().values.items).toEqual([
+      { id: "a", label: "A" },
+      { id: "c", label: "C-edited" },
+    ]);
+    expect(getByTestId("label-c").value).toBe("C-edited");
   });
 });
