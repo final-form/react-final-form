@@ -426,6 +426,25 @@ describe("Field", () => {
     expect(ref.current instanceof HTMLInputElement).toBe(true);
   });
 
+  it("should pass ref through to a custom component", () => {
+    const ref = React.createRef();
+    const CustomInput = React.forwardRef(({ input }, innerRef) => (
+      <input {...input} ref={innerRef} />
+    ));
+    render(
+      <Form onSubmit={onSubmitMock} subscription={{ values: true }}>
+        {() => (
+          <form>
+            <Field name="name" component={CustomInput} ref={ref} />
+          </form>
+        )}
+      </Form>,
+    );
+
+    expect(ref.current).not.toBe(null);
+    expect(ref.current instanceof HTMLInputElement).toBe(true);
+  });
+
   it("should not pass an undefined type through to the input", () => {
     const MyInput = jest.fn(({ input }) => <input {...input} />);
     render(

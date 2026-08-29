@@ -93,7 +93,7 @@ function FieldComponent<
   }
 
   return renderComponent(
-    { children, component, ...rest, ...mergedField },
+    { children, component, ref, ...rest, ...mergedField },
     {},
     `Field(${name})`,
   );
